@@ -20,6 +20,11 @@ public class HexPlot {
         this.r = r;
     }
 
+    /**Constructeur par defaut
+     * initialise avec les
+     * coordonnées de la
+     * parcelles etang
+     */
     public  HexPlot(){
         this(0,0,0);
     }
@@ -40,11 +45,19 @@ public class HexPlot {
 
     /** Les methodes particulieres de la classe **/
 
+    /*
+     *PlotAdd ajout une parcelle Hexagonal
+     * Au jeu Suivant une direction
+     */
     public HexPlot plotAdd(VectorDirection vec){
         return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR());
     }
+    /**
+     * PlotNeighbor renvoie Set de Plots
+     *Voisins a lui
+     */
 
-    public Set<HexPlot> plotNeighbor(HexPlot hex){
+    public Set<HexPlot> plotNeighbor(){
         Set<HexPlot> neighborHexPlotList= new HashSet<>();
         for (VectorDirection vec:DIRECTION) {
             neighborHexPlotList.add(plotAdd(vec));
