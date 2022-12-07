@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 public enum VectorDirection {
+    /**Vector Unitaire 3D Cartesien**/
     Q_UP(0, -1, +1),
     Q_DOWN(0, +1, -1),
     S_UP(+1, -1, 0),
