@@ -28,6 +28,9 @@ class PlayerTest {
     public void setUp() {
         player1= new Player("Ted");
         player2 = new Player("Willfried");
+        /*******************************/
+        player1.setMaxUnmetObj(4);
+        /*******************************/
         player1.addNewObjective(directPlotObj);
         player1.addNewObjective(indirectPlotObj);
         game = new Game(player1,player2);
@@ -65,6 +68,8 @@ class PlayerTest {
 
     @Test
     void getUnMetObjectives() {
+        System.out.println(player1.getUnMetObjectives());
+        System.out.println(singlelist);
         assertTrue(player1.getUnMetObjectives().equals(singlelist));
     }
 
@@ -117,7 +122,9 @@ class PlayerTest {
     void listOfCombinations() {
         player1.addAplotToGame();
         player2.addAplotToGame();
+        player1.addAplotToGame();
         List<HexPlot> temp=new ArrayList<>(listOfPlots);
+        temp.remove(new HexPlot());
         List<List<HexPlot>> list =player1.listOfCombinations(3);
         assertTrue(list.contains(temp)&&list.size()==1);
     }

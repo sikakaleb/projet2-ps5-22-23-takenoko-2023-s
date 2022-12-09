@@ -58,6 +58,10 @@ public class Player {
     public List<Objective> getObjectiveAchieved() {
         return objectiveAchieved;
     }
+    /**New**/
+    public void setMaxUnmetObj(int maxUnmetObj) {
+        this.maxUnmetObj = maxUnmetObj;
+    }
 
     /****
      * Ajoute un objectif validé
@@ -257,13 +261,18 @@ public class Player {
 
         for (String stringKey: listPlotsData.keySet()) {
             if(listPlotsData.get(stringKey).size()==1){
+                System.out.println(listPlotsData);
                 copykeyList.remove(stringKey);
                 for (String remainingKeyOfTheCopy: copykeyList) {
                     result&= sSuite(listPlotsData.get(remainingKeyOfTheCopy).keySet(),3);
                 }
+                if(result){
+                    return result;
+                }
             }
+
         }
-        return result;
+        return false;
     }
 
 
