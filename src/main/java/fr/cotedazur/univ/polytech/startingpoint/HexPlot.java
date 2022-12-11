@@ -65,6 +65,14 @@ public class HexPlot {
         return neighborHexPlotList;
     }
 
+    /**
+     * Renvoie s'il s'agit de la parcelle spéciale (étang)
+     * @return {boolean}
+     */
+    public boolean isPond(){
+        return (this.q==0 && this.s==0 && this.r==0);
+    }
+
     /** Les methodes redefinies de la classe **/
     @Override
     public boolean equals(Object o) {

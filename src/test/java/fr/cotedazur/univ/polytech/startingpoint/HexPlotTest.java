@@ -25,6 +25,15 @@ class HexPlotTest {
         HexPlotNeighborList.add(new HexPlot(+1, 0, -1));
 
     }
+
+    @Test
+    void isPond(){
+        assertTrue(initialHexPlot.isPond());
+        HexPlotNeighborList.forEach( hexPlot -> {
+            assertFalse(hexPlot.isPond());
+        });
+    }
+
     @Test
     void plotAdd() {
         HexPlot hex1= initialHexPlot.plotAdd(Q_UP);

@@ -118,6 +118,48 @@ public class Player {
         return cumulOfpoint;
     }
 
+    /**
+     * Vérifier la contrainte :
+     * " la parcelle est adjacente à la parcelle Spéciale (étang)  "
+     *
+     * @param hex {HexPlot}
+     * @return {boolean}
+     */
+    public boolean checkPondNeighbor(@NotNull HexPlot hex) {
+        Set<HexPlot> neighborSet = hex.plotNeighbor();
+        if (neighborSet.isEmpty()) return false;
+        for (HexPlot hexPlot : neighborSet) {
+            if (hexPlot.isPond()) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Trouver les emplacements disponibles pour une parcelle, ie
+     * - les voisins de hex qui ne sont pas dans les parcelles déjà posées
+     * - et qui respectent les contraintes
+     * @param hex {HexPlot}
+     * @return neighborSet {Set<HexPlot>}
+     */
+    public Set<HexPlot> findAvailableNeighbors(@NotNull HexPlot hex){
+        Set<HexPlot> neighborSet = hex.plotNeighbor();
+
+        // Retirer les emplacements indisponibles
+        // parcelles déjà posées
+        neighborSet.removeAll(listOfPlots);
+
+        // TODO :
+        //  parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles
+        Set<HexPlot> notPondNeighbors = new HashSet<>();
+        neighborSet.forEach( hexPlot -> {
+            if (!checkPondNeighbor(hexPlot)) // || (!checkTwoPlotNeighbors(hexPlot))
+                notPondNeighbors.add(hexPlot);
+        });
+        neighborSet.removeAll(notPondNeighbors);
+
+        return neighborSet;
+    }
+
     /****
      *Le joueur ajoute
      * une parcelle au jeu
@@ -132,8 +174,8 @@ public class Player {
         Random rand = new Random();
         int randNumber = rand.nextInt(listOfPlots.size());
         ChoicePlot(allArrayPlots[randNumber]);
-
     }
+
     /****
      * ChoicePlot permet au joueur
      * de choisir une parcelle inexistante
@@ -142,14 +184,9 @@ public class Player {
      */
 
     public void ChoicePlot(@NotNull HexPlot hex){
-        Set<HexPlot> neighborSet = new HashSet<>() ;
-        neighborSet.addAll(hex.plotNeighbor());
-        neighborSet.removeAll(listOfPlots);
-        //neighborSet.remove(hex);
+        Set<HexPlot> neighborSet = findAvailableNeighbors(hex);
         HexPlot[] arrayPlots = neighborSet.toArray(new HexPlot[neighborSet.size()]);
         Random rand = new Random();
-        //System.out.println(listOfPlots.size());
-        //System.out.println(neighborSet.size());
         int randNumber = rand.nextInt(neighborSet.size());
         listOfPlots.add(arrayPlots[randNumber]);
     }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -102,6 +103,31 @@ class PlayerTest {
     }
 
     @Test
+    void checkPondNeighbor(){
+        HexPlot pond = listOfPlots.iterator().next();
+        assertTrue(pond.isPond());
+        assertFalse(player1.checkPondNeighbor(pond));
+        player1.addAplotToGame();
+        assertTrue(player1.checkPondNeighbor(listOfPlots.iterator().next()));
+        assertTrue(player1.checkPondNeighbor(new HexPlot(-1, 1, 0)));
+        assertTrue(player1.checkPondNeighbor(new HexPlot(1, -1, 0)));
+        assertFalse(player1.checkPondNeighbor(new HexPlot(-2, 2, -0)));
+    }
+
+    @Test
+    void findAvailableNeighbors(){
+        HexPlot hexPlot = listOfPlots.iterator().next();
+        System.out.println(hexPlot.plotNeighbor());
+
+        assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 6);
+        player1.addAplotToGame();
+        assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 5);
+
+        listOfPlots.addAll(hexPlot.plotNeighbor());
+        assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 0);
+    }
+
+    @Test
     void addAplotToGame() {
         player1.addAplotToGame();
         player2.addAplotToGame();
@@ -112,7 +138,7 @@ class PlayerTest {
 
     @Test
     void choicePlot() {
-        player2.ChoicePlot(new HexPlot(-1,1,0));
+        player2.ChoicePlot(listOfPlots.iterator().next());
         System.out.println(listOfPlots);
         assertEquals(listOfPlots.size(),2);
     }
