@@ -135,6 +135,19 @@ public class Player {
     }
 
     /**
+     * Vérifier la contrainte :
+     * " la parcelle est adjacente à au moins deux parcelles déjà en jeu "
+     *
+     * @param hex {HexPlot}
+     * @return {boolean}
+     */
+    public boolean checkTwoPlotNeighbors(@NotNull HexPlot hex) {
+        Set<HexPlot> intersection = hex.plotNeighbor();
+        intersection.retainAll(listOfPlots);
+        return intersection.size() >= 2;
+    }
+
+    /**
      * Trouver les emplacements disponibles pour une parcelle, ie
      * - les voisins de hex qui ne sont pas dans les parcelles déjà posées
      * - et qui respectent les contraintes
@@ -148,14 +161,13 @@ public class Player {
         // parcelles déjà posées
         neighborSet.removeAll(listOfPlots);
 
-        // TODO :
-        //  parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles
-        Set<HexPlot> notPondNeighbors = new HashSet<>();
+        // parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles
+        Set<HexPlot> invalidNeighbors = new HashSet<>();
         neighborSet.forEach( hexPlot -> {
-            if (!checkPondNeighbor(hexPlot)) // || (!checkTwoPlotNeighbors(hexPlot))
-                notPondNeighbors.add(hexPlot);
+            if (! (checkPondNeighbor(hexPlot) || checkTwoPlotNeighbors(hexPlot)) )
+                invalidNeighbors.add(hexPlot);
         });
-        neighborSet.removeAll(notPondNeighbors);
+        neighborSet.removeAll(invalidNeighbors);
 
         return neighborSet;
     }

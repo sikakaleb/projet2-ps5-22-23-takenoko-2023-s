@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import com.sun.source.tree.AssertTree;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -112,6 +113,20 @@ class PlayerTest {
         assertTrue(player1.checkPondNeighbor(new HexPlot(-1, 1, 0)));
         assertTrue(player1.checkPondNeighbor(new HexPlot(1, -1, 0)));
         assertFalse(player1.checkPondNeighbor(new HexPlot(-2, 2, -0)));
+    }
+
+    @Test
+    void checkTwoPlotNeighbors(){
+        HexPlot nextHexPlot = listOfPlots.iterator().next();
+        assertFalse(player1.checkTwoPlotNeighbors(nextHexPlot));
+
+        assertFalse(player1.checkTwoPlotNeighbors(new HexPlot(-1, 1, 0)));
+        listOfPlots.add(new HexPlot(-1, 1, 0));
+
+        assertTrue(player1.checkTwoPlotNeighbors(new HexPlot(0,1,-1)));
+        assertTrue(player1.checkTwoPlotNeighbors(new HexPlot(-1,0,1)));
+
+        assertFalse(player1.checkTwoPlotNeighbors(new HexPlot(-2, 2, -0)));
     }
 
     @Test
