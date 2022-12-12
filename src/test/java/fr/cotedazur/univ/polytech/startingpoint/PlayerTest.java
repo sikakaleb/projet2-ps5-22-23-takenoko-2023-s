@@ -175,4 +175,17 @@ class PlayerTest {
         listOfPlots.add(new HexPlot(-1,0,1));
         assertTrue(player1.findDirectSamePlots());
     }
+    @Test
+    void checkSetSuitConfDirect() {
+        List<HexPlot> list = new ArrayList<>();
+        Set<Integer> answerSet = new HashSet<>();
+        list.add(new HexPlot(-3,0,3));
+        list.add(new HexPlot(-2,0,2));
+        list.add(new HexPlot(-1,0,1));
+        answerSet.add(3);
+        answerSet.add(1);
+        Map<String , Map<Integer,Integer>> map= player1.extractPlotsData(list);
+        assertTrue(answerSet.equals(player1.checkSetSuitConf(map)));
+
+    }
 }
