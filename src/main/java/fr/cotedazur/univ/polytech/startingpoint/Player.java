@@ -274,8 +274,23 @@ public class Player {
         }
         return false;
     }
-
-
+    /***
+     * verifie si chaque clé de String du map
+     * possede une valeur qui est un SET
+     * et qui presente une suite
+     * */
+    public Set<Integer> checkSetSuitConf(Map<String ,Map<Integer,Integer>> listPlotsData ){
+        Set<Integer> answerset=new HashSet<>();
+        for (String stringKey: listPlotsData.keySet()) {
+            if(sSuite(listPlotsData.get(stringKey).keySet(),1)
+                    ||sSuite(listPlotsData.get(stringKey).keySet(),2)
+                    ||sSuite(listPlotsData.get(stringKey).keySet(),3)){
+                answerset.add(listPlotsData.get(stringKey).size());
+            }else
+                answerset.add(-1);
+        }
+        return answerset;
+    }
     /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
     public Boolean findDirectSamePlots(){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
