@@ -188,4 +188,17 @@ class PlayerTest {
         assertTrue(answerSet.equals(player1.checkSetSuitConf(map)));
 
     }
+    @Test
+    void checkSetSuitConfInDirect() {
+        List<HexPlot> list = new ArrayList<>();
+        Set<Integer> answerSet = new HashSet<>();
+        list.add(new HexPlot(-3,0,3));
+        list.add(new HexPlot(-2,0,2));
+        list.add(new HexPlot(-2,1,1));
+        answerSet.add(2);
+        answerSet.add(3);
+        Map<String , Map<Integer,Integer>> map= player1.extractPlotsData(list);
+        assertTrue(answerSet.equals(player1.checkSetSuitConf(map)));
+
+    }
 }
