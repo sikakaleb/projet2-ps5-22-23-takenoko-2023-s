@@ -168,4 +168,11 @@ class PlayerTest {
         System.out.println(player1.getPlayerId()+"*************");
         assertEquals(player1.getPlayerId(),19);
     }*/
+    @Test
+    void isIndirectDirectSamePlots() {
+        listOfPlots.add(new HexPlot(-3,0,3));
+        listOfPlots.add(new HexPlot(-2,0,2));
+        listOfPlots.add(new HexPlot(-1,0,1));
+        assertTrue(player1.findDirectSamePlots());
+    }
 }
