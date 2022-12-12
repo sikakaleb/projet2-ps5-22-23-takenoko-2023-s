@@ -213,4 +213,18 @@ class PlayerTest {
         assertTrue(answerSet.equals(player1.checkSetSuitConf(map)));
 
     }
+    @Test
+    void checkSetSuitConfQuadrilateral() {
+        List<HexPlot> list = new ArrayList<>();
+        Set<Integer> answerSet = new HashSet<>();
+        list.add(new HexPlot(-3,2,1));
+        list.add(new HexPlot(-2,2,0));
+        list.add(new HexPlot(-2,1,1));
+        list.add(new HexPlot(-3,1,2));
+        answerSet.add(2);
+        answerSet.add(3);
+        Map<String , Map<Integer,Integer>> map= player1.extractPlotsData(list);
+        assertTrue(answerSet.equals(player1.checkSetSuitConf(map)));
+
+    }
 }
