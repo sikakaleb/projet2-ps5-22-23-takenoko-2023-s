@@ -291,6 +291,15 @@ public class Player {
         }
         return answerset;
     }
+    /** Verifier si une liste de 3 hexplot a la configuration INDIRECTSAMEPLOTS  **/
+    public Boolean isIndirectDirectSamePlots(List<HexPlot> listPlots){
+        Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
+        Set<Integer> answerset=new HashSet<>();
+        answerset.add(2);
+        answerset.add(3);
+        return answerset.equals(checkSetSuitConf(listPlotsData)) && listPlots.size()==3;
+
+    }
     /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
     public Boolean findDirectSamePlots(){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
