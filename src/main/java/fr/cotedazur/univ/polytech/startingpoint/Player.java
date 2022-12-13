@@ -276,6 +276,33 @@ public class Player {
         }
         return false;
     }
+    /**
+     * Verifie si les plots de la liste
+     * sont adjacents à un autre
+     * ayant les mm couleur qu'eux.
+     * Elle est utile pour les trois
+     * cas critique de QUADRILATERALSAMEPLOTS
+     * **/
+    public Boolean checkPairAdjacentColor(List<HexPlot> plotList){
+        Boolean result = true;
+        for (HexPlot hex: plotList) {
+            result&=hex.isAdjacentWithAnotherOnSameColor(plotList);
+        }
+        return result;
+    }
+    /**
+     * Elle retourne un SET
+     * Des couleurs dans une liste
+     * Uilisé dans la dectection
+     * des Objectifs Plots
+     * **/
+    public Set<PlotColor> allColorInHexPlotList(List<HexPlot> plotList){
+        Set<PlotColor> colorSet= new HashSet<>();
+        plotList.forEach( hexPlot -> {
+            colorSet.add(hexPlot.getColor());
+        });
+        return colorSet;
+    }
     /***
      * verifie si chaque clé de String du map
      * possede une valeur qui est un SET
