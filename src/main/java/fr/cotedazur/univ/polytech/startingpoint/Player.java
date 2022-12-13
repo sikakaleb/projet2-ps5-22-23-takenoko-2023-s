@@ -330,7 +330,7 @@ public class Player {
 
     }
 
-    /** Verifier si une liste de 3 hexplot a la configuration INDIRECTSAMEPLOTS  **/
+    /** Verifier si une liste de 4 hexplot a la configuration QUADRILATERALSAMEPLOTS  **/
     public Boolean isQuadrilateralSamePlots(List<HexPlot> listPlots){
         Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
         Set<Integer> answerset=new HashSet<>();
@@ -338,6 +338,43 @@ public class Player {
         answerset.add(3);
         return answerset.equals(checkSetSuitConf(listPlotsData)) && listPlots.size()==4;
 
+    }
+    /** Detection des variantes de QUADRILATERALSAMESPLOTS AVEC AJOUTS DES COULEURS**/
+    /**
+     * QUADRILATERAL AVEC DEUX PARCELLES PINK ADJACENT
+     * ET DEUX PARCELLES YELLOW ADJACENT
+     * **/
+    public Boolean isQuadrilateralPlots_P_Y(List<HexPlot> listPlots){
+        Set<PlotColor> colorSet= new HashSet<>();
+        colorSet.add(PINK);
+        colorSet.add(YELLOW);
+        return isQuadrilateralSamePlots(listPlots)
+                && checkPairAdjacentColor(listPlots)
+                && colorSet.equals(allColorInHexPlotList(listPlots));
+    }
+    /**
+     * QUADRILATERAL AVEC DEUX PARCELLES GREEN ADJACENT
+     * ET DEUX PARCELLES PINK ADJACENT
+     * **/
+    public Boolean isQuadrilateralPlots_G_P(List<HexPlot> listPlots){
+        Set<PlotColor> colorSet= new HashSet<>();
+        colorSet.add(PINK);
+        colorSet.add(GREEN);
+        return isQuadrilateralSamePlots(listPlots)
+                && checkPairAdjacentColor(listPlots)
+                && colorSet.equals(allColorInHexPlotList(listPlots));
+    }
+    /**
+     * QUADRILATERAL AVEC DEUX PARCELLES GREEN ADJACENT
+     * ET DEUX PARCELLES YELLOW ADJACENT
+     * **/
+    public Boolean isQuadrilateralPlots_G_Y(List<HexPlot> listPlots){
+        Set<PlotColor> colorSet= new HashSet<>();
+        colorSet.add(GREEN);
+        colorSet.add(YELLOW);
+        return isQuadrilateralSamePlots(listPlots)
+                && checkPairAdjacentColor(listPlots)
+                && colorSet.equals(allColorInHexPlotList(listPlots));
     }
     /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
     public Boolean findDirectSamePlots(){
