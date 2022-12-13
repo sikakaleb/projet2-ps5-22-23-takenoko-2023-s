@@ -8,7 +8,8 @@ import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfObjectives;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
+import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
+import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.*;
 
 public class Player {
     /**Attributs de la classe**/
@@ -109,9 +110,10 @@ public class Player {
      * lors de son appel
      */
 
-    public void validateUnMetObjectives(Objective objective){
+    public Boolean validateUnMetObjectives(Objective objective){
         withdrawUnMetObjective(objective);
         addObjectiveAchieved(objective);
+        return true;
     }
 
     public int getCumulOfpoint() {
@@ -292,7 +294,7 @@ public class Player {
         return answerset;
     }
     /** Verifier si une liste de 3 hexplot a la configuration INDIRECTSAMEPLOTS  **/
-    public Boolean isIndirectDirectSamePlots(List<HexPlot> listPlots){
+    public Boolean isIndirectSamePlots(List<HexPlot> listPlots){
         Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
         Set<Integer> answerset=new HashSet<>();
         answerset.add(2);
