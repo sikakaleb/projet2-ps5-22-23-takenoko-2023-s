@@ -389,6 +389,20 @@ public class Player {
         }
         return false;
     }
+    /** Trouver un Objectif INDIRECTSAMEPLOTS dans tout le jeu**/
+    public boolean findInDirectSamePlots() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
+        //System.out.println(allCombinationOfthreeHexplots);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isIndirectSamePlots(hexPlotList))
+            {
+                System.out.println(name+" a detecté un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /*****
      * Le joueur appelle
