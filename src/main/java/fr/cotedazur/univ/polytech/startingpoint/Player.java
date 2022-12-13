@@ -478,7 +478,32 @@ public class Player {
                 {
                     validateUnMetObjectives(obj);
                     return true;
+                }else if( ( ((PlotObjective) obj).getConfiguration()==
+                        INDIRECTSAMEPLOTS && findInDirectSamePlots()))
+                {
+                    return  validateUnMetObjectives(obj);
                 }
+                else if( ( ((PlotObjective) obj).getConfiguration()==
+                        QUADRILATERALSAMEPLOTS && findQuadrilateralSamePlots()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+                if( ( ((PlotObjective) obj).getConfiguration()==
+                        QUADRILATERALSAMEPLOTS_G_P && findQuadrilateralPlots_G_P()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+                if( ( ((PlotObjective) obj).getConfiguration()==
+                        QUADRILATERALSAMEPLOTS_G_Y && findQuadrilateralPlots_G_Y()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+                if( ( ((PlotObjective) obj).getConfiguration()==
+                        QUADRILATERALSAMEPLOTS_P_Y && findQuadrilateralPlots_P_Y()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+
             }
         }
         return false;
