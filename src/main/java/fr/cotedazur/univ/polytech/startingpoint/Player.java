@@ -403,6 +403,66 @@ public class Player {
         return false;
     }
 
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu**/
+    public boolean findQuadrilateralSamePlots() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        //System.out.println(allCombinationOfthreeHexplots);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralSamePlots(hexPlotList))
+            {
+                System.out.println(name+" a detecté un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
+     * Avec deux parcelles PINK adjacent
+     * et deux parcelles YELLOW adjacent**/
+    public boolean findQuadrilateralPlots_P_Y() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        //System.out.println(allCombinationOfthreeHexplots);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralPlots_P_Y(hexPlotList))
+            {
+                System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
+     * Avec deux parcelles GREEN adjacent
+     * et deux parcelles PINK adjacent**/
+    public boolean findQuadrilateralPlots_G_P() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        //System.out.println(allCombinationOfthreeHexplots);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralPlots_G_P(hexPlotList))
+            {
+                System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
+     * Avec deux parcelles GREEN adjacent
+     * et deux parcelles YELLOW adjacent**/
+    public boolean findQuadrilateralPlots_G_Y() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        //System.out.println(allCombinationOfthreeHexplots);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralPlots_G_Y(hexPlotList))
+            {
+                System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     /*****
      * Le joueur appelle
