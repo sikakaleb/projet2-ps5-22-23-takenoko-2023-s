@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.*;
 
+import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
 import static fr.cotedazur.univ.polytech.startingpoint.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
@@ -13,11 +14,23 @@ public class HexPlot {
     private int r;
     private int s;
 
+    private PlotColor color;
+
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
         this.q = q;
         this.s = s;
         this.r = r;
+        this.color= NONE;
+    }
+    /**
+     * Ajout d'un constructeur avec couleur
+     */
+    public HexPlot(int q, int s, int r,PlotColor color) {
+        this.q = q;
+        this.s = s;
+        this.r = r;
+        this.color= color;
     }
 
     /**Constructeur par defaut
@@ -27,6 +40,7 @@ public class HexPlot {
      */
     public  HexPlot(){
         this(0,0,0);
+        this.color=ETANG;
     }
 
     /** Les accesseurs de la classe **/
@@ -41,6 +55,10 @@ public class HexPlot {
 
     public int getS() {
         return s;
+    }
+
+    public PlotColor getColor() {
+        return color;
     }
 
     /** Les methodes particulieres de la classe **/
@@ -64,13 +82,17 @@ public class HexPlot {
         }
         return neighborHexPlotList;
     }
-
-    /**
-     * Renvoie s'il s'agit de la parcelle spéciale (étang)
-     * @return {boolean}
+    /****
+     * Verifie si 1 plot est adjacent a avec une autre de mm
+     * couleur dans une liste de plots
      */
-    public boolean isPond(){
-        return (this.q==0 && this.s==0 && this.r==0);
+    public Boolean isAdjacentWithAnotherOnSameColor(){
+        for (HexPlot hex:plotNeighbor()) {
+            if(getColor()==hex.getColor()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Les methodes redefinies de la classe **/
@@ -78,7 +100,12 @@ public class HexPlot {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof HexPlot hexPlot)) return false;
-        return q == hexPlot.q && r == hexPlot.r && s == hexPlot.s;
+        return getQ() == hexPlot.getQ() && getR() == hexPlot.getR() && getS() == hexPlot.getS() && getColor() == hexPlot.getColor();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQ(), getR(), getS(), getColor());
     }
 
     @Override
@@ -87,11 +114,7 @@ public class HexPlot {
                 "q=" + q +
                 ", r=" + r +
                 ", s=" + s +
+                ", color=" + color +
                 '}';
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(q, s, r);
     }
 }
