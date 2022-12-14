@@ -420,7 +420,6 @@ public class Player {
      * et deux parcelles YELLOW adjacent**/
     public boolean findQuadrilateralPlots_P_Y() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
-        //System.out.println(allCombinationOfthreeHexplots);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
             if(isQuadrilateralPlots_P_Y(hexPlotList))
             {
@@ -435,7 +434,6 @@ public class Player {
      * et deux parcelles PINK adjacent**/
     public boolean findQuadrilateralPlots_G_P() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
-        //System.out.println(allCombinationOfthreeHexplots);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
             if(isQuadrilateralPlots_G_P(hexPlotList))
             {
@@ -450,7 +448,6 @@ public class Player {
      * et deux parcelles YELLOW adjacent**/
     public boolean findQuadrilateralPlots_G_Y() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
-        //System.out.println(allCombinationOfthreeHexplots);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
             if(isQuadrilateralPlots_G_Y(hexPlotList))
             {
@@ -482,23 +479,23 @@ public class Player {
                 {
                     return  validateUnMetObjectives(obj);
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()==
-                        QUADRILATERALSAMEPLOTS && findQuadrilateralSamePlots()))
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS
+                        && findQuadrilateralSamePlots()))
                 {
                     return  validateUnMetObjectives(obj);
                 }
-                if( ( ((PlotObjective) obj).getConfiguration()==
-                        QUADRILATERALSAMEPLOTS_G_P && findQuadrilateralPlots_G_P()))
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_P
+                        && findQuadrilateralPlots_G_P()))
                 {
                     return  validateUnMetObjectives(obj);
                 }
-                if( ( ((PlotObjective) obj).getConfiguration()==
-                        QUADRILATERALSAMEPLOTS_G_Y && findQuadrilateralPlots_G_Y()))
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_Y
+                        && findQuadrilateralPlots_G_Y()))
                 {
                     return  validateUnMetObjectives(obj);
                 }
-                if( ( ((PlotObjective) obj).getConfiguration()==
-                        QUADRILATERALSAMEPLOTS_P_Y && findQuadrilateralPlots_P_Y()))
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_P_Y
+                        && findQuadrilateralPlots_P_Y()))
                 {
                     return  validateUnMetObjectives(obj);
                 }
