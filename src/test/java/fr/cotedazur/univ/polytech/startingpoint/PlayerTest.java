@@ -411,11 +411,11 @@ class PlayerTest {
     @Test
     void findInDirectSamePlots() {
         listOfPlots.add(new HexPlot(-3,2,1,GREEN));
-        listOfPlots.add(new HexPlot(-2,2,15,PINK));
+        listOfPlots.add(new HexPlot(-2,2,0,PINK));
         listOfPlots.add(new HexPlot(-2,1,1,PINK));
         listOfPlots.add(new HexPlot(-1,0,1,PINK));
         listOfPlots.add(new HexPlot(-3,1,2,YELLOW));
-        assertTrue(player1.findInDirectSamePlots());
+        assertTrue(player1.findInDirectSamePlots(PINK));
     }
 
     @Test

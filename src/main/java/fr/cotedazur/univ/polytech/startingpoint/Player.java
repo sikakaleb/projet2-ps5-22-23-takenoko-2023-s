@@ -326,7 +326,9 @@ public class Player {
         Set<Integer> answerset=new HashSet<>();
         answerset.add(2);
         answerset.add(3);
-        return answerset.equals(checkSetSuitConf(listPlotsData)) && listPlots.size()==3;
+        return answerset.equals(checkSetSuitConf(listPlotsData))
+                && listPlots.size()==3
+                && allColorInHexPlotList(listPlots).size()==1;
 
     }
 
@@ -379,7 +381,6 @@ public class Player {
     /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
     public Boolean findDirectSamePlots(){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
-        //System.out.println(allCombinationOfthreeHexplots);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
             if(isDirectSamePlots(hexPlotList))
             {
@@ -390,11 +391,10 @@ public class Player {
         return false;
     }
     /** Trouver un Objectif INDIRECTSAMEPLOTS dans tout le jeu**/
-    public boolean findInDirectSamePlots() {
+    public boolean findInDirectSamePlots(PlotColor color) {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
-        //System.out.println(allCombinationOfthreeHexplots);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isIndirectSamePlots(hexPlotList))
+            if(isIndirectSamePlots(hexPlotList) && allColorInHexPlotList(hexPlotList).contains(color))
             {
                 System.out.println(name+" a detecté un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
                 return true;
@@ -406,7 +406,6 @@ public class Player {
     /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu**/
     public boolean findQuadrilateralSamePlots() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
-        //System.out.println(allCombinationOfthreeHexplots);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
             if(isQuadrilateralSamePlots(hexPlotList))
             {
@@ -478,8 +477,8 @@ public class Player {
                 {
                     validateUnMetObjectives(obj);
                     return true;
-                }else if( ( ((PlotObjective) obj).getConfiguration()==
-                        INDIRECTSAMEPLOTS && findInDirectSamePlots()))
+                }else if( ( ((PlotObjective) obj).getConfiguration()== INDIRECTSAMEPLOTS
+                        && findInDirectSamePlots(((PlotObjective) obj).getColor())))
                 {
                     return  validateUnMetObjectives(obj);
                 }
