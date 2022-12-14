@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.NONE;
+
 /**
  * Cette classe est une specification
  * de la classe Objective
@@ -11,14 +13,27 @@ public class PlotObjective extends Objective{
     private int plotObjectiveId;
     private PlotObjectiveConfiguration configuration;
 
+    private PlotColor color;
     /**Constructeur de la classe**/
     public PlotObjective(int numberOfPoints,PlotObjectiveConfiguration configuration) {
         super(numberOfPoints);
         this.configuration=configuration;
         plotObjectiveId=++NumberOfPlotObjective;
+        this.color=NONE;
     }
 
+    public PlotObjective(int numberOfPoints,PlotObjectiveConfiguration configuration, PlotColor color) {
+        super(numberOfPoints);
+        this.configuration=configuration;
+        plotObjectiveId=++NumberOfPlotObjective;
+        this.color=color;
+    }
+
+
     /**Acesseur de la classe**/
+    public PlotColor getColor() {
+        return color;
+    }
 
     public int getPlotObjectiveId() {
         return plotObjectiveId;
