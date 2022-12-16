@@ -191,11 +191,14 @@ public class Player {
      * ChoicePlot()
      */
     public void addAplotToGame(){
+        if(deckOfPlots.size()==0){
+            throw  new IndexOutOfBoundsException("Il y a plus de parcelle a posé");
+        }
         Random rand = new Random();
         int randNumber = rand.nextInt(deckOfPlots.size());
         HexPlot hex = deckOfPlots.get(randNumber);
         deckOfPlots.remove(randNumber);
-        System.out.println("la taille est :"+deckOfPlots.size());
+        System.out.println("nombre de parcelle dans la pile :"+deckOfPlots.size());
         ChoicePlot(hex);
     }
 
@@ -213,7 +216,7 @@ public class Player {
         });
         HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
         Random rand = new Random();
-        System.out.println(validPlotsSet.size()+"oooooo");
+        System.out.println("nombre de place valid est :"+validPlotsSet.size());
         int randNumber = rand.nextInt(validPlotsSet.size());
         hex.setQ(arrayPlots[randNumber].getQ());
         hex.setR(arrayPlots[randNumber].getR());
@@ -331,8 +334,6 @@ public class Player {
         Set<Integer> answerset=new HashSet<>();
         answerset.add(1);
         answerset.add(3);
-        System.out.println(checkSetSuitConf(listPlotsData));
-        System.out.println(allColorInHexPlotList(listPlots));
         return answerset.equals(checkSetSuitConf(listPlotsData))
                 && listPlots.size()==3
                 && allColorInHexPlotList(listPlots).size()==1;
@@ -605,11 +606,12 @@ public class Player {
 
     public Boolean play(){
         Random rand = new Random();
-        if(deckOfPlots.size()>=0){
-            int randNumber = rand.nextInt(listOfObjectives.size());
-            addNewObjective(listOfObjectives.get(randNumber));
-            listOfObjectives.remove(randNumber);
+        if(listOfObjectives.size()==0){
+            throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
+        int randNumber = rand.nextInt(listOfObjectives.size());
+        addNewObjective(listOfObjectives.get(randNumber));
+        listOfObjectives.remove(randNumber);
         addAplotToGame();
         return dectectObjective();
     }
