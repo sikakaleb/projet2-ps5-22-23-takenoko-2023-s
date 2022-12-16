@@ -7,7 +7,7 @@ jusqu'à la realisation d'un objectif et le jeu prend fin.
 À ce stade, Tous les objectifs parcelles sont ajoutés et detectable.
 Chaque joueur a droit cinq(5) objectifs.
 À chaque tour chaque joueur realise au moins une action.
-Il choisit un objectif s'il n'en possède pas encore, ajoute une parcelle
+Il choisit un objectif s'il a moins de 5 objectifs, ajoute une parcelle
 et essaie de valider un Objectif
 ## Fonctionnalités du jeu
 * Implementation de parcelle avec couleur.
