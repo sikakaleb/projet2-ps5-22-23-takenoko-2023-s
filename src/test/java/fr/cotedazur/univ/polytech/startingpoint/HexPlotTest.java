@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.HexPlot.DIRECTION;
+import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.PINK;
+import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.YELLOW;
 import static fr.cotedazur.univ.polytech.startingpoint.VectorDirection.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,5 +49,16 @@ class HexPlotTest {
             temporalSet.add(initialHexPlot.plotAdd(vec, Color.BLANK));
         }
         assertTrue(temporalSet.equals(HexPlotNeighborList));
+    }
+
+    @Test
+    void isAdjacentWithAnotherOnSameColor() {
+        List<HexPlot> list = new ArrayList<>();
+        HexPlot tempHex=new HexPlot(-3,2,1,YELLOW);
+        list.add(tempHex);
+        list.add(new HexPlot(-2,2,0,PINK));
+        list.add(new HexPlot(-2,1,1,PINK));
+        list.add(new HexPlot(-3,1,2,YELLOW));
+        assertTrue(tempHex.isAdjacentWithAnotherOnSameColor(list));
     }
 }

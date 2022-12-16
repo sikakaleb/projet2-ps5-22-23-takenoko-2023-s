@@ -8,7 +8,8 @@ import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfObjectives;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
+import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
+import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.*;
 
 public class Player {
     /**Attributs de la classe**/
@@ -109,9 +110,10 @@ public class Player {
      * lors de son appel
      */
 
-    public void validateUnMetObjectives(Objective objective){
+    public Boolean validateUnMetObjectives(Objective objective){
         withdrawUnMetObjective(objective);
         addObjectiveAchieved(objective);
+        return true;
     }
 
     public int getCumulOfpoint() {
@@ -217,8 +219,12 @@ public class Player {
      */
 
     public  List<List<HexPlot>> listOfCombinations(int n){
-        Set<HexPlot> tempList= listOfPlots;
-        tempList.remove(new HexPlot());
+        Set<HexPlot> tempList = new HashSet<>();
+        listOfPlots.forEach(hexPlot -> {
+            if(!hexPlot.equals(new HexPlot())){
+                tempList.add(hexPlot);
+            }
+        });
         return Generator.combination(tempList)
                 .simple(n)
                 .stream()
@@ -331,12 +337,110 @@ public class Player {
         }
         return false;
     }
+    /**
+     * Verifie si les plots de la liste
+     * sont adjacents à un autre
+     * ayant les mm couleur qu'eux.
+     * Elle est utile pour les trois
+     * cas critique de QUADRILATERALSAMEPLOTS
+     * **/
+    public Boolean checkPairAdjacentColor(List<HexPlot> plotList){
+        Boolean result = true;
+        for (HexPlot hex: plotList) {
+            result&=hex.isAdjacentWithAnotherOnSameColor(plotList);
+        }
+        return result;
+    }
+    /**
+     * Elle retourne un SET
+     * Des couleurs dans une liste
+     * Uilisé dans la dectection
+     * des Objectifs Plots
+     * **/
+    public Set<PlotColor> allColorInHexPlotList(List<HexPlot> plotList){
+        Set<PlotColor> colorSet= new HashSet<>();
+        plotList.forEach( hexPlot -> {
+            colorSet.add(hexPlot.getColor());
+        });
+        return colorSet;
+    }
+    /***
+     * verifie si chaque clé de String du map
+     * possede une valeur qui est un SET
+     * et qui presente une suite
+     * */
+    public Set<Integer> checkSetSuitConf(Map<String ,Map<Integer,Integer>> listPlotsData ){
+        Set<Integer> answerset=new HashSet<>();
+        for (String stringKey: listPlotsData.keySet()) {
+            if(sSuite(listPlotsData.get(stringKey).keySet(),1)
+                    ||sSuite(listPlotsData.get(stringKey).keySet(),2)
+                    ||sSuite(listPlotsData.get(stringKey).keySet(),3)){
+                answerset.add(listPlotsData.get(stringKey).size());
+            }else
+                answerset.add(-1);
+        }
+        return answerset;
+    }
+    /** Verifier si une liste de 3 hexplot a la configuration INDIRECTSAMEPLOTS  **/
+    public Boolean isIndirectSamePlots(List<HexPlot> listPlots){
+        Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
+        Set<Integer> answerset=new HashSet<>();
+        answerset.add(2);
+        answerset.add(3);
+        return answerset.equals(checkSetSuitConf(listPlotsData))
+                && listPlots.size()==3
+                && allColorInHexPlotList(listPlots).size()==1;
+    }
 
+    /** Verifier si une liste de 4 hexplot a la configuration QUADRILATERALSAMEPLOTS  **/
+    public Boolean isQuadrilateralSamePlots(List<HexPlot> listPlots){
+        Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
+        Set<Integer> answerset=new HashSet<>();
+        answerset.add(2);
+        answerset.add(3);
+        return answerset.equals(checkSetSuitConf(listPlotsData)) && listPlots.size()==4;
 
+    }
+    /** Detection des variantes de QUADRILATERALSAMESPLOTS AVEC AJOUTS DES COULEURS**/
+    /**
+     * QUADRILATERAL AVEC DEUX PARCELLES PINK ADJACENT
+     * ET DEUX PARCELLES YELLOW ADJACENT
+     * **/
+    public Boolean isQuadrilateralPlots_P_Y(List<HexPlot> listPlots){
+        Set<PlotColor> colorSet= new HashSet<>();
+        colorSet.add(PINK);
+        colorSet.add(YELLOW);
+        return isQuadrilateralSamePlots(listPlots)
+                && checkPairAdjacentColor(listPlots)
+                && colorSet.equals(allColorInHexPlotList(listPlots));
+    }
+    /**
+     * QUADRILATERAL AVEC DEUX PARCELLES GREEN ADJACENT
+     * ET DEUX PARCELLES PINK ADJACENT
+     * **/
+    public Boolean isQuadrilateralPlots_G_P(List<HexPlot> listPlots){
+        Set<PlotColor> colorSet= new HashSet<>();
+        colorSet.add(PINK);
+        colorSet.add(GREEN);
+        return isQuadrilateralSamePlots(listPlots)
+                && checkPairAdjacentColor(listPlots)
+                && colorSet.equals(allColorInHexPlotList(listPlots));
+    }
+    /**
+     * QUADRILATERAL AVEC DEUX PARCELLES GREEN ADJACENT
+     * ET DEUX PARCELLES YELLOW ADJACENT
+     * **/
+    public Boolean isQuadrilateralPlots_G_Y(List<HexPlot> listPlots){
+        Set<PlotColor> colorSet= new HashSet<>();
+        colorSet.add(GREEN);
+        colorSet.add(YELLOW);
+        return isQuadrilateralSamePlots(listPlots)
+                && checkPairAdjacentColor(listPlots)
+                && colorSet.equals(allColorInHexPlotList(listPlots));
+    }
     /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
     public Boolean findDirectSamePlots(){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
-        //System.out.println(allCombinationOfthreeHexplots);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
             if(isDirectSamePlots(hexPlotList))
             {
@@ -346,6 +450,75 @@ public class Player {
         }
         return false;
     }
+    /** Trouver un Objectif INDIRECTSAMEPLOTS dans tout le jeu**/
+    public boolean findInDirectSamePlots(PlotColor color) {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isIndirectSamePlots(hexPlotList) && allColorInHexPlotList(hexPlotList).contains(color))
+            {
+                System.out.println(name+" a detecté un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu**/
+    public boolean findQuadrilateralSamePlots() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralSamePlots(hexPlotList))
+            {
+                System.out.println(name+" a detecté un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
+     * Avec deux parcelles PINK adjacent
+     * et deux parcelles YELLOW adjacent**/
+    public boolean findQuadrilateralPlots_P_Y() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralPlots_P_Y(hexPlotList))
+            {
+                System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
+     * Avec deux parcelles GREEN adjacent
+     * et deux parcelles PINK adjacent**/
+    public boolean findQuadrilateralPlots_G_P() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralPlots_G_P(hexPlotList))
+            {
+                System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+    /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
+     * Avec deux parcelles GREEN adjacent
+     * et deux parcelles YELLOW adjacent**/
+    public boolean findQuadrilateralPlots_G_Y() {
+        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
+        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
+            if(isQuadrilateralPlots_G_Y(hexPlotList))
+            {
+                System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     /*****
      * Le joueur appelle
@@ -361,7 +534,32 @@ public class Player {
                 {
                     validateUnMetObjectives(obj);
                     return true;
+                }else if( ( ((PlotObjective) obj).getConfiguration()== INDIRECTSAMEPLOTS
+                        && findInDirectSamePlots(((PlotObjective) obj).getColor())))
+                {
+                    return  validateUnMetObjectives(obj);
                 }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS
+                        && findQuadrilateralSamePlots()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_P
+                        && findQuadrilateralPlots_G_P()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_Y
+                        && findQuadrilateralPlots_G_Y()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_P_Y
+                        && findQuadrilateralPlots_P_Y()))
+                {
+                    return  validateUnMetObjectives(obj);
+                }
+
             }
         }
         return false;

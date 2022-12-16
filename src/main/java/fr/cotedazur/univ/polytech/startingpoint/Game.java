@@ -26,7 +26,6 @@ public class Game {
         }
         this.listOfPlotsOnBoard=new HashSet<>();
         this.listOfPlotsOnBoard.add(new HexPlot());
-        listOfObjectives=null;
         initPlayer(p1,p2);
     }
 
