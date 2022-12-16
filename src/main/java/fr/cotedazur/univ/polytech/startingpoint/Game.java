@@ -8,6 +8,7 @@ import java.util.Set;
 public class Game {
     /**Attribut de la classe Game**/
     public static Set<HexPlot> listOfPlots;
+    public static BambooStock bambooStock;
     //public  List<Objective> listOfObjectives;
 
     public  static Objective listOfObjectives;
@@ -19,6 +20,8 @@ public class Game {
         playerList = new ArrayList<>();
         this.listOfPlots=new HashSet<>();
         this.listOfPlots.add(new HexPlot());
+        bambooStock = new BambooStock();
+        listOfObjectives=null;
         initPlayer(p1,p2);
     }
 
