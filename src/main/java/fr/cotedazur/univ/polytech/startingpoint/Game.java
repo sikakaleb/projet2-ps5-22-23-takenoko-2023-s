@@ -7,7 +7,9 @@ import java.util.Set;
 
 public class Game {
     /**Attribut de la classe Game**/
-    public static Set<HexPlot> listOfPlots;
+    public List<HexPlot> deckOfPlots = new ArrayList<>();
+
+    public static Set<HexPlot> listOfPlotsOnBoard;
     //public  List<Objective> listOfObjectives;
 
     public  static Objective listOfObjectives;
@@ -17,8 +19,13 @@ public class Game {
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
         playerList = new ArrayList<>();
-        this.listOfPlots=new HashSet<>();
-        this.listOfPlots.add(new HexPlot());
+        for(int i=0;i<9;i++){
+            deckOfPlots.add(new HexPlot(Color.GREEN));
+            deckOfPlots.add(new HexPlot(Color.YELLOW));
+            deckOfPlots.add(new HexPlot(Color.PINK));
+        }
+        this.listOfPlotsOnBoard=new HashSet<>();
+        this.listOfPlotsOnBoard.add(new HexPlot());
         listOfObjectives=null;
         initPlayer(p1,p2);
     }
@@ -33,8 +40,8 @@ public class Game {
 
     /**Acesseur et mutateur de la classe Game**/
 
-    public static Set<HexPlot> getListOfPlots() {
-        return listOfPlots;
+    public static Set<HexPlot> getListOfPlotsOnBoard() {
+        return listOfPlotsOnBoard;
     }
     /* A ce niveau de jeu notre jeu comprend juste un seul objectif
      * il evoluera en liste au prochain milestone
@@ -50,6 +57,9 @@ public class Game {
         return playerList;
     }
 
+    public List<HexPlot> getDeckOfPlots() {
+        return deckOfPlots;
+    }
     /*Methodes particulieres de la classe*/
 
 

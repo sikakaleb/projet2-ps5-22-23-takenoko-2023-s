@@ -23,6 +23,10 @@ public class HexPlot {
         this.color= color;
     }
 
+    public HexPlot(Color color) {
+        this.color = color;
+    }
+
     /**Constructeur par defaut
      * initialise avec les
      * coordonnées de la
