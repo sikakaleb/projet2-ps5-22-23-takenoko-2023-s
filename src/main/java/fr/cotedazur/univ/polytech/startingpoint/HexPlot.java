@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
+import static fr.cotedazur.univ.polytech.startingpoint.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
@@ -11,26 +11,28 @@ public class HexPlot {
     /** Atrribut de la classe**/
     public static final VectorDirection[] DIRECTION = new VectorDirection[]{Q_UP, Q_DOWN, S_UP, S_DOWN, R_LEFT, R_RIGHT};
     private int q;
-    private int r;
     private int s;
-
-    private PlotColor color;
+    private int r;
+    private Color color;
 
     /**le ou Les constructeurs de la classe**/
-    public HexPlot(int q, int s, int r, Color color) {
+    public HexPlot(int q, int s, int r) {
         this.q = q;
         this.s = s;
         this.r = r;
-        this.color= NONE;
     }
     /**
      * Ajout d'un constructeur avec couleur
      */
-    public HexPlot(int q, int s, int r,PlotColor color) {
+    public HexPlot(int q, int s, int r, Color color) {
         this.q = q;
         this.s = s;
         this.r = r;
         this.color= color;
+    }
+
+    public HexPlot(Color color) {
+        this.color = color;
     }
 
     /**Constructeur par defaut
@@ -39,8 +41,7 @@ public class HexPlot {
      * parcelles etang
      */
     public  HexPlot(){
-        this(0,0,0, Color.POND);
-        this.color=ETANG;
+        this(0,0,0);
     }
 
     /** Les accesseurs de la classe **/
@@ -57,7 +58,23 @@ public class HexPlot {
         return s;
     }
 
-    public PlotColor getColor() {
+    public void setQ(int q) {
+        this.q = q;
+    }
+
+    public void setR(int r) {
+        this.r = r;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
         return color;
     }
 
@@ -70,6 +87,11 @@ public class HexPlot {
     public HexPlot plotAdd(VectorDirection vec, Color color){
         return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR(), color);
     }
+
+    public HexPlot plotAdd(VectorDirection vec){
+        return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR());
+    }
+
     /**
      * PlotNeighbor renvoie Set de Plots
      *Voisins a lui
@@ -78,7 +100,7 @@ public class HexPlot {
     public Set<HexPlot> plotNeighbor(){
         Set<HexPlot> neighborHexPlotList= new HashSet<>();
         for (VectorDirection vec:DIRECTION) {
-            neighborHexPlotList.add(plotAdd(vec, Color.BLANK));
+            neighborHexPlotList.add(plotAdd(vec));
         }
         return neighborHexPlotList;
     }
@@ -107,7 +129,7 @@ public class HexPlot {
      * @return {boolean}
      */
     public boolean isPond(){
-        return (this.q==0 && this.s==0 && this.r==0 && this.color== Color.POND);
+        return (this.q==0 && this.s==0 && this.r==0);
     }
 
     /** Les methodes redefinies de la classe **/
@@ -128,6 +150,7 @@ public class HexPlot {
         return "HexPlot{" +
                 "q=" + q +
                 ", s=" + s +
+                ", r=" + r +
                 ", color=" + color +
                 '}';
     }

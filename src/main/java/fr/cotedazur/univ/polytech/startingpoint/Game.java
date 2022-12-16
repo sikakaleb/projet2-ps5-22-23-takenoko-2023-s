@@ -7,9 +7,9 @@ import java.util.Set;
 
 public class Game {
     /**Attribut de la classe Game**/
-    public List<HexPlot> deckOfPlots = new ArrayList<>();
+    public static List<HexPlot> deckOfPlots = new ArrayList<>();
 
-    public static Set<HexPlot> listOfPlotsOnBoard;
+    public static Set<HexPlot> listOfPlots;
     //public  List<Objective> listOfObjectives;
 
     public  static Objective listOfObjectives;
@@ -24,8 +24,8 @@ public class Game {
             deckOfPlots.add(new HexPlot(Color.YELLOW));
             deckOfPlots.add(new HexPlot(Color.PINK));
         }
-        this.listOfPlotsOnBoard=new HashSet<>();
-        this.listOfPlotsOnBoard.add(new HexPlot());
+        this.listOfPlots=new HashSet<>();
+        this.listOfPlots.add(new HexPlot());
         initPlayer(p1,p2);
     }
 
@@ -40,7 +40,7 @@ public class Game {
     /**Acesseur et mutateur de la classe Game**/
 
     public static Set<HexPlot> getListOfPlotsOnBoard() {
-        return listOfPlotsOnBoard;
+        return listOfPlots;
     }
     /* A ce niveau de jeu notre jeu comprend juste un seul objectif
      * il evoluera en liste au prochain milestone

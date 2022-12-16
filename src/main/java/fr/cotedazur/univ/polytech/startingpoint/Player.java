@@ -6,9 +6,8 @@ import org.paukov.combinatorics3.Generator;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfObjectives;
-import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
+import static fr.cotedazur.univ.polytech.startingpoint.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
 import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.*;
 
 public class Player {
@@ -145,7 +144,11 @@ public class Player {
      */
     public boolean checkTwoPlotNeighbors(@NotNull HexPlot hex) {
         Set<HexPlot> intersection = hex.plotNeighbor();
-        intersection.retainAll(listOfPlots);
+        Set<HexPlot> listOfPlotscopy = new HashSet<>();
+        listOfPlots.forEach(hexPlot -> {
+            listOfPlotscopy.add(new HexPlot(hexPlot.getQ(), hexPlot.getS(), hexPlot.getR()));
+        });
+        intersection.retainAll(listOfPlotscopy);
         return intersection.size() >= 2;
     }
 
@@ -158,12 +161,9 @@ public class Player {
      */
     public Set<HexPlot> findAvailableNeighbors(@NotNull HexPlot hex){
         Set<HexPlot> neighborSet = hex.plotNeighbor();
-        System.out.println("Voisins de "+hex+" : "+neighborSet);
-        System.out.println("Parcelles déjà posées : "+listOfPlots);
         // Retirer les emplacements indisponibles
         // parcelles déjà posées
         neighborSet.removeAll(listOfPlots);
-        System.out.println("Voisins de "+hex+" après suppression des parcelles déjà posées : "+neighborSet);
         // parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles
         Set<HexPlot> invalidNeighbors = new HashSet<>();
         neighborSet.forEach( hexPlot -> {
@@ -171,16 +171,9 @@ public class Player {
                 invalidNeighbors.add(hexPlot);
         });
         neighborSet.removeAll(invalidNeighbors);
-        System.out.println("Voisins de "+hex+" après suppression des parcelles non valides : "+neighborSet);
         return neighborSet;
     }
 
-    public static void main(String[] args) {
-        Player player = new Player("Player");
-        HexPlot hex = new HexPlot(0,0,0,Color.POND);
-        Set<HexPlot> neighborSet = player.findAvailableNeighbors(hex);
-        System.out.println(neighborSet);
-    }
 
     /****
      *Le joueur ajoute
@@ -192,10 +185,11 @@ public class Player {
      * ChoicePlot()
      */
     public void addAplotToGame(){
-        HexPlot[] allArrayPlots = listOfPlots.toArray(new HexPlot[listOfPlots.size()]);
         Random rand = new Random();
         int randNumber = rand.nextInt(listOfPlots.size());
-        ChoicePlot(allArrayPlots[randNumber]);
+        HexPlot hex = deckOfPlots.get(randNumber);
+        deckOfPlots.remove(randNumber);
+        ChoicePlot(hex);
     }
 
     /****
@@ -210,7 +204,10 @@ public class Player {
         HexPlot[] arrayPlots = neighborSet.toArray(new HexPlot[neighborSet.size()]);
         Random rand = new Random();
         int randNumber = rand.nextInt(neighborSet.size());
-        listOfPlots.add(arrayPlots[randNumber]);
+        hex.setQ(arrayPlots[randNumber].getQ());
+        hex.setR(arrayPlots[randNumber].getR());
+        hex.setS(arrayPlots[randNumber].getS());
+        listOfPlots.add(hex);
     }
 
     /****
@@ -319,23 +316,13 @@ public class Player {
     /** Verifier si une liste de 3 hexplot a la configuration DIRECTSAMEPLOTS  **/
     public Boolean isDirectSamePlots(List<HexPlot> listPlots){
         Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
-        Set<String> copykeyList=listPlotsData.keySet();
-        boolean result=true;
-
-        for (String stringKey: listPlotsData.keySet()) {
-            if(listPlotsData.get(stringKey).size()==1){
-                System.out.println(listPlotsData);
-                copykeyList.remove(stringKey);
-                for (String remainingKeyOfTheCopy: copykeyList) {
-                    result&= sSuite(listPlotsData.get(remainingKeyOfTheCopy).keySet(),3);
-                }
-                if(result){
-                    return result;
-                }
-            }
-
-        }
-        return false;
+        Set<Integer> answerset=new HashSet<>();
+        answerset.add(3);
+        System.out.println(checkSetSuitConf(listPlotsData));
+        System.out.println(allColorInHexPlotList(listPlots));
+        return answerset.equals(checkSetSuitConf(listPlotsData))
+                && listPlots.size()==3
+                && allColorInHexPlotList(listPlots).size()==1;
     }
     /**
      * Verifie si les plots de la liste
@@ -357,8 +344,8 @@ public class Player {
      * Uilisé dans la dectection
      * des Objectifs Plots
      * **/
-    public Set<PlotColor> allColorInHexPlotList(List<HexPlot> plotList){
-        Set<PlotColor> colorSet= new HashSet<>();
+    public Set<Color> allColorInHexPlotList(List<HexPlot> plotList){
+        Set<Color> colorSet= new HashSet<>();
         plotList.forEach( hexPlot -> {
             colorSet.add(hexPlot.getColor());
         });
@@ -407,7 +394,7 @@ public class Player {
      * ET DEUX PARCELLES YELLOW ADJACENT
      * **/
     public Boolean isQuadrilateralPlots_P_Y(List<HexPlot> listPlots){
-        Set<PlotColor> colorSet= new HashSet<>();
+        Set<Color> colorSet= new HashSet<>();
         colorSet.add(PINK);
         colorSet.add(YELLOW);
         return isQuadrilateralSamePlots(listPlots)
@@ -419,7 +406,7 @@ public class Player {
      * ET DEUX PARCELLES PINK ADJACENT
      * **/
     public Boolean isQuadrilateralPlots_G_P(List<HexPlot> listPlots){
-        Set<PlotColor> colorSet= new HashSet<>();
+        Set<Color> colorSet= new HashSet<>();
         colorSet.add(PINK);
         colorSet.add(GREEN);
         return isQuadrilateralSamePlots(listPlots)
@@ -431,7 +418,7 @@ public class Player {
      * ET DEUX PARCELLES YELLOW ADJACENT
      * **/
     public Boolean isQuadrilateralPlots_G_Y(List<HexPlot> listPlots){
-        Set<PlotColor> colorSet= new HashSet<>();
+        Set<Color> colorSet= new HashSet<>();
         colorSet.add(GREEN);
         colorSet.add(YELLOW);
         return isQuadrilateralSamePlots(listPlots)
@@ -439,10 +426,10 @@ public class Player {
                 && colorSet.equals(allColorInHexPlotList(listPlots));
     }
     /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
-    public Boolean findDirectSamePlots(){
+    public Boolean findDirectSamePlots(Color color){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isDirectSamePlots(hexPlotList))
+            if(isDirectSamePlots(hexPlotList)&& allColorInHexPlotList(hexPlotList).contains(color))
             {
                 System.out.println(name+" a detecté un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
                 return true;
@@ -451,7 +438,7 @@ public class Player {
         return false;
     }
     /** Trouver un Objectif INDIRECTSAMEPLOTS dans tout le jeu**/
-    public boolean findInDirectSamePlots(PlotColor color) {
+    public boolean findInDirectSamePlots(Color color) {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
             if(isIndirectSamePlots(hexPlotList) && allColorInHexPlotList(hexPlotList).contains(color))
@@ -530,7 +517,7 @@ public class Player {
         for (Objective obj:unMetObjectives) {
             if(obj instanceof PlotObjective){
                 if( ( ((PlotObjective) obj).getConfiguration()==
-                        DIRECTSAMEPLOTS && findDirectSamePlots()))
+                        DIRECTSAMEPLOTS && findDirectSamePlots(((PlotObjective) obj).getColor())))
                 {
                     validateUnMetObjectives(obj);
                     return true;

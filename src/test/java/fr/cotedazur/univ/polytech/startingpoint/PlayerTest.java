@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
+import static fr.cotedazur.univ.polytech.startingpoint.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -103,14 +103,13 @@ class PlayerTest {
     @Test
     void checkPondNeighborTest(){
         HexPlot pond = listOfPlots.iterator().next();
-        System.out.println(pond);
+
         assertTrue(pond.isPond());
         assertFalse(player1.checkPondNeighbor(pond));
-        player1.addAplotToGame();
-        assertTrue(player1.checkPondNeighbor(listOfPlots.iterator().next()));
-        assertTrue(player1.checkPondNeighbor(new HexPlot(-1, 1, 0, Color.GREEN)));
-        assertTrue(player1.checkPondNeighbor(new HexPlot(1, -1, 0, Color.PINK)));
-        assertFalse(player1.checkPondNeighbor(new HexPlot(-2, 2, -0, Color.YELLOW)));
+
+        assertTrue(player1.checkPondNeighbor(new HexPlot(-1, 1, 0, GREEN)));
+        assertTrue(player1.checkPondNeighbor(new HexPlot(1, -1, 0, PINK)));
+        assertFalse(player1.checkPondNeighbor(new HexPlot(-2, 2, -0, YELLOW)));
     }
 
     @Test
@@ -130,7 +129,6 @@ class PlayerTest {
     @Test
     void findAvailableNeighborsTest(){
         HexPlot hexPlot = listOfPlots.iterator().next();
-        System.out.println(hexPlot.plotNeighbor());
 
         assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 6);
         player1.addAplotToGame();
@@ -234,18 +232,18 @@ class PlayerTest {
     @Test
     void isDirectSamePlotsTest() {
         List<HexPlot> list = new ArrayList<>();
-        list.add(new HexPlot(-3,0,3, Color.GREEN));
-        list.add(new HexPlot(-2,0,2, Color.YELLOW));
-        list.add(new HexPlot(-1,0,1, Color.PINK));
+        listOfPlots.add(new HexPlot(-3,3,0, GREEN));
+        listOfPlots.add(new HexPlot(-2,2,0,GREEN));
+        listOfPlots.add(new HexPlot(-1,1,0,GREEN));
         assertTrue(player1.isDirectSamePlots(list));
     }
 
     @Test
     void findDirectSamePlotsTest() {
-        listOfPlots.add(new HexPlot(-3,0,3, Color.GREEN));
-        listOfPlots.add(new HexPlot(-2,0,2, Color.YELLOW));
-        listOfPlots.add(new HexPlot(-1,0,1, Color.PINK));
-        assertTrue(player1.findDirectSamePlots());
+        listOfPlots.add(new HexPlot(-3,3,0, GREEN));
+        listOfPlots.add(new HexPlot(-2,2,0,GREEN));
+        listOfPlots.add(new HexPlot(-1,1,0,GREEN));
+        assertTrue(player1.findDirectSamePlots(GREEN));
     }
     /*@Test
     void getPlayerIdTest() {
@@ -254,10 +252,10 @@ class PlayerTest {
     }*/
     @Test
     void isIndirectDirectSamePlots() {
-        listOfPlots.add(new HexPlot(-3,0,3));
-        listOfPlots.add(new HexPlot(-2,0,2));
-        listOfPlots.add(new HexPlot(-1,0,1));
-        assertTrue(player1.findDirectSamePlots());
+        listOfPlots.add(new HexPlot(-3,2,1, GREEN));
+        listOfPlots.add(new HexPlot(-2,2,0,GREEN));
+        listOfPlots.add(new HexPlot(-1,1,0,GREEN));
+        assertTrue(player1.findInDirectSamePlots(GREEN));
     }
     @Test
     void checkSetSuitConfDirect() {
@@ -337,7 +335,7 @@ class PlayerTest {
     @Test
     void allColorInHexPlotList() {
         List<HexPlot> list = new ArrayList<>();
-        Set<PlotColor> colorSet = new HashSet<>();
+        Set<Color> colorSet = new HashSet<>();
         colorSet.add(GREEN);
         colorSet.add(PINK);
         list.add(new HexPlot(-3,2,1,GREEN));

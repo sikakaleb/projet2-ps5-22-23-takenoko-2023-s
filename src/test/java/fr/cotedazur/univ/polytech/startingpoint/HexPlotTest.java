@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.HexPlot.DIRECTION;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.PINK;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.YELLOW;
+import static fr.cotedazur.univ.polytech.startingpoint.Color.PINK;
+import static fr.cotedazur.univ.polytech.startingpoint.Color.YELLOW;
 import static fr.cotedazur.univ.polytech.startingpoint.VectorDirection.*;
 import static org.junit.jupiter.api.Assertions.*;
 

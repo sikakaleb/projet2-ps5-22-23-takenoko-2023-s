@@ -3,8 +3,6 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.GREEN;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
 import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.INDIRECTSAMEPLOTS;
 
 public class Main {
@@ -17,7 +15,7 @@ public class Main {
     public static void  jeReflechis() {
         try {
             for (int i = 0; i < 6; i++) {
-                Thread.sleep(1000);
+                Thread.sleep(100);
                 if(i%2==0)
                 System.out.print("\uD83E\uDD78 ");
             }
