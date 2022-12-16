@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.List;
-import java.util.Set;
 
 import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
 
@@ -47,7 +46,7 @@ public class Main {
                 System.out.println("C'est le tour de :"+p.getName());
                 jeReflechis();
                 if(p.play()){
-                    game.diplay();
+                    game.display();
                     System.exit(0);
                 }else{
                     /*

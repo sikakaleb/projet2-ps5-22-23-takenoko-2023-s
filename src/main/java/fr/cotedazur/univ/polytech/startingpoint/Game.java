@@ -55,7 +55,7 @@ public class Game {
 
     /* diplay affiche les joueurs de la classe
      */
-    public void diplay(){
+    public void display(){
         for (Player p:playerList) {
          System.out.println(p);
         }

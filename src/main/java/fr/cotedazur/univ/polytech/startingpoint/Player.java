@@ -156,11 +156,12 @@ public class Player {
      */
     public Set<HexPlot> findAvailableNeighbors(@NotNull HexPlot hex){
         Set<HexPlot> neighborSet = hex.plotNeighbor();
-
+        System.out.println("Voisins de "+hex+" : "+neighborSet);
+        System.out.println("Parcelles déjà posées : "+listOfPlots);
         // Retirer les emplacements indisponibles
         // parcelles déjà posées
         neighborSet.removeAll(listOfPlots);
-
+        System.out.println("Voisins de "+hex+" après suppression des parcelles déjà posées : "+neighborSet);
         // parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles
         Set<HexPlot> invalidNeighbors = new HashSet<>();
         neighborSet.forEach( hexPlot -> {
@@ -168,8 +169,15 @@ public class Player {
                 invalidNeighbors.add(hexPlot);
         });
         neighborSet.removeAll(invalidNeighbors);
-
+        System.out.println("Voisins de "+hex+" après suppression des parcelles non valides : "+neighborSet);
         return neighborSet;
+    }
+
+    public static void main(String[] args) {
+        Player player = new Player("Player");
+        HexPlot hex = new HexPlot(0,0,0,Color.POND);
+        Set<HexPlot> neighborSet = player.findAvailableNeighbors(hex);
+        System.out.println(neighborSet);
     }
 
     /****

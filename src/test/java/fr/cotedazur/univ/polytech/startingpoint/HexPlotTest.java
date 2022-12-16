@@ -17,17 +17,17 @@ class HexPlotTest {
     public void setUp() {
         initialHexPlot = new HexPlot();
         HexPlotNeighborList = new HashSet<>();
-        HexPlotNeighborList.add(new HexPlot(0,-1,1));
-        HexPlotNeighborList.add(new HexPlot(0,1,-1));
-        HexPlotNeighborList.add(new HexPlot(+1, -1, 0));
-        HexPlotNeighborList.add(new HexPlot(-1, +1, 0));
-        HexPlotNeighborList.add(new HexPlot(-1, 0, +1));
-        HexPlotNeighborList.add(new HexPlot(+1, 0, -1));
+        HexPlotNeighborList.add(new HexPlot(0,-1,1, Color.BLANK));
+        HexPlotNeighborList.add(new HexPlot(0,1,-1, Color.BLANK));
+        HexPlotNeighborList.add(new HexPlot(+1, -1, 0, Color.BLANK));
+        HexPlotNeighborList.add(new HexPlot(-1, +1, 0, Color.BLANK));
+        HexPlotNeighborList.add(new HexPlot(-1, 0, +1, Color.BLANK));
+        HexPlotNeighborList.add(new HexPlot(+1, 0, -1, Color.BLANK));
 
     }
 
     @Test
-    void isPond(){
+    void isPondTest(){
         assertTrue(initialHexPlot.isPond());
         HexPlotNeighborList.forEach( hexPlot -> {
             assertFalse(hexPlot.isPond());
@@ -35,18 +35,17 @@ class HexPlotTest {
     }
 
     @Test
-    void plotAdd() {
-        HexPlot hex1= initialHexPlot.plotAdd(Q_UP);
-        assertEquals(hex1,new HexPlot(0,-1,1));
+    void plotAddTest() {
+        HexPlot hex1= initialHexPlot.plotAdd(Q_UP, Color.GREEN );
+        assertEquals(hex1,new HexPlot(0,-1,1, Color.GREEN));
     }
 
     @Test
-    void plotNeighbor() {
+    void plotNeighborTest() {
         Set<HexPlot> temporalSet = new HashSet<>();
         for (VectorDirection vec:DIRECTION) {
-            temporalSet.add(initialHexPlot.plotAdd(vec));
+            temporalSet.add(initialHexPlot.plotAdd(vec, Color.BLANK));
         }
         assertTrue(temporalSet.equals(HexPlotNeighborList));
-
     }
 }
