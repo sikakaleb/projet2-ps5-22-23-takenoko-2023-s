@@ -19,7 +19,6 @@ public class Game {
         playerList = new ArrayList<>();
         this.listOfPlots=new HashSet<>();
         this.listOfPlots.add(new HexPlot());
-        listOfObjectives=null;
         initPlayer(p1,p2);
     }
 
