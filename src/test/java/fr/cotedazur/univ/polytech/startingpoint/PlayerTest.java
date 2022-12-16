@@ -454,4 +454,5 @@ class PlayerTest {
         listOfPlots.add(new HexPlot(-3,1,2,GREEN));
         assertTrue(player1.findQuadrilateralPlots_G_Y());
     }
+
 }

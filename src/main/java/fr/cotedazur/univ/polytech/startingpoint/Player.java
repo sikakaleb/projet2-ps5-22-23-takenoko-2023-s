@@ -162,8 +162,12 @@ public class Player {
      */
 
     public  List<List<HexPlot>> listOfCombinations(int n){
-        Set<HexPlot> tempList= listOfPlots;
-        tempList.remove(new HexPlot());
+        Set<HexPlot> tempList = new HashSet<>();
+        listOfPlots.forEach(hexPlot -> {
+            if(!hexPlot.equals(new HexPlot())){
+                tempList.add(hexPlot);
+            }
+        });
         return Generator.combination(tempList)
                 .simple(n)
                 .stream()
@@ -329,7 +333,6 @@ public class Player {
         return answerset.equals(checkSetSuitConf(listPlotsData))
                 && listPlots.size()==3
                 && allColorInHexPlotList(listPlots).size()==1;
-
     }
 
     /** Verifier si une liste de 4 hexplot a la configuration QUADRILATERALSAMEPLOTS  **/
