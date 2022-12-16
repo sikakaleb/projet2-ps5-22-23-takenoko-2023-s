@@ -21,6 +21,7 @@ public class Game {
         this.listOfPlots.add(new HexPlot());
         listOfObjectives=null;
         initPlayer(p1,p2);
+
     }
 
     /*InitPlayer ajoute les joueurs au jeu
