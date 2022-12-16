@@ -131,7 +131,10 @@ class PlayerTest {
         HexPlot hexPlot = listOfPlots.iterator().next();
 
         assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 6);
+        System.out.println(hexPlot);
         player1.addAplotToGame();
+        System.out.println(player1.findAvailableNeighbors(hexPlot));
+        System.out.println(listOfPlots);
         assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 5);
 
         listOfPlots.addAll(hexPlot.plotNeighbor());
@@ -232,9 +235,9 @@ class PlayerTest {
     @Test
     void isDirectSamePlotsTest() {
         List<HexPlot> list = new ArrayList<>();
-        listOfPlots.add(new HexPlot(-3,3,0, GREEN));
-        listOfPlots.add(new HexPlot(-2,2,0,GREEN));
-        listOfPlots.add(new HexPlot(-1,1,0,GREEN));
+        list.add(new HexPlot(-3,3,0, GREEN));
+        list.add(new HexPlot(-2,2,0,GREEN));
+        list.add(new HexPlot(-1,1,0,GREEN));
         assertTrue(player1.isDirectSamePlots(list));
     }
 
@@ -370,6 +373,15 @@ class PlayerTest {
         assertTrue(player1.isQuadrilateralPlots_P_Y(list));
     }
     @Test
+    void isQuadrilateralPlots() {
+        List<HexPlot> list = new ArrayList<>();
+        list.add(new HexPlot(-3,2,1,YELLOW));
+        list.add(new HexPlot(-2,2,0,PINK));
+        list.add(new HexPlot(-2,1,1,PINK));
+        list.add(new HexPlot(-3,1,2,YELLOW));
+        assertTrue(player1.isQuadrilateralPlots(list));
+    }
+    @Test
     void isQuadrilateralPlots_P_YFalse1() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
@@ -458,11 +470,11 @@ class PlayerTest {
     @Test
     void findQuadrilateralSamePlots() {
         listOfPlots.add(new HexPlot(-3,2,1,PINK));
-        listOfPlots.add(new HexPlot(-2,2,15,PINK));
+        listOfPlots.add(new HexPlot(-2,0,2,PINK));
         listOfPlots.add(new HexPlot(-2,1,1,PINK));
         listOfPlots.add(new HexPlot(-1,0,1,GREEN));
         listOfPlots.add(new HexPlot(-3,1,2,PINK));
-        assertTrue(player1.findQuadrilateralSamePlots());
+        assertTrue(player1.findQuadrilateralSamePlots(PINK));
     }
 
     @Test

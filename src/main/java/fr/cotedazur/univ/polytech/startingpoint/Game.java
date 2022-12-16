@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.*;
+
 public class Game {
     /**Attribut de la classe Game**/
     public static List<HexPlot> deckOfPlots = new ArrayList<>();
@@ -12,20 +15,22 @@ public class Game {
     public static Set<HexPlot> listOfPlots;
     //public  List<Objective> listOfObjectives;
 
-    public  static Objective listOfObjectives;
+    public  static List<Objective> listOfObjectives;
 
     public List<Player> playerList;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
         playerList = new ArrayList<>();
+        listOfObjectives=new ArrayList<>();
         for(int i=0;i<9;i++){
-            deckOfPlots.add(new HexPlot(Color.GREEN));
-            deckOfPlots.add(new HexPlot(Color.YELLOW));
-            deckOfPlots.add(new HexPlot(Color.PINK));
+            deckOfPlots.add(new HexPlot(GREEN));
+            deckOfPlots.add(new HexPlot(YELLOW));
+            deckOfPlots.add(new HexPlot(PINK));
         }
         this.listOfPlots=new HashSet<>();
         this.listOfPlots.add(new HexPlot());
+        iniListOfObjective();
         initPlayer(p1,p2);
     }
 
@@ -37,6 +42,24 @@ public class Game {
         playerList.add(p2);
     }
 
+    public void iniListOfObjective(){
+        listOfObjectives.add(new PlotObjective(2,DIRECTSAMEPLOTS,GREEN));
+        listOfObjectives.add(new PlotObjective(3,DIRECTSAMEPLOTS,YELLOW));
+        listOfObjectives.add(new PlotObjective(4,DIRECTSAMEPLOTS,PINK));
+        listOfObjectives.add(new PlotObjective(2,INDIRECTSAMEPLOTS,GREEN));
+        listOfObjectives.add(new PlotObjective(3,INDIRECTSAMEPLOTS,YELLOW));
+        listOfObjectives.add(new PlotObjective(4,INDIRECTSAMEPLOTS,PINK));
+        listOfObjectives.add(new PlotObjective(2,TRIANGULARSAMEPLOTS,GREEN));
+        listOfObjectives.add(new PlotObjective(3,TRIANGULARSAMEPLOTS,YELLOW));
+        listOfObjectives.add(new PlotObjective(4,TRIANGULARSAMEPLOTS,PINK));
+        listOfObjectives.add(new PlotObjective(3,QUADRILATERALSAMEPLOTS,GREEN));
+        listOfObjectives.add(new PlotObjective(4,QUADRILATERALSAMEPLOTS,YELLOW));
+        listOfObjectives.add(new PlotObjective(5,QUADRILATERALSAMEPLOTS,PINK));
+        listOfObjectives.add(new PlotObjective(3,QUADRILATERALSAMEPLOTS_G_Y));
+        listOfObjectives.add(new PlotObjective(4,QUADRILATERALSAMEPLOTS_G_P));
+        listOfObjectives.add(new PlotObjective(5,QUADRILATERALSAMEPLOTS_P_Y));
+    }
+
     /**Acesseur et mutateur de la classe Game**/
 
     public static Set<HexPlot> getListOfPlotsOnBoard() {
@@ -45,10 +68,10 @@ public class Game {
     /* A ce niveau de jeu notre jeu comprend juste un seul objectif
      * il evoluera en liste au prochain milestone
      */
-    public Objective getObjective() {
+    public List<Objective> getObjective() {
         return listOfObjectives;
     }
-    public void setObjective(Objective objective) {
+    public void setObjective(List<Objective> objective) {
         this.listOfObjectives = objective;
     }
 

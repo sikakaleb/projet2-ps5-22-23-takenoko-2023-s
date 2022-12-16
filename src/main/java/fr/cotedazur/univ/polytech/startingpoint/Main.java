@@ -38,7 +38,7 @@ public class Main {
         Player p1= new Player("Ted");
         Player p2 = new Player("Willfried");
         Game game = new Game(p1,p2);
-        game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
+        //game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
         List<Player> playerList = game.getPlayerList();
         System.out.println(listOfPlots);
 
@@ -47,9 +47,7 @@ public class Main {
             for(Player p : playerList ){
                 System.out.println("C'est le tour de :"+p.getName());
                 jeReflechis();
-                System.out.println(listOfPlots);
                 if(p.play()){
-                    System.out.println(listOfPlots);
                     game.display();
                     System.exit(0);
                 }else{
