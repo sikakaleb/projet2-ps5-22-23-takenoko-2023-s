@@ -1,11 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.List;
-import java.util.Set;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.GREEN;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
 import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.INDIRECTSAMEPLOTS;
 
 public class Main {
@@ -18,7 +15,7 @@ public class Main {
     public static void  jeReflechis() {
         try {
             for (int i = 0; i < 6; i++) {
-                Thread.sleep(1000);
+                Thread.sleep(100);
                 if(i%2==0)
                 System.out.print("\uD83E\uDD78 ");
             }
@@ -41,7 +38,7 @@ public class Main {
         Player p1= new Player("Ted");
         Player p2 = new Player("Willfried");
         Game game = new Game(p1,p2);
-        game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
+        //game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
         List<Player> playerList = game.getPlayerList();
         System.out.println(listOfPlots);
 
@@ -50,10 +47,8 @@ public class Main {
             for(Player p : playerList ){
                 System.out.println("C'est le tour de :"+p.getName());
                 jeReflechis();
-                System.out.println(listOfPlots);
                 if(p.play()){
-                    System.out.println(listOfPlots);
-                    game.diplay();
+                    game.display();
                     System.exit(0);
                 }else{
                     /*

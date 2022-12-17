@@ -1,11 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-public enum PlotColor {
+public enum Color {
     PINK,
     GREEN,
     YELLOW,
-    ETANG,
+    POND,
     /** NONE Pour eviter que les tests ne crash pas
      * À revoir par la suite**/
-    NONE;
+    BLANK;
 }

@@ -2,35 +2,37 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
+import static fr.cotedazur.univ.polytech.startingpoint.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
- avec des coordonnées cartesienne 3D et sans Couleur**/
+ avec des coordonnées cartesienne 3D et avec Couleur**/
 public class HexPlot {
     /** Atrribut de la classe**/
     public static final VectorDirection[] DIRECTION = new VectorDirection[]{Q_UP, Q_DOWN, S_UP, S_DOWN, R_LEFT, R_RIGHT};
     private int q;
-    private int r;
     private int s;
-
-    private PlotColor color;
+    private int r;
+    private Color color;
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
         this.q = q;
         this.s = s;
         this.r = r;
-        this.color= NONE;
     }
     /**
      * Ajout d'un constructeur avec couleur
      */
-    public HexPlot(int q, int s, int r,PlotColor color) {
+    public HexPlot(int q, int s, int r, Color color) {
         this.q = q;
         this.s = s;
         this.r = r;
         this.color= color;
+    }
+
+    public HexPlot(Color color) {
+        this.color = color;
     }
 
     /**Constructeur par defaut
@@ -40,7 +42,6 @@ public class HexPlot {
      */
     public  HexPlot(){
         this(0,0,0);
-        this.color=ETANG;
     }
 
     /** Les accesseurs de la classe **/
@@ -57,7 +58,23 @@ public class HexPlot {
         return s;
     }
 
-    public PlotColor getColor() {
+    public void setQ(int q) {
+        this.q = q;
+    }
+
+    public void setR(int r) {
+        this.r = r;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
         return color;
     }
 
@@ -67,9 +84,14 @@ public class HexPlot {
      *PlotAdd ajout une parcelle Hexagonal
      * Au jeu Suivant une direction
      */
+    public HexPlot plotAdd(VectorDirection vec, Color color){
+        return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR(), color);
+    }
+
     public HexPlot plotAdd(VectorDirection vec){
         return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR());
     }
+
     /**
      * PlotNeighbor renvoie Set de Plots
      *Voisins a lui
@@ -127,8 +149,8 @@ public class HexPlot {
     public String toString() {
         return "HexPlot{" +
                 "q=" + q +
-                ", r=" + r +
                 ", s=" + s +
+                ", r=" + r +
                 ", color=" + color +
                 '}';
     }

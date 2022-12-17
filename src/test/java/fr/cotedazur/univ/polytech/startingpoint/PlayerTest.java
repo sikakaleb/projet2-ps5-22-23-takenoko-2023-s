@@ -1,13 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import com.sun.source.tree.AssertTree;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
+import static fr.cotedazur.univ.polytech.startingpoint.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,51 +42,51 @@ class PlayerTest {
 
 
     @Test
-    void getHeight() {
+    void getHeightTest() {
         System.out.println(player1.getPlayerId()+"*************");
         assertEquals(player1.getHeight(),1);
     }
 
     @Test
-    void getName() {
+    void getNameTest() {
         assertEquals(player1.getName(),"Ted");
     }
 
     @Test
-    void getObjectiveAchieved() {
+    void getObjectiveAchievedTest() {
         List<Objective> objList =new ArrayList<>();
         assertTrue(player1.getObjectiveAchieved().equals(objList));
     }
 
     @Test
-    void addObjectiveAchieved() {
+    void addObjectiveAchievedTest() {
         player1.addObjectiveAchieved(triangularPlotObj);
         int lastIdx = player1.getObjectiveAchieved().size() - 1;
         assertEquals(player1.objectiveAchieved.get(lastIdx),triangularPlotObj);
     }
 
     @Test
-    void getUnMetObjectives() {
+    void getUnMetObjectivesTest() {
         System.out.println(player1.getUnMetObjectives());
         System.out.println(singlelist);
         assertTrue(player1.getUnMetObjectives().equals(singlelist));
     }
 
     @Test
-    void addNewObjective() {
+    void addNewObjectiveTest() {
         player1.addNewObjective(quadriPlotObj);
         int lastIdx = player1.getUnMetObjectives().size() - 1;
         assertEquals(player1.getUnMetObjectives().get(lastIdx),quadriPlotObj);
     }
 
     @Test
-    void withdrawUnMetObjective() {
+    void withdrawUnMetObjectiveTest() {
         player1.withdrawUnMetObjective(quadriPlotObj);
         assertFalse(player1.withdrawUnMetObjective(quadriPlotObj));
     }
 
     @Test
-    void validateUnMetObjectives() {
+    void validateUnMetObjectivesTest() {
         List<Objective> objList= new ArrayList<>();
         player1.addNewObjective(quadriPlotObj);
         player1.validateUnMetObjectives(quadriPlotObj);
@@ -96,44 +95,46 @@ class PlayerTest {
     }
 
     @Test
-    void getCumulOfpoint() {
+    void getCumulOfpointTest() {
         player1.validateUnMetObjectives(quadriPlotObj);
         assertEquals(player1.getCumulOfpoint(),4);
     }
 
     @Test
-    void checkPondNeighbor(){
+    void checkPondNeighborTest(){
         HexPlot pond = listOfPlots.iterator().next();
+
         assertTrue(pond.isPond());
         assertFalse(player1.checkPondNeighbor(pond));
-        player1.addAplotToGame();
-        assertTrue(player1.checkPondNeighbor(listOfPlots.iterator().next()));
-        assertTrue(player1.checkPondNeighbor(new HexPlot(-1, 1, 0)));
-        assertTrue(player1.checkPondNeighbor(new HexPlot(1, -1, 0)));
-        assertFalse(player1.checkPondNeighbor(new HexPlot(-2, 2, -0)));
+
+        assertTrue(player1.checkPondNeighbor(new HexPlot(-1, 1, 0, GREEN)));
+        assertTrue(player1.checkPondNeighbor(new HexPlot(1, -1, 0, PINK)));
+        assertFalse(player1.checkPondNeighbor(new HexPlot(-2, 2, -0, YELLOW)));
     }
 
     @Test
-    void checkTwoPlotNeighbors(){
+    void checkTwoPlotNeighborsTest(){
         HexPlot nextHexPlot = listOfPlots.iterator().next();
         assertFalse(player1.checkTwoPlotNeighbors(nextHexPlot));
 
-        assertFalse(player1.checkTwoPlotNeighbors(new HexPlot(-1, 1, 0)));
-        listOfPlots.add(new HexPlot(-1, 1, 0));
+        assertFalse(player1.checkTwoPlotNeighbors(new HexPlot(-1, 1, 0, Color.GREEN)));
+        listOfPlots.add(new HexPlot(-1, 1, 0, Color.GREEN));
 
-        assertTrue(player1.checkTwoPlotNeighbors(new HexPlot(0,1,-1)));
-        assertTrue(player1.checkTwoPlotNeighbors(new HexPlot(-1,0,1)));
+        assertTrue(player1.checkTwoPlotNeighbors(new HexPlot(0,1,-1, Color.PINK)));
+        assertTrue(player1.checkTwoPlotNeighbors(new HexPlot(-1,0,1, Color.PINK)));
 
-        assertFalse(player1.checkTwoPlotNeighbors(new HexPlot(-2, 2, -0)));
+        assertFalse(player1.checkTwoPlotNeighbors(new HexPlot(-2, 2, -0, Color.YELLOW)));
     }
 
     @Test
-    void findAvailableNeighbors(){
+    void findAvailableNeighborsTest(){
         HexPlot hexPlot = listOfPlots.iterator().next();
-        System.out.println(hexPlot.plotNeighbor());
 
         assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 6);
+        System.out.println(hexPlot);
         player1.addAplotToGame();
+        System.out.println(player1.findAvailableNeighbors(hexPlot));
+        System.out.println(listOfPlots);
         assertEquals(player1.findAvailableNeighbors(hexPlot).size(), 5);
 
         listOfPlots.addAll(hexPlot.plotNeighbor());
@@ -141,7 +142,7 @@ class PlayerTest {
     }
 
     @Test
-    void addAplotToGame() {
+    void addAplotToGameTest() {
         player1.addAplotToGame();
         player2.addAplotToGame();
         player2.addAplotToGame();
@@ -150,7 +151,7 @@ class PlayerTest {
     }
 
     @Test
-    void choicePlot() {
+    void choicePlotTest() {
         player2.ChoicePlot(listOfPlots.iterator().next());
         System.out.println(listOfPlots);
         assertEquals(listOfPlots.size(),2);
@@ -158,7 +159,7 @@ class PlayerTest {
 
     /*A revoir */
     @Test
-    void listOfCombinations() {
+    void listOfCombinationsTest() {
         player1.addAplotToGame();
         player2.addAplotToGame();
         player1.addAplotToGame();
@@ -168,7 +169,7 @@ class PlayerTest {
         assertTrue(list.contains(temp)&&list.size()==1);
     }
     @Test
-    void extractPlotsData() {
+    void extractPlotsDataTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -182,7 +183,7 @@ class PlayerTest {
     }
 
     @Test
-    void countR() {
+    void countRTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -196,7 +197,7 @@ class PlayerTest {
     }
 
     @Test
-    void countS() {
+    void countSTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -209,7 +210,7 @@ class PlayerTest {
     }
 
     @Test
-    void countQ() {
+    void countQTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -222,43 +223,42 @@ class PlayerTest {
     }
 
     @Test
-    void sSuite() {
+    void sSuiteTest() {
         Set<Integer> intSet = new HashSet<>();
         intSet.add(0);
         intSet.add(-1);
         intSet.add(1);
         intSet.add(-2);
         assertTrue(player1.sSuite(intSet,4));
-
     }
 
     @Test
-    void isDirectSamePlots() {
+    void isDirectSamePlotsTest() {
         List<HexPlot> list = new ArrayList<>();
-        list.add(new HexPlot(-3,0,3));
-        list.add(new HexPlot(-2,0,2));
-        list.add(new HexPlot(-1,0,1));
+        list.add(new HexPlot(-3,3,0, GREEN));
+        list.add(new HexPlot(-2,2,0,GREEN));
+        list.add(new HexPlot(-1,1,0,GREEN));
         assertTrue(player1.isDirectSamePlots(list));
     }
 
     @Test
-    void findDirectSamePlots() {
-        listOfPlots.add(new HexPlot(-3,0,3));
-        listOfPlots.add(new HexPlot(-2,0,2));
-        listOfPlots.add(new HexPlot(-1,0,1));
-        assertTrue(player1.findDirectSamePlots());
+    void findDirectSamePlotsTest() {
+        listOfPlots.add(new HexPlot(-3,3,0, GREEN));
+        listOfPlots.add(new HexPlot(-2,2,0,GREEN));
+        listOfPlots.add(new HexPlot(-1,1,0,GREEN));
+        assertTrue(player1.findDirectSamePlots(GREEN));
     }
     /*@Test
-    void getPlayerId() {
+    void getPlayerIdTest() {
         System.out.println(player1.getPlayerId()+"*************");
         assertEquals(player1.getPlayerId(),19);
     }*/
     @Test
     void isIndirectDirectSamePlots() {
-        listOfPlots.add(new HexPlot(-3,0,3));
-        listOfPlots.add(new HexPlot(-2,0,2));
-        listOfPlots.add(new HexPlot(-1,0,1));
-        assertTrue(player1.findDirectSamePlots());
+        listOfPlots.add(new HexPlot(-3,2,1, GREEN));
+        listOfPlots.add(new HexPlot(-2,2,0,GREEN));
+        listOfPlots.add(new HexPlot(-1,1,0,GREEN));
+        assertTrue(player1.findInDirectSamePlots(GREEN));
     }
     @Test
     void checkSetSuitConfDirect() {
@@ -338,7 +338,7 @@ class PlayerTest {
     @Test
     void allColorInHexPlotList() {
         List<HexPlot> list = new ArrayList<>();
-        Set<PlotColor> colorSet = new HashSet<>();
+        Set<Color> colorSet = new HashSet<>();
         colorSet.add(GREEN);
         colorSet.add(PINK);
         list.add(new HexPlot(-3,2,1,GREEN));
@@ -371,6 +371,15 @@ class PlayerTest {
         list.add(new HexPlot(-2,1,1,PINK));
         list.add(new HexPlot(-3,1,2,YELLOW));
         assertTrue(player1.isQuadrilateralPlots_P_Y(list));
+    }
+    @Test
+    void isQuadrilateralPlots() {
+        List<HexPlot> list = new ArrayList<>();
+        list.add(new HexPlot(-3,2,1,YELLOW));
+        list.add(new HexPlot(-2,2,0,PINK));
+        list.add(new HexPlot(-2,1,1,PINK));
+        list.add(new HexPlot(-3,1,2,YELLOW));
+        assertTrue(player1.isQuadrilateralPlots(list));
     }
     @Test
     void isQuadrilateralPlots_P_YFalse1() {
@@ -461,11 +470,11 @@ class PlayerTest {
     @Test
     void findQuadrilateralSamePlots() {
         listOfPlots.add(new HexPlot(-3,2,1,PINK));
-        listOfPlots.add(new HexPlot(-2,2,15,PINK));
+        listOfPlots.add(new HexPlot(-2,0,2,PINK));
         listOfPlots.add(new HexPlot(-2,1,1,PINK));
         listOfPlots.add(new HexPlot(-1,0,1,GREEN));
         listOfPlots.add(new HexPlot(-3,1,2,PINK));
-        assertTrue(player1.findQuadrilateralSamePlots());
+        assertTrue(player1.findQuadrilateralSamePlots(PINK));
     }
 
     @Test
