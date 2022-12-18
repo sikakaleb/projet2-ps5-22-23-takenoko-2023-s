@@ -11,13 +11,9 @@ import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguratio
 public class Game {
     /**Attribut de la classe Game**/
     public static List<HexPlot> deckOfPlots = new ArrayList<>();
-
     public static Set<HexPlot> listOfPlots;
     public static BambooStock bambooStock;
-    //public  List<Objective> listOfObjectives;
-
     public  static List<Objective> listOfObjectives;
-
     public List<Player> playerList;
 
     /**le ou Les constructeurs de la classe**/
