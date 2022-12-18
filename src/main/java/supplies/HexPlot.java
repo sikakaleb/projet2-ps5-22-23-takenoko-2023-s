@@ -1,9 +1,12 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package supplies;
+
+import tools.Color;
+import tools.VectorDirection;
+import tools.Position;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Color.*;
-import static fr.cotedazur.univ.polytech.startingpoint.VectorDirection.*;
+import static tools.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
  avec des coordonnées cartesienne 3D et avec Couleur**/
@@ -14,6 +17,7 @@ public class HexPlot {
     private int s;
     private int r;
     private Color color;
+    private ArrayList<Bamboo> bamboos;
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
@@ -29,6 +33,7 @@ public class HexPlot {
         this.s = s;
         this.r = r;
         this.color= color;
+        this.bamboos = new ArrayList<>();
     }
 
     public HexPlot(Color color) {
@@ -40,7 +45,7 @@ public class HexPlot {
      * coordonnées de la
      * parcelles etang
      */
-    public  HexPlot(){
+    public HexPlot(){
         this(0,0,0);
     }
 
@@ -78,6 +83,8 @@ public class HexPlot {
         return color;
     }
 
+    public ArrayList<Bamboo> getBamboos() { return bamboos; }
+
     /** Les methodes particulieres de la classe **/
 
     /*
@@ -105,7 +112,7 @@ public class HexPlot {
         return neighborHexPlotList;
     }
     /****
-            * Verifie si 1 plot est adjacent a avec une autre de mm
+    * Verifie si 1 plot est adjacent a avec une autre de mm
      * couleur dans une liste de plots
      */
     public Boolean isAdjacentWithAnotherOnSameColor(List<HexPlot> list){
@@ -154,4 +161,17 @@ public class HexPlot {
                 ", color=" + color +
                 '}';
     }
+
+    /**
+     * Add a bamboo to plot
+     * @param bamboo {Bamboo}
+     * @return {boolean}
+     */
+
+    public boolean addBamboo(Bamboo bamboo){
+        if(this.isPond()) return false;
+        else if(this.color==bamboo.getColor()) return bamboos.add(bamboo);
+        return false;
+    }
+
 }

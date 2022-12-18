@@ -1,6 +1,9 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package objectives;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Color.BLANK;
+import tools.Color;
+import tools.PlotObjectiveConfiguration;
+
+import static tools.Color.BLANK;
 
 /**
  * Cette classe est une specification

@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package tools;
 
 /**Enumeration de type de configuration parcelle
  * Que nous pouvons aobtenir**/

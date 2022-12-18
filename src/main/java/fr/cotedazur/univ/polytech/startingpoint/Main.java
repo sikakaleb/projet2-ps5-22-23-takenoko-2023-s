@@ -2,8 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.List;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.INDIRECTSAMEPLOTS;
+import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
 
 public class Main {
 
@@ -40,14 +39,14 @@ public class Main {
         Game game = new Game(p1,p2);
         //game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
         List<Player> playerList = game.getPlayerList();
-        System.out.println(listOfPlots);
+        System.out.println(board);
 
         System.out.println("---------------BEGIN----------------");
         while (loop){
             for(Player p : playerList ){
                 System.out.println("C'est le tour de :"+p.getName());
                 jeReflechis();
-                if(p.play()){
+                if(game.play(p)){
                     game.display();
                     System.exit(0);
                 }else{
