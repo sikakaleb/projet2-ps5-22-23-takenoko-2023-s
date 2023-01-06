@@ -16,7 +16,7 @@ public class HexPlot {
     private int s;
     private int r;
     private Color color;
-    private ArrayList<Bamboo> bamboos;
+    private ArrayList<Bamboo> bamboos = new ArrayList<>();
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
