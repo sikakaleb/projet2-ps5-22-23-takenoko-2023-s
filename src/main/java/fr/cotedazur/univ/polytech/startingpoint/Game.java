@@ -49,7 +49,7 @@ public class Game {
     }
 
     public List<HexPlot> getDeckOfPlots() {
-        return board;
+        return deckOfPlots;
     }
     /*Methodes particulieres de la classe*/
 
@@ -65,14 +65,19 @@ public class Game {
 
     public Boolean play(Player player){
         Random rand = new Random();
-        if(listOfObjectives.size()==0){
+        if(listOfObjectives.size()>0){
+            int randNumber = rand.nextInt(listOfObjectives.size());
+            player.addNewObjective((Objective) listOfObjectives.get(randNumber));
+            listOfObjectives.remove(randNumber);
+        }
+        else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
-        int randNumber = rand.nextInt(listOfObjectives.size());
-        player.addNewObjective((Objective) listOfObjectives.get(randNumber));
-        listOfObjectives.remove(randNumber);
-        board.ChoicePlot(deckOfPlots.pickPlot());
+        if (deckOfPlots.size()!=0) {
+            board.ChoicePlot(deckOfPlots.pickPlot());
+        }
         return player.dectectPlotObjective();
+
     }
 
     /**

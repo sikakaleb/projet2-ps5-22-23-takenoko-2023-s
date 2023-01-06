@@ -2,7 +2,6 @@ package supplies;
 
 import tools.Color;
 import tools.VectorDirection;
-import tools.Position;
 
 import java.util.*;
 

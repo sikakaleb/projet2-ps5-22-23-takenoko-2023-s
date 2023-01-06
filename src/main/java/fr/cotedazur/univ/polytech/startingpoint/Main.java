@@ -44,18 +44,32 @@ public class Main {
         System.out.println("---------------BEGIN----------------");
         while (loop){
             for(Player p : playerList ){
-                System.out.println("C'est le tour de :"+p.getName());
-                jeReflechis();
-                if(game.play(p)){
-                    game.display();
-                    System.exit(0);
-                }else{
-                    /*
-                     *Emoji qui pleure pour precisez qu'n joueur n'a
-                     * pas peu valider un objectif dans son tour
-                     */
 
-                    System.out.println("\uD83D\uDE2D");
+                if (game.getDeckOfPlots().size()==0){
+                    System.out.println("Plus de plots, fin");
+                    System.out.println(p1);
+                    System.out.println(p2);
+                    System.exit(0);
+                }
+                else if(p.getObjectiveAchieved().size()==9) {
+                    System.out.println(p + " a gagné avec 3 objectifs");
+                    System.exit(0);
+                }
+
+                else {
+                    System.out.println("C'est le tour de :" + p.getName());
+                    jeReflechis();
+                    if (game.play(p)) {
+                        game.display();
+
+                    } else {
+                        /*
+                         *Emoji qui pleure pour precisez qu'n joueur n'a
+                         * pas peu valider un objectif dans son tour
+                         */
+
+                        System.out.println("\uD83D\uDE2D");
+                    }
                 }
             }
 
