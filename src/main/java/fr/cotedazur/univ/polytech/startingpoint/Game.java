@@ -78,6 +78,15 @@ public class Game {
         }
         return player.dectectPlotObjective();
 
+        if(listOfObjectives.size()==0){
+            throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
+        }
+        int randNumber = rand.nextInt(listOfObjectives.size());
+        player.addNewObjective((Objective) listOfObjectives.get(randNumber));
+        listOfObjectives.remove(randNumber);
+        board.ChoicePlot(deckOfPlots.pickPlot());
+        board.addBambooToPlot(board.getLastHexPlot(),bambooStock.pickBamboo(board.getLastHexPlot().getColor()));
+        return player.detectPlotObjective();
     }
 
     /**

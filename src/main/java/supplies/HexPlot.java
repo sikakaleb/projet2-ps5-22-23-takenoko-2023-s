@@ -173,4 +173,14 @@ public class HexPlot {
         return false;
     }
 
+    /**
+     * Remove a bamboo from plot
+     * @param bamboo {Bamboo}
+     * @return {boolean}
+     */
+    public boolean removeBamboo(Bamboo bamboo) {
+        if (this.isPond()) return false;
+        else if (this.color == bamboo.getColor()) return bamboos.remove(bamboo);
+        return false;
+    }
 }

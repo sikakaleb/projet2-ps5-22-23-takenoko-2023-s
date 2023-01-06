@@ -45,11 +45,11 @@ public class BambooStockTest {
 
     @Test
     public void remove(){
-        stock.remove(Color.GREEN);
+        stock.pickBamboo(Color.GREEN);
         assertEquals(stock.size(), 89);
         this.removeAllPink();
         assertEquals(stock.size(), 65);
-        assertFalse(stock.remove(Color.PINK));
+        assertEquals(stock.pickBamboo(Color.PINK), null);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class BambooStockTest {
 
     private void removeAllPink(){
         for(int i=0; i<24; i++){
-            stock.remove(Color.PINK);
+            stock.pickBamboo(Color.PINK);
         }
     }
 
