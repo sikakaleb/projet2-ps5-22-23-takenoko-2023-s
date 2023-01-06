@@ -53,10 +53,14 @@ public class BambooStock extends ArrayList<Bamboo> {
     /**
      * Remove bamboo from stock
      * @param c {Color}
-     * @return {boolean} if has been removed or not
+     * @return bamboo {Bamboo}
      */
-    public boolean remove(Color c){
-        return this.remove(getByColor(c));
+    public Bamboo pickBamboo(Color c){
+        Bamboo bamboo = getByColor(c);
+        if(bamboo != null){
+            this.remove(bamboo);
+        }
+        return bamboo;
     }
 
     /**

@@ -22,6 +22,10 @@ public class Board extends ArrayList<HexPlot> {
         return this.get(0);
     }
 
+    public HexPlot getLastHexPlot(){
+        return this.get(this.size()-1);
+    }
+
     /**
      * Vérifier la contrainte :
      * " la parcelle est adjacente à la parcelle Spéciale (étang)  "
@@ -109,7 +113,6 @@ public class Board extends ArrayList<HexPlot> {
     /**
      * Add bamboo to plot of same color
      * @param plot {HexPlot}
-     * @param bamboo {Bamboo}
      * @return {boolean} if has been added
      */
     public boolean addBambooToPlot(HexPlot plot, Bamboo bamboo){

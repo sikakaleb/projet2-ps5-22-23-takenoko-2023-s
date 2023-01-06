@@ -48,9 +48,6 @@ public class Game {
         return playerList;
     }
 
-    public List<HexPlot> getDeckOfPlots() {
-        return board;
-    }
     /*Methodes particulieres de la classe*/
 
     /****
@@ -72,7 +69,8 @@ public class Game {
         player.addNewObjective((Objective) listOfObjectives.get(randNumber));
         listOfObjectives.remove(randNumber);
         board.ChoicePlot(deckOfPlots.pickPlot());
-        return player.dectectPlotObjective();
+        board.addBambooToPlot(board.getLastHexPlot(),bambooStock.pickBamboo(board.getLastHexPlot().getColor()));
+        return player.detectPlotObjective();
     }
 
     /**
@@ -83,7 +81,7 @@ public class Game {
     public void addBambooToPlot(HexPlot plot, Bamboo bamboo){
         if(bambooStock.areLeft(bamboo.getColor())) {
             plot.addBamboo(bamboo);
-            bambooStock.remove(bamboo.getColor());
+            bambooStock.pickBamboo(bamboo.getColor());
         }
     }
 

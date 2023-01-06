@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import objectives.*;
-import supplies.Bamboo;
+
 import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
 import static tools.PlotObjectiveConfiguration.*;
@@ -124,7 +124,7 @@ public class Player {
      * les objectifs qu'il pourrait
      * remplir a son tour
      */
-    public Boolean dectectPlotObjective(){
+    public Boolean detectPlotObjective(){
         PlotObjectiveDetector detector = new PlotObjectiveDetector(board);
 
         for (Objective obj:unMetObjectives) {
