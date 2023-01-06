@@ -1,14 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-
-import org.jetbrains.annotations.NotNull;
-import org.paukov.combinatorics3.Generator;
-
+import objectives.*;
+import supplies.Bamboo;
 import java.util.*;
-
-import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfObjectives;
-import static fr.cotedazur.univ.polytech.startingpoint.Game.listOfPlots;
-import static fr.cotedazur.univ.polytech.startingpoint.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
+import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
+import static tools.PlotObjectiveConfiguration.*;
+import static tools.PandaObjectiveConfiguration.*;
 
 public class Player {
     /**Attributs de la classe**/
@@ -25,6 +22,7 @@ public class Player {
     private int maxUnmetObj;
     public List<Objective> objectiveAchieved ;
     public List<Objective> unMetObjectives;
+    public EatenBamboos eatenBamboos;
 
    /**Le ou Les constructeurs de la classe **/
     public Player(int age, int height, String name) {
@@ -35,9 +33,10 @@ public class Player {
         this.cumulOfpoint=0;
         objectiveAchieved = new ArrayList<>();
         unMetObjectives = new ArrayList<>();
-        maxUnmetObj=1;
-
+        maxUnmetObj=5;
+        eatenBamboos = new EatenBamboos();
     }
+
     public Player(String name){
         this(1,1,name);
     }
@@ -109,231 +108,58 @@ public class Player {
      * lors de son appel
      */
 
-    public void validateUnMetObjectives(Objective objective){
+    public Boolean validateUnMetObjectives(Objective objective){
         withdrawUnMetObjective(objective);
         addObjectiveAchieved(objective);
+        return true;
     }
 
     public int getCumulOfpoint() {
         return cumulOfpoint;
     }
 
-    /**
-     * Vérifier la contrainte :
-     * " la parcelle est adjacente à la parcelle Spéciale (étang)  "
-     *
-     * @param hex {HexPlot}
-     * @return {boolean}
+    /*****
+     * Le joueur appelle
+     * la methode pour detecter
+     * les objectifs qu'il pourrait
+     * remplir a son tour
      */
-    public boolean checkPondNeighbor(@NotNull HexPlot hex) {
-        Set<HexPlot> neighborSet = hex.plotNeighbor();
-        if (neighborSet.isEmpty()) return false;
-        for (HexPlot hexPlot : neighborSet) {
-            if (hexPlot.isPond()) return true;
-        }
-        return false;
-    }
+    public Boolean dectectPlotObjective(){
+        PlotObjectiveDetector detector = new PlotObjectiveDetector(board);
 
-    /**
-     * Vérifier la contrainte :
-     * " la parcelle est adjacente à au moins deux parcelles déjà en jeu "
-     *
-     * @param hex {HexPlot}
-     * @return {boolean}
-     */
-    public boolean checkTwoPlotNeighbors(@NotNull HexPlot hex) {
-        Set<HexPlot> intersection = hex.plotNeighbor();
-        intersection.retainAll(listOfPlots);
-        return intersection.size() >= 2;
-    }
-
-    /**
-     * Trouver les emplacements disponibles pour une parcelle, ie
-     * - les voisins de hex qui ne sont pas dans les parcelles déjà posées
-     * - et qui respectent les contraintes
-     * @param hex {HexPlot}
-     * @return neighborSet {Set<HexPlot>}
-     */
-    public Set<HexPlot> findAvailableNeighbors(@NotNull HexPlot hex){
-        Set<HexPlot> neighborSet = hex.plotNeighbor();
-
-        // Retirer les emplacements indisponibles
-        // parcelles déjà posées
-        neighborSet.removeAll(listOfPlots);
-
-        // parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles
-        Set<HexPlot> invalidNeighbors = new HashSet<>();
-        neighborSet.forEach( hexPlot -> {
-            if (! (checkPondNeighbor(hexPlot) || checkTwoPlotNeighbors(hexPlot)) )
-                invalidNeighbors.add(hexPlot);
-        });
-        neighborSet.removeAll(invalidNeighbors);
-
-        return neighborSet;
-    }
-
-    /****
-     *Le joueur ajoute
-     * une parcelle au jeu
-     * en tenant compte de l'agencement
-     * a une parcelle deja existante
-     * Ici il choisit un parcelle
-     * existante et appelle la methode
-     * ChoicePlot()
-     */
-    public void addAplotToGame(){
-        HexPlot[] allArrayPlots = listOfPlots.toArray(new HexPlot[listOfPlots.size()]);
-        Random rand = new Random();
-        int randNumber = rand.nextInt(listOfPlots.size());
-        ChoicePlot(allArrayPlots[randNumber]);
-    }
-
-    /****
-     * ChoicePlot permet au joueur
-     * de choisir une parcelle inexistante
-     * dans le jeu pour le moment
-     * et agencent un une autre deja existante
-     */
-
-    public void ChoicePlot(@NotNull HexPlot hex){
-        Set<HexPlot> neighborSet = findAvailableNeighbors(hex);
-        HexPlot[] arrayPlots = neighborSet.toArray(new HexPlot[neighborSet.size()]);
-        Random rand = new Random();
-        int randNumber = rand.nextInt(neighborSet.size());
-        listOfPlots.add(arrayPlots[randNumber]);
-    }
-
-    /****
-     *Retourne les combinaisons de liste(n)
-     * de parcelle dans le jeu privé du parcelle etang(0,0,0)
-     */
-
-    public  List<List<HexPlot>> listOfCombinations(int n){
-        Set<HexPlot> tempList= listOfPlots;
-        tempList.remove(new HexPlot());
-        return Generator.combination(tempList)
-                .simple(n)
-                .stream()
-                .toList();
-    }
-    /****
-     *Extrait Toutes les coordonnées de parcelles
-     * dans une liste
-     * et les ordonnes
-     */
-    public Map<String,Map<Integer,Integer>> extractPlotsData(List<HexPlot> listPlots)
-    {
-        Map<String,Map<Integer,Integer>> result = new HashMap<>();
-        result.put("Q",countQ(listPlots));
-        result.put("S",countS(listPlots));
-        result.put("R",countR(listPlots));
-        return result;
-
-    }
-    /****
-     *Extrait les coordonnées R de parcelles
-     * dans une liste
-     * et les ordonnes
-     */
-    public Map<Integer, Integer> countR(List<HexPlot> listPlots) {
-        HashMap<Integer, Integer> counter = new HashMap<>();
-
-        for (HexPlot hex  : listPlots) {
-            if (counter.containsKey(hex.getR())) {
-                counter.put(hex.getR(), counter.get(hex.getR()) + 1);   // équivalent counter.get(card.getValeur())++
-            } else {
-                counter.put(hex.getR(), 1);
-            }
-        }
-
-        return counter;
-    }
-
-    /****
-     *Extrait les coordonnées S de parcelles
-     * dans une liste
-     * et les ordonnes
-     */
-    public Map<Integer, Integer> countS(List<HexPlot> listPlots) {
-        HashMap<Integer, Integer> counter = new HashMap<>();
-
-        for (HexPlot hex  : listPlots) {
-            if (counter.containsKey(hex.getS())) {
-                counter.put(hex.getS(), counter.get(hex.getS()) + 1);   // équivalent counter.get(card.getValeur())++
-            } else {
-                counter.put(hex.getS(), 1);
-            }
-        }
-
-        return counter;
-    }
-
-    /****
-     *Extrait les coordonnées Q de parcelles
-     * dans une liste
-     * et les ordonnes
-     */
-    public Map<Integer, Integer> countQ(List<HexPlot> listPlots) {
-        HashMap<Integer, Integer> counter = new HashMap<>();
-
-        for (HexPlot hex  : listPlots) {
-            if (counter.containsKey(hex.getQ())) {
-                counter.put(hex.getQ(), counter.get(hex.getQ()) + 1);   // équivalent counter.get(card.getValeur())++
-            } else {
-                counter.put(hex.getQ(), 1);
-            }
-        }
-
-        return counter;
-    }
-    /**verifier si les coordonnées des Hexplot de la liste sont une suite**/
-    public Boolean sSuite(Set<Integer> setOfInteger,int size){
-        List<Integer> listInteger = new ArrayList<>(setOfInteger);
-        ArrayList<Integer> ListeOrdonne = new ArrayList<>();
-        for(int i = 0; i < listInteger.size(); i++){
-            ListeOrdonne.add(listInteger.get(i));
-        }
-        Collections.sort(ListeOrdonne);
-        for(int j = 1; j < listInteger.size(); j++){
-            if(ListeOrdonne.get(j) != ListeOrdonne.get(j-1) + 1){
-                return false;
-            }
-        }
-        return listInteger.size()==size;
-    }
-
-    /** Verifier si une liste de 3 hexplot a la configuration DIRECTSAMEPLOTS  **/
-    public Boolean isDirectSamePlots(List<HexPlot> listPlots){
-        Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
-        Set<String> copykeyList=listPlotsData.keySet();
-        boolean result=true;
-
-        for (String stringKey: listPlotsData.keySet()) {
-            if(listPlotsData.get(stringKey).size()==1){
-                System.out.println(listPlotsData);
-                copykeyList.remove(stringKey);
-                for (String remainingKeyOfTheCopy: copykeyList) {
-                    result&= sSuite(listPlotsData.get(remainingKeyOfTheCopy).keySet(),3);
+        for (Objective obj:unMetObjectives) {
+            if(obj instanceof PlotObjective){
+                if( ( ((PlotObjective) obj).getConfiguration()==
+                        DIRECTSAMEPLOTS && detector.findDirectSamePlots(((PlotObjective) obj).getColor()))) {
+                    System.out.println(name+" a detecté un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                    return validateUnMetObjectives(obj);
                 }
-                if(result){
-                    return result;
+                else if( ( ((PlotObjective) obj).getConfiguration()== INDIRECTSAMEPLOTS
+                        && detector.findInDirectSamePlots(((PlotObjective) obj).getColor()))) {
+                    System.out.println(name+" a detecté un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                    return validateUnMetObjectives(obj);
                 }
-            }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS
+                        && detector.findQuadrilateralSamePlots(((PlotObjective) obj).getColor()))) {
+                    System.out.println(name+" a detecté un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                    return validateUnMetObjectives(obj);
+                }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_P
+                        && detector.findQuadrilateralPlots_G_P())) {
+                    System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
+                    return validateUnMetObjectives(obj);
+                }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_Y
+                        && detector.findQuadrilateralPlots_G_Y())) {
+                    System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    return validateUnMetObjectives(obj);
+                }
+                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_P_Y
+                        && detector.findQuadrilateralPlots_P_Y())) {
+                    System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    return validateUnMetObjectives(obj);
+                }
 
-        }
-        return false;
-    }
-
-
-    /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
-    public Boolean findDirectSamePlots(){
-        List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
-        //System.out.println(allCombinationOfthreeHexplots);
-        for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isDirectSamePlots(hexPlotList))
-            {
-                System.out.println(name+" a detecté un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F "+hexPlotList);
-                return true;
             }
         }
         return false;
@@ -345,35 +171,37 @@ public class Player {
      * les objectifs qu'il pourrait
      * remplir a son tour
      */
-    public Boolean dectectObjective(){
+    public Boolean dectectPandaObjective(){
+        PandaObjectiveDetector detector = new PandaObjectiveDetector(this);
+
         for (Objective obj:unMetObjectives) {
-            if(obj instanceof PlotObjective){
-                if( ( ((PlotObjective) obj).getConfiguration()==
-                        DIRECTSAMEPLOTS && findDirectSamePlots()))
-                {
-                    validateUnMetObjectives(obj);
-                    return true;
+
+            if(obj instanceof PandaObjective){
+
+                if( ( ((PandaObjective) obj).getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
+                    System.out.println(name+" a detecté un TWO_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
+                    eatenBamboos.removeTwoYellow();
+                    bambooStock.addTwoYellow();
+                    return validateUnMetObjectives(obj);
                 }
+                else if( ( ((PandaObjective) obj).getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
+                    System.out.println(name+" a detecté un THREE_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    eatenBamboos.removeThreeGreen();
+                    bambooStock.addThreeGreen();
+                    return validateUnMetObjectives(obj);
+                }
+                else if( ( ((PandaObjective) obj).getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
+                    System.out.println(name+" a detecté un ONE_OF_EACH \uD83D\uDC4F\uD83D\uDC4F ");
+                    eatenBamboos.removeOneOfEach();
+                    bambooStock.addOneOfEach();
+                    return validateUnMetObjectives(obj);
+                }
+
             }
         }
         return false;
     }
-    /****
-     *
-     * Fais appelle au methode
-     * pour faire jouer le joueur
-     * Pour l'instant le joeur
-     * fait obligatoire 2 action
-     * choisir un objectif et ajouter une
-     * parcelle
-     */
 
-
-    public Boolean play(){
-        addNewObjective(listOfObjectives);
-        addAplotToGame();
-        return dectectObjective();
-    }
 
     /**Rdefinition des methodes**/
     @Override

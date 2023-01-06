@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package objectives;
 
 public class Objective {
     /**Attributs de la classe**/

@@ -1,36 +1,43 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package supplies;
+
+import tools.Color;
+import tools.VectorDirection;
+import tools.Position;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.PlotColor.*;
-import static fr.cotedazur.univ.polytech.startingpoint.VectorDirection.*;
+import static tools.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
- avec des coordonnées cartesienne 3D et sans Couleur**/
+ avec des coordonnées cartesienne 3D et avec Couleur**/
 public class HexPlot {
     /** Atrribut de la classe**/
     public static final VectorDirection[] DIRECTION = new VectorDirection[]{Q_UP, Q_DOWN, S_UP, S_DOWN, R_LEFT, R_RIGHT};
     private int q;
-    private int r;
     private int s;
-
-    private PlotColor color;
+    private int r;
+    private Color color;
+    private ArrayList<Bamboo> bamboos;
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
         this.q = q;
         this.s = s;
         this.r = r;
-        this.color= NONE;
     }
     /**
      * Ajout d'un constructeur avec couleur
      */
-    public HexPlot(int q, int s, int r,PlotColor color) {
+    public HexPlot(int q, int s, int r, Color color) {
         this.q = q;
         this.s = s;
         this.r = r;
         this.color= color;
+        this.bamboos = new ArrayList<>();
+    }
+
+    public HexPlot(Color color) {
+        this.color = color;
     }
 
     /**Constructeur par defaut
@@ -38,9 +45,8 @@ public class HexPlot {
      * coordonnées de la
      * parcelles etang
      */
-    public  HexPlot(){
+    public HexPlot(){
         this(0,0,0);
-        this.color=ETANG;
     }
 
     /** Les accesseurs de la classe **/
@@ -57,9 +63,27 @@ public class HexPlot {
         return s;
     }
 
-    public PlotColor getColor() {
+    public void setQ(int q) {
+        this.q = q;
+    }
+
+    public void setR(int r) {
+        this.r = r;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
         return color;
     }
+
+    public ArrayList<Bamboo> getBamboos() { return bamboos; }
 
     /** Les methodes particulieres de la classe **/
 
@@ -67,9 +91,14 @@ public class HexPlot {
      *PlotAdd ajout une parcelle Hexagonal
      * Au jeu Suivant une direction
      */
+    public HexPlot plotAdd(VectorDirection vec, Color color){
+        return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR(), color);
+    }
+
     public HexPlot plotAdd(VectorDirection vec){
         return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR());
     }
+
     /**
      * PlotNeighbor renvoie Set de Plots
      *Voisins a lui
@@ -83,16 +112,31 @@ public class HexPlot {
         return neighborHexPlotList;
     }
     /****
-     * Verifie si 1 plot est adjacent a avec une autre de mm
+    * Verifie si 1 plot est adjacent a avec une autre de mm
      * couleur dans une liste de plots
      */
-    public Boolean isAdjacentWithAnotherOnSameColor(){
-        for (HexPlot hex:plotNeighbor()) {
-            if(getColor()==hex.getColor()) {
-                return true;
-            }
+    public Boolean isAdjacentWithAnotherOnSameColor(List<HexPlot> list){
+        for (HexPlot hex:list) {
+            HexPlot tempHex= hex;
+           if(getColor()==hex.getColor()) {
+               for (HexPlot hexPlot:plotNeighbor()) {
+                   if(hexPlot.getQ()==hex.getQ()
+                           && hexPlot.getS()==hex.getS()
+                           &&hexPlot.getR()== hex.getR()){
+                       return true;
+                   }
+               }
+           }
         }
         return false;
+    }
+
+    /**
+     * Renvoie s'il s'agit de la parcelle spéciale (étang)
+     * @return {boolean}
+     */
+    public boolean isPond(){
+        return (this.q==0 && this.s==0 && this.r==0);
     }
 
     /** Les methodes redefinies de la classe **/
@@ -112,9 +156,22 @@ public class HexPlot {
     public String toString() {
         return "HexPlot{" +
                 "q=" + q +
-                ", r=" + r +
                 ", s=" + s +
+                ", r=" + r +
                 ", color=" + color +
                 '}';
     }
+
+    /**
+     * Add a bamboo to plot
+     * @param bamboo {Bamboo}
+     * @return {boolean}
+     */
+
+    public boolean addBamboo(Bamboo bamboo){
+        if(this.isPond()) return false;
+        else if(this.color==bamboo.getColor()) return bamboos.add(bamboo);
+        return false;
+    }
+
 }
