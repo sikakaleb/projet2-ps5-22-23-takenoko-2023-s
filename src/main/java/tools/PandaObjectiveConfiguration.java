@@ -11,10 +11,16 @@ package tools;
 public enum PandaObjectiveConfiguration {
     /** 2 sections de bambou jaune */
     TWO_YELLOW,
+    /** 2 sections de bambou vert */
+    TWO_GREEN,
+
+    /** 2 sections de bambou rose */
+    TWO_PINK,
 
     /** 3 sections de bambou vert */
     THREE_GREEN,
 
     /** 3 sections, une de chaque couleur*/
-    ONE_OF_EACH
+    ONE_OF_EACH,
+
 }
