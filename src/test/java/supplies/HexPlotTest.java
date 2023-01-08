@@ -66,7 +66,7 @@ class HexPlotTest {
 
     @Test
     public void addBambooToPlot(){
-        assertEquals(pond.getBamboos(), null);
+        assertEquals(pond.getBamboos(), new ArrayList<>());
         HexPlot plot = pond.plotAdd(Q_UP, Color.GREEN );
         plot.addBamboo(new Bamboo(PINK));
         assertEquals(plot.getBamboos().size(), 0);

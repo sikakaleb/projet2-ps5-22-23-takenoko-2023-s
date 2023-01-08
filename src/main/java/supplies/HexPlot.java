@@ -158,6 +158,7 @@ public class HexPlot {
                 ", s=" + s +
                 ", r=" + r +
                 ", color=" + color +
+                ", bamboos=" + bamboos +
                 '}';
     }
 
