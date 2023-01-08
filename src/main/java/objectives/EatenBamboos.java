@@ -61,6 +61,18 @@ public class EatenBamboos extends ArrayList<Bamboo> {
         if(this.count(YELLOW)>=2) IntStream.range(0, 2).forEach(i -> this.remove(YELLOW));
     }
     /**
+     * Remove 2 green bamboos from player's plate
+     */
+    public void removeTwoGreen() {
+        if(this.count(GREEN)>=2) IntStream.range(0, 2).forEach(i -> this.remove(GREEN));
+    }
+    /**
+     * Remove 2 pink bamboos from player's plate
+     */
+    public void removeTwoPink() {
+        if(this.count(PINK)>=2) IntStream.range(0, 2).forEach(i -> this.remove(PINK));
+    }
+    /**
      * Remove 3 green bamboos from player's plate
      */
     public void removeThreeGreen() {

@@ -79,6 +79,18 @@ public class BambooStock extends ArrayList<Bamboo> {
         if(this.count(YELLOW)<=34) addBack(2, YELLOW);
     }
     /**
+     * Add 2 green bamboos back to stock
+     */
+    public void addTwoGreen() {
+        if(this.count(GREEN)<=28) addBack(2, GREEN);
+    }
+    /**
+     * Add 2 pink bamboos back to stock
+     */
+    public void addTwoPink() {
+        if(this.count(PINK)<=22) addBack(2, PINK);
+    }
+    /**
      * Add 3 green bamboos back to stock
      */
     public void addThreeGreen() {
