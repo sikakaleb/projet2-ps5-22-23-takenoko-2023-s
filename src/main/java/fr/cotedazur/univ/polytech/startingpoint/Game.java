@@ -2,9 +2,14 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import objectives.*;
 import supplies.*;
+import tools.BotIntelligence;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static tools.BotIntelligence.PANDASTRATEGY;
+import static tools.BotIntelligence.PLOTSTRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -12,6 +17,7 @@ public class Game {
     public static DeckOfPlots deckOfPlots;
     public static BambooStock bambooStock;
     public static DeckOfObjectifs listOfObjectives;
+    public static Panda panda;
     public List<Player> playerList;
 
     /**le ou Les constructeurs de la classe**/
@@ -22,6 +28,7 @@ public class Game {
         listOfObjectives=new DeckOfObjectifs();
         bambooStock = new BambooStock();
         initPlayer(p1,p2);
+        this.panda=new Panda(new HexPlot());
 
     }
 
@@ -64,25 +71,54 @@ public class Game {
      */
 
     public Boolean play(Player player){
+        if(listOfObjectives.size()==0){
+            throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
+        }
         Random rand = new Random();
-        if(listOfObjectives.size()>0){
+        int randNumber = rand.nextInt(2);
+        if(player.getStrategy()==PANDASTRATEGY){
+            choiceObjective(player);
+            Boolean temp = player.movePanda();
+            return player.dectectPandaObjective();
+        }else if(player.getStrategy()==PLOTSTRATEGY){
+            choiceObjective(player);
+            choicePlot(player);
+            return player.detectPlotObjective();
+        }
+        if (randNumber==0){
+            choiceObjective(player);
+            Boolean temp = player.movePanda();
+        } else if (randNumber==1) {
+            choiceObjective(player);
+            choicePlot(player);
+        }
+
+        return player.detectPlotObjective()&&player.dectectPandaObjective();
+    }
+
+    public Boolean choiceObjective(Player player){
+        if(listOfObjectives.size()>0 && player.getUnMetObjectives().size()<5){
+            Random rand = new Random();
             int randNumber = rand.nextInt(listOfObjectives.size());
             player.addNewObjective((Objective) listOfObjectives.get(randNumber));
             listOfObjectives.remove(randNumber);
+            return true;
         }
         else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
-        if (deckOfPlots.size()!=0) {
+        return false;
+    }
+
+    public Boolean choicePlot(Player player){
+        if (deckOfPlots.size()!=0 ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
             board.addBambooToPlot(board.getLastHexPlot(),bambooStock.pickBamboo(board.getLastHexPlot().getColor()));
+            return true;
+        }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
+            throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
         }
-
-        if(listOfObjectives.size()==0){
-            throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
-        }
-
-        return player.detectPlotObjective();
+        return false;
     }
 
     /**
