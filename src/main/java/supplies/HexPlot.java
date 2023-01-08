@@ -5,6 +5,7 @@ import tools.VectorDirection;
 
 import java.util.*;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static tools.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
@@ -16,8 +17,9 @@ public class HexPlot {
     private int s;
     private int r;
     private Color color;
-    private ArrayList<Bamboo> bamboos = new ArrayList<>();
+    private ArrayList<Bamboo> bamboos = new ArrayList<>(4);
     private boolean irrigated = false;
+    private boolean sprouted = false;
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
@@ -93,7 +95,16 @@ public class HexPlot {
 
     public boolean isIrrigated(){ return irrigated; }
 
-    public void setIrrigated(){ irrigated = isPondNeighbor(); }
+    public void irrigate() {
+        if (isPondNeighbor()) this.irrigated = true;
+    }
+
+    public void sprout(){
+        if (!sprouted && irrigated) {
+            sprouted = true;
+            addBamboo();
+        }
+    }
 
     /** Les methodes particulieres de la classe **/
 
@@ -154,6 +165,7 @@ public class HexPlot {
      * @return {boolean}
      */
     public boolean isPondNeighbor(){
+        if (isPond()) return false;
         return (this.q==0 || this.s==0 || this.r==0);
     }
 
@@ -184,24 +196,22 @@ public class HexPlot {
 
     /**
      * Add a bamboo to plot
-     * @param bamboo {Bamboo}
-     * @return {boolean}
      */
 
-    public boolean addBamboo(Bamboo bamboo){
-        if(this.isPond()) return false;
-        else if(this.color==bamboo.getColor()) return bamboos.add(bamboo);
-        return false;
+    public void addBamboo(){
+        if (this.isPond())
+            throw new IndexOutOfBoundsException("On ne pose pas un bamboo sur la parcelle Etang");
+
+        else if (!irrigated)
+            throw new IndexOutOfBoundsException("Cette parcelle n'est pas irriguée");
+
+        else if (bamboos.size() >= 4)
+            throw new IndexOutOfBoundsException("Il y a trop de bambous sur cette parcelle");
+
+        else {
+            bamboos.add(new Bamboo(getColor()));
+            bambooStock.remove(bambooStock.getByColor(getColor()));
+        }
     }
 
-    /**
-     * Remove a bamboo from plot
-     * @param bamboo {Bamboo}
-     * @return {boolean}
-     */
-    public boolean removeBamboo(Bamboo bamboo) {
-        if (this.isPond()) return false;
-        else if (this.color == bamboo.getColor()) return bamboos.remove(bamboo);
-        return false;
-    }
 }

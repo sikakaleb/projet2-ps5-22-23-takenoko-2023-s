@@ -105,13 +105,23 @@ class GameTest {
     }
 
     @Test
-    public void addBambooToPlot(){
+    public void sproutBamboo(){
         HexPlot plot = new HexPlot(0,0,1, PINK);
         board.add(plot);
-        game.addBambooToPlot(plot);
         assertEquals(plot.getBamboos().size(),1);
         assertEquals(plot.getBamboos().get(0).getColor(),plot.getColor());
         assertEquals(bambooStock.size(), 89);
         assertEquals(bambooStock.count(PINK), 23);
+    }
+
+    @Test
+    public void addBambooToPlot(){
+        HexPlot plot = new HexPlot(0,0,1, PINK);
+        board.add(plot);
+        plot.addBamboo();
+        assertEquals(plot.getBamboos().size(),2);
+        assertEquals(plot.getBamboos().get(0).getColor(),plot.getColor());
+        assertEquals(bambooStock.size(), 88);
+        assertEquals(bambooStock.count(PINK), 22);
     }
 }

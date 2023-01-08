@@ -126,9 +126,16 @@ public class Board extends ArrayList<HexPlot> {
         return linearHex;
     }
 
+    /**
+     * Ajout d'une parcelle sur le plateau
+     * Si elle est déjà irriguée une section de bambou à sa couleur lui est ajoutée
+     * @param hexPlot {HexPlot} à ajouter
+     * @return {boolean} s'il a bien été ajouté
+     */
     @Override
     public boolean add(HexPlot hexPlot){
-        hexPlot.setIrrigated();
+        hexPlot.irrigate();
+        hexPlot.sprout();
         return super.add(hexPlot);
     }
 

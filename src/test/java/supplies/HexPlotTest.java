@@ -68,15 +68,14 @@ class HexPlotTest {
     public void addBambooToPlot(){
         assertEquals(pond.getBamboos(), new ArrayList<>());
         HexPlot plot = pond.plotAdd(Q_UP, Color.GREEN );
-        plot.addBamboo(new Bamboo(PINK));
         assertEquals(plot.getBamboos().size(), 0);
-        plot.addBamboo(new Bamboo(GREEN));
+        plot.addBamboo();
         assertEquals(plot.getBamboos().size(), 1);
+        assertEquals(plot.getBamboos().get(0).getColor(), GREEN);
     }
 
     @Test
     public void irrigatedTest() {
-        assertTrue(pond.isIrrigated());
         for (HexPlot pondNeighbor : pond.plotNeighbor()) {
             assertTrue(pondNeighbor.isIrrigated());
         }

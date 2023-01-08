@@ -22,11 +22,12 @@ public class Game {
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
-        board = new Board();
-        deckOfPlots = new DeckOfPlots();
-        playerList = new ArrayList<>();
-        listOfObjectives=new DeckOfObjectifs();
         bambooStock = new BambooStock();
+        deckOfPlots = new DeckOfPlots();
+        listOfObjectives=new DeckOfObjectifs();
+
+        board = new Board();
+        playerList = new ArrayList<>();
         initPlayer(p1,p2);
         this.panda=new Panda(new HexPlot());
 
@@ -145,9 +146,7 @@ public class Game {
             throw new IndexOutOfBoundsException("Cette parcelle n'est pas irriguée");
         }
         else {
-            Bamboo bamboo = bambooStock.getByColor(plot.getColor());
-            plot.addBamboo(bamboo);
-            bambooStock.remove(bamboo);
+            plot.addBamboo();
         }
     }
 
