@@ -122,7 +122,7 @@ public class Game {
     public Boolean choicePlot(Player player){
         if (deckOfPlots.size()!=0 ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
-            board.addBambooToPlot(board.getLastHexPlot(),bambooStock.pickBamboo(board.getLastHexPlot().getColor()));
+            addBambooToPlot(board.getLastHexPlot());
             return true;
         }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
@@ -133,12 +133,21 @@ public class Game {
     /**
      * Add bamboo to plot of same color
      * @param plot {HexPlot}
-     * @param bamboo {Bamboo}
      */
-    public void addBambooToPlot(HexPlot plot, Bamboo bamboo){
-        if(bambooStock.areLeft(bamboo.getColor())) {
+    public void addBambooToPlot(HexPlot plot){
+        if( plot.isPond()) {
+            throw new IndexOutOfBoundsException("On ne pose pas un bamboo sur la parcelle Etang");
+        }
+        else if( ! bambooStock.areLeft(plot.getColor())) {
+            throw new IndexOutOfBoundsException("Il y a plus de bambou " + plot.getColor());
+        }
+        else if( ! plot.isIrrigated()) {
+            throw new IndexOutOfBoundsException("Cette parcelle n'est pas irriguée");
+        }
+        else {
+            Bamboo bamboo = bambooStock.getByColor(plot.getColor());
             plot.addBamboo(bamboo);
-            bambooStock.remove(bamboo.getColor());
+            bambooStock.remove(bamboo);
         }
     }
 

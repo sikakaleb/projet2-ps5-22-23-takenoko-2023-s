@@ -73,4 +73,18 @@ class HexPlotTest {
         plot.addBamboo(new Bamboo(GREEN));
         assertEquals(plot.getBamboos().size(), 1);
     }
+
+    @Test
+    public void irrigatedTest() {
+        assertTrue(pond.isIrrigated());
+        for (HexPlot pondNeighbor : pond.plotNeighbor()) {
+            assertTrue(pondNeighbor.isIrrigated());
+        }
+    }
+    @Test
+    public void notIrrigatedTest() {
+        HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
+        board.add(notIrrigated);
+        assertFalse(notIrrigated.isIrrigated());
+    }
 }

@@ -10,6 +10,8 @@ import static tools.Color.*;
  * @class BambooStock
  * @extends ArrayList
  * a stock of bamboos, of different color
+ * Total : 90
+ * Green : 36, Yellow : 30, Pink : 24
  */
 public class BambooStock extends ArrayList<Bamboo> {
 

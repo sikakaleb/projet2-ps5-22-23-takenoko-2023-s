@@ -17,12 +17,14 @@ public class HexPlot {
     private int r;
     private Color color;
     private ArrayList<Bamboo> bamboos = new ArrayList<>();
+    private boolean irrigated = false;
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
         this.q = q;
         this.s = s;
         this.r = r;
+        irrigated = isPondNeighbor();
     }
     /**
      * Ajout d'un constructeur avec couleur
@@ -33,8 +35,13 @@ public class HexPlot {
         this.r = r;
         this.color= color;
         this.bamboos = new ArrayList<>();
+        irrigated = isPondNeighbor();
     }
 
+    /**
+     * Used to created plots in the deck, not on board
+     * @param color {Color}
+     */
     public HexPlot(Color color) {
         this.color = color;
     }
@@ -84,6 +91,10 @@ public class HexPlot {
 
     public ArrayList<Bamboo> getBamboos() { return bamboos; }
 
+    public boolean isIrrigated(){ return irrigated; }
+
+    public void setIrrigated(){ irrigated = isPondNeighbor(); }
+
     /** Les methodes particulieres de la classe **/
 
     /*
@@ -110,6 +121,7 @@ public class HexPlot {
         }
         return neighborHexPlotList;
     }
+
     /****
     * Verifie si 1 plot est adjacent a avec une autre de mm
      * couleur dans une liste de plots
@@ -138,6 +150,13 @@ public class HexPlot {
         return (this.q==0 && this.s==0 && this.r==0);
     }
 
+    /**
+     * @return {boolean}
+     */
+    public boolean isPondNeighbor(){
+        return (this.q==0 || this.s==0 || this.r==0);
+    }
+
     /** Les methodes redefinies de la classe **/
     @Override
     public boolean equals(Object o) {
@@ -158,6 +177,7 @@ public class HexPlot {
                 ", s=" + s +
                 ", r=" + r +
                 ", color=" + color +
+                ", irrigated=" + irrigated +
                 ", bamboos=" + bamboos +
                 '}';
     }

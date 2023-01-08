@@ -1,6 +1,4 @@
 package supplies;
-import fr.cotedazur.univ.polytech.startingpoint.Panda;
-import fr.cotedazur.univ.polytech.startingpoint.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -114,15 +112,6 @@ public class Board extends ArrayList<HexPlot> {
         System.out.println("voila list of plots:"+this);
     }
 
-    /**
-     * Add bamboo to plot of same color
-     * @param plot {HexPlot}
-     * @return {boolean} if has been added
-     */
-    public boolean addBambooToPlot(HexPlot plot, Bamboo bamboo){
-        return plot.addBamboo(bamboo);
-    }
-
     public List<HexPlot> pandaNewPositionPossibilities(){
         List<HexPlot> linearHex = new ArrayList<>();
         HexPlot currentPosition= panda.getPosition();
@@ -135,6 +124,12 @@ public class Board extends ArrayList<HexPlot> {
             }
         });
         return linearHex;
+    }
+
+    @Override
+    public boolean add(HexPlot hexPlot){
+        hexPlot.setIrrigated();
+        return super.add(hexPlot);
     }
 
 }
