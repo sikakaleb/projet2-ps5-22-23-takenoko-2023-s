@@ -23,4 +23,11 @@ public class Bamboo {
     public Color getColor(){
         return this.color;
     }
+
+    @Override
+    public String toString() {
+        return "Bamboo{" +
+                "color=" + color +
+                '}';
+    }
 }

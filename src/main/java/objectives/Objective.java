@@ -22,4 +22,10 @@ public class Objective {
     public int getNumberOfPoints() {
         return NumberOfPoints;
     }
+
+    @Override
+    public String toString() {
+        return "NumberOfPoints=" + NumberOfPoints +
+                '}';
+    }
 }

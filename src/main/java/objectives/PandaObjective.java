@@ -3,6 +3,8 @@ package objectives;
 import tools.Color;
 import tools.PandaObjectiveConfiguration;
 
+import java.util.Arrays;
+
 /**
  * @class PandaObjective
  * @extends Objective
@@ -40,5 +42,14 @@ public class PandaObjective extends Objective{
 
     public PandaObjectiveConfiguration getConfiguration() {
         return configuration;
+    }
+
+    @Override
+    public String toString() {
+        return "PandaObjective{" +
+                "pandaObjectiveId=" + pandaObjectiveId +
+                ", configuration=" + configuration +
+                ", colors=" + Arrays.toString(colors) +
+                '}';
     }
 }

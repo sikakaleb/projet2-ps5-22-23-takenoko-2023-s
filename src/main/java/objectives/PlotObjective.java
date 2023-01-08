@@ -46,4 +46,13 @@ public class PlotObjective extends Objective{
     public PlotObjectiveConfiguration getConfiguration() {
         return configuration;
     }
+
+    @Override
+    public String toString() {
+        return "PlotObjective{" +
+                "plotObjectiveId=" + plotObjectiveId +
+                ", configuration=" + configuration +
+                ", color=" + color +
+                '}';
+    }
 }
