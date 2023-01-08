@@ -1,8 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import tools.BotIntelligence;
+
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
+import static tools.BotIntelligence.*;
 
 public class Main {
 
@@ -35,7 +38,7 @@ public class Main {
     public static void main(String... args) {
         Boolean loop =true;
         Player p1= new Player("Ted");
-        Player p2 = new Player("Willfried");
+        Player p2 = new Player("Willfried",PANDASTRATEGY);
         Game game = new Game(p1,p2);
         //game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
         List<Player> playerList = game.getPlayerList();
@@ -44,15 +47,14 @@ public class Main {
         System.out.println("---------------BEGIN----------------");
         while (loop){
             for(Player p : playerList ){
-
                 if (game.getDeckOfPlots().size()==0){
                     System.out.println("Plus de plots, fin");
                     System.out.println(p1);
                     System.out.println(p2);
                     System.exit(0);
                 }
-                else if(p.getObjectiveAchieved().size()==9) {
-                    System.out.println(p + " a gagné avec 3 objectifs");
+                else if(p.getObjectiveAchieved().size()==4) {
+                    System.out.println(p + " a gagné avec 9 objectifs");
                     System.exit(0);
                 }
 
@@ -60,9 +62,13 @@ public class Main {
                     System.out.println("C'est le tour de :" + p.getName());
                     jeReflechis();
                     if (game.play(p)) {
+                        System.out.println(p.getUnMetObjectives());
+                        System.out.println(p.getObjectiveAchieved());
                         game.display();
 
                     } else {
+                        System.out.println(p.getUnMetObjectives());
+                        System.out.println(p.getObjectiveAchieved());
                         /*
                          *Emoji qui pleure pour precisez qu'n joueur n'a
                          * pas peu valider un objectif dans son tour
