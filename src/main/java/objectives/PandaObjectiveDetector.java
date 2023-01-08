@@ -25,6 +25,20 @@ public class PandaObjectiveDetector {
     public boolean findTwoYellow(){
         return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.YELLOW).count() >= 2;
     }
+    /**
+     * Trouver un Objectif TWO_GREEN dans tout le jeu
+     * @return {boolean}
+     */
+    public boolean findTwoGreen(){
+        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 2;
+    }
+    /**
+     * Trouver un Objectif TWO_Pink dans tout le jeu
+     * @return {boolean}
+     */
+    public boolean findTwoPink(){
+        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.PINK).count() >= 2;
+    }
 
     /**
      * Trouver un Objectif THREE_GREEN dans tout le jeu
