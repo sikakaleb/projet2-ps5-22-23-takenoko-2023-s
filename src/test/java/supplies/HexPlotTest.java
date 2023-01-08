@@ -1,5 +1,7 @@
 package supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.Game;
+import fr.cotedazur.univ.polytech.startingpoint.Player;
 import tools.Color;
 import tools.VectorDirection;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,18 +9,22 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
 import static supplies.HexPlot.DIRECTION;
 import static tools.Color.*;
+import static tools.PlotImprovement.*;
 import static tools.VectorDirection.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HexPlotTest {
+    Game game;
     Board board;
     HexPlot pond;
     Set<HexPlot> HexPlotNeighborList;
 
     @BeforeEach
     public void setUp() {
+        game = new Game(new Player("Ted"), new Player("Wilfried"));
         board = new Board();
         pond = board.getPond();
         HexPlotNeighborList = new HashSet<>();
@@ -85,5 +91,57 @@ class HexPlotTest {
         HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
         board.add(notIrrigated);
         assertFalse(notIrrigated.isIrrigated());
+    }
+
+    @Test
+    public void setImprovement(){
+        HexPlot plot = new HexPlot(1,-1,1, PINK);
+        assertNull(plot.getImprovement());
+        plot.setImprovement(POOL);
+        assertEquals(plot.getImprovement(), POOL);
+        assertEquals(deckOfImprovements.size(), 8);
+    }
+
+    @Test
+    public void irrigateWithPOOL(){
+        HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
+        assertFalse(notIrrigated.isIrrigated());
+        notIrrigated.setImprovement(POOL);
+        assertTrue(notIrrigated.isIrrigated());
+    }
+
+    @Test
+    public void sproutWhenIrrigateWithPOOL(){
+        HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
+        notIrrigated.setImprovement(POOL);
+        assertEquals(notIrrigated.getBamboos().size(), 1);
+    }
+
+    @Test
+    public void cannotSetImprovementAlreadyOne(){
+        HexPlot plot = new HexPlot(1,1,1, YELLOW);
+        plot.setImprovement(FENCE);
+        try {
+            plot.setImprovement(POOL);
+        }
+        catch (IndexOutOfBoundsException e) {
+            assertEquals(e.getMessage(), "Il y a déjà un aménagement sur cette parcelle");
+        }
+        assertFalse(plot.isIrrigated());
+        assertEquals(deckOfImprovements.size(), 8);
+    }
+
+    @Test
+    public void cannotSetImprovementBamboo(){
+        HexPlot plot = new HexPlot(0,1,1, YELLOW);
+        plot.addBamboo();
+        try {
+            plot.setImprovement(FENCE);
+        }
+        catch (IndexOutOfBoundsException e) {
+            assertEquals(e.getMessage(), "Il y a un bambou sur cette parcelle");
+        }
+        assertNull(plot.getImprovement());
+        assertEquals(deckOfImprovements.size(), 9);
     }
 }

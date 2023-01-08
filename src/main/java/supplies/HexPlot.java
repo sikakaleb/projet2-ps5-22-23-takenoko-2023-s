@@ -1,11 +1,14 @@
 package supplies;
 
 import tools.Color;
+import tools.PlotImprovement;
 import tools.VectorDirection;
 
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
+import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
+import static tools.PlotImprovement.POOL;
 import static tools.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
@@ -18,6 +21,7 @@ public class HexPlot {
     private int r;
     private Color color;
     private ArrayList<Bamboo> bamboos = new ArrayList<>(4);
+    private PlotImprovement improvement = null;
     private boolean irrigated = false;
     private boolean sprouted = false;
 
@@ -96,7 +100,8 @@ public class HexPlot {
     public boolean isIrrigated(){ return irrigated; }
 
     public void irrigate() {
-        if (isPondNeighbor()) this.irrigated = true;
+        if ( isPondNeighbor() || this.improvement == POOL)
+            this.irrigated = true;
     }
 
     public void sprout(){
@@ -105,6 +110,26 @@ public class HexPlot {
             addBamboo();
         }
     }
+
+    public void setImprovement(PlotImprovement plotImprovement){
+        if (this.improvement != null)
+            throw new IndexOutOfBoundsException("Il y a déjà un aménagement sur cette parcelle");
+
+        else if (! this.bamboos.isEmpty())
+            throw new IndexOutOfBoundsException("Il y a un bambou sur cette parcelle");
+
+        else {
+            this.improvement = plotImprovement;
+            deckOfImprovements.remove(plotImprovement);
+
+            if (this.improvement == POOL) {
+                irrigated = true;
+                sprout();
+            }
+        }
+    }
+
+    public PlotImprovement getImprovement() { return improvement; }
 
     /** Les methodes particulieres de la classe **/
 

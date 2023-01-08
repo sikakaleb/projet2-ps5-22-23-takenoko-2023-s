@@ -17,6 +17,7 @@ public class Game {
     public static DeckOfPlots deckOfPlots;
     public static BambooStock bambooStock;
     public static DeckOfObjectifs listOfObjectives;
+    public static DeckOfImprovements deckOfImprovements;
     public static Panda panda;
     public List<Player> playerList;
 
@@ -24,13 +25,12 @@ public class Game {
     public Game(Player p1, Player p2) {
         bambooStock = new BambooStock();
         deckOfPlots = new DeckOfPlots();
-        listOfObjectives=new DeckOfObjectifs();
-
+        listOfObjectives = new DeckOfObjectifs();
+        deckOfImprovements = new DeckOfImprovements();
         board = new Board();
+        panda = new Panda(new HexPlot());
         playerList = new ArrayList<>();
         initPlayer(p1,p2);
-        this.panda=new Panda(new HexPlot());
-
     }
 
     /**InitPlayer ajoute les joueurs au jeu*/
@@ -136,16 +136,9 @@ public class Game {
      * @param plot {HexPlot}
      */
     public void addBambooToPlot(HexPlot plot){
-        if( plot.isPond()) {
-            throw new IndexOutOfBoundsException("On ne pose pas un bamboo sur la parcelle Etang");
-        }
-        else if( ! bambooStock.areLeft(plot.getColor())) {
+        if( !plot.isPond() && !bambooStock.areLeft(plot.getColor())) {
             throw new IndexOutOfBoundsException("Il y a plus de bambou " + plot.getColor());
-        }
-        else if( ! plot.isIrrigated()) {
-            throw new IndexOutOfBoundsException("Cette parcelle n'est pas irriguée");
-        }
-        else {
+        } else {
             plot.addBamboo();
         }
     }
