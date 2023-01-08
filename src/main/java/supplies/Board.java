@@ -1,7 +1,11 @@
 package supplies;
+import fr.cotedazur.univ.polytech.startingpoint.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+
+import static fr.cotedazur.univ.polytech.startingpoint.Game.panda;
 
 /**
  * @clas Board
@@ -117,6 +121,20 @@ public class Board extends ArrayList<HexPlot> {
      */
     public boolean addBambooToPlot(HexPlot plot, Bamboo bamboo){
         return plot.addBamboo(bamboo);
+    }
+
+    public List<HexPlot> pandaNewPositionPossibilities(){
+        List<HexPlot> linearHex = new ArrayList<>();
+        HexPlot currentPosition= panda.getPosition();
+        this.forEach(hexPlot -> {
+            if((hexPlot.getQ()==currentPosition.getQ()||hexPlot.getR()== currentPosition.getR()
+                    ||hexPlot.getS()==currentPosition.getS())&&
+                    !hexPlot.isPond()&&
+                    !currentPosition.equals(hexPlot)){
+                linearHex.add(hexPlot) ;
+            }
+        });
+        return linearHex;
     }
 
 }
