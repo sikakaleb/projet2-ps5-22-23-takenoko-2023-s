@@ -34,7 +34,22 @@ public class DeckOfObjectifs extends ArrayList {
          * Panda objectives
          */
         this.add(new PandaObjective(4,TWO_YELLOW, new Color[]{YELLOW}));
-        this.add(new PandaObjective(4,THREE_GREEN, new Color[]{GREEN}));
+        this.add(new PandaObjective(4,TWO_YELLOW, new Color[]{YELLOW}));
+        this.add(new PandaObjective(4,TWO_YELLOW, new Color[]{YELLOW}));
+        this.add(new PandaObjective(4,TWO_YELLOW, new Color[]{YELLOW}));
+
+        this.add(new PandaObjective(3,TWO_GREEN, new Color[]{GREEN}));
+        this.add(new PandaObjective(3,TWO_GREEN, new Color[]{GREEN}));
+        this.add(new PandaObjective(3,TWO_GREEN, new Color[]{GREEN}));
+        this.add(new PandaObjective(3,TWO_GREEN, new Color[]{GREEN}));
+        this.add(new PandaObjective(3,TWO_GREEN, new Color[]{GREEN}));
+
+        this.add(new PandaObjective(5,TWO_PINK, new Color[]{PINK}));
+        this.add(new PandaObjective(5,TWO_PINK, new Color[]{PINK}));
+        this.add(new PandaObjective(5,TWO_PINK, new Color[]{PINK}));
+
+        this.add(new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
+        this.add(new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
         this.add(new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
     }
 }
