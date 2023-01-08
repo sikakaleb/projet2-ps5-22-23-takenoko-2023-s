@@ -1,9 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import objectives.*;
+import supplies.HexPlot;
+import tools.BotIntelligence;
 
 import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
+import static tools.BotIntelligence.*;
 import static tools.PlotObjectiveConfiguration.*;
 import static tools.PandaObjectiveConfiguration.*;
 
@@ -20,9 +23,12 @@ public class Player {
     private String name;
     private int cumulOfpoint;
     private int maxUnmetObj;
+
+    private BotIntelligence strategy;
     public List<Objective> objectiveAchieved ;
     public List<Objective> unMetObjectives;
     public EatenBamboos eatenBamboos;
+
 
    /**Le ou Les constructeurs de la classe **/
     public Player(int age, int height, String name) {
@@ -30,6 +36,19 @@ public class Player {
         this.age = age;
         this.height = height;
         this.name = name;
+        this.strategy=WITHOUTSTRATEGY;
+        this.cumulOfpoint=0;
+        objectiveAchieved = new ArrayList<>();
+        unMetObjectives = new ArrayList<>();
+        maxUnmetObj=5;
+        eatenBamboos = new EatenBamboos();
+    }
+    public Player(int age, int height, String name,BotIntelligence strategy) {
+        playerId=++numberOfPlayer;
+        this.age = age;
+        this.height = height;
+        this.name = name;
+        this.strategy=strategy;
         this.cumulOfpoint=0;
         objectiveAchieved = new ArrayList<>();
         unMetObjectives = new ArrayList<>();
@@ -40,9 +59,17 @@ public class Player {
     public Player(String name){
         this(1,1,name);
     }
+
+    public Player(String name,BotIntelligence strategy){
+        this(1,1,name,strategy);
+    }
     /**Acesseur et mutateur de la classe**/
     public int getPlayerId() {
         return playerId;
+    }
+
+    public BotIntelligence getStrategy() {
+        return strategy;
     }
 
     /**Getteur CACA**/
@@ -183,6 +210,17 @@ public class Player {
                     eatenBamboos.removeTwoYellow();
                     bambooStock.addTwoYellow();
                     return validateUnMetObjectives(obj);
+                }else if( ( ((PandaObjective) obj).getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
+                    System.out.println(name+" a detecté un TWO_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    eatenBamboos.removeTwoGreen();
+                    bambooStock.addTwoGreen();
+                    return validateUnMetObjectives(obj);
+                }
+                else if( ( ((PandaObjective) obj).getConfiguration()==TWO_PINK && detector.findTwoPink())) {
+                    System.out.println(name+" a detecté un TWO_PINK \uD83D\uDC4F\uD83D\uDC4F ");
+                    eatenBamboos.removeTwoPink();
+                    bambooStock.addTwoPink();
+                    return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PandaObjective) obj).getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
                     System.out.println(name+" a detecté un THREE_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
@@ -198,6 +236,23 @@ public class Player {
                 }
 
             }
+
+        }
+        return false;
+    }
+
+    public boolean movePanda(){
+        Random rand = new Random();
+        List<HexPlot> movePossibilities= board.pandaNewPositionPossibilities();
+        if(movePossibilities.size()!=0){
+            int randNumber = rand.nextInt(movePossibilities.size());
+            HexPlot next = movePossibilities.get(randNumber);
+            panda.pandaMove(next);
+            if(next.getBamboos().size()!=0){
+                this.eatenBamboos.add(next.getBamboos().get(0));
+                next.getBamboos().remove(0);
+            }
+            return true;
         }
         return false;
     }
