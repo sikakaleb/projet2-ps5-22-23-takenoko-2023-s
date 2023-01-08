@@ -18,9 +18,9 @@ public class Referee {
             }
         }
         System.out.println("The winner is ,"
-                +winner.getName()+" gagne avec "
-                +winner.getCumulOfpoint()+" sa liste d'objectif validé est "
-                +winner.getObjectiveAchieved()+" sa liste d'objectif restant est "
+                +winner.getName()+",\n he win with "
+                +winner.getCumulOfpoint()+"Points \n ,his achievedObjectifsList is  "
+                +winner.getObjectiveAchieved()+"\n his unMetObjectifsList is "
                 +winner.getUnMetObjectives());
     }
 }
