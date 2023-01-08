@@ -53,8 +53,8 @@ public class Main {
                     System.out.println(p2);
                     System.exit(0);
                 }
-                else if(p.getObjectiveAchieved().size()==4) {
-                    System.out.println(p + " a gagné avec 9 objectifs");
+                else if(p.getObjectiveAchieved().size()==3) {
+                    System.out.println(p + " a gagné avec 3 objectifs");
                     System.exit(0);
                 }
 

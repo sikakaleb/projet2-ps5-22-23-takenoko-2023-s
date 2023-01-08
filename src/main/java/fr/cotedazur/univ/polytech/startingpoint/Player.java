@@ -240,6 +240,12 @@ public class Player {
         }
         return false;
     }
+    /**
+     * movePanda fonction qui fait deplacer le panda
+     * il recherche les parcelles dans lequel il peut se deplacer et effectue le choix selon
+     * @param  {}
+     * @return {Boolean}
+     */
 
     public boolean movePanda(){
         Random rand = new Random();

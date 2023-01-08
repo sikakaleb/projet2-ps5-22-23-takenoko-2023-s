@@ -223,4 +223,8 @@ class PlayerTest {
         assertTrue(player2.movePanda());
         /*System.out.println(game.panda.getPosition());*/
     }
+
+    @Test
+    void testMovePanda() {
+    }
 }

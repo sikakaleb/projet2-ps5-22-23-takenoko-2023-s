@@ -95,7 +95,11 @@ public class Game {
 
         return player.detectPlotObjective()&&player.dectectPandaObjective();
     }
-
+    /**
+     * choiceObjective fonction qui permet a un joueur de choisir un objectif
+     * @param player {player}
+     * @return {Boolean}
+     */
     public Boolean choiceObjective(Player player){
         if(listOfObjectives.size()>0 && player.getUnMetObjectives().size()<5){
             Random rand = new Random();
@@ -110,6 +114,11 @@ public class Game {
         return false;
     }
 
+    /**
+     * choicePlot fonction qui permet a un joueur de choisir une parcelle et de l'ajouter au jeu
+     * @param player {player}
+     * @return {Boolean}
+     */
     public Boolean choicePlot(Player player){
         if (deckOfPlots.size()!=0 ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
