@@ -17,10 +17,10 @@ public class Referee {
                 winner=p;
             }
         }
-        System.out.println("The winner is ,"
-                +winner.getName()+",\n he win with "
-                +winner.getCumulOfpoint()+"Points \n ,his achievedObjectifsList is  "
-                +winner.getObjectiveAchieved()+"\n his unMetObjectifsList is "
+        System.out.println("The winner is, "
+                +winner.getName()+",\nhe won with "
+                +winner.getCumulOfpoint()+" Points.\nhis achievedObjectifsList is  :\n"
+                +winner.getObjectiveAchieved()+"\nhis unMetObjectifsList is :\n"
                 +winner.getUnMetObjectives());
     }
 }
