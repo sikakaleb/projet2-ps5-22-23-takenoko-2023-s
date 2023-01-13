@@ -9,10 +9,4 @@ public class Irrigation {
         this.plot1=plot1;
         this.plot2=plot2;
     }
-
-
-
-
-
-
 }
