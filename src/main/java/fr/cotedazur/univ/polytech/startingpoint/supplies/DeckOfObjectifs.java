@@ -3,7 +3,6 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
-import objectives.*;
 import java.util.ArrayList;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;

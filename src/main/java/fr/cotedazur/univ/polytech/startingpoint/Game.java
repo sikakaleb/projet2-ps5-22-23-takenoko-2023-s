@@ -2,8 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
-import objectives.*;
-import supplies.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
