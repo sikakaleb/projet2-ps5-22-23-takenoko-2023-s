@@ -1,7 +1,9 @@
-package supplies;
-import org.jetbrains.annotations.NotNull;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
+
 
 import java.util.*;
+
+import static fr.cotedazur.univ.polytech.startingpoint.Game.panda;
 
 /**
  * @clas Board
@@ -22,6 +24,10 @@ public class Board extends ArrayList<HexPlot> {
         return this.get(0);
     }
 
+    public HexPlot getLastHexPlot(){
+        return this.get(this.size()-1);
+    }
+
     /**
      * Vérifier la contrainte :
      * " la parcelle est adjacente à la parcelle Spéciale (étang)  "
@@ -29,7 +35,7 @@ public class Board extends ArrayList<HexPlot> {
      * @param hex {HexPlot}
      * @return {boolean}
      */
-    public boolean checkPondNeighbor(@NotNull HexPlot hex) {
+    public boolean checkPondNeighbor(HexPlot hex) {
         Set<HexPlot> neighborSet = hex.plotNeighbor();
         if (neighborSet.isEmpty()) return false;
         for (HexPlot hexPlot : neighborSet) {
@@ -45,7 +51,7 @@ public class Board extends ArrayList<HexPlot> {
      * @param hex {HexPlot}
      * @return {boolean}
      */
-    public boolean checkTwoPlotNeighbors(@NotNull HexPlot hex) {
+    public boolean checkTwoPlotNeighbors(HexPlot hex) {
         Set<HexPlot> intersection = hex.plotNeighbor();
         Set<HexPlot> listOfPlotscopy = new HashSet<>();
         this.forEach(hexPlot -> {
@@ -62,7 +68,7 @@ public class Board extends ArrayList<HexPlot> {
      * @param hex {HexPlot}
      * @return neighborSet {Set<HexPlot>}
      */
-    public Set<HexPlot> findAvailableNeighbors(@NotNull HexPlot hex){
+    public Set<HexPlot> findAvailableNeighbors(HexPlot hex){
         Set<HexPlot> neighborSet = hex.plotNeighbor();
         // Retirer les emplacements indisponibles
         // parcelles déjà posées
@@ -90,7 +96,7 @@ public class Board extends ArrayList<HexPlot> {
      * et agencent un une autre deja existante
      */
 
-    public void ChoicePlot(@NotNull HexPlot hex){
+    public void ChoicePlot(HexPlot hex){
         Set<HexPlot> validPlotsSet = new HashSet<>();
         this.forEach(hexPlot -> {
             validPlotsSet.addAll(findAvailableNeighbors(hexPlot));
@@ -106,14 +112,31 @@ public class Board extends ArrayList<HexPlot> {
         System.out.println("voila list of plots:"+this);
     }
 
+    public List<HexPlot> pandaNewPositionPossibilities(){
+        List<HexPlot> linearHex = new ArrayList<>();
+        HexPlot currentPosition= panda.getPosition();
+        this.forEach(hexPlot -> {
+            if((hexPlot.getQ()==currentPosition.getQ()||hexPlot.getR()== currentPosition.getR()
+                    ||hexPlot.getS()==currentPosition.getS())&&
+                    !hexPlot.isPond()&&
+                    !currentPosition.equals(hexPlot)){
+                linearHex.add(hexPlot) ;
+            }
+        });
+        return linearHex;
+    }
+
     /**
-     * Add bamboo to plot of same color
-     * @param plot {HexPlot}
-     * @param bamboo {Bamboo}
-     * @return {boolean} if has been added
+     * Ajout d'une parcelle sur le plateau
+     * Si elle est déjà irriguée une section de bambou à sa couleur lui est ajoutée
+     * @param hexPlot {HexPlot} à ajouter
+     * @return {boolean} s'il a bien été ajouté
      */
-    public boolean addBambooToPlot(HexPlot plot, Bamboo bamboo){
-        return plot.addBamboo(bamboo);
+    @Override
+    public boolean add(HexPlot hexPlot){
+        hexPlot.irrigate();
+        hexPlot.sprout();
+        return super.add(hexPlot);
     }
 
 }

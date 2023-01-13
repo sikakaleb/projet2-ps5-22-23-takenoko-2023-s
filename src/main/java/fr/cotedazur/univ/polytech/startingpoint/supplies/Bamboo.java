@@ -1,6 +1,6 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 /**
  * @class Bamboo
@@ -22,5 +22,12 @@ public class Bamboo {
      */
     public Color getColor(){
         return this.color;
+    }
+
+    @Override
+    public String toString() {
+        return "Bamboo{" +
+                "color=" + color +
+                '}';
     }
 }

@@ -1,13 +1,13 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import objectives.PandaObjectiveDetector;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjectiveDetector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 public class PandaObjectiveDetectorTest {
 

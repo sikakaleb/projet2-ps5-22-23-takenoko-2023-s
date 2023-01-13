@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.*;
 
 public class Main {
 
@@ -35,8 +36,9 @@ public class Main {
     public static void main(String... args) {
         Boolean loop =true;
         Player p1= new Player("Ted");
-        Player p2 = new Player("Willfried");
+        Player p2 = new Player("Willfried",PANDASTRATEGY);
         Game game = new Game(p1,p2);
+        Referee referee = new Referee(game);
         //game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
         List<Player> playerList = game.getPlayerList();
         System.out.println(board);
@@ -44,18 +46,35 @@ public class Main {
         System.out.println("---------------BEGIN----------------");
         while (loop){
             for(Player p : playerList ){
-                System.out.println("C'est le tour de :"+p.getName());
-                jeReflechis();
-                if(game.play(p)){
-                    game.display();
+                if (game.getDeckOfPlots().size()==0){
+                    System.out.println("Plus de plots, fin");
+                    System.out.println(p1);
+                    System.out.println(p2);
+                    referee.judgement();
                     System.exit(0);
-                }else{
-                    /*
-                     *Emoji qui pleure pour precisez qu'n joueur n'a
-                     * pas peu valider un objectif dans son tour
-                     */
+                }
+                else if(p.getObjectiveAchieved().size()==3) {
+                    referee.judgement();
+                    System.exit(0);
+                }
+                else {
+                    System.out.println("C'est le tour de :" + p.getName());
+                    jeReflechis();
+                    if (game.play(p)) {
+                      //  System.out.println(p.getUnMetObjectives());
+                      //  System.out.println(p.getObjectiveAchieved());
+                        game.display();
 
-                    System.out.println("\uD83D\uDE2D");
+                    } else {
+                       // System.out.println(p.getUnMetObjectives());
+                       // System.out.println(p.getObjectiveAchieved());
+                        /*
+                         *Emoji qui pleure pour precisez qu'n joueur n'a
+                         * pas peu valider un objectif dans son tour
+                         */
+
+                        System.out.println("\uD83D\uDE2D");
+                    }
                 }
             }
 

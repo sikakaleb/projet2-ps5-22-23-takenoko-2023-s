@@ -1,11 +1,12 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import objectives.EatenBamboos;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.EatenBamboos;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 public class EatenBambooTest {
 

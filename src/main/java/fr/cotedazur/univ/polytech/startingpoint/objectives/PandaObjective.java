@@ -1,7 +1,9 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-import tools.Color;
-import tools.PandaObjectiveConfiguration;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration;
+
+import java.util.Arrays;
 
 /**
  * @class PandaObjective
@@ -40,5 +42,14 @@ public class PandaObjective extends Objective{
 
     public PandaObjectiveConfiguration getConfiguration() {
         return configuration;
+    }
+
+    @Override
+    public String toString() {
+        return "PandaObjective{" +
+                "pandaObjectiveId=" + pandaObjectiveId +
+                ", configuration=" + configuration +
+                ", colors=" + Arrays.toString(colors) +
+                '}';
     }
 }

@@ -1,10 +1,16 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.Game;
+import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.DeckOfPlots;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
@@ -12,10 +18,31 @@ public class BoardTest {
     private Board board;
     private DeckOfPlots deckOfPlots;
 
+
+    private Game game;
     @BeforeEach
     public void setUp(){
+        game=new Game(new Player("fred"),new Player("akossiwa"));
         board = new Board();
         deckOfPlots = new DeckOfPlots();
+        HexPlot hex1= new HexPlot(1,0,-1,GREEN);
+        hex1.getBamboos().add(new Bamboo(GREEN));
+        HexPlot hex2= new HexPlot(0,1,-1,YELLOW);
+        hex2.getBamboos().add(new Bamboo(YELLOW));
+        HexPlot hex3= new HexPlot(0,-2,2,PINK);
+        hex3.getBamboos().add(new Bamboo(PINK));
+        HexPlot hex4= new HexPlot(-1,0,1,GREEN);
+        hex4.getBamboos().add(new Bamboo(GREEN));
+        HexPlot hex5= new HexPlot(0,-1,1,YELLOW);
+        hex5.getBamboos().add(new Bamboo(YELLOW));
+        HexPlot hex6= new HexPlot(0,+3,-3,PINK);
+        hex6.getBamboos().add(new Bamboo(PINK));
+        game.board.add(hex1);
+        game.board.add(hex2);
+        game.board.add(hex3);
+        game.board.add(hex4);
+        game.board.add(hex5);
+        game.board.add(hex6);
     }
 
     @Test
@@ -76,4 +103,12 @@ public class BoardTest {
         assertEquals(board.size(),2);
     }
 
+    @Test
+    void pandaNewPositionPossibilities() {
+        assertEquals(game.board.pandaNewPositionPossibilities().size(),6);
+    }
+
+    @Test
+    void testPandaNewPositionPossibilities() {
+    }
 }

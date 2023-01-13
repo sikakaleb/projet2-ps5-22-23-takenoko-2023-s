@@ -1,4 +1,4 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
 public class Objective {
     /**Attributs de la classe**/
@@ -21,5 +21,11 @@ public class Objective {
 
     public int getNumberOfPoints() {
         return NumberOfPoints;
+    }
+
+    @Override
+    public String toString() {
+        return "NumberOfPoints=" + NumberOfPoints +
+                '}';
     }
 }

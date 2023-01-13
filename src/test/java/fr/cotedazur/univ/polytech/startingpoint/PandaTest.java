@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 import static org.junit.jupiter.api.Assertions.*;
 

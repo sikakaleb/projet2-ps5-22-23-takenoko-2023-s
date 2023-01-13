@@ -1,7 +1,7 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
 import fr.cotedazur.univ.polytech.startingpoint.Player;
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 /**
  * @class PandaObjectiveDetector
@@ -24,6 +24,20 @@ public class PandaObjectiveDetector {
      */
     public boolean findTwoYellow(){
         return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.YELLOW).count() >= 2;
+    }
+    /**
+     * Trouver un Objectif TWO_GREEN dans tout le jeu
+     * @return {boolean}
+     */
+    public boolean findTwoGreen(){
+        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 2;
+    }
+    /**
+     * Trouver un Objectif TWO_Pink dans tout le jeu
+     * @return {boolean}
+     */
+    public boolean findTwoPink(){
+        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.PINK).count() >= 2;
     }
 
     /**

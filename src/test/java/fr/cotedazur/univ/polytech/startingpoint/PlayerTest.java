@@ -1,18 +1,20 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import objectives.Objective;
-import objectives.PandaObjective;
-import objectives.PlotObjective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.Bamboo;
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 import java.util.*;
 
-import static tools.Color.*;
-import static tools.PandaObjectiveConfiguration.*;
-import static tools.PlotObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.WITHOUTSTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -27,6 +29,17 @@ class PlayerTest {
     PlotObjective triangularPlotObj = new PlotObjective(4,DIRECTSAMEPLOTS);
     PlotObjective quadriPlotObj = new PlotObjective(4,DIRECTSAMEPLOTS);
 
+    PandaObjective twoYellow =new PandaObjective(4,TWO_YELLOW, new Color[]{YELLOW});
+
+    PandaObjective twoGreen=new PandaObjective(3,TWO_GREEN, new Color[]{GREEN});
+
+    PandaObjective twoPink =new PandaObjective(5,TWO_PINK, new Color[]{PINK});
+
+    PandaObjective threeGreen =new PandaObjective(4,THREE_GREEN, new Color[]{GREEN});
+
+    PandaObjective oneOfEach =new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK});
+
+
 
     @BeforeEach
     public void setUp() {
@@ -38,6 +51,25 @@ class PlayerTest {
         player1.addNewObjective(directPlotObj);
         player1.addNewObjective(indirectPlotObj);
         game = new Game(player1,player2);
+        HexPlot hex1= new HexPlot(1,0,-1,GREEN);
+        hex1.getBamboos().add(new Bamboo(GREEN));
+        HexPlot hex2= new HexPlot(0,1,-1,YELLOW);
+        hex2.getBamboos().add(new Bamboo(YELLOW));
+        HexPlot hex3= new HexPlot(0,-2,2,PINK);
+        hex3.getBamboos().add(new Bamboo(PINK));
+        HexPlot hex4= new HexPlot(-1,0,1,GREEN);
+        hex4.getBamboos().add(new Bamboo(GREEN));
+        HexPlot hex5= new HexPlot(0,-1,1,YELLOW);
+        hex5.getBamboos().add(new Bamboo(YELLOW));
+        HexPlot hex6= new HexPlot(0,+3,-3,PINK);
+        hex6.getBamboos().add(new Bamboo(PINK));
+        game.board.add(hex1);
+        game.board.add(hex2);
+        game.board.add(hex3);
+        game.board.add(hex4);
+        game.board.add(hex5);
+        game.board.add(hex6);
+
 
         singlelist= new ArrayList<>();
         singlelist.add(directPlotObj);
@@ -122,6 +154,34 @@ class PlayerTest {
         assertTrue(player1.dectectPandaObjective());
         assertEquals(player1.eatenBamboos.size(), 1);
     }
+    @Test
+    public void dectectPandaObjectiveTWO_GREEN(){
+        assertEquals(player1.eatenBamboos.size(), 0);
+        player1.addNewObjective(twoGreen);
+        player1.eatenBamboos.add(new Bamboo(GREEN));
+        player1.eatenBamboos.add(new Bamboo(YELLOW));
+        assertFalse(player1.dectectPandaObjective());
+        assertEquals(player1.eatenBamboos.size(), 2);
+        player1.eatenBamboos.add(new Bamboo(GREEN));
+        assertEquals(player1.eatenBamboos.size(), 3);
+        assertTrue(player1.dectectPandaObjective());
+        System.out.println(player1.getCumulOfpoint());
+        assertEquals(player1.eatenBamboos.size(), 1);
+    }
+    @Test
+    public void dectectPandaObjectiveTWO_PINK(){
+        assertEquals(player1.eatenBamboos.size(), 0);
+        player1.addNewObjective(twoPink);
+        player1.eatenBamboos.add(new Bamboo(GREEN));
+        player1.eatenBamboos.add(new Bamboo(PINK));
+        assertFalse(player1.dectectPandaObjective());
+        assertEquals(player1.eatenBamboos.size(), 2);
+        player1.eatenBamboos.add(new Bamboo(PINK));
+        assertEquals(player1.eatenBamboos.size(), 3);
+        assertTrue(player1.dectectPandaObjective());
+        System.out.println(player1.getCumulOfpoint());
+        assertEquals(player1.eatenBamboos.size(), 1);
+    }
 
     @Test
     public void dectectPandaObjectiveTHREE_GREEN(){
@@ -152,4 +212,18 @@ class PlayerTest {
         assertEquals(player1.eatenBamboos.size(), 0);
     }
 
+    @Test
+    void getStrategy() {
+        assertEquals(player1.getStrategy(), WITHOUTSTRATEGY);
+    }
+
+    @Test
+    void movePanda() {
+        assertTrue(player2.movePanda());
+        /*System.out.println(game.panda.getPosition());*/
+    }
+
+    @Test
+    void testMovePanda() {
+    }
 }

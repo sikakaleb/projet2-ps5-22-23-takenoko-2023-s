@@ -1,10 +1,15 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import objectives.*;
-import supplies.*;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PANDASTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PLOTSTRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -12,17 +17,20 @@ public class Game {
     public static DeckOfPlots deckOfPlots;
     public static BambooStock bambooStock;
     public static DeckOfObjectifs listOfObjectives;
+    public static DeckOfImprovements deckOfImprovements;
+    public static Panda panda;
     public List<Player> playerList;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
-        board = new Board();
-        deckOfPlots = new DeckOfPlots();
-        playerList = new ArrayList<>();
-        listOfObjectives=new DeckOfObjectifs();
         bambooStock = new BambooStock();
+        deckOfPlots = new DeckOfPlots();
+        listOfObjectives = new DeckOfObjectifs();
+        deckOfImprovements = new DeckOfImprovements();
+        board = new Board();
+        panda = new Panda(new HexPlot());
+        playerList = new ArrayList<>();
         initPlayer(p1,p2);
-
     }
 
     /**InitPlayer ajoute les joueurs au jeu*/
@@ -49,7 +57,7 @@ public class Game {
     }
 
     public List<HexPlot> getDeckOfPlots() {
-        return board;
+        return deckOfPlots;
     }
     /*Methodes particulieres de la classe*/
 
@@ -64,26 +72,74 @@ public class Game {
      */
 
     public Boolean play(Player player){
-        Random rand = new Random();
         if(listOfObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
-        int randNumber = rand.nextInt(listOfObjectives.size());
-        player.addNewObjective((Objective) listOfObjectives.get(randNumber));
-        listOfObjectives.remove(randNumber);
-        board.ChoicePlot(deckOfPlots.pickPlot());
-        return player.dectectPlotObjective();
+        Random rand = new Random();
+        int randNumber = rand.nextInt(2);
+        if(player.getStrategy()==PANDASTRATEGY){
+            choiceObjective(player);
+            Boolean temp = player.movePanda();
+            return player.dectectPandaObjective();
+        }else if(player.getStrategy()==PLOTSTRATEGY){
+            choiceObjective(player);
+            choicePlot(player);
+            return player.detectPlotObjective();
+        }
+        if (randNumber==0){
+            choiceObjective(player);
+            Boolean temp = player.movePanda();
+        } else if (randNumber==1) {
+            choiceObjective(player);
+            choicePlot(player);
+        }
+
+        return player.detectPlotObjective()&&player.dectectPandaObjective();
+    }
+    /**
+     * choiceObjective fonction qui permet a un joueur de choisir un objectif
+     * @param player {player}
+     * @return {Boolean}
+     */
+    public Boolean choiceObjective(Player player){
+        if(listOfObjectives.size()>0 && player.getUnMetObjectives().size()<5){
+            Random rand = new Random();
+            int randNumber = rand.nextInt(listOfObjectives.size());
+            player.addNewObjective((Objective) listOfObjectives.get(randNumber));
+            listOfObjectives.remove(randNumber);
+            return true;
+        }
+        else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
+            throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
+        }
+        return false;
+    }
+
+    /**
+     * choicePlot fonction qui permet a un joueur de choisir une parcelle et de l'ajouter au jeu
+     * @param player {player}
+     * @return {Boolean}
+     */
+    public Boolean choicePlot(Player player){
+        if (deckOfPlots.size()!=0 ) {
+            board.ChoicePlot(deckOfPlots.pickPlot());
+            addBambooToPlot(board.getLastHexPlot());
+            return true;
+        }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
+            throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
+        }
+        return false;
     }
 
     /**
      * Add bamboo to plot of same color
      * @param plot {HexPlot}
-     * @param bamboo {Bamboo}
      */
-    public void addBambooToPlot(HexPlot plot, Bamboo bamboo){
-        if(bambooStock.areLeft(bamboo.getColor())) {
-            plot.addBamboo(bamboo);
-            bambooStock.remove(bamboo.getColor());
+    public void addBambooToPlot(HexPlot plot){
+        if( !plot.isPond() && !bambooStock.areLeft(plot.getColor())) {
+            throw new IndexOutOfBoundsException("Il y a plus de bambou " + plot.getColor());
+        } else {
+            plot.addBamboo();
         }
     }
 

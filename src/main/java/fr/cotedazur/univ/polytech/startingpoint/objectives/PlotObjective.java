@@ -1,9 +1,9 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-import tools.Color;
-import tools.PlotObjectiveConfiguration;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration;
 
-import static tools.Color.BLANK;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.BLANK;
 
 /**
  * Cette classe est une specification
@@ -45,5 +45,14 @@ public class PlotObjective extends Objective{
 
     public PlotObjectiveConfiguration getConfiguration() {
         return configuration;
+    }
+
+    @Override
+    public String toString() {
+        return "PlotObjective{" +
+                "plotObjectiveId=" + plotObjectiveId +
+                ", configuration=" + configuration +
+                ", color=" + color +
+                '}';
     }
 }
