@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.EatenBamboos;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 import fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence;
 

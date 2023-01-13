@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint.objectives;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;

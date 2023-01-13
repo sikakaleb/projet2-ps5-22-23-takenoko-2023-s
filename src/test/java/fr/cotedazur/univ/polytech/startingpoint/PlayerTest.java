@@ -135,12 +135,6 @@ class PlayerTest {
         assertEquals(player1.getCumulOfpoint(),4);
     }
 
-    /*@Test
-    void getPlayerIdTest() {
-        System.out.println(player1.getPlayerId()+"*************");
-        assertEquals(player1.getPlayerId(),19);
-    }*/
-
     @Test
     public void dectectPandaObjectiveTWO_YELLOW(){
         assertEquals(player1.eatenBamboos.size(), 0);

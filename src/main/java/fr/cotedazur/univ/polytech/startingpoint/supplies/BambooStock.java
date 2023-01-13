@@ -78,13 +78,13 @@ public class BambooStock extends ArrayList<Bamboo> {
      * Add 2 yellow bamboos back to stock
      */
     public void addTwoYellow() {
-        if(this.count(YELLOW)<=34) addBack(2, YELLOW);
+        if(this.count(YELLOW)<=28) addBack(2, YELLOW);
     }
     /**
      * Add 2 green bamboos back to stock
      */
     public void addTwoGreen() {
-        if(this.count(GREEN)<=28) addBack(2, GREEN);
+        if(this.count(GREEN)<=34) addBack(2, GREEN);
     }
     /**
      * Add 2 pink bamboos back to stock
@@ -96,13 +96,13 @@ public class BambooStock extends ArrayList<Bamboo> {
      * Add 3 green bamboos back to stock
      */
     public void addThreeGreen() {
-        if(this.count(GREEN)<=27) addBack(3, GREEN);
+        if(this.count(GREEN)<=33) addBack(3, GREEN);
     }
     /**
      * Add 3 bamboos back to stock, one of each color
      */
     public void addOneOfEach() {
-        if(this.count(YELLOW)<=35 && this.count(GREEN)<=29 && this.count(YELLOW)<=23) {
+        if(this.count(YELLOW)<=29 && this.count(GREEN)<=35 && this.count(PINK)<=23) {
             addBack(1, YELLOW);
             addBack(1, GREEN);
             addBack(1, PINK);

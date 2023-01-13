@@ -1,14 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.BambooStock;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class BambooStockTest {
 
@@ -20,20 +17,20 @@ public class BambooStockTest {
     }
 
     @Test
-    public void BambooStock(){
+    public void BambooStockTest(){
         assert(stock instanceof ArrayList<Bamboo>);
         assertEquals(stock.size(), 90);
     }
 
     @Test
-    public void count(){
+    public void countTest(){
         assertEquals(stock.count(Color.GREEN), 36);
         assertEquals(stock.count(Color.YELLOW), 30);
         assertEquals(stock.count(Color.PINK), 24);
     }
 
     @Test
-    public void getByColor(){
+    public void getByColorTest(){
         Bamboo greenBamboo = stock.getByColor(Color.GREEN);
         Bamboo yellowBamboo = stock.getByColor(Color.YELLOW);
         Bamboo pinkBamboo = stock.getByColor(Color.PINK);
@@ -46,30 +43,107 @@ public class BambooStockTest {
     }
 
     @Test
-    public void remove(){
-        stock.pickBamboo(Color.GREEN);
-        assertEquals(stock.size(), 89);
-        this.removeAllPink();
-        assertEquals(stock.size(), 65);
-        assertEquals(stock.pickBamboo(Color.PINK), null);
+    public void pickBambooTest(){
+        assertEquals(stock.pickBamboo(Color.GREEN).getColor(), stock.getByColor(Color.GREEN).getColor());
+        assertEquals(stock.pickBamboo(Color.YELLOW).getColor(), stock.getByColor(Color.YELLOW).getColor());
+        assertEquals(stock.pickBamboo(Color.PINK).getColor(), stock.getByColor(Color.PINK).getColor());
     }
 
     @Test
-    public void countNoneLeft(){
-        this.removeAllPink();
-        assertEquals(stock.count(Color.PINK), 0);
-    }
-
-    @Test
-    public void getByColorNoneLeft(){
-        this.removeAllPink();
-        assertEquals(stock.getByColor(Color.PINK), null);
-    }
-
-    private void removeAllPink(){
-        for(int i=0; i<24; i++){
+    public void areLeftTest(){
+        assertEquals(stock.areLeft(Color.GREEN), true);
+        assertEquals(stock.areLeft(Color.YELLOW), true);
+        assertEquals(stock.areLeft(Color.PINK), true);
+        for (int i = 0; i < 36; i++) {
+            stock.pickBamboo(Color.GREEN);
+        }
+        for (int i = 0; i < 30; i++) {
+            stock.pickBamboo(Color.YELLOW);
+        }
+        for (int i = 0; i < 24; i++) {
             stock.pickBamboo(Color.PINK);
         }
+        assertEquals(stock.areLeft(Color.GREEN), false);
+        assertEquals(stock.areLeft(Color.YELLOW), false);
+        assertEquals(stock.areLeft(Color.PINK), false);
     }
+
+    @Test
+    public void addBackTest(){
+        assertEquals(stock.count(Color.GREEN), 36);
+        assertEquals(stock.count(Color.YELLOW), 30);
+        assertEquals(stock.count(Color.PINK), 24);
+        stock.addBack(2, Color.GREEN);
+        stock.addBack(3, Color.YELLOW);
+        stock.addBack(1, Color.PINK);
+        assertEquals(stock.count(Color.GREEN), 38);
+        assertEquals(stock.count(Color.YELLOW), 33);
+        assertEquals(stock.count(Color.PINK), 25);
+    }
+
+    @Test
+    public void addTwoYellowTest(){
+        stock.pickBamboo(Color.YELLOW);
+        stock.pickBamboo(Color.YELLOW);
+        assertEquals(stock.count(Color.YELLOW), 28);
+        stock.addTwoYellow();
+        assertEquals(stock.count(Color.YELLOW), 30);
+        stock.addTwoYellow();
+        assertEquals(stock.count(Color.YELLOW), 30);
+    }
+
+    @Test
+    public void addTwoGreenTest(){
+        stock.pickBamboo(Color.GREEN);
+        stock.pickBamboo(Color.GREEN);
+        assertEquals(stock.count(Color.GREEN), 34);
+        stock.addTwoGreen();
+        assertEquals(stock.count(Color.GREEN), 36);
+        stock.addThreeGreen();
+        assertEquals(stock.count(Color.GREEN), 36);
+    }
+
+    @Test
+    public void addTwoPinkTest(){
+        stock.pickBamboo(Color.PINK);
+        stock.pickBamboo(Color.PINK);
+        assertEquals(stock.count(Color.PINK), 22);
+        stock.addTwoPink();
+        assertEquals(stock.count(Color.PINK), 24);
+        stock.addTwoPink();
+        assertEquals(stock.count(Color.PINK), 24);
+    }
+
+    @Test
+    public void addThreeGreenTest(){
+        stock.pickBamboo(Color.GREEN);
+        stock.pickBamboo(Color.GREEN);
+        stock.pickBamboo(Color.GREEN);
+        assertEquals(stock.count(Color.GREEN), 33);
+        stock.addThreeGreen();
+        assertEquals(stock.count(Color.GREEN), 36);
+        stock.addThreeGreen();
+        assertEquals(stock.count(Color.GREEN), 36);
+    }
+
+    @Test
+    public void addOneOfEachTest(){
+        stock.pickBamboo(Color.GREEN);
+        stock.pickBamboo(Color.YELLOW);
+        stock.pickBamboo(Color.PINK);
+        assertEquals(stock.count(Color.GREEN), 35);
+        assertEquals(stock.count(Color.YELLOW), 29);
+        assertEquals(stock.count(Color.PINK), 23);
+        stock.addOneOfEach();
+        assertEquals(stock.count(Color.GREEN), 36);
+        assertEquals(stock.count(Color.YELLOW), 30);
+        assertEquals(stock.count(Color.PINK), 24);
+        stock.addOneOfEach();
+        assertEquals(stock.count(Color.GREEN), 36);
+        assertEquals(stock.count(Color.YELLOW), 30);
+        assertEquals(stock.count(Color.PINK), 24);
+
+    }
+
 
 }

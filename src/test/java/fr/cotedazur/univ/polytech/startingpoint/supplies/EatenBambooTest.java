@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import fr.cotedazur.univ.polytech.startingpoint.objectives.EatenBamboos;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.EatenBamboos;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;

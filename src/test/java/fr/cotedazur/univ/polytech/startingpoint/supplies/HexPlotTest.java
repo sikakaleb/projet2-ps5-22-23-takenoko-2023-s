@@ -73,13 +73,17 @@ class HexPlotTest {
     }
 
     @Test
-    public void addBambooToPlot(){
+    public void addBambooTest(){
         assertEquals(pond.getBamboos(), new ArrayList<>());
         HexPlot plot = pond.plotAdd(Q_UP, Color.GREEN );
         assertEquals(plot.getBamboos().size(), 0);
         plot.addBamboo();
         assertEquals(plot.getBamboos().size(), 1);
         assertEquals(plot.getBamboos().get(0).getColor(), GREEN);
+        plot.addBamboo();
+        plot.addBamboo();
+        plot.addBamboo();
+        assertThrowsExactly(IndexOutOfBoundsException.class, plot::addBamboo);
     }
 
     @Test

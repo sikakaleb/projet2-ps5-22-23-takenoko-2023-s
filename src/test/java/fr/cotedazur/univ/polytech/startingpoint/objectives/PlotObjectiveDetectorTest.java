@@ -1,12 +1,11 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
+import fr.cotedazur.univ.polytech.startingpoint.Game;
+import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
-import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjectiveDetector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.DeckOfPlots;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 import java.util.*;
 
@@ -18,9 +17,13 @@ public class PlotObjectiveDetectorTest {
     private Board board;
     private DeckOfPlots deckOfPlots;
     private PlotObjectiveDetector detector;
+    private Game game;
+
+
     
     @BeforeEach
-    public void setUp(){
+    public void init(){
+        game = new Game(new Player("Ted"), new Player("Wilfried"));
         board = new Board();
         deckOfPlots = new DeckOfPlots();
         detector = new PlotObjectiveDetector(board);
@@ -120,14 +123,14 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void isIndirectDirectSamePlots() {
+    void isIndirectDirectSamePlotsTest() {
         board.add(new HexPlot(-3,2,1, GREEN));
         board.add(new HexPlot(-2,2,0,GREEN));
         board.add(new HexPlot(-1,1,0,GREEN));
         assertTrue(detector.findInDirectSamePlots(GREEN));
     }
     @Test
-    void checkSetSuitConfDirect() {
+    void checkSetSuitConfDirectTest() {
         List<HexPlot> list = new ArrayList<>();
         Set<Integer> answerSet = new HashSet<>();
         list.add(new HexPlot(-3,0,3));
@@ -140,7 +143,7 @@ public class PlotObjectiveDetectorTest {
 
     }
     @Test
-    void checkSetSuitConfInDirect() {
+    void checkSetSuitConfInDirectTest() {
         List<HexPlot> list = new ArrayList<>();
         Set<Integer> answerSet = new HashSet<>();
         list.add(new HexPlot(-3,0,3));
@@ -153,7 +156,7 @@ public class PlotObjectiveDetectorTest {
 
     }
     @Test
-    void checkSetSuitConfTriangular() {
+    void checkSetSuitConfTriangularTest() {
         List<HexPlot> list = new ArrayList<>();
         Set<Integer> answerSet = new HashSet<>();
         list.add(new HexPlot(-3,2,1));
@@ -165,7 +168,7 @@ public class PlotObjectiveDetectorTest {
 
     }
     @Test
-    void checkSetSuitConfQuadrilateral() {
+    void checkSetSuitConfQuadrilateralTest() {
         List<HexPlot> list = new ArrayList<>();
         Set<Integer> answerSet = new HashSet<>();
         list.add(new HexPlot(-3,2,1));
@@ -180,7 +183,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void checkPairAdjacentColorFalse() {
+    void checkPairAdjacentColorFalseTest() {
         List<HexPlot> list = new ArrayList<>();
         Set<Integer> answerSet = new HashSet<>();
         list.add(new HexPlot(-3,2,1,GREEN));
@@ -190,7 +193,7 @@ public class PlotObjectiveDetectorTest {
         assertFalse(detector.checkPairAdjacentColor(list));
     }
     @Test
-    void checkPairAdjacentColorTrue() {
+    void checkPairAdjacentColorTrueTest() {
         List<HexPlot> list = new ArrayList<>();
         Set<Integer> answerSet = new HashSet<>();
         list.add(new HexPlot(-3,2,1,GREEN));
@@ -202,7 +205,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void allColorInHexPlotList() {
+    void allColorInHexPlotListTest() {
         List<HexPlot> list = new ArrayList<>();
         Set<Color> colorSet = new HashSet<>();
         colorSet.add(GREEN);
@@ -216,7 +219,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void checkSetSuitConf() {
+    void checkSetSuitConfTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -230,7 +233,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void isQuadrilateralPlots_P_YTrue() {
+    void isQuadrilateralPlots_P_YTrueTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -239,7 +242,7 @@ public class PlotObjectiveDetectorTest {
         assertTrue(detector.isQuadrilateralPlots_P_Y(list));
     }
     @Test
-    void isQuadrilateralPlots() {
+    void isQuadrilateralPlotsTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -248,7 +251,7 @@ public class PlotObjectiveDetectorTest {
         assertTrue(detector.isQuadrilateralPlots(list));
     }
     @Test
-    void isQuadrilateralPlots_P_YFalse1() {
+    void isQuadrilateralPlots_P_YFalse1Test() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -257,7 +260,7 @@ public class PlotObjectiveDetectorTest {
         assertFalse(detector.isQuadrilateralPlots_P_Y(list));
     }
     @Test
-    void isQuadrilateralPlots_P_YFalse2() {
+    void isQuadrilateralPlots_P_YFalse2Test() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,15,PINK));
@@ -267,7 +270,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void isQuadrilateralPlots_G_PTrue() {
+    void isQuadrilateralPlots_G_PTrueTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -276,7 +279,7 @@ public class PlotObjectiveDetectorTest {
         assertTrue(detector.isQuadrilateralPlots_G_P(list));
     }
     @Test
-    void isQuadrilateralPlots_G_PFalse1() {
+    void isQuadrilateralPlots_G_PFalse1Test() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,PINK));
         list.add(new HexPlot(-2,2,15,GREEN));
@@ -285,7 +288,7 @@ public class PlotObjectiveDetectorTest {
         assertFalse(detector.isQuadrilateralPlots_G_P(list));
     }
     @Test
-    void isQuadrilateralPlots_G_PFalse2() {
+    void isQuadrilateralPlots_G_PFalse2Test() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,15,PINK));
@@ -295,7 +298,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void isQuadrilateralPlots_G_YTrue() {
+    void isQuadrilateralPlots_G_YTrueTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,0,YELLOW));
@@ -304,7 +307,7 @@ public class PlotObjectiveDetectorTest {
         assertTrue(detector.isQuadrilateralPlots_G_Y(list));
     }
     @Test
-    void isQuadrilateralPlots_G_YFalse1() {
+    void isQuadrilateralPlots_G_YFalse1Test() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,15,GREEN));
@@ -313,7 +316,7 @@ public class PlotObjectiveDetectorTest {
         assertFalse(detector.isQuadrilateralPlots_G_Y(list));
     }
     @Test
-    void isQuadrilateralPlots_G_YFalse2() {
+    void isQuadrilateralPlots_G_YFalse2Test() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,15,PINK));
@@ -324,7 +327,7 @@ public class PlotObjectiveDetectorTest {
 
 
     @Test
-    void findInDirectSamePlots() {
+    void findInDirectSamePlotsTest() {
         board.add(new HexPlot(-3,2,1,GREEN));
         board.add(new HexPlot(-2,2,0,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -334,7 +337,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void findQuadrilateralSamePlots() {
+    void findQuadrilateralSamePlotsTest() {
         board.add(new HexPlot(-3,2,1,PINK));
         board.add(new HexPlot(-2,0,2,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -344,7 +347,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void findQuadrilateralPlots_P_Y() {
+    void findQuadrilateralPlots_P_YTest() {
         board.add(new HexPlot(-3,2,1,YELLOW));
         board.add(new HexPlot(-2,2,0,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -353,7 +356,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void findQuadrilateralPlots_G_P() {
+    void findQuadrilateralPlots_G_PTest() {
         board.add(new HexPlot(-3,2,1,GREEN));
         board.add(new HexPlot(-2,2,0,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -362,7 +365,7 @@ public class PlotObjectiveDetectorTest {
     }
 
     @Test
-    void findQuadrilateralPlots_G_Y() {
+    void findQuadrilateralPlots_G_YTest() {
         board.add(new HexPlot(-3,2,1,GREEN));
         board.add(new HexPlot(-2,2,0,YELLOW));
         board.add(new HexPlot(-2,1,1,YELLOW));
