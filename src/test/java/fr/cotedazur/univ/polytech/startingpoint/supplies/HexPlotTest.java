@@ -1,19 +1,21 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.Game;
 import fr.cotedazur.univ.polytech.startingpoint.Player;
-import tools.Color;
-import tools.VectorDirection;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
-import static supplies.HexPlot.DIRECTION;
-import static tools.Color.*;
-import static tools.PlotImprovement.*;
-import static tools.VectorDirection.*;
+import static fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot.DIRECTION;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HexPlotTest {

@@ -1,5 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint;
-import supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 public class Panda {
     private HexPlot position;
 

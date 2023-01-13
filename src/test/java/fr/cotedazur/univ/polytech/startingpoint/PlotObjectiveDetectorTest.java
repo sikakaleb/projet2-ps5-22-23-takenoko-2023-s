@@ -1,16 +1,16 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import tools.Color;
-import objectives.PlotObjectiveDetector;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjectiveDetector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.Board;
-import supplies.DeckOfPlots;
-import supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.DeckOfPlots;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 import java.util.*;
 
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlotObjectiveDetectorTest {

@@ -1,6 +1,6 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 /**
  * @class Bamboo

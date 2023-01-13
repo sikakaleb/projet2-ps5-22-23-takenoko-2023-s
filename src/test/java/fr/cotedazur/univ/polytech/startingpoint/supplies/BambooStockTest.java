@@ -1,6 +1,8 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.BambooStock;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

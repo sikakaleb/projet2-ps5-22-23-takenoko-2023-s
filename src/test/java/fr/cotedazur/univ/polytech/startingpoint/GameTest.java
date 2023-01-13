@@ -2,19 +2,11 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.Bamboo;
-import supplies.BambooStock;
-import supplies.Board;
-import supplies.HexPlot;
-import tools.Color;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.stream.IntStream;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 class GameTest {
 

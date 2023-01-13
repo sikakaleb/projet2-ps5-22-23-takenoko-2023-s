@@ -1,14 +1,15 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
 import objectives.*;
-import supplies.HexPlot;
-import tools.BotIntelligence;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence;
 
 import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
-import static tools.BotIntelligence.*;
-import static tools.PlotObjectiveConfiguration.*;
-import static tools.PandaObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 
 public class Player {
     /**Attributs de la classe**/

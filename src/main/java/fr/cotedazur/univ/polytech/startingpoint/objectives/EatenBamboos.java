@@ -1,12 +1,12 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-import supplies.Bamboo;
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 public class EatenBamboos extends ArrayList<Bamboo> {
 

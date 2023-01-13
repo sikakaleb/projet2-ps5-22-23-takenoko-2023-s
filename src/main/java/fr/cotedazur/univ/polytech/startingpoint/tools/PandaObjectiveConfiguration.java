@@ -1,4 +1,4 @@
-package tools;
+package fr.cotedazur.univ.polytech.startingpoint.tools;
 
 /**
  * @class PandaObjectiveConfiguration de type enum

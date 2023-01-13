@@ -1,4 +1,4 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
 import org.junit.jupiter.api.Test;
 

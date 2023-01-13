@@ -1,15 +1,16 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import objectives.*;
 import supplies.*;
-import tools.BotIntelligence;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static tools.BotIntelligence.PANDASTRATEGY;
-import static tools.BotIntelligence.PLOTSTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PANDASTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PLOTSTRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/

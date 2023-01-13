@@ -1,12 +1,16 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.Game;
 import fr.cotedazur.univ.polytech.startingpoint.Player;
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.DeckOfPlots;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {

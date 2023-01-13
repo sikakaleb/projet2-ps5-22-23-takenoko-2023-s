@@ -1,15 +1,15 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import tools.Color;
-import tools.PlotImprovement;
-import tools.VectorDirection;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
+import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
-import static tools.PlotImprovement.POOL;
-import static tools.VectorDirection.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
  avec des coordonnées cartesienne 3D et avec Couleur**/

@@ -1,11 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import tools.BotIntelligence;
-
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
-import static tools.BotIntelligence.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.*;
 
 public class Main {
 

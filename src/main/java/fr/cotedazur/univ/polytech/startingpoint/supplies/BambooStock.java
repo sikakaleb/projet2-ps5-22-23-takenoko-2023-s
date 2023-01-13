@@ -1,10 +1,10 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 /**
  * @class BambooStock

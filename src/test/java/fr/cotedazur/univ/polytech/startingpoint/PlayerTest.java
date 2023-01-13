@@ -1,21 +1,20 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import objectives.Objective;
-import objectives.PandaObjective;
-import objectives.PlotObjective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.Bamboo;
-import supplies.HexPlot;
-import tools.BotIntelligence;
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 import java.util.*;
 
-import static tools.BotIntelligence.WITHOUTSTRATEGY;
-import static tools.Color.*;
-import static tools.PandaObjectiveConfiguration.*;
-import static tools.PlotObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.WITHOUTSTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
