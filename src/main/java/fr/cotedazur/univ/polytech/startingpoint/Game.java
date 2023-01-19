@@ -124,6 +124,8 @@ public class Game {
         if (deckOfPlots.size()!=0 ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
             addBambooToPlot(board.getLastHexPlot());
+            System.out.println(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
+            System.out.println("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
         }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");

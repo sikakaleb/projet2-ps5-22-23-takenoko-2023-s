@@ -113,6 +113,8 @@ public class Player {
     public void addNewObjective(Objective newObjective) {
         if(unMetObjectives.size()<maxUnmetObj){
             this.unMetObjectives.add(newObjective);
+            System.out.println(this.name+" ajoute l'objectif "+newObjective);
+            System.out.println("liste d'objectifs non validé de "+this.name+" :"+this.unMetObjectives);
         }
     }
 
@@ -189,6 +191,9 @@ public class Player {
 
             }
         }
+        System.out.println("Aucun objectif parcelles detecté");
+        System.out.println("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
+        System.out.println("la liste d'objectif validé :"+this.getObjectiveAchieved());
         return false;
     }
 
@@ -238,6 +243,9 @@ public class Player {
             }
 
         }
+        System.out.println("Aucun objectif panda detecté");
+        System.out.println("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
+        System.out.println("la liste d'objectif validé :"+this.getObjectiveAchieved());
         return false;
     }
     /**
@@ -248,6 +256,7 @@ public class Player {
      */
 
     public boolean movePanda(){
+        System.out.println("la position du panda avant deplacement "+panda.getPosition());
         Random rand = new Random();
         List<HexPlot> movePossibilities= board.pandaNewPositionPossibilities();
         if(movePossibilities.size()!=0){
@@ -255,11 +264,19 @@ public class Player {
             HexPlot next = movePossibilities.get(randNumber);
             panda.pandaMove(next);
             if(next.getBamboos().size()!=0){
+                System.out.println("la position du panda aprés deplacement"+panda.getPosition());
+                System.out.println("il y a de bambou sur cette parcelle");
+                System.out.println("panda mange un bambou de couleur "+next.getColor());
                 this.eatenBamboos.add(next.getBamboos().get(0));
                 next.getBamboos().remove(0);
+            }else{
+                System.out.println("la position du panda aprés deplacement"+panda.getPosition());
+                System.out.println("il y a pas de bambou sur cette parcelle");
             }
+
             return true;
         }
+        System.out.println("Impossible de faire deplacer le panda");
         return false;
     }
 
