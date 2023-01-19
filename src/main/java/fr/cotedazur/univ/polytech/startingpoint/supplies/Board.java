@@ -103,13 +103,14 @@ public class Board extends ArrayList<HexPlot> {
         });
         HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
         Random rand = new Random();
-        System.out.println("nombre de place valid est :"+validPlotsSet.size());
         int randNumber = rand.nextInt(validPlotsSet.size());
         hex.setQ(arrayPlots[randNumber].getQ());
         hex.setR(arrayPlots[randNumber].getR());
         hex.setS(arrayPlots[randNumber].getS());
+        System.out.println("nombre de place valide est :"+validPlotsSet.size());
+        System.out.println("les places valides sont :"+validPlotsSet);
+        System.out.println("la liste des parcelles dans le jeu avant le choix:"+this);
         this.add(hex);
-        System.out.println("voila list of plots:"+this);
     }
 
     public List<HexPlot> pandaNewPositionPossibilities(){

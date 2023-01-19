@@ -112,6 +112,9 @@ public class Game {
         else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
+        System.out.println(player.getName()+" ne peut plus choisir d'objectif");
+        System.out.println(player.getName()+" a 5 objectif non validé et est prié de les validé");
+        System.out.println(player.getUnMetObjectives());
         return false;
     }
 
@@ -123,7 +126,12 @@ public class Game {
     public Boolean choicePlot(Player player){
         if (deckOfPlots.size()!=0 ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
-            addBambooToPlot(board.getLastHexPlot());
+            /* le board ajoute deja dans son add modifié
+            un bambou a l'ajout de la parcelle au jeu
+             */
+            //addBambooToPlot(board.getLastHexPlot());
+            System.out.println(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
+            System.out.println("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
         }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
