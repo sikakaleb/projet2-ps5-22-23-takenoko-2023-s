@@ -257,6 +257,7 @@ public class Player {
 
     public boolean movePanda(){
         System.out.println("la position du panda avant deplacement "+panda.getPosition());
+        System.out.println("la liste des parcelles dans le jeu :"+board);
         Random rand = new Random();
         List<HexPlot> movePossibilities= board.pandaNewPositionPossibilities();
         if(movePossibilities.size()!=0){
