@@ -139,4 +139,19 @@ public class Board extends ArrayList<HexPlot> {
         return super.add(hexPlot);
     }
 
+    /**
+     * Pick a random plot from the board
+     * @return {Hexplot} the random HexPlot
+     */
+    public HexPlot pickPlot(){
+        if(this.size() < 2){
+            throw new IndexOutOfBoundsException("Il n'y a pas de Parcelle sur le plateau");
+        }
+        HexPlot randomPlot;
+        do {
+            int rnd = new Random().nextInt(this.size());
+            randomPlot = this.get(rnd);
+        } while (randomPlot.isPond());
+        return randomPlot;
+    }
 }

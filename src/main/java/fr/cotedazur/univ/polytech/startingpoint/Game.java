@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import objectives.*;
 import supplies.*;
 import tools.BotIntelligence;
+import tools.PlotImprovement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,15 @@ public class Game {
      */
 
     public Boolean play(Player player){
+        Dice.Condition weather = new Dice().roll();
+        switch (weather) {
+            case CLOUDS :
+                PlotImprovement improvement = deckOfImprovements.pick();
+                board.pickPlot().setImprovement(improvement);
+            default : break;
+        }
+
+
         if(listOfObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
