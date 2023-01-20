@@ -8,19 +8,20 @@ public class Referee {
         this.game = game;
     }
 
-    public void judgement() {
+    public Player judgement() {
         Player winner = null;
         int max=0;
         for(Player p: game.getPlayerList()){
-            if(max<p.getCumulOfpoint()){
-                max= p.getCumulOfpoint();
+            if(max<p.getScore()){
+                max= p.getScore();
                 winner=p;
             }
         }
         System.out.println("The winner is, "
                 +winner.getName()+",\nhe won with "
-                +winner.getCumulOfpoint()+" Points.\nhis achievedObjectifsList is  :\n"
+                +winner.getScore()+" Points.\nhis achievedObjectifsList is  :\n"
                 +winner.getObjectiveAchieved()+"\nhis unMetObjectifsList is :\n"
                 +winner.getUnMetObjectives());
+        return winner;
     }
 }

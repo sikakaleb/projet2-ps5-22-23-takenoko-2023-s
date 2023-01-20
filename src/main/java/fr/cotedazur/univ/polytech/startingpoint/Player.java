@@ -22,7 +22,7 @@ public class Player {
 
     /**End Attributs CACA  --> **/
     private String name;
-    private int cumulOfpoint;
+    private int score;
     private int maxUnmetObj;
 
     private BotIntelligence strategy;
@@ -38,7 +38,7 @@ public class Player {
         this.height = height;
         this.name = name;
         this.strategy=WITHOUTSTRATEGY;
-        this.cumulOfpoint=0;
+        this.score =0;
         objectiveAchieved = new ArrayList<>();
         unMetObjectives = new ArrayList<>();
         maxUnmetObj=5;
@@ -50,7 +50,7 @@ public class Player {
         this.height = height;
         this.name = name;
         this.strategy=strategy;
-        this.cumulOfpoint=0;
+        this.score =0;
         objectiveAchieved = new ArrayList<>();
         unMetObjectives = new ArrayList<>();
         maxUnmetObj=5;
@@ -98,7 +98,7 @@ public class Player {
 
     public void addObjectiveAchieved(Objective objectiveAchieved) {
         this.objectiveAchieved.add(objectiveAchieved);
-        this.cumulOfpoint+=objectiveAchieved.getNumberOfPoints();
+        this.score +=objectiveAchieved.getNumberOfPoints();
         System.out.println(name+" a gagné "+objectiveAchieved.getNumberOfPoints()+" points ✅");
     }
 
@@ -144,8 +144,12 @@ public class Player {
         return true;
     }
 
-    public int getCumulOfpoint() {
-        return cumulOfpoint;
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     /*****
@@ -288,7 +292,7 @@ public class Player {
     public String toString() {
         return "Player{" +
                 "name='" + name + '\'' +
-                ", cumulOfpoint=" + cumulOfpoint +
+                ", cumulOfpoint=" + score +
                 '}';
     }
 
