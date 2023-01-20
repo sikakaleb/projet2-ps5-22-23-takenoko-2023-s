@@ -116,6 +116,7 @@ public class PlotObjectiveDetectorTest {
 
     @Test
     void findDirectSamePlotsTest() {
+        assertFalse(detector.findDirectSamePlots(GREEN));
         board.add(new HexPlot(-3,3,0, GREEN));
         board.add(new HexPlot(-2,2,0,GREEN));
         board.add(new HexPlot(-1,1,0,GREEN));
@@ -328,6 +329,7 @@ public class PlotObjectiveDetectorTest {
 
     @Test
     void findInDirectSamePlotsTest() {
+        assertFalse(detector.findInDirectSamePlots(PINK));
         board.add(new HexPlot(-3,2,1,GREEN));
         board.add(new HexPlot(-2,2,0,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -338,6 +340,7 @@ public class PlotObjectiveDetectorTest {
 
     @Test
     void findQuadrilateralSamePlotsTest() {
+        assertFalse(detector.findQuadrilateralSamePlots(PINK));
         board.add(new HexPlot(-3,2,1,PINK));
         board.add(new HexPlot(-2,0,2,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -348,6 +351,7 @@ public class PlotObjectiveDetectorTest {
 
     @Test
     void findQuadrilateralPlots_P_YTest() {
+        assertFalse(detector.findQuadrilateralPlots_P_Y());
         board.add(new HexPlot(-3,2,1,YELLOW));
         board.add(new HexPlot(-2,2,0,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -357,6 +361,7 @@ public class PlotObjectiveDetectorTest {
 
     @Test
     void findQuadrilateralPlots_G_PTest() {
+        assertFalse(detector.findQuadrilateralPlots_G_P());
         board.add(new HexPlot(-3,2,1,GREEN));
         board.add(new HexPlot(-2,2,0,PINK));
         board.add(new HexPlot(-2,1,1,PINK));
@@ -366,6 +371,7 @@ public class PlotObjectiveDetectorTest {
 
     @Test
     void findQuadrilateralPlots_G_YTest() {
+        assertFalse(detector.findQuadrilateralPlots_G_Y());
         board.add(new HexPlot(-3,2,1,GREEN));
         board.add(new HexPlot(-2,2,0,YELLOW));
         board.add(new HexPlot(-2,1,1,YELLOW));

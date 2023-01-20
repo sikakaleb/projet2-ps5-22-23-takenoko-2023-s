@@ -46,6 +46,13 @@ public class BoardTest {
     }
 
     @Test
+    void getLastHexPlotTest(){
+        HexPlot hex = new HexPlot(0,1,1,GREEN);
+        game.board.add(hex);
+        assertEquals(hex,game.board.getLastHexPlot());
+    }
+
+    @Test
     void checkPondNeighborTest(){
         HexPlot pond = board.iterator().next();
 
@@ -104,11 +111,8 @@ public class BoardTest {
     }
 
     @Test
-    void pandaNewPositionPossibilities() {
+    void pandaNewPositionPossibilitiesTest() {
         assertEquals(game.board.pandaNewPositionPossibilities().size(),6);
     }
 
-    @Test
-    void testPandaNewPositionPossibilities() {
-    }
 }

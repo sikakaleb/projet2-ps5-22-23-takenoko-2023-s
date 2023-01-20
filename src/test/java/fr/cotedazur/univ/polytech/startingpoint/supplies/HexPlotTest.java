@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
 import static fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot.DIRECTION;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
@@ -70,6 +71,9 @@ class HexPlotTest {
         list.add(new HexPlot(-2,1,1,PINK));
         list.add(new HexPlot(-3,1,2,YELLOW));
         assertTrue(tempHex.isAdjacentWithAnotherOnSameColor(list));
+
+        HexPlot tempHex2=new HexPlot(-3,2,2,GREEN);
+        assertFalse(tempHex2.isAdjacentWithAnotherOnSameColor(list));
     }
 
     @Test
@@ -80,10 +84,19 @@ class HexPlotTest {
         plot.addBamboo();
         assertEquals(plot.getBamboos().size(), 1);
         assertEquals(plot.getBamboos().get(0).getColor(), GREEN);
+
         plot.addBamboo();
         plot.addBamboo();
         plot.addBamboo();
         assertThrowsExactly(IndexOutOfBoundsException.class, plot::addBamboo);
+
+        assertThrowsExactly(IndexOutOfBoundsException.class, pond::addBamboo);
+
+        HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
+        board.add(notIrrigated);
+        System.out.println(notIrrigated.isIrrigated());
+        assertThrowsExactly(IndexOutOfBoundsException.class, notIrrigated::addBamboo);
+
     }
 
     @Test

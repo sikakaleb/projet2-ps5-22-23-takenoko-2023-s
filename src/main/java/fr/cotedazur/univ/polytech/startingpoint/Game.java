@@ -41,9 +41,7 @@ public class Game {
 
     /**Acesseur et mutateur de la classe Game**/
 
-    /* A ce niveau de jeu notre jeu comprend juste un seul objectif
-     * il evoluera en liste au prochain milestone
-     */
+
     public List<Objective> getObjective() {
         return listOfObjectives;
     }
@@ -139,19 +137,7 @@ public class Game {
         return false;
     }
 
-    /**
-     * Add bamboo to plot of same color
-     * @param plot {HexPlot}
-     */
-    public void addBambooToPlot(HexPlot plot){
-        if( !plot.isPond() && !bambooStock.areLeft(plot.getColor())) {
-            throw new IndexOutOfBoundsException("Il y a plus de bambou " + plot.getColor());
-        } else {
-            plot.addBamboo();
-        }
-    }
-
-    /* diplay affiche les joueurs de la classe
+    /* display affiche les joueurs de la classe
      */
     public void display(){
         for (Player p:playerList) {

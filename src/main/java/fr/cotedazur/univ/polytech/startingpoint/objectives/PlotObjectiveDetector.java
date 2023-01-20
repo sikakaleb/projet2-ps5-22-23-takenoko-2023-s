@@ -274,7 +274,7 @@ public class PlotObjectiveDetector {
                 && colorSet.equals(allColorInHexPlotList(listPlots));
     }
 
-    /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
+    /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeu**/
     public Boolean findDirectSamePlots(Color color){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {

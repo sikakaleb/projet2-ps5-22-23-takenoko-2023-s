@@ -18,7 +18,7 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void count(){
+    public void countTest(){
         assertEquals(eatenBamboos.count(Color.GREEN), 0);
         assertEquals(eatenBamboos.count(Color.YELLOW), 0);
         assertEquals(eatenBamboos.count(Color.PINK), 0);
@@ -29,7 +29,7 @@ public class EatenBambooTest {
     }
     
     @Test
-    public void addMultiple(){
+    public void addMultipleTest(){
         eatenBamboos.addMultiple(2, YELLOW);
         assertEquals(eatenBamboos.size(), 2);
         eatenBamboos.addMultiple(6, PINK);
@@ -37,7 +37,7 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void remove(){
+    public void removeTest(){
         eatenBamboos.addMultiple(2, YELLOW);
         eatenBamboos.remove(YELLOW);
         assertEquals(eatenBamboos.size(), 1);
@@ -46,7 +46,7 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void removeTwoYellow() {
+    public void removeTwoYellowTest() {
         eatenBamboos.removeTwoYellow();
         assertEquals(eatenBamboos.size(), 0);
         eatenBamboos.addMultiple(2, YELLOW);
@@ -55,14 +55,32 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void removeThreeGreen() {
+    public void removeTwoGreenTest() {
+        eatenBamboos.removeTwoGreen();
+        assertEquals(eatenBamboos.size(), 0);
+        eatenBamboos.addMultiple(2, GREEN);
+        eatenBamboos.removeTwoGreen();
+        assertEquals(eatenBamboos.size(), 0);
+    }
+
+    @Test
+    public void removeTwoPinkTest() {
+        eatenBamboos.removeTwoPink();
+        assertEquals(eatenBamboos.size(), 0);
+        eatenBamboos.addMultiple(2, PINK);
+        eatenBamboos.removeTwoPink();
+        assertEquals(eatenBamboos.size(), 0);
+    }
+
+    @Test
+    public void removeThreeGreenTest() {
         eatenBamboos.addMultiple(3, GREEN);
         eatenBamboos.removeThreeGreen();
         assertEquals(eatenBamboos.size(), 0);
     }
 
     @Test
-    public void removeOneOfEach() {
+    public void removeOneOfEachTest() {
         eatenBamboos.addMultiple(2, YELLOW);
         eatenBamboos.addMultiple(2, GREEN);
         eatenBamboos.addMultiple(1, PINK);
