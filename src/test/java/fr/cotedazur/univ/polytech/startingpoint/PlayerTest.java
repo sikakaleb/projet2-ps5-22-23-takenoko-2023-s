@@ -3,12 +3,16 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.WITHOUTSTRATEGY;
@@ -219,5 +223,22 @@ class PlayerTest {
 
     @Test
     void testMovePanda() {
+    }
+
+    @Test
+    public void plotEnclosed(){
+
+        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        game.board = new Board();
+        HexPlot hex1= new HexPlot(1,0,-1,GREEN);
+        hex1.setImprovement(PlotImprovement.FENCE);
+        assertEquals(hex1.getBamboos().size(), 0);
+        game.board.add(hex1);
+        player1.movePanda();
+        assertEquals(game.panda.getPosition(), hex1);
+        assertTrue(outputStreamCaptor.toString().contains("cette parcelle est protégée par un enclos"));
+
     }
 }

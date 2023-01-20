@@ -9,6 +9,8 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
@@ -24,9 +26,13 @@ class HexPlotTest {
     Board board;
     HexPlot pond;
     Set<HexPlot> HexPlotNeighborList;
+    private ByteArrayOutputStream outputStreamCaptor;
 
     @BeforeEach
     public void setUp() {
+        outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
+
         game = new Game(new Player("Ted"), new Player("Wilfried"));
         board = new Board();
         pond = board.getPond();
@@ -140,12 +146,8 @@ class HexPlotTest {
     public void cannotSetImprovementAlreadyOne(){
         HexPlot plot = new HexPlot(1,1,1, YELLOW);
         plot.setImprovement(FENCE);
-        try {
-            plot.setImprovement(POOL);
-        }
-        catch (IndexOutOfBoundsException e) {
-            assertEquals(e.getMessage(), "Il y a déjà un aménagement sur cette parcelle");
-        }
+        plot.setImprovement(POOL);
+        assertEquals("Il y a déjà un aménagement sur cette parcelle", outputStreamCaptor.toString().trim());
         assertFalse(plot.isIrrigated());
         assertEquals(deckOfImprovements.size(), 8);
     }
@@ -154,12 +156,8 @@ class HexPlotTest {
     public void cannotSetImprovementBamboo(){
         HexPlot plot = new HexPlot(0,1,1, YELLOW);
         plot.addBamboo();
-        try {
-            plot.setImprovement(FENCE);
-        }
-        catch (IndexOutOfBoundsException e) {
-            assertEquals(e.getMessage(), "Il y a un bambou sur cette parcelle");
-        }
+        plot.setImprovement(FENCE);
+        assertEquals("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle", outputStreamCaptor.toString().trim());
         assertNull(plot.getImprovement());
         assertEquals(deckOfImprovements.size(), 9);
     }

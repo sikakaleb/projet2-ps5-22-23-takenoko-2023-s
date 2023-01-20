@@ -8,6 +8,7 @@ import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
 
@@ -24,6 +25,7 @@ public class HexPlot {
     private PlotImprovement improvement = null;
     private boolean irrigated = false;
     private boolean sprouted = false;
+    private boolean enclosed = false;
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
@@ -112,11 +114,12 @@ public class HexPlot {
     }
 
     public void setImprovement(PlotImprovement plotImprovement){
-        if (this.improvement != null)
-            throw new IndexOutOfBoundsException("Il y a déjà un aménagement sur cette parcelle");
+        if (this.improvement != null) {
+            System.out.println("Il y a déjà un aménagement sur cette parcelle");
+        }
 
         else if (! this.bamboos.isEmpty())
-            throw new IndexOutOfBoundsException("Il y a un bambou sur cette parcelle");
+            System.out.println("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle");
 
         else {
             this.improvement = plotImprovement;

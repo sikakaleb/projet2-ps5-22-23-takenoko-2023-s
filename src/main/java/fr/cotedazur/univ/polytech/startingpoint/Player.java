@@ -8,6 +8,7 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence;
 import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 
@@ -269,14 +270,19 @@ public class Player {
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
             panda.pandaMove(next);
+            System.out.println("la position du panda aprés deplacement"+panda.getPosition());
+
             if(next.getBamboos().size()!=0){
-                System.out.println("la position du panda aprés deplacement"+panda.getPosition());
                 System.out.println("il y a de bambou sur cette parcelle");
-                System.out.println("panda mange un bambou de couleur "+next.getColor());
-                this.eatenBamboos.add(next.getBamboos().get(0));
-                next.getBamboos().remove(0);
+
+                if (next.getImprovement()==FENCE)
+                    System.out.println("cette parcelle est protégée par un enclos");
+                else {
+                    System.out.println("panda mange un bambou de couleur " + next.getColor());
+                    this.eatenBamboos.add(next.getBamboos().get(0));
+                    next.getBamboos().remove(0);
+                    }
             }else{
-                System.out.println("la position du panda aprés deplacement"+panda.getPosition());
                 System.out.println("il y a pas de bambou sur cette parcelle");
             }
 
