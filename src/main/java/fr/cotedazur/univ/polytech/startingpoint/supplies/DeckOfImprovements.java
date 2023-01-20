@@ -25,7 +25,8 @@ public class DeckOfImprovements extends ArrayList<PlotImprovement> {
 
     public PlotImprovement pick(){
         if(this.isEmpty()){
-            throw new IndexOutOfBoundsException("Il y a plus d'aménagements dans la liste");
+            System.out.println("Il y a plus d'aménagements dans la liste");
+            return null;
         }
         int rnd = new Random().nextInt(this.size());
         PlotImprovement plotImprovement = this.get(rnd);

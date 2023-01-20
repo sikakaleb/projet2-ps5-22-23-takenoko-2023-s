@@ -156,10 +156,12 @@ public class Game {
     public void actOnWeather(Dice.Condition weatherCondition){
         switch (weatherCondition) {
             case CLOUDS :
-                PlotImprovement improvement = deckOfImprovements.pick();
-                if(board.choosePlotForImprovement() != null) {
-                    board.choosePlotForImprovement().setImprovement(improvement);
-                    System.out.println("La parcelle "+board.choosePlotForImprovement()+" a été amélioré par "+improvement);
+                if(deckOfImprovements.pick() != null) {
+                    PlotImprovement improvement = deckOfImprovements.pick();
+                    if (board.choosePlotForImprovement() != null) {
+                        board.choosePlotForImprovement().setImprovement(improvement);
+                        System.out.println("La parcelle " + board.choosePlotForImprovement() + " a été amélioré par " + improvement);
+                    }
                 }
             default : break;
         }
