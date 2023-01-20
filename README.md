@@ -23,4 +23,4 @@ Le jeu continue jusqu'à ce qu'il n'y ait plus de parcelles à poser ou quand un
 ### Jeu
 Pour avoir un demo, veuillez executer le Main.
 ### Test
-Notre rendu contient 78 tests contenus dans le package fr/cotedazur/univ/polytech/startingpoint
+Notre rendu contient 99 tests contenus dans le package fr/cotedazur/univ/polytech/startingpoint

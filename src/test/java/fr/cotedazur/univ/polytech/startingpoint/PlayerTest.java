@@ -132,7 +132,7 @@ class PlayerTest {
     @Test
     void getCumulOfpointTest() {
         player1.validateUnMetObjectives(quadriPlotObj);
-        assertEquals(player1.getCumulOfpoint(),4);
+        assertEquals(player1.getScore(),4);
     }
 
     @Test
@@ -159,7 +159,7 @@ class PlayerTest {
         player1.eatenBamboos.add(new Bamboo(GREEN));
         assertEquals(player1.eatenBamboos.size(), 3);
         assertTrue(player1.dectectPandaObjective());
-        System.out.println(player1.getCumulOfpoint());
+        System.out.println(player1.getScore());
         assertEquals(player1.eatenBamboos.size(), 1);
     }
     @Test
@@ -173,7 +173,7 @@ class PlayerTest {
         player1.eatenBamboos.add(new Bamboo(PINK));
         assertEquals(player1.eatenBamboos.size(), 3);
         assertTrue(player1.dectectPandaObjective());
-        System.out.println(player1.getCumulOfpoint());
+        System.out.println(player1.getScore());
         assertEquals(player1.eatenBamboos.size(), 1);
     }
 
