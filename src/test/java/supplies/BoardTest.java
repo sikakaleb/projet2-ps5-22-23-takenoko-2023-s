@@ -10,16 +10,14 @@ import static tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
-    
+
+    private Game game;
     private Board board;
     private DeckOfPlots deckOfPlots;
 
-
-    private Game game;
     @BeforeEach
     public void setUp(){
         game=new Game(new Player("fred"),new Player("akossiwa"));
-        board = new Board();
         deckOfPlots = new DeckOfPlots();
         HexPlot hex1= new HexPlot(1,0,-1,GREEN);
         hex1.getBamboos().add(new Bamboo(GREEN));
@@ -106,5 +104,31 @@ public class BoardTest {
 
     @Test
     void testPandaNewPositionPossibilities() {
+    }
+
+    @Test
+    public void pickPlotTest(){
+        assertEquals(game.board.size(),7);
+        game.board.getLastHexPlot().getBamboos().clear();
+
+        HexPlot plot = game.board.pickPlot();
+        assertEquals(game.board.size(),7);
+        assertTrue(game.board.contains(plot));
+        assertFalse(plot.isPond());
+        assertNull(plot.getImprovement());
+        assertTrue(plot.getBamboos().isEmpty());
+
+        game.board.removeIf(hexPlot -> !hexPlot.isPond());
+        assertEquals(game.board.size(), 1);
+    }
+
+    @Test
+    public void pickPlotnoImproveableTest(){
+        IndexOutOfBoundsException thrown = assertThrows(
+                IndexOutOfBoundsException.class,
+                () -> game.board.pickPlot(),
+                "Aucune parcelle aménageable"
+        );
+        assertTrue(thrown.getMessage().contentEquals("Aucune parcelle aménageable"));
     }
 }

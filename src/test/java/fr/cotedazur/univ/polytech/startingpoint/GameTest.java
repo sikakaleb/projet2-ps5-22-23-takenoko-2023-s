@@ -2,10 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.Bamboo;
-import supplies.BambooStock;
-import supplies.Board;
-import supplies.HexPlot;
+import supplies.*;
 import tools.Color;
 
 import java.util.Collection;
@@ -23,6 +20,24 @@ class GameTest {
     @BeforeEach
     public void init(){
         game = new Game(new Player("Ted"), new Player("Wilfried"));
+        HexPlot hex1= new HexPlot(1,0,-1,GREEN);
+        hex1.getBamboos().add(new Bamboo(GREEN));
+        HexPlot hex2= new HexPlot(0,1,-1,YELLOW);
+        hex2.getBamboos().add(new Bamboo(YELLOW));
+        HexPlot hex3= new HexPlot(0,-2,2,PINK);
+        hex3.getBamboos().add(new Bamboo(PINK));
+        HexPlot hex4= new HexPlot(-1,0,1,GREEN);
+        hex4.getBamboos().add(new Bamboo(GREEN));
+        HexPlot hex5= new HexPlot(0,-1,1,YELLOW);
+        hex5.getBamboos().add(new Bamboo(YELLOW));
+        HexPlot hex6= new HexPlot(0,+3,-3,PINK);
+        hex6.getBamboos().add(new Bamboo(PINK));
+        game.board.add(hex1);
+        game.board.add(hex2);
+        game.board.add(hex3);
+        game.board.add(hex4);
+        game.board.add(hex5);
+        game.board.add(hex6);
     }
 
     @Test
@@ -123,5 +138,20 @@ class GameTest {
         assertEquals(plot.getBamboos().get(0).getColor(),plot.getColor());
         assertEquals(bambooStock.size(), 88);
         assertEquals(bambooStock.count(PINK), 22);
+    }
+
+    @Test
+    public void rollDiceTest(){
+        assertTrue(new Dice().roll() instanceof Dice.Condition);
+    }
+
+    @Test
+    public void placeImprovementTest(){
+        game.board.forEach( hexPlot -> {
+            assertNull(hexPlot.getImprovement());
+        });
+        Dice.Condition condition = Dice.Condition.CLOUDS;
+        game.actOnWeather(condition);
+
     }
 }

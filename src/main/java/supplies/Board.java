@@ -144,14 +144,18 @@ public class Board extends ArrayList<HexPlot> {
      * @return {Hexplot} the random HexPlot
      */
     public HexPlot pickPlot(){
-        if(this.size() < 2){
-            throw new IndexOutOfBoundsException("Il n'y a pas de Parcelle sur le plateau");
+
+        ArrayList<HexPlot> forImprovement = (ArrayList<HexPlot>) this.clone();
+        forImprovement.removeIf( hexPlot ->
+                        hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
+        );
+        if(forImprovement.isEmpty()){
+            throw new IndexOutOfBoundsException("Aucune parcelle aménageable");
         }
-        HexPlot randomPlot;
-        do {
-            int rnd = new Random().nextInt(this.size());
-            randomPlot = this.get(rnd);
-        } while (randomPlot.isPond());
+
+        int rnd = new Random().nextInt(forImprovement.size());
+        HexPlot randomPlot = forImprovement.get(rnd);
+
         return randomPlot;
     }
 }
