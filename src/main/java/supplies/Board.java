@@ -139,4 +139,23 @@ public class Board extends ArrayList<HexPlot> {
         return super.add(hexPlot);
     }
 
+    /**
+     * Pick a random plot from the board
+     * @return {Hexplot} the random HexPlot
+     */
+    public HexPlot pickPlot(){
+
+        ArrayList<HexPlot> forImprovement = (ArrayList<HexPlot>) this.clone();
+        forImprovement.removeIf( hexPlot ->
+                        hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
+        );
+        if(forImprovement.isEmpty()){
+            throw new IndexOutOfBoundsException("Aucune parcelle aménageable");
+        }
+
+        int rnd = new Random().nextInt(forImprovement.size());
+        HexPlot randomPlot = forImprovement.get(rnd);
+
+        return randomPlot;
+    }
 }
