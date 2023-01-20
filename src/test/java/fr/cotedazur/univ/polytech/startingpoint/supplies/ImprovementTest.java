@@ -1,14 +1,14 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tools.PlotImprovement;
 
 import java.util.ArrayList;
 
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static tools.PlotImprovement.*;
 
 public class ImprovementTest {
 

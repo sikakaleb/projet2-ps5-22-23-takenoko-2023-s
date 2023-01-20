@@ -144,14 +144,15 @@ public class Board extends ArrayList<HexPlot> {
      * Pick a random plot from the board
      * @return {Hexplot} the random HexPlot
      */
-    public HexPlot pickPlot(){
+    public HexPlot choosePlotForImprovement(){
 
         ArrayList<HexPlot> forImprovement = (ArrayList<HexPlot>) this.clone();
         forImprovement.removeIf( hexPlot ->
                         hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
         );
         if(forImprovement.isEmpty()){
-            throw new IndexOutOfBoundsException("Aucune parcelle aménageable");
+            System.out.println("Aucune parcelle aménageable");
+            return null;
         }
 
         int rnd = new Random().nextInt(forImprovement.size());

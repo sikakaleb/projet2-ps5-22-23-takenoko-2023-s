@@ -2,11 +2,8 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
-import objectives.*;
-import supplies.*;
-import tools.BotIntelligence;
-import tools.PlotImprovement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,7 +157,10 @@ public class Game {
         switch (weatherCondition) {
             case CLOUDS :
                 PlotImprovement improvement = deckOfImprovements.pick();
-                board.pickPlot().setImprovement(improvement);
+                if(board.choosePlotForImprovement() != null) {
+                    board.choosePlotForImprovement().setImprovement(improvement);
+                    System.out.println("La parcelle "+board.choosePlotForImprovement()+" a été amélioré par "+improvement);
+                }
             default : break;
         }
     }

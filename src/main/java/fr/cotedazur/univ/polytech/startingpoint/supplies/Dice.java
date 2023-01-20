@@ -1,4 +1,4 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 import java.util.Random;
 
 /**

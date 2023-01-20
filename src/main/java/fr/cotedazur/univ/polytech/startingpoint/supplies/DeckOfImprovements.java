@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import java.util.ArrayList;
 import java.util.Random;

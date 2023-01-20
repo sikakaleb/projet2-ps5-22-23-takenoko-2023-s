@@ -2,10 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.Game;
 import fr.cotedazur.univ.polytech.startingpoint.Player;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.DeckOfPlots;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +17,8 @@ public class BoardTest {
 
     @BeforeEach
     public void setUp(){
-        game=new Game(new Player("fred"),new Player("akossiwa"));
+        game=new Game(new Player("Ted"),new Player("Wilfried"));
+        board=new Board();
         deckOfPlots = new DeckOfPlots();
         HexPlot hex1= new HexPlot(1,0,-1,GREEN);
         hex1.getBamboos().add(new Bamboo(GREEN));
@@ -114,11 +111,11 @@ public class BoardTest {
     }
 
     @Test
-    public void pickPlotTest(){
+    public void choosePlotForImprovementTest(){
         assertEquals(game.board.size(),7);
         game.board.getLastHexPlot().getBamboos().clear();
 
-        HexPlot plot = game.board.pickPlot();
+        HexPlot plot = game.board.choosePlotForImprovement();
         assertEquals(game.board.size(),7);
         assertTrue(game.board.contains(plot));
         assertFalse(plot.isPond());
@@ -127,15 +124,9 @@ public class BoardTest {
 
         game.board.removeIf(hexPlot -> !hexPlot.isPond());
         assertEquals(game.board.size(), 1);
+
+        Board emptyBoard = new Board();
+        assertEquals(emptyBoard.choosePlotForImprovement(), null);
     }
 
-    @Test
-    public void pickPlotnoImproveableTest(){
-        IndexOutOfBoundsException thrown = assertThrows(
-                IndexOutOfBoundsException.class,
-                () -> game.board.pickPlot(),
-                "Aucune parcelle aménageable"
-        );
-        assertTrue(thrown.getMessage().contentEquals("Aucune parcelle aménageable"));
-    }
 }
