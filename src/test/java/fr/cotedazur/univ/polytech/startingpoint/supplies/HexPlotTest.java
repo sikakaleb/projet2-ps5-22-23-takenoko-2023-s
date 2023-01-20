@@ -1,19 +1,22 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.Game;
 import fr.cotedazur.univ.polytech.startingpoint.Player;
-import tools.Color;
-import tools.VectorDirection;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
-import static supplies.HexPlot.DIRECTION;
-import static tools.Color.*;
-import static tools.PlotImprovement.*;
-import static tools.VectorDirection.*;
+import static fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot.DIRECTION;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HexPlotTest {
@@ -68,16 +71,32 @@ class HexPlotTest {
         list.add(new HexPlot(-2,1,1,PINK));
         list.add(new HexPlot(-3,1,2,YELLOW));
         assertTrue(tempHex.isAdjacentWithAnotherOnSameColor(list));
+
+        HexPlot tempHex2=new HexPlot(-3,2,2,GREEN);
+        assertFalse(tempHex2.isAdjacentWithAnotherOnSameColor(list));
     }
 
     @Test
-    public void addBambooToPlot(){
+    public void addBambooTest(){
         assertEquals(pond.getBamboos(), new ArrayList<>());
         HexPlot plot = pond.plotAdd(Q_UP, Color.GREEN );
         assertEquals(plot.getBamboos().size(), 0);
         plot.addBamboo();
         assertEquals(plot.getBamboos().size(), 1);
         assertEquals(plot.getBamboos().get(0).getColor(), GREEN);
+
+        plot.addBamboo();
+        plot.addBamboo();
+        plot.addBamboo();
+        assertThrowsExactly(IndexOutOfBoundsException.class, plot::addBamboo);
+
+        assertThrowsExactly(IndexOutOfBoundsException.class, pond::addBamboo);
+
+        HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
+        board.add(notIrrigated);
+        System.out.println(notIrrigated.isIrrigated());
+        assertThrowsExactly(IndexOutOfBoundsException.class, notIrrigated::addBamboo);
+
     }
 
     @Test

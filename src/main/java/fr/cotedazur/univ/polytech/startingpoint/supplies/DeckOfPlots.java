@@ -1,10 +1,10 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 /**
  * @class DeckOfPlots

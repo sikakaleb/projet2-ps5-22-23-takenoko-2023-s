@@ -1,7 +1,7 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
 import fr.cotedazur.univ.polytech.startingpoint.Player;
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 /**
  * @class PandaObjectiveDetector

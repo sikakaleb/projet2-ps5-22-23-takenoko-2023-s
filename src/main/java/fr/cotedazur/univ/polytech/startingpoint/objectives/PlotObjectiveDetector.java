@@ -1,13 +1,13 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-import tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.paukov.combinatorics3.Generator;
-import supplies.Board;
-import supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 import java.util.*;
 
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 /**
  * @class PlotObjectiveDetector
@@ -274,7 +274,7 @@ public class PlotObjectiveDetector {
                 && colorSet.equals(allColorInHexPlotList(listPlots));
     }
 
-    /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeux**/
+    /** Trouver un Objectif DIRECTSAMEPLOTS dans tout le jeu**/
     public Boolean findDirectSamePlots(Color color){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {

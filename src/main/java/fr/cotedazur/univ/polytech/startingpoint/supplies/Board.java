@@ -1,5 +1,5 @@
-package supplies;
-import org.jetbrains.annotations.NotNull;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
+
 
 import java.util.*;
 
@@ -35,7 +35,7 @@ public class Board extends ArrayList<HexPlot> {
      * @param hex {HexPlot}
      * @return {boolean}
      */
-    public boolean checkPondNeighbor(@NotNull HexPlot hex) {
+    public boolean checkPondNeighbor(HexPlot hex) {
         Set<HexPlot> neighborSet = hex.plotNeighbor();
         if (neighborSet.isEmpty()) return false;
         for (HexPlot hexPlot : neighborSet) {
@@ -51,7 +51,7 @@ public class Board extends ArrayList<HexPlot> {
      * @param hex {HexPlot}
      * @return {boolean}
      */
-    public boolean checkTwoPlotNeighbors(@NotNull HexPlot hex) {
+    public boolean checkTwoPlotNeighbors(HexPlot hex) {
         Set<HexPlot> intersection = hex.plotNeighbor();
         Set<HexPlot> listOfPlotscopy = new HashSet<>();
         this.forEach(hexPlot -> {
@@ -68,7 +68,7 @@ public class Board extends ArrayList<HexPlot> {
      * @param hex {HexPlot}
      * @return neighborSet {Set<HexPlot>}
      */
-    public Set<HexPlot> findAvailableNeighbors(@NotNull HexPlot hex){
+    public Set<HexPlot> findAvailableNeighbors(HexPlot hex){
         Set<HexPlot> neighborSet = hex.plotNeighbor();
         // Retirer les emplacements indisponibles
         // parcelles déjà posées
@@ -96,20 +96,21 @@ public class Board extends ArrayList<HexPlot> {
      * et agencent un une autre deja existante
      */
 
-    public void ChoicePlot(@NotNull HexPlot hex){
+    public void ChoicePlot(HexPlot hex){
         Set<HexPlot> validPlotsSet = new HashSet<>();
         this.forEach(hexPlot -> {
             validPlotsSet.addAll(findAvailableNeighbors(hexPlot));
         });
         HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
         Random rand = new Random();
-        System.out.println("nombre de place valid est :"+validPlotsSet.size());
         int randNumber = rand.nextInt(validPlotsSet.size());
         hex.setQ(arrayPlots[randNumber].getQ());
         hex.setR(arrayPlots[randNumber].getR());
         hex.setS(arrayPlots[randNumber].getS());
+        System.out.println("nombre de place valide est :"+validPlotsSet.size());
+        System.out.println("les places valides sont :"+validPlotsSet);
+        System.out.println("la liste des parcelles dans le jeu avant le choix:"+this);
         this.add(hex);
-        System.out.println("voila list of plots:"+this);
     }
 
     public List<HexPlot> pandaNewPositionPossibilities(){

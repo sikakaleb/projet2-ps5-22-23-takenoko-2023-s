@@ -2,20 +2,20 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.*;
+import supplies.Bamboo;
+import supplies.BambooStock;
+import supplies.Board;
+import supplies.HexPlot;
 import tools.Color;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.stream.IntStream;
-
-import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static tools.Color.*;
+
 
 class GameTest {
 
     private Game game;
+    Player player1;
+    Player player2;
 
     @BeforeEach
     public void init(){
@@ -120,24 +120,14 @@ class GameTest {
     }
 
     @Test
-    public void sproutBamboo(){
-        HexPlot plot = new HexPlot(0,0,1, PINK);
-        board.add(plot);
-        assertEquals(plot.getBamboos().size(),1);
-        assertEquals(plot.getBamboos().get(0).getColor(),plot.getColor());
-        assertEquals(bambooStock.size(), 89);
-        assertEquals(bambooStock.count(PINK), 23);
-    }
-
-    @Test
-    public void addBambooToPlot(){
-        HexPlot plot = new HexPlot(0,0,1, PINK);
-        board.add(plot);
-        plot.addBamboo();
-        assertEquals(plot.getBamboos().size(),2);
-        assertEquals(plot.getBamboos().get(0).getColor(),plot.getColor());
-        assertEquals(bambooStock.size(), 88);
-        assertEquals(bambooStock.count(PINK), 22);
+    void choiceObjectiveTest() {
+        game.choiceObjective(player1);
+        assertEquals(game.getObjective().size(), 29);
+        assertTrue(game.choiceObjective(player1));
+        assertTrue(game.choiceObjective(player2));
+        game.choiceObjective(player2);
+        assertEquals(game.getObjective().size(), 26);
+        assertTrue(game.choiceObjective(player2));
     }
 
     @Test

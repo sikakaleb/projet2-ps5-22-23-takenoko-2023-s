@@ -1,11 +1,12 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import tools.Color;
-import objectives.*;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import java.util.ArrayList;
-import static tools.Color.*;
-import static tools.PlotObjectiveConfiguration.*;
-import static tools.PandaObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 
 public class DeckOfObjectifs extends ArrayList {
     

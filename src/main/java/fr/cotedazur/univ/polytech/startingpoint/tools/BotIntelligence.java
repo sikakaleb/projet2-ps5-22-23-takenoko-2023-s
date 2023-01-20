@@ -1,4 +1,4 @@
-package tools;
+package fr.cotedazur.univ.polytech.startingpoint.tools;
 
 public enum BotIntelligence {
     /** valid que les objectifs parcelle*/

@@ -1,13 +1,14 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-import objectives.PandaObjectiveDetector;
+import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjectiveDetector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 public class PandaObjectiveDetectorTest {
 
@@ -21,7 +22,7 @@ public class PandaObjectiveDetectorTest {
     }
 
     @Test
-    public void findTwoYellow(){
+    public void findTwoYellowTest(){
         assertFalse(detector.findTwoYellow());
         player.eatenBamboos.add(new Bamboo(YELLOW));
         player.eatenBamboos.add(new Bamboo(YELLOW));
@@ -29,7 +30,23 @@ public class PandaObjectiveDetectorTest {
     }
 
     @Test
-    public void findThreeGreen(){
+    public void findtwoGreenTest(){
+        assertFalse(detector.findTwoGreen());
+        player.eatenBamboos.add(new Bamboo(GREEN));
+        player.eatenBamboos.add(new Bamboo(GREEN));
+        assertTrue(detector.findTwoGreen());
+    }
+
+    @Test
+    public void findTwoPinkTest(){
+        assertFalse(detector.findTwoPink());
+        player.eatenBamboos.add(new Bamboo(PINK));
+        player.eatenBamboos.add(new Bamboo(PINK));
+        assertTrue(detector.findTwoPink());
+    }
+
+    @Test
+    public void findThreeGreenTest(){
         assertFalse(detector.findThreeGreen());
         player.eatenBamboos.add(new Bamboo(GREEN));
         player.eatenBamboos.add(new Bamboo(GREEN));
@@ -39,7 +56,7 @@ public class PandaObjectiveDetectorTest {
     }
 
     @Test
-    public void findOneOfEach(){
+    public void findOneOfEachTest(){
         assertFalse(detector.findOneOfEach());
         player.eatenBamboos.add(new Bamboo(GREEN));
         player.eatenBamboos.add(new Bamboo(YELLOW));

@@ -1,5 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+
 import objectives.*;
 import supplies.*;
 import tools.BotIntelligence;
@@ -9,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static tools.BotIntelligence.PANDASTRATEGY;
-import static tools.BotIntelligence.PLOTSTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PANDASTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PLOTSTRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -42,9 +45,7 @@ public class Game {
 
     /**Acesseur et mutateur de la classe Game**/
 
-    /* A ce niveau de jeu notre jeu comprend juste un seul objectif
-     * il evoluera en liste au prochain milestone
-     */
+
     public List<Objective> getObjective() {
         return listOfObjectives;
     }
@@ -116,6 +117,9 @@ public class Game {
         else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
+        System.out.println(player.getName()+" ne peut plus choisir d'objectif");
+        System.out.println(player.getName()+" a 5 objectif non validé et est prié de les validé");
+        System.out.println(player.getUnMetObjectives());
         return false;
     }
 
@@ -127,7 +131,12 @@ public class Game {
     public Boolean choicePlot(Player player){
         if (deckOfPlots.size()!=0 ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
-            addBambooToPlot(board.getLastHexPlot());
+            /* le board ajoute deja dans son add modifié
+            un bambou a l'ajout de la parcelle au jeu
+             */
+            //addBambooToPlot(board.getLastHexPlot());
+            System.out.println(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
+            System.out.println("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
         }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
@@ -135,19 +144,7 @@ public class Game {
         return false;
     }
 
-    /**
-     * Add bamboo to plot of same color
-     * @param plot {HexPlot}
-     */
-    public void addBambooToPlot(HexPlot plot){
-        if( !plot.isPond() && !bambooStock.areLeft(plot.getColor())) {
-            throw new IndexOutOfBoundsException("Il y a plus de bambou " + plot.getColor());
-        } else {
-            plot.addBamboo();
-        }
-    }
-
-    /* diplay affiche les joueurs de la classe
+    /* display affiche les joueurs de la classe
      */
     public void display(){
         for (Player p:playerList) {

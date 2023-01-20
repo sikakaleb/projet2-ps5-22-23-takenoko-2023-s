@@ -1,7 +1,7 @@
-package objectives;
+package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-import tools.Color;
-import tools.PandaObjectiveConfiguration;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration;
 
 import java.util.Arrays;
 

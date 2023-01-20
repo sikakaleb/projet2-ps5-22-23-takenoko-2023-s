@@ -1,11 +1,11 @@
-package supplies;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import objectives.Objective;
-import tools.PlotImprovement;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.IntStream;
-import static tools.PlotImprovement.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 
 /**
  * @class DeckOfImprovements

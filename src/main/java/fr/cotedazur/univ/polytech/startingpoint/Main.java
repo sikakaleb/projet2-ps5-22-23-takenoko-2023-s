@@ -1,11 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import tools.BotIntelligence;
-
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
-import static tools.BotIntelligence.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.*;
 
 public class Main {
 
@@ -18,10 +16,7 @@ public class Main {
         try {
             for (int i = 0; i < 6; i++) {
                 Thread.sleep(100);
-                if(i%2==0)
-                System.out.print("\uD83E\uDD78 ");
             }
-            System.out.println();
         }catch(Exception e) {
             System.out.println(e);
         }
@@ -48,6 +43,7 @@ public class Main {
         System.out.println("---------------BEGIN----------------");
         while (loop){
             for(Player p : playerList ){
+                System.out.println();
                 if (game.getDeckOfPlots().size()==0){
                     System.out.println("Plus de plots, fin");
                     System.out.println(p1);
@@ -67,15 +63,6 @@ public class Main {
                       //  System.out.println(p.getObjectiveAchieved());
                         game.display();
 
-                    } else {
-                       // System.out.println(p.getUnMetObjectives());
-                       // System.out.println(p.getObjectiveAchieved());
-                        /*
-                         *Emoji qui pleure pour precisez qu'n joueur n'a
-                         * pas peu valider un objectif dans son tour
-                         */
-
-                        System.out.println("\uD83D\uDE2D");
                     }
                 }
             }
