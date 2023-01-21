@@ -8,8 +8,7 @@ import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
 
 /** Creation d'une classe HexPlot represant un parcelle
@@ -25,7 +24,6 @@ public class HexPlot {
     private PlotImprovement improvement = null;
     private boolean irrigated = false;
     private boolean sprouted = false;
-    private boolean enclosed = false;
 
     /**le ou Les constructeurs de la classe**/
     public HexPlot(int q, int s, int r) {
@@ -228,17 +226,27 @@ public class HexPlot {
 
     public void addBamboo(){
         if (this.isPond())
-            throw new IndexOutOfBoundsException("On ne pose pas un bamboo sur la parcelle Etang");
+            System.out.println("On ne pose pas un bamboo sur la parcelle Etang");
 
         else if (!irrigated)
-            throw new IndexOutOfBoundsException("Cette parcelle n'est pas irriguée");
+            System.out.println("On ne pose pas un bambou sur une parcelle non irriguée");
 
-        else if (bamboos.size() >= 4)
-            throw new IndexOutOfBoundsException("Il y a trop de bambous sur cette parcelle");
+        else if (bamboos.size() == 4)
+            System.out.println("Il y a trop de bambous sur cette parcelle");
 
         else {
             bamboos.add(new Bamboo(getColor()));
             bambooStock.remove(bambooStock.getByColor(getColor()));
+            System.out.println("Un bambou "+getColor()+" pousse sur la parcelle "+this);
+
+
+            if (this.getImprovement() == FERTILIZER && this.getBamboos().size() < 4){
+                bamboos.add(new Bamboo(getColor()));
+                bambooStock.remove(bambooStock.getByColor(getColor()));
+                System.out.println(this+" possède un aménagement ENGRAIS, un deuxième bambou "+getColor()+" pousse sur la parcelle");
+
+            }
+
         }
     }
 

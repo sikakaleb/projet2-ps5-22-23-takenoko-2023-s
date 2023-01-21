@@ -94,15 +94,19 @@ class HexPlotTest {
         plot.addBamboo();
         plot.addBamboo();
         plot.addBamboo();
-        assertThrowsExactly(IndexOutOfBoundsException.class, plot::addBamboo);
+        //assertThrowsExactly(IndexOutOfBoundsException.class, plot::addBamboo);
+        plot.addBamboo();
+        assertTrue(outputStreamCaptor.toString().contains("Il y a trop de bambous sur cette parcelle"));
 
-        assertThrowsExactly(IndexOutOfBoundsException.class, pond::addBamboo);
+        //assertThrowsExactly(IndexOutOfBoundsException.class, pond::addBamboo);
+        pond.addBamboo();
+        assertTrue(outputStreamCaptor.toString().contains("On ne pose pas un bamboo sur la parcelle Etang"));
 
         HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
         board.add(notIrrigated);
-        System.out.println(notIrrigated.isIrrigated());
-        assertThrowsExactly(IndexOutOfBoundsException.class, notIrrigated::addBamboo);
-
+        //assertThrowsExactly(IndexOutOfBoundsException.class, notIrrigated::addBamboo);
+        notIrrigated.addBamboo();
+        assertTrue(outputStreamCaptor.toString().contains("On ne pose pas un bambou sur une parcelle non irriguée"));
     }
 
     @Test
@@ -147,7 +151,7 @@ class HexPlotTest {
         HexPlot plot = new HexPlot(1,1,1, YELLOW);
         plot.setImprovement(FENCE);
         plot.setImprovement(POOL);
-        assertEquals("Il y a déjà un aménagement sur cette parcelle", outputStreamCaptor.toString().trim());
+        assertTrue(outputStreamCaptor.toString().contains("Il y a déjà un aménagement sur cette parcelle"));
         assertFalse(plot.isIrrigated());
         assertEquals(deckOfImprovements.size(), 8);
     }
@@ -157,8 +161,22 @@ class HexPlotTest {
         HexPlot plot = new HexPlot(0,1,1, YELLOW);
         plot.addBamboo();
         plot.setImprovement(FENCE);
-        assertEquals("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle", outputStreamCaptor.toString().trim());
+        assertTrue(outputStreamCaptor.toString().contains("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle"));
         assertNull(plot.getImprovement());
         assertEquals(deckOfImprovements.size(), 9);
+    }
+
+    @Test
+    public void growTwiceWithFERTILIZER(){
+        HexPlot plot = new HexPlot(0,1,1, YELLOW);
+        plot.setImprovement(FERTILIZER);
+        plot.addBamboo();
+        assertEquals(plot.getBamboos().size(), 2);
+        plot.addBamboo();
+        assertEquals(plot.getBamboos().size(), 4);
+        plot.addBamboo();
+        plot.addBamboo();
+        plot.addBamboo();
+        assertEquals(plot.getBamboos().size(), 4);
     }
 }
