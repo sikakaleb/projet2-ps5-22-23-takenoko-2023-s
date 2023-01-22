@@ -156,13 +156,14 @@ public class Game {
     public void actOnWeather(Dice.Condition weatherCondition){
         switch (weatherCondition) {
             case CLOUDS :
-                if(deckOfImprovements.pick() != null) {
-                    PlotImprovement improvement = deckOfImprovements.pick();
-                    if (board.choosePlotForImprovement() != null) {
-                        board.choosePlotForImprovement().setImprovement(improvement);
-                        System.out.println("La parcelle " + board.choosePlotForImprovement() + " a été amélioré par " + improvement);
-                    }
-                }
+                HexPlot plotForImrovement = board.choosePlotForImprovement();
+                if (deckOfImprovements.pick() == null || plotForImrovement == null)
+                    break;
+                PlotImprovement improvement = deckOfImprovements.pick();
+                plotForImrovement.setImprovement(improvement);
+                System.out.println("La parcelle " + plotForImrovement + " a été amélioré par " + improvement);
+
+
             default : break;
         }
     }
