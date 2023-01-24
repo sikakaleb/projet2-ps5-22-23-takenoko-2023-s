@@ -72,7 +72,7 @@ public class Game {
 
     public Boolean play(Player player){
         Dice.Condition weather = new Dice().roll();
-        actOnWeather(weather);
+        player.actOnWeather(weather);
 
         if(listOfObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
@@ -146,25 +146,6 @@ public class Game {
     public void display(){
         for (Player p:playerList) {
          System.out.println(p);
-        }
-    }
-
-    /**
-     * after throwing the dice, act on the weather condition
-     * @param weatherCondition {Dice.Condition}
-     */
-    public void actOnWeather(Dice.Condition weatherCondition){
-        switch (weatherCondition) {
-            case CLOUDS :
-                HexPlot plotForImrovement = board.choosePlotForImprovement();
-                if (deckOfImprovements.pick() == null || plotForImrovement == null)
-                    break;
-                PlotImprovement improvement = deckOfImprovements.pick();
-                plotForImrovement.setImprovement(improvement);
-                System.out.println("La parcelle " + plotForImrovement + " a été amélioré par " + improvement);
-
-
-            default : break;
         }
     }
 }

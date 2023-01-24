@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Dice;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.WITHOUTSTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
@@ -43,7 +45,7 @@ class PlayerTest {
 
     PandaObjective oneOfEach =new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK});
 
-
+    ByteArrayOutputStream outputStreamCaptor;
 
     @BeforeEach
     public void setUp() {
@@ -74,11 +76,12 @@ class PlayerTest {
         game.board.add(hex5);
         game.board.add(hex6);
 
-
         singlelist= new ArrayList<>();
         singlelist.add(directPlotObj);
         singlelist.add(indirectPlotObj);
-    }
+
+        outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));    }
 
     @Test
     void getHeightTest() {
@@ -240,5 +243,41 @@ class PlayerTest {
         assertEquals(game.panda.getPosition(), hex1);
         assertTrue(outputStreamCaptor.toString().contains("cette parcelle est protégée par un enclos"));
 
+    }
+
+    @Test
+    public void placeImprovementTest(){
+        game.board.forEach( hexPlot -> {
+            assertNull(hexPlot.getImprovement());
+        });
+        game.board.getLastHexPlot().getBamboos().clear();
+        Dice.Condition condition = Dice.Condition.CLOUDS;
+        player1.actOnWeather(condition);
+        Stream<HexPlot> improved = game.board.stream().filter(hexPlot -> hexPlot.getImprovement()!=null);
+        assertEquals(improved.count(), 1);
+    }
+
+    @Test
+    public void noImprovablePlotsTest(){
+        Dice.Condition condition = Dice.Condition.CLOUDS;
+        player2.actOnWeather(condition);
+        assertTrue(outputStreamCaptor.toString().contains("Aucune parcelle aménageable"));
+    }
+    @Test
+    public void noMoreImprovementsTest(){
+        Dice.Condition condition = Dice.Condition.CLOUDS;
+        game.deckOfImprovements.clear();
+        player2.actOnWeather(condition);
+        assertTrue(outputStreamCaptor.toString().contains("Il y a plus d'aménagements dans la liste"));
+    }
+
+    @Test
+    public void actOnWeatherSTORM(){
+        Dice.Condition condition = Dice.Condition.STORM;
+        HexPlot oldPosition = game.panda.getPosition();
+        int eatenBamboos = player2.eatenBamboos.size();
+        player2.actOnWeather(condition);
+        assertNotEquals(oldPosition,game.panda.getPosition());
+        assertEquals(eatenBamboos+1 ,player2.eatenBamboos.size());
     }
 }

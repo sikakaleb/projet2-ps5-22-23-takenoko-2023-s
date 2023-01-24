@@ -17,15 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
-    private ByteArrayOutputStream outputStreamCaptor;
     private Game game;
     Player player1;
     Player player2;
 
     @BeforeEach
     public void init(){
-        outputStreamCaptor = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStreamCaptor));
         player1 = new Player("Ted");
         player2 = new Player("Wilfried");
         game = new Game(player1, player2);
@@ -63,31 +60,5 @@ class GameTest {
     @Test
     public void rollDiceTest(){
         assertTrue(new Dice().roll() instanceof Dice.Condition);
-    }
-
-    @Test
-    public void placeImprovementTest(){
-        game.board.forEach( hexPlot -> {
-            assertNull(hexPlot.getImprovement());
-        });
-        game.board.getLastHexPlot().getBamboos().clear();
-        Dice.Condition condition = Dice.Condition.CLOUDS;
-        game.actOnWeather(condition);
-        Stream<HexPlot> improved = game.board.stream().filter(hexPlot -> hexPlot.getImprovement()!=null);
-        assertEquals(improved.count(), 1);
-    }
-
-    @Test
-    public void noImprovablePlotsTest(){
-        Dice.Condition condition = Dice.Condition.CLOUDS;
-        game.actOnWeather(condition);
-        assertTrue(outputStreamCaptor.toString().contains("Aucune parcelle aménageable"));
-    }
-    @Test
-    public void noMoreImprovementsTest(){
-        Dice.Condition condition = Dice.Condition.CLOUDS;
-        game.deckOfImprovements.clear();
-        game.actOnWeather(condition);
-        assertTrue(outputStreamCaptor.toString().contains("Il y a plus d'aménagements dans la liste"));
     }
 }

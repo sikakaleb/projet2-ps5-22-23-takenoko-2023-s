@@ -1,9 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Dice;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.EatenBamboos;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 import fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
 import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
@@ -271,27 +274,61 @@ public class Player {
             HexPlot next = movePossibilities.get(randNumber);
             panda.pandaMove(next);
             System.out.println("la position du panda aprés deplacement"+panda.getPosition());
-
-            if(next.getBamboos().size()!=0){
-                System.out.println("il y a de bambou sur cette parcelle");
-
-                if (next.getImprovement()==FENCE)
-                    System.out.println("cette parcelle est protégée par un enclos");
-                else {
-                    System.out.println("panda mange un bambou de couleur " + next.getColor());
-                    this.eatenBamboos.add(next.getBamboos().get(0));
-                    next.getBamboos().remove(0);
-                    }
-            }else{
-                System.out.println("il y a pas de bambou sur cette parcelle");
-            }
-
+            eatIfBamboo(next);
             return true;
         }
         System.out.println("Impossible de faire deplacer le panda");
         return false;
     }
 
+    public boolean eatIfBamboo(HexPlot plot){
+        if(plot.getBamboos().size()!=0){
+            System.out.println("il y a de bambou sur cette parcelle");
+
+            if (plot.getImprovement()==FENCE)
+                System.out.println("cette parcelle est protégée par un enclos");
+            else {
+                System.out.println("panda mange un bambou de couleur " + plot.getColor());
+                this.eatenBamboos.add(plot.getBamboos().get(0));
+                plot.getBamboos().remove(0);
+            }
+            return true;
+        }else{
+            System.out.println("il y a pas de bambou sur cette parcelle");
+            return false;
+        }
+    }
+
+    /**
+     * after throwing the dice, act on the weather condition
+     * @param weatherCondition {Dice.Condition}
+     */
+    public void actOnWeather(Dice.Condition weatherCondition){
+        switch (weatherCondition) {
+            case CLOUDS :
+                HexPlot plotForImrovement = board.choosePlotForImprovement();
+                if (deckOfImprovements.pick() == null || plotForImrovement == null)
+                    break;
+                PlotImprovement improvement = deckOfImprovements.pick();
+                plotForImrovement.setImprovement(improvement);
+                System.out.println("La parcelle " + plotForImrovement + " a été amélioré par " + improvement);
+
+            case STORM:
+                int rnd = new Random().nextInt(board.size());
+                HexPlot next = board.get(rnd);
+                panda.pandaMove(next);
+                System.out.println(this.name+" déplace le panda à : "+panda.getPosition());
+                boolean hasEaten = eatIfBamboo(next);
+                if (! hasEaten) {
+                    Bamboo bamboo = new Bamboo(next.getColor());
+                    this.eatenBamboos.add(bamboo);
+                    bambooStock.remove(bamboo);
+                    System.out.println("panda mange un bambou de couleur " + next.getColor());
+                }
+
+            default : break;
+        }
+    }
 
     /**Rdefinition des methodes**/
     @Override
