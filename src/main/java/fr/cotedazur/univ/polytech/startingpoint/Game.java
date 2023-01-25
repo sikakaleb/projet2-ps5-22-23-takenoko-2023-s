@@ -2,8 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
-import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +70,7 @@ public class Game {
 
     public Boolean play(Player player){
         Dice.Condition weather = new Dice().roll();
+        System.out.println("Le dé météo tombe sur "+weather);
         player.actOnWeather(weather);
 
         if(listOfObjectives.size()==0){

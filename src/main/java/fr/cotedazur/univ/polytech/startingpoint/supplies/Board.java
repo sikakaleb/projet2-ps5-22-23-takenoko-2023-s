@@ -160,4 +160,25 @@ public class Board extends ArrayList<HexPlot> {
 
         return randomPlot;
     }
+
+    /**
+     * Pick a random plot from the board, where there are less than 4 bamboos
+     * @return {Hexplot} the random HexPlot
+     */
+    public HexPlot choosePlotForBamboo(){
+
+        ArrayList<HexPlot> forBamboo = (ArrayList<HexPlot>) this.clone();
+        forBamboo.removeIf( hexPlot ->
+                        !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
+        );
+        if(forBamboo.isEmpty()){
+            System.out.println("Aucune parcelle sur laquelle placer un bambou");
+            return null;
+        }
+
+        int rnd = new Random().nextInt(forBamboo.size());
+        HexPlot randomPlot = forBamboo.get(rnd);
+
+        return randomPlot;
+    }
 }

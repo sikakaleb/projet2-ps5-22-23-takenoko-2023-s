@@ -3,13 +3,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Dice;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 import java.io.ByteArrayOutputStream;
@@ -277,7 +274,7 @@ class PlayerTest {
         HexPlot oldPosition = game.panda.getPosition();
         int eatenBamboos = player2.eatenBamboos.size();
         player2.actOnWeather(condition);
-        assertNotEquals(oldPosition,game.panda.getPosition());
+        assertNotEquals(oldPosition, game.panda.getPosition());
         assertEquals(eatenBamboos+1 ,player2.eatenBamboos.size());
     }
 
@@ -285,5 +282,33 @@ class PlayerTest {
     public void actOnWeatherMYSTERY(){
         Dice.Condition condition = Dice.Condition.MYSTERY;
         player2.actOnWeather(condition);
+    }
+
+    @Test
+    public void actOnWeatherRAIN(){
+        Dice.Condition condition = Dice.Condition.RAIN;
+        int oldStock = game.bambooStock.size();
+        player2.actOnWeather(condition);
+        assertNotEquals(oldStock, game.bambooStock.size());
+        assertEquals(oldStock-1 ,game.bambooStock.size());
+    }
+
+    @Test
+    public void cannotActOnWeatherRAINnoMoreBamboos(){
+        Dice.Condition condition = Dice.Condition.RAIN;
+        game.bambooStock.clear();
+        int oldStock = game.bambooStock.size();
+        player2.actOnWeather(condition);
+        assertEquals(oldStock ,game.bambooStock.size());
+    }
+
+    @Test
+    public void cannotActOnWeatherRAINnoPlots(){
+        Dice.Condition condition = Dice.Condition.RAIN;
+        game.board = new Board();
+        game.bambooStock = new BambooStock();
+        int oldStock = game.bambooStock.size();
+        player2.actOnWeather(condition);
+        assertEquals(oldStock ,game.bambooStock.size());
     }
 }

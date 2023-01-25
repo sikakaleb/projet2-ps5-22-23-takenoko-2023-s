@@ -305,6 +305,14 @@ public class Player {
      */
     public void actOnWeather(Dice.Condition weatherCondition){
         switch (weatherCondition) {
+
+            case RAIN:
+                HexPlot plotForBamboo = board.choosePlotForBamboo();
+                if (bambooStock.isEmpty()|| plotForBamboo == null)
+                    break;
+                plotForBamboo.addBamboo();
+                break;
+
             case CLOUDS :
                 HexPlot plotForImrovement = board.choosePlotForImprovement();
                 if (deckOfImprovements.pick() == null || plotForImrovement == null)
