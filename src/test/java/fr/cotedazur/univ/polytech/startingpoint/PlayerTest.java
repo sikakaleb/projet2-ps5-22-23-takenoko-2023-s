@@ -280,4 +280,10 @@ class PlayerTest {
         assertNotEquals(oldPosition,game.panda.getPosition());
         assertEquals(eatenBamboos+1 ,player2.eatenBamboos.size());
     }
+
+    @Test
+    public void actOnWeatherMYSTERY(){
+        Dice.Condition condition = Dice.Condition.MYSTERY;
+        player2.actOnWeather(condition);
+    }
 }

@@ -312,6 +312,7 @@ public class Player {
                 PlotImprovement improvement = deckOfImprovements.pick();
                 plotForImrovement.setImprovement(improvement);
                 System.out.println("La parcelle " + plotForImrovement + " a été amélioré par " + improvement);
+                break;
 
             case STORM:
                 int rnd = new Random().nextInt(board.size());
@@ -325,6 +326,13 @@ public class Player {
                     bambooStock.remove(bamboo);
                     System.out.println("panda mange un bambou de couleur " + next.getColor());
                 }
+                break;
+
+            case MYSTERY:
+                // TODO: créer un choix intelligent du joueur
+                Dice.Condition weather = new Dice().roll();
+                actOnWeather(weather);
+                break;
 
             default : break;
         }
