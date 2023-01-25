@@ -95,6 +95,13 @@ public class HexPlot {
         return color;
     }
 
+    public void setIrrigatedToTrue() {
+        this.irrigated = true;
+    }
+    public void setIrrigatedToFalse() {
+        this.irrigated = false;
+    }
+
     public ArrayList<Bamboo> getBamboos() { return bamboos; }
 
     public boolean isIrrigated(){ return irrigated; }
