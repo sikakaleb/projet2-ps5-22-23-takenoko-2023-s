@@ -163,6 +163,12 @@ class GameTest {
     }
 
     @Test
+    public void actOnWeatherWIND(){
+        game.actOnWeather(Dice.Condition.WIND, player1);
+        assertEquals(game.playerActions[0],game.playerActions[0]);
+    }
+
+    @Test
     public void cannotActOnWeatherRAINnoMoreBamboos(){
         Dice.Condition condition = Dice.Condition.RAIN;
         game.bambooStock.clear();

@@ -22,6 +22,7 @@ public class Game {
     public static Panda panda;
     public List<Player> playerList;
     public static Map<Action.GameAction, Consumer<Player>> actions;
+    public Action.GameAction[] playerActions;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
@@ -34,7 +35,7 @@ public class Game {
         panda = new Panda(new HexPlot());
         playerList = new ArrayList<>();
         initPlayer(p1,p2);
-
+        playerActions = new Action.GameAction[2];
         actions = Map.of(
                 PICK_PLOT, this::choicePlot,
                 PICK_OBJECTIVE, this::choiceObjective,
@@ -85,11 +86,13 @@ public class Game {
     public Boolean play(Player player){
         Dice.Condition weather = new Dice().roll();
         System.out.println("Le dé météo tombe sur "+weather);
+        playerActions[0] = player.getStrategy().getActions()[0];
+        playerActions[1] = player.getStrategy().getActions()[1];
         actOnWeather(weather, player);
 
         System.out.println(player.getName()+" choisit les actions : "+player.getStrategy().getActions()[0]+" & "+player.getStrategy().getActions()[0]);
-        Consumer<Player> action1 = actions.get(player.getStrategy().getActions()[0]);
-        Consumer<Player> action2 = actions.get(player.getStrategy().getActions()[1]);
+        Consumer<Player> action1 = actions.get(playerActions[0]);
+        Consumer<Player> action2 = actions.get(playerActions[1]);
         action1.accept(player);
         action2.accept(player);
 
@@ -259,6 +262,12 @@ public class Game {
                 if (bambooStock.isEmpty()|| plotForBamboo == null)
                     break;
                 plotForBamboo.addBamboo();
+                break;
+
+            case WIND:
+                int index = (int) Math.round( Math.random());
+                if (index == 0) playerActions[1]=playerActions[0];
+                else playerActions[0]=playerActions[1];
                 break;
 
             case STORM:
