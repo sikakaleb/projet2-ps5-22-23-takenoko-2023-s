@@ -33,7 +33,7 @@ public class Main {
     public static void main(String... args) {
         Boolean loop =true;
         Player p1= new Player("Ted", PLOTSTRATEGY);
-        Player p2 = new Player("Willfried",PANDASTRATEGY);
+        Player p2 = new Player("Willfried",WITHOUTSTRATEGY);
         Game game = new Game(p1,p2);
         Referee referee = new Referee(game);
         //game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));

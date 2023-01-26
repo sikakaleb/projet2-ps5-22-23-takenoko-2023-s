@@ -5,11 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Action;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
@@ -91,6 +87,7 @@ public class Game {
         System.out.println("Le dé météo tombe sur "+weather);
         actOnWeather(weather, player);
 
+        System.out.println(player.getName()+" choisit les actions : "+player.getStrategy().getActions()[0]+" & "+player.getStrategy().getActions()[0]);
         Consumer<Player> action1 = actions.get(player.getStrategy().getActions()[0]);
         Consumer<Player> action2 = actions.get(player.getStrategy().getActions()[1]);
         action1.accept(player);
@@ -247,15 +244,21 @@ public class Game {
     public void actOnWeather(Dice.Condition weatherCondition, Player player){
         switch (weatherCondition) {
 
+            case SUN:
+                List<Action.GameAction> actionsToPickFrom = Arrays.asList(new Action().getActions());
+                actionsToPickFrom.remove(actions.get(player.getStrategy().getActions()[0]));
+                actionsToPickFrom.remove(actions.get(player.getStrategy().getActions()[1]));
+                int pick = new Random().nextInt(actionsToPickFrom.size());
+                System.out.println(player.getName()+" choisit une action supplémentaire : "+actionsToPickFrom.get(pick));
+                Consumer<Player> additionnalAction = actions.get(actionsToPickFrom.get(pick));
+                additionnalAction.accept(player);
+                break;
+
             case RAIN:
                 HexPlot plotForBamboo = board.choosePlotForBamboo();
                 if (bambooStock.isEmpty()|| plotForBamboo == null)
                     break;
                 plotForBamboo.addBamboo();
-                break;
-
-            case CLOUDS :
-                placeImprovement(player);
                 break;
 
             case STORM:
@@ -270,6 +273,10 @@ public class Game {
                     bambooStock.remove(bamboo);
                     System.out.println("panda mange un bambou de couleur " + next.getColor());
                 }
+                break;
+
+            case CLOUDS :
+                placeImprovement(player);
                 break;
 
             case MYSTERY:

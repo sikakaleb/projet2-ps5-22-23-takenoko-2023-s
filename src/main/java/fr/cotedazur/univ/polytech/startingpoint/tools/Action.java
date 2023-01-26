@@ -28,6 +28,10 @@ public class Action {
             * Le panda mange 1 section de bambou sur la parcelle où il termine son mouvement.
             */
            MOVE_PANDA,
+
+           /**
+            * Le joueur place un aménagement
+            */
            PLACE_IMPROVEMENT,
 
            /**
@@ -35,7 +39,11 @@ public class Action {
             * Celui-ci fait pousser 1 section de bambou sur la parcelle irriguée où il termine
             * son déplacement ainsi que sur toutes les parcelles irriguées adjacentes de la même couleur.
             */
-           MOVE_GARDENER
+           //MOVE_GARDENER
+        }
+
+        public GameAction[] getActions(){
+           return GameAction.values();
         }
 
         public GameAction pick(){

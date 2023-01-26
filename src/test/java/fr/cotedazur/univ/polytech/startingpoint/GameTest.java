@@ -1,9 +1,15 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +20,7 @@ class GameTest {
     private Game game;
     Player player1;
     Player player2;
+    ByteArrayOutputStream outputStreamCaptor;
 
     @BeforeEach
     public void init(){
@@ -38,6 +45,9 @@ class GameTest {
         game.board.add(hex4);
         game.board.add(hex5);
         game.board.add(hex6);
+
+        outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
     }
 
     @Test
@@ -68,4 +78,150 @@ class GameTest {
         assertTrue(game.placeAnIrrigation(player1));
     }
 
+    @Test
+    void movePanda() {
+        assertTrue(game.movePanda(player2));
+        /*System.out.println(game.panda.getPosition());*/
+    }
+
+    @Test
+    void testMovePanda() {
+    }
+
+    @Test
+    public void plotEnclosed(){
+
+        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        game.board = new Board();
+        HexPlot hex1= new HexPlot(1,0,-1,GREEN);
+        hex1.setImprovement(PlotImprovement.FENCE);
+        assertEquals(hex1.getBamboos().size(), 0);
+        game.board.add(hex1);
+        game.movePanda(player1);
+        assertEquals(game.panda.getPosition(), hex1);
+        assertTrue(outputStreamCaptor.toString().contains("cette parcelle est protégée par un enclos"));
+
+    }
+
+    @Test
+    public void placeImprovementTest(){
+        game.board.forEach( hexPlot -> {
+            assertNull(hexPlot.getImprovement());
+        });
+        game.board.getLastHexPlot().getBamboos().clear();
+        Dice.Condition condition = Dice.Condition.CLOUDS;
+        game.actOnWeather(condition, player1);
+        Stream<HexPlot> improved = game.board.stream().filter(hexPlot -> hexPlot.getImprovement()!=null);
+        assertEquals(improved.count(), 1);
+    }
+
+    @Test
+    public void noImprovablePlotsTest(){
+        Dice.Condition condition = Dice.Condition.CLOUDS;
+        game.actOnWeather(condition, player2);
+        assertTrue(outputStreamCaptor.toString().contains("Aucune parcelle aménageable"));
+    }
+    @Test
+    public void noMoreImprovementsTest(){
+        Dice.Condition condition = Dice.Condition.CLOUDS;
+        game.deckOfImprovements.clear();
+        game.actOnWeather(condition, player1);
+        assertTrue(outputStreamCaptor.toString().contains("Il y a plus d'aménagements dans la liste"));
+    }
+
+    @Test
+    public void actOnWeatherSTORM(){
+        Dice.Condition condition = Dice.Condition.STORM;
+        HexPlot oldPosition = game.panda.getPosition();
+        int eatenBamboos = player2.eatenBamboos.size();
+        game.actOnWeather(condition, player2);
+        //assertNotEquals(oldPosition, game.panda.getPosition());
+        assertEquals(eatenBamboos+1 ,player2.eatenBamboos.size());
+    }
+
+    @Test
+    public void actOnWeatherMYSTERY(){
+        Dice.Condition condition = Dice.Condition.MYSTERY;
+        game.actOnWeather(condition, player1);
+    }
+
+    @Test
+    public void actOnWeatherRAIN(){
+        Dice.Condition condition = Dice.Condition.RAIN;
+        int oldStock = game.bambooStock.size();
+        game.actOnWeather(condition, player1);
+        assertNotEquals(oldStock, game.bambooStock.size());
+        assertEquals(oldStock-1 ,game.bambooStock.size());
+    }
+
+    @Test
+    public void actOnWeatherSUN(){
+        game.actOnWeather(Dice.Condition.SUN, player1);
+        assertTrue(outputStreamCaptor.toString().contains("choisit une action supplémentaire :"));
+    }
+
+    @Test
+    public void cannotActOnWeatherRAINnoMoreBamboos(){
+        Dice.Condition condition = Dice.Condition.RAIN;
+        game.bambooStock.clear();
+        int oldStock = game.bambooStock.size();
+        game.actOnWeather(condition, player1);
+        assertEquals(oldStock ,game.bambooStock.size());
+    }
+
+    @Test
+    public void cannotActOnWeatherRAINnoPlots(){
+        Dice.Condition condition = Dice.Condition.RAIN;
+        game.board = new Board();
+        game.bambooStock = new BambooStock();
+        int oldStock = game.bambooStock.size();
+        game.actOnWeather(condition, player1);
+        assertEquals(oldStock ,game.bambooStock.size());
+    }
+
+    @Test
+    void addAnIrrigation() {
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+    }
+
+    @Test
+    void returnAnIrrigation() {
+        assertEquals(player1.returnAnIrrigation(),Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+        assertEquals(player1.returnAnIrrigation(),canal);
+    }
+
+    @Test
+    void findAnAvailableIrrigationSource() {
+        assertEquals(player1.returnAnIrrigation(),Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+        assertEquals(player1.returnAnIrrigation(),canal);
+        assertEquals(player1.findAnAvailableIrrigationSource(canStock),Optional.of(new HexPlot()));
+
+    }
+
+    @Test
+    void findAnAvailableIrrigationDest() {
+        assertEquals(player1.returnAnIrrigation(),Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+        assertEquals(player1.returnAnIrrigation(),canal);
+        Board bd =game.getBoard();
+        Optional<HexPlot> hex= player1.findAnAvailableIrrigationDest(bd,new HexPlot());
+        assertTrue(!canStock.getAllHexplotFrom().contains(hex.get()));
+        assertTrue(bd.contains(hex.get()));
+    }
 }
