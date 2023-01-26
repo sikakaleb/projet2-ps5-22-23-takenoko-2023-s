@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -17,6 +18,7 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FEN
 public class Game {
     /**Attribut de la classe Game**/
     public static Board board;
+    public static IrrigationStock irrigationStock;
     public static DeckOfPlots deckOfPlots;
     public static BambooStock bambooStock;
     public static DeckOfObjectifs listOfObjectives;
@@ -31,6 +33,7 @@ public class Game {
         deckOfPlots = new DeckOfPlots();
         listOfObjectives = new DeckOfObjectifs();
         deckOfImprovements = new DeckOfImprovements();
+        irrigationStock = new IrrigationStock();
         board = new Board();
         panda = new Panda(new HexPlot());
         playerList = new ArrayList<>();
@@ -140,6 +143,50 @@ public class Game {
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
         }
         return false;
+    }
+    /**
+     * ChoiceAnIrrigation fonction qui permet a un joueur de choisir une irrigation
+     * et de le mettre dans sa liste d'irrigation
+     * @param p {player}
+     * @return {Boolean}
+     */
+    public Boolean choiceAnIrrigation(Player p){
+        Optional<IrrigationCanal> canal = irrigationStock.getUnUsed();
+        if(canal.isPresent()){
+            p.addAnIrrigation(canal.get());
+            return true;
+        }
+        System.out.println("Il y a plus de canal d'irrigation disponible");
+        return false;
+
+    }
+    /**
+     * PlaceAnIrrigation fonction qui permet a un joueur de poser une irrigation sur le board
+     * @param p {player}
+     * @return {Boolean}
+     */
+    public Boolean PlaceAnIrrigation(Player p){
+        Optional<IrrigationCanal> canal = p.returnAnIrrigation();
+        if(canal.isEmpty()) return false;
+        Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
+        if(src.isEmpty()) return false;
+        Optional<HexPlot> dst = p.findAnAvailableIrrigationDest(board,src.get());
+        if ((dst.isEmpty())) return false;
+        if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
+            System.out.println(canal.get());
+        }else{
+           throw new RuntimeException("Il y a eu un probleme lors de la pose du canal");
+        }
+        return true;
+
+    }
+
+    public  Board getBoard() {
+        return board;
+    }
+
+    public IrrigationStock getIrrigationStock() {
+        return irrigationStock;
     }
 
     /**

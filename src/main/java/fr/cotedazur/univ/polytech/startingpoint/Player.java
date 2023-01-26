@@ -3,6 +3,8 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.EatenBamboos;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+import fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,8 @@ public class Player {
     private Strategy strategy;
     public List<Objective> objectiveAchieved ;
     public List<Objective> unMetObjectives;
+
+    private List<IrrigationCanal> canalList;
     public EatenBamboos eatenBamboos;
 
    /**Le ou Les constructeurs de la classe **/
@@ -39,12 +43,13 @@ public class Player {
         this.age = age;
         this.height = height;
         this.name = name;
-        this.strategy=WITHOUTSTRATEGY;
+        this.strategy = WITHOUTSTRATEGY;
         this.score =0;
         objectiveAchieved = new ArrayList<>();
         unMetObjectives = new ArrayList<>();
         maxUnmetObj=5;
         eatenBamboos = new EatenBamboos();
+        canalList = new ArrayList<>();
     }
     public Player(int age, int height, String name, Strategy strategy) {
         playerId=++numberOfPlayer;
@@ -57,6 +62,7 @@ public class Player {
         unMetObjectives = new ArrayList<>();
         maxUnmetObj=5;
         eatenBamboos = new EatenBamboos();
+        canalList = new ArrayList<>();
     }
 
     public Player(String name){
@@ -152,6 +158,9 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+    public List<IrrigationCanal> getCanalList() {
+        return canalList;
     }
 
     /*****
@@ -268,5 +277,51 @@ public class Player {
                 ", cumulOfpoint=" + score +
                 '}';
     }
+    public Boolean addAnIrrigation(IrrigationCanal canal){
+        if(canal.getAvailable()==false){
+            canalList.add(canal);
+            return true;
+        }
+        return false;
+    }
+    public Optional<IrrigationCanal> returnAnIrrigation(){
+        if(canalList.size()==0) return Optional.empty();
+        IrrigationCanal canal = canalList.get(0);
+        return Optional.of(canal);
+    }
+    public Optional<HexPlot> findAnAvailableIrrigationSource(IrrigationStock irrigationStock){
+        Set<HexPlot> validsSource = irrigationStock.getAllHexplotFrom();
+        if(validsSource.size()==0) {
+            System.out.println("Pas de source d'irrigarion valable dans le jeu");
+            return Optional.empty();
+        }
+        Random rand = new Random();
+        int randNumber = rand.nextInt(validsSource.size());
+        List<HexPlot> listValidSource= validsSource.stream().toList();
+        HexPlot hex =listValidSource.get(randNumber);
+        return Optional.of(hex);
+    }
+    public Optional<HexPlot> findAnAvailableIrrigationDest(Board bd,HexPlot hex){
+        Set<HexPlot> valids = hex.plotNeighbor();
+        System.out.println(valids+"  jjj");
+        Set<HexPlot> validsDest = new HashSet<>();
+        for (HexPlot h1:bd) {
+            for (HexPlot h2:valids) {
+               if(h1.getQ() == h2.getQ() && h1.getR() == h2.getR() && h1.getS() == h2.getS())
+                   validsDest.add(h1);
+            }
+
+        }
+        if(validsDest.size()==0) {
+            System.out.println("Pas de destination de canal de : "+hex+" valables dans le jeu");
+            return Optional.empty();
+        }
+        Random rand = new Random();
+        int randNumber = rand.nextInt(validsDest.size());
+        List<HexPlot> listValidDest= validsDest.stream().toList();
+        HexPlot destPlot =listValidDest.get(randNumber);
+        return Optional.of(destPlot);
+    }
+
 
 }

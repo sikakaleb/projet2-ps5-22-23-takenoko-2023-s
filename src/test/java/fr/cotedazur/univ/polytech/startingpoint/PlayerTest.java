@@ -311,4 +311,48 @@ class PlayerTest {
         game.actOnWeather(condition, player1);
         assertEquals(oldStock ,game.bambooStock.size());
     }
+
+    @Test
+    void addAnIrrigation() {
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+    }
+
+    @Test
+    void returnAnIrrigation() {
+        assertEquals(player1.returnAnIrrigation(),Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+        assertEquals(player1.returnAnIrrigation(),canal);
+    }
+
+    @Test
+    void findAnAvailableIrrigationSource() {
+        assertEquals(player1.returnAnIrrigation(),Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+        assertEquals(player1.returnAnIrrigation(),canal);
+        assertEquals(player1.findAnAvailableIrrigationSource(canStock),Optional.of(new HexPlot()));
+
+    }
+
+    @Test
+    void findAnAvailableIrrigationDest() {
+        assertEquals(player1.returnAnIrrigation(),Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getUnUsed();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(),1);
+        assertEquals(player1.returnAnIrrigation(),canal);
+        Board bd =game.getBoard();
+       Optional<HexPlot> hex= player1.findAnAvailableIrrigationDest(bd,new HexPlot());
+       assertTrue(!canStock.getAllHexplotFrom().contains(hex.get()));
+       assertTrue(bd.contains(hex.get()));
+    }
 }
