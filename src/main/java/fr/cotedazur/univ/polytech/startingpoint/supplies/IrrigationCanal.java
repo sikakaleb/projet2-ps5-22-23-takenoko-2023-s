@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class IrrigationCanal {
@@ -42,5 +43,34 @@ public class IrrigationCanal {
     }
     public void setAvailableToFalse() {
         isAvailable = false;
+    }
+
+    @Override
+    public String toString() {
+        return "IrrigationCanal{" +
+                "SourcePlot=" + SourcePlot +
+                ", DestPlot=" + DestPlot +
+                ", isAvailable=" + isAvailable +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IrrigationCanal canal)) return false;
+        return canalId == canal.canalId ||( Objects.equals(getSourcePlot(), canal.getSourcePlot()) && Objects.equals(getDestPlot(), canal.getDestPlot()) && Objects.equals(isAvailable, canal.isAvailable));
+    }
+
+    public int getCanalId() {
+        return canalId;
+    }
+
+    public void setCanalId(int canalId) {
+        this.canalId = canalId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(canalId);
     }
 }

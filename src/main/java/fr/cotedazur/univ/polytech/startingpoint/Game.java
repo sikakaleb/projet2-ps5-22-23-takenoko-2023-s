@@ -171,13 +171,21 @@ public class Game {
         if(src.isEmpty()) return false;
         Optional<HexPlot> dst = p.findAnAvailableIrrigationDest(board,src.get());
         if ((dst.isEmpty())) return false;
-        if(irrigationStock.add(canal.get(),src.get(),dst.get())){
+        if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
             System.out.println(canal.get());
         }else{
            throw new RuntimeException("Il y a eu un probleme lors de la pose du canal");
         }
         return true;
 
+    }
+
+    public  Board getBoard() {
+        return board;
+    }
+
+    public IrrigationStock getIrrigationStock() {
+        return irrigationStock;
     }
 
     /* display affiche les joueurs de la classe

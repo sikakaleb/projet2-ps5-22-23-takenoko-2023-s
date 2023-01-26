@@ -33,6 +33,14 @@ public class IrrigationStock  {
         });
     }
 
+    @Override
+    public String toString() {
+        return "IrrigationStock{\n" +
+                "usedCanal=" + usedCanal +
+                "\n, unUsedCanal=" + unUsedCanal +
+                "\n}";
+    }
+
     /**
      * @return {List<Hexplo>}
      * Returns the Set of plots irrigated with canals and plots that are automatically irrigated
@@ -53,7 +61,7 @@ public class IrrigationStock  {
         return result;
     }
 
-    public boolean add(IrrigationCanal irrigationCanal,HexPlot src,HexPlot dst) {
+    public boolean add(IrrigationCanal irrigationCanal,HexPlot src,HexPlot dst,Board board) {
         if(this.getAllHexplotFrom().contains(src) && board.contains(dst)){
             irrigationCanal.setAvailableToTrue();
         }else{
@@ -71,5 +79,21 @@ public class IrrigationStock  {
             return Optional.of(unUsedCanal.get(0));
         }
         return Optional.empty();
+    }
+
+    public List<IrrigationCanal> getUsedCanal() {
+        return usedCanal;
+    }
+
+    public void setUsedCanal(List<IrrigationCanal> usedCanal) {
+        this.usedCanal = usedCanal;
+    }
+
+    public List<IrrigationCanal> getUnUsedCanal() {
+        return unUsedCanal;
+    }
+
+    public void setUnUsedCanal(List<IrrigationCanal> unUsedCanal) {
+        this.unUsedCanal = unUsedCanal;
     }
 }

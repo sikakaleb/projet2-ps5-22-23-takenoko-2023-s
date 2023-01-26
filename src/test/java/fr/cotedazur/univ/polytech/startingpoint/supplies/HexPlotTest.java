@@ -179,4 +179,20 @@ class HexPlotTest {
         plot.addBamboo();
         assertEquals(plot.getBamboos().size(), 4);
     }
+
+    @Test
+    void setIrrigatedToTrue() {
+        HexPlot hex = new HexPlot(-2,1,1);
+        hex.setIrrigatedToTrue();
+        assertTrue(hex.isIrrigated());
+    }
+
+    @Test
+    void setIrrigatedToFalse() {
+        HexPlot hex = new HexPlot(-2,1,1);
+        hex.setIrrigatedToTrue();
+        assertTrue(hex.isIrrigated());
+        hex.setIrrigatedToFalse();
+        assertFalse(hex.isIrrigated());
+    }
 }

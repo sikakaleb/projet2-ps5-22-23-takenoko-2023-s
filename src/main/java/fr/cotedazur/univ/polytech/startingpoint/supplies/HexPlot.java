@@ -207,7 +207,8 @@ public class HexPlot {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof HexPlot hexPlot)) return false;
-        return getQ() == hexPlot.getQ() && getR() == hexPlot.getR() && getS() == hexPlot.getS() && getColor() == hexPlot.getColor();
+        return (getQ() == hexPlot.getQ() && getR() == hexPlot.getR() && getS() == hexPlot.getS() && getColor() == hexPlot.getColor())
+                ||(getQ() == hexPlot.getQ() && getR() == hexPlot.getR() && getS() == hexPlot.getS());
     }
 
     @Override

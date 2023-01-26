@@ -155,6 +155,9 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+    public List<IrrigationCanal> getCanalList() {
+        return canalList;
+    }
 
     /*****
      * Le joueur appelle
@@ -329,7 +332,16 @@ public class Player {
         return Optional.of(hex);
     }
     public Optional<HexPlot> findAnAvailableIrrigationDest(Board bd,HexPlot hex){
-        Set<HexPlot> validsDest = bd.findAvailableNeighbors(hex);
+        Set<HexPlot> valids = hex.plotNeighbor();
+        System.out.println(valids+"  jjj");
+        Set<HexPlot> validsDest = new HashSet<>();
+        for (HexPlot h1:bd) {
+            for (HexPlot h2:valids) {
+               if(h1.getQ() == h2.getQ() && h1.getR() == h2.getR() && h1.getS() == h2.getS())
+                   validsDest.add(h1);
+            }
+
+        }
         if(validsDest.size()==0) {
             System.out.println("Pas de destination de canal de : "+hex+" valables dans le jeu");
             return Optional.empty();
@@ -340,4 +352,6 @@ public class Player {
         HexPlot destPlot =listValidDest.get(randNumber);
         return Optional.of(destPlot);
     }
+
+
 }
