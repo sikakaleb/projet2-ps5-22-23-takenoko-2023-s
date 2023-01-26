@@ -5,11 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,7 +65,7 @@ class GameTest {
     void placeAnIrrigation() {
         assertTrue(game.choiceAnIrrigation(player1));
         assertEquals(player1.getCanalList().size(),1);
-        assertTrue(game.PlaceAnIrrigation(player1));
+        assertTrue(game.placeAnIrrigation(player1));
     }
 
 }

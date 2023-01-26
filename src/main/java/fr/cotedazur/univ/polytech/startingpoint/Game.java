@@ -44,9 +44,9 @@ public class Game {
                 PICK_OBJECTIVE, this::choiceObjective,
                 COMPLETE_OBJECTIVE, this::completeObjective,
                 MOVE_PANDA, this::movePanda,
-                PLACE_IMPROVEMENT, this::placeImprovement
-                //PICK_IRRIGATION, this::pickIrrigation,
-                //PLACE_IRRIGATION, this::placeIrrigation
+                PLACE_IMPROVEMENT, this::placeImprovement,
+                PICK_IRRIGATION, this::choiceAnIrrigation,
+                PLACE_IRRIGATION, this::placeAnIrrigation
         );
     }
 
@@ -165,7 +165,7 @@ public class Game {
      * @param p {player}
      * @return {Boolean}
      */
-    public Boolean PlaceAnIrrigation(Player p){
+    public Boolean placeAnIrrigation(Player p){
         Optional<IrrigationCanal> canal = p.returnAnIrrigation();
         if(canal.isEmpty()) return false;
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
@@ -239,13 +239,6 @@ public class Game {
         System.out.println("La parcelle " + plotForImrovement + " a été amélioré par " + improvement);
         return true;
     }
-
-    // TODO :
-    /** Add to player's personnal irrigations*/
-    public void pickIrrigation(Player player){};
-
-    /** From player's personnal irrigations, place on board*/
-    public void placeIrrigation(Player player){};
 
     /**
      * after throwing the dice, act on the weather condition

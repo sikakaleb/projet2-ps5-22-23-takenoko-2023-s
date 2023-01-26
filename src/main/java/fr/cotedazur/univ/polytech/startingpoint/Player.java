@@ -1,20 +1,17 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.EatenBamboos;
-import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
-import fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 
 public class Player {
     /**Attributs de la classe**/
@@ -301,7 +298,7 @@ public class Player {
         HexPlot hex =listValidSource.get(randNumber);
         return Optional.of(hex);
     }
-    public Optional<HexPlot> findAnAvailableIrrigationDest(Board bd,HexPlot hex){
+    public Optional<HexPlot> findAnAvailableIrrigationDest(Board bd, HexPlot hex){
         Set<HexPlot> valids = hex.plotNeighbor();
         System.out.println(valids+"  jjj");
         Set<HexPlot> validsDest = new HashSet<>();
