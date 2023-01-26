@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.WITHOUTSTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
@@ -217,7 +217,7 @@ class PlayerTest {
 
     @Test
     void movePanda() {
-        assertTrue(player2.movePanda());
+        assertTrue(game.movePanda(player2));
         /*System.out.println(game.panda.getPosition());*/
     }
 
@@ -236,7 +236,7 @@ class PlayerTest {
         hex1.setImprovement(PlotImprovement.FENCE);
         assertEquals(hex1.getBamboos().size(), 0);
         game.board.add(hex1);
-        player1.movePanda();
+        game.movePanda(player1);
         assertEquals(game.panda.getPosition(), hex1);
         assertTrue(outputStreamCaptor.toString().contains("cette parcelle est protégée par un enclos"));
 
@@ -249,7 +249,7 @@ class PlayerTest {
         });
         game.board.getLastHexPlot().getBamboos().clear();
         Dice.Condition condition = Dice.Condition.CLOUDS;
-        player1.actOnWeather(condition);
+        game.actOnWeather(condition, player1);
         Stream<HexPlot> improved = game.board.stream().filter(hexPlot -> hexPlot.getImprovement()!=null);
         assertEquals(improved.count(), 1);
     }
@@ -257,14 +257,14 @@ class PlayerTest {
     @Test
     public void noImprovablePlotsTest(){
         Dice.Condition condition = Dice.Condition.CLOUDS;
-        player2.actOnWeather(condition);
+        game.actOnWeather(condition, player2);
         assertTrue(outputStreamCaptor.toString().contains("Aucune parcelle aménageable"));
     }
     @Test
     public void noMoreImprovementsTest(){
         Dice.Condition condition = Dice.Condition.CLOUDS;
         game.deckOfImprovements.clear();
-        player2.actOnWeather(condition);
+        game.actOnWeather(condition, player1);
         assertTrue(outputStreamCaptor.toString().contains("Il y a plus d'aménagements dans la liste"));
     }
 
@@ -273,7 +273,7 @@ class PlayerTest {
         Dice.Condition condition = Dice.Condition.STORM;
         HexPlot oldPosition = game.panda.getPosition();
         int eatenBamboos = player2.eatenBamboos.size();
-        player2.actOnWeather(condition);
+        game.actOnWeather(condition, player2);
         assertNotEquals(oldPosition, game.panda.getPosition());
         assertEquals(eatenBamboos+1 ,player2.eatenBamboos.size());
     }
@@ -281,14 +281,14 @@ class PlayerTest {
     @Test
     public void actOnWeatherMYSTERY(){
         Dice.Condition condition = Dice.Condition.MYSTERY;
-        player2.actOnWeather(condition);
+        game.actOnWeather(condition, player1);
     }
 
     @Test
     public void actOnWeatherRAIN(){
         Dice.Condition condition = Dice.Condition.RAIN;
         int oldStock = game.bambooStock.size();
-        player2.actOnWeather(condition);
+        game.actOnWeather(condition, player1);
         assertNotEquals(oldStock, game.bambooStock.size());
         assertEquals(oldStock-1 ,game.bambooStock.size());
     }
@@ -298,7 +298,7 @@ class PlayerTest {
         Dice.Condition condition = Dice.Condition.RAIN;
         game.bambooStock.clear();
         int oldStock = game.bambooStock.size();
-        player2.actOnWeather(condition);
+        game.actOnWeather(condition, player1);
         assertEquals(oldStock ,game.bambooStock.size());
     }
 
@@ -308,7 +308,7 @@ class PlayerTest {
         game.board = new Board();
         game.bambooStock = new BambooStock();
         int oldStock = game.bambooStock.size();
-        player2.actOnWeather(condition);
+        game.actOnWeather(condition, player1);
         assertEquals(oldStock ,game.bambooStock.size());
     }
 }

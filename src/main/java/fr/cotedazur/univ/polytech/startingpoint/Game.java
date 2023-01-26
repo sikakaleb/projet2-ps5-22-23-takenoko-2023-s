@@ -2,13 +2,17 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Action;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
-import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PANDASTRATEGY;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.PLOTSTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -19,6 +23,7 @@ public class Game {
     public static DeckOfImprovements deckOfImprovements;
     public static Panda panda;
     public List<Player> playerList;
+    public static Map<Action.GameAction, Consumer<Player>> actions;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
@@ -30,6 +35,16 @@ public class Game {
         panda = new Panda(new HexPlot());
         playerList = new ArrayList<>();
         initPlayer(p1,p2);
+
+        actions = Map.of(
+                PICK_PLOT, this::choicePlot,
+                PICK_OBJECTIVE, this::choiceObjective,
+                COMPLETE_OBJECTIVE, this::completeObjective,
+                MOVE_PANDA, this::movePanda,
+                PLACE_IMPROVEMENT, this::placeImprovement
+                //PICK_IRRIGATION, this::pickIrrigation,
+                //PLACE_IRRIGATION, this::placeIrrigation
+        );
     }
 
     /**InitPlayer ajoute les joueurs au jeu*/
@@ -71,31 +86,14 @@ public class Game {
     public Boolean play(Player player){
         Dice.Condition weather = new Dice().roll();
         System.out.println("Le dé météo tombe sur "+weather);
-        player.actOnWeather(weather);
+        actOnWeather(weather, player);
 
-        if(listOfObjectives.size()==0){
-            throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
-        }
-        Random rand = new Random();
-        int randNumber = rand.nextInt(2);
-        if(player.getStrategy()==PANDASTRATEGY){
-            choiceObjective(player);
-            Boolean temp = player.movePanda();
-            return player.dectectPandaObjective();
-        }else if(player.getStrategy()==PLOTSTRATEGY){
-            choiceObjective(player);
-            choicePlot(player);
-            return player.detectPlotObjective();
-        }
-        if (randNumber==0){
-            choiceObjective(player);
-            Boolean temp = player.movePanda();
-        } else if (randNumber==1) {
-            choiceObjective(player);
-            choicePlot(player);
-        }
+        Consumer<Player> action1 = actions.get(player.getStrategy().getActions()[0]);
+        Consumer<Player> action2 = actions.get(player.getStrategy().getActions()[1]);
+        action1.accept(player);
+        action2.accept(player);
 
-        return player.detectPlotObjective()&&player.dectectPandaObjective();
+        return player.detectObjective();
     }
     /**
      * choiceObjective fonction qui permet a un joueur de choisir un objectif
@@ -119,6 +117,10 @@ public class Game {
         return false;
     }
 
+    public Boolean completeObjective(Player player){
+        return player.detectPlotObjective() && player.dectectPandaObjective();
+    }
+
     /**
      * choicePlot fonction qui permet a un joueur de choisir une parcelle et de l'ajouter au jeu
      * @param player {player}
@@ -140,7 +142,107 @@ public class Game {
         return false;
     }
 
-    /* display affiche les joueurs de la classe
+    /**
+     * movePanda fonction qui fait deplacer le panda
+     * il recherche les parcelles dans lequel il peut se deplacer et effectue le choix selon
+     * @param  {}
+     * @return {Boolean}
+     */
+    public boolean movePanda(Player player){
+        System.out.println("la position du panda avant deplacement "+panda.getPosition());
+        System.out.println("la liste des parcelles dans le jeu :"+board);
+        Random rand = new Random();
+        List<HexPlot> movePossibilities= board.pandaNewPositionPossibilities();
+        if(movePossibilities.size()!=0){
+            int randNumber = rand.nextInt(movePossibilities.size());
+            HexPlot next = movePossibilities.get(randNumber);
+            panda.pandaMove(next);
+            System.out.println("la position du panda aprés deplacement"+panda.getPosition());
+            eatIfBamboo(next, player);
+            return true;
+        }
+        System.out.println("Impossible de faire deplacer le panda");
+        return false;
+    }
+
+    public boolean eatIfBamboo(HexPlot plot, Player player){
+        if(plot.getBamboos().size()!=0){
+            System.out.println("il y a de bambou sur cette parcelle");
+
+            if (plot.getImprovement()==FENCE)
+                System.out.println("cette parcelle est protégée par un enclos");
+            else {
+                System.out.println("panda mange un bambou de couleur " + plot.getColor());
+                player.eatenBamboos.add(plot.getBamboos().get(0));
+                plot.getBamboos().remove(0);
+            }
+            return true;
+        }else{
+            System.out.println("il y a pas de bambou sur cette parcelle");
+            return false;
+        }
+    }
+
+    public boolean placeImprovement(Player player){
+        HexPlot plotForImrovement = board.choosePlotForImprovement();
+        if (deckOfImprovements.pick() == null || plotForImrovement == null)
+            return false;
+        PlotImprovement improvement = deckOfImprovements.pick();
+        plotForImrovement.setImprovement(improvement);
+        System.out.println("La parcelle " + plotForImrovement + " a été amélioré par " + improvement);
+        return true;
+    }
+
+    // TODO :
+    /** Add to player's personnal irrigations*/
+    public void pickIrrigation(Player player){};
+
+    /** From player's personnal irrigations, place on board*/
+    public void placeIrrigation(Player player){};
+
+    /**
+     * after throwing the dice, act on the weather condition
+     * @param weatherCondition {Dice.Condition}
+     */
+    public void actOnWeather(Dice.Condition weatherCondition, Player player){
+        switch (weatherCondition) {
+
+            case RAIN:
+                HexPlot plotForBamboo = board.choosePlotForBamboo();
+                if (bambooStock.isEmpty()|| plotForBamboo == null)
+                    break;
+                plotForBamboo.addBamboo();
+                break;
+
+            case CLOUDS :
+                placeImprovement(player);
+                break;
+
+            case STORM:
+                int rnd = new Random().nextInt(board.size());
+                HexPlot next = board.get(rnd);
+                panda.pandaMove(next);
+                System.out.println(player.getName()+" déplace le panda à : "+panda.getPosition());
+                boolean hasEaten = eatIfBamboo(next, player);
+                if (! hasEaten) {
+                    Bamboo bamboo = new Bamboo(next.getColor());
+                    player.eatenBamboos.add(bamboo);
+                    bambooStock.remove(bamboo);
+                    System.out.println("panda mange un bambou de couleur " + next.getColor());
+                }
+                break;
+
+            case MYSTERY:
+                Dice.Condition weather = new Dice().roll();
+                actOnWeather(weather, player);
+                break;
+
+            default : break;
+        }
+    }
+
+    /**
+     *  display affiche les joueurs de la classe
      */
     public void display(){
         for (Player p:playerList) {

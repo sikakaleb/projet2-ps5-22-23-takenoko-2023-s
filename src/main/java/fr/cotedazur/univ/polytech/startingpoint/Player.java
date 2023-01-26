@@ -1,19 +1,18 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Dice;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.EatenBamboos;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
-import fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence;
-import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 
-import java.util.*;
-import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.*;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
+import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 
 public class Player {
     /**Attributs de la classe**/
@@ -29,11 +28,10 @@ public class Player {
     private int score;
     private int maxUnmetObj;
 
-    private BotIntelligence strategy;
+    private Strategy strategy;
     public List<Objective> objectiveAchieved ;
     public List<Objective> unMetObjectives;
     public EatenBamboos eatenBamboos;
-
 
    /**Le ou Les constructeurs de la classe **/
     public Player(int age, int height, String name) {
@@ -48,7 +46,7 @@ public class Player {
         maxUnmetObj=5;
         eatenBamboos = new EatenBamboos();
     }
-    public Player(int age, int height, String name,BotIntelligence strategy) {
+    public Player(int age, int height, String name, Strategy strategy) {
         playerId=++numberOfPlayer;
         this.age = age;
         this.height = height;
@@ -65,7 +63,7 @@ public class Player {
         this(1,1,name);
     }
 
-    public Player(String name,BotIntelligence strategy){
+    public Player(String name, Strategy strategy){
         this(1,1,name,strategy);
     }
     /**Acesseur et mutateur de la classe**/
@@ -73,7 +71,7 @@ public class Player {
         return playerId;
     }
 
-    public BotIntelligence getStrategy() {
+    public Strategy getStrategy() {
         return strategy;
     }
 
@@ -257,93 +255,9 @@ public class Player {
         System.out.println("la liste d'objectif validé :"+this.getObjectiveAchieved());
         return false;
     }
-    /**
-     * movePanda fonction qui fait deplacer le panda
-     * il recherche les parcelles dans lequel il peut se deplacer et effectue le choix selon
-     * @param  {}
-     * @return {Boolean}
-     */
 
-    public boolean movePanda(){
-        System.out.println("la position du panda avant deplacement "+panda.getPosition());
-        System.out.println("la liste des parcelles dans le jeu :"+board);
-        Random rand = new Random();
-        List<HexPlot> movePossibilities= board.pandaNewPositionPossibilities();
-        if(movePossibilities.size()!=0){
-            int randNumber = rand.nextInt(movePossibilities.size());
-            HexPlot next = movePossibilities.get(randNumber);
-            panda.pandaMove(next);
-            System.out.println("la position du panda aprés deplacement"+panda.getPosition());
-            eatIfBamboo(next);
-            return true;
-        }
-        System.out.println("Impossible de faire deplacer le panda");
-        return false;
-    }
-
-    public boolean eatIfBamboo(HexPlot plot){
-        if(plot.getBamboos().size()!=0){
-            System.out.println("il y a de bambou sur cette parcelle");
-
-            if (plot.getImprovement()==FENCE)
-                System.out.println("cette parcelle est protégée par un enclos");
-            else {
-                System.out.println("panda mange un bambou de couleur " + plot.getColor());
-                this.eatenBamboos.add(plot.getBamboos().get(0));
-                plot.getBamboos().remove(0);
-            }
-            return true;
-        }else{
-            System.out.println("il y a pas de bambou sur cette parcelle");
-            return false;
-        }
-    }
-
-    /**
-     * after throwing the dice, act on the weather condition
-     * @param weatherCondition {Dice.Condition}
-     */
-    public void actOnWeather(Dice.Condition weatherCondition){
-        switch (weatherCondition) {
-
-            case RAIN:
-                HexPlot plotForBamboo = board.choosePlotForBamboo();
-                if (bambooStock.isEmpty()|| plotForBamboo == null)
-                    break;
-                plotForBamboo.addBamboo();
-                break;
-
-            case CLOUDS :
-                HexPlot plotForImrovement = board.choosePlotForImprovement();
-                if (deckOfImprovements.pick() == null || plotForImrovement == null)
-                    break;
-                PlotImprovement improvement = deckOfImprovements.pick();
-                plotForImrovement.setImprovement(improvement);
-                System.out.println("La parcelle " + plotForImrovement + " a été amélioré par " + improvement);
-                break;
-
-            case STORM:
-                int rnd = new Random().nextInt(board.size());
-                HexPlot next = board.get(rnd);
-                panda.pandaMove(next);
-                System.out.println(this.name+" déplace le panda à : "+panda.getPosition());
-                boolean hasEaten = eatIfBamboo(next);
-                if (! hasEaten) {
-                    Bamboo bamboo = new Bamboo(next.getColor());
-                    this.eatenBamboos.add(bamboo);
-                    bambooStock.remove(bamboo);
-                    System.out.println("panda mange un bambou de couleur " + next.getColor());
-                }
-                break;
-
-            case MYSTERY:
-                // TODO: créer un choix intelligent du joueur
-                Dice.Condition weather = new Dice().roll();
-                actOnWeather(weather);
-                break;
-
-            default : break;
-        }
+    public Boolean detectObjective(){
+        return this.getStrategy()==PANDASTRATEGY ? dectectPandaObjective() : detectPlotObjective();
     }
 
     /**Rdefinition des methodes**/

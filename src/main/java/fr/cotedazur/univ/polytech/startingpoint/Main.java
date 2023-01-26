@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.BotIntelligence.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Main {
 
@@ -32,7 +32,7 @@ public class Main {
 
     public static void main(String... args) {
         Boolean loop =true;
-        Player p1= new Player("Ted");
+        Player p1= new Player("Ted", PLOTSTRATEGY);
         Player p2 = new Player("Willfried",PANDASTRATEGY);
         Game game = new Game(p1,p2);
         Referee referee = new Referee(game);
