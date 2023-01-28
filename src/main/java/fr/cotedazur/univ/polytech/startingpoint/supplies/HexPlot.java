@@ -10,6 +10,7 @@ import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
+import static java.lang.Math.abs;
 
 /** Creation d'une classe HexPlot represant un parcelle
  avec des coordonnées cartesienne 3D et avec Couleur**/
@@ -202,6 +203,14 @@ public class HexPlot {
         return (this.q==0 || this.s==0 || this.r==0);
     }
 
+    public boolean isAneighbor(HexPlot dst){
+        return abs(getQ()-dst.getQ())==1&& abs(getR()-dst.getR())==1 &&abs(getS()-dst.getS())==0
+                ||
+                abs(getQ()-dst.getQ())==1&& abs(getR()-dst.getR())==0 &&abs(getS()-dst.getS())==1
+                ||
+                abs(getQ()-dst.getQ())==0&& abs(getR()-dst.getR())==1 &&abs(getS()-dst.getS())==1;
+    }
+
     /** Les methodes redefinies de la classe **/
     @Override
     public boolean equals(Object o) {
@@ -256,6 +265,9 @@ public class HexPlot {
             }
 
         }
+    }
+    public boolean haveSamePosition(HexPlot clone){
+        return getS()==clone.getS()&&getR()== clone.getQ()&&getQ()== clone.getQ();
     }
 
 }

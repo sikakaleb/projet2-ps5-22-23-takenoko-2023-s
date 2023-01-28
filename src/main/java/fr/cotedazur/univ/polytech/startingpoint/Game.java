@@ -151,7 +151,7 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean choiceAnIrrigation(Player p){
-        Optional<IrrigationCanal> canal = irrigationStock.getUnUsed();
+        Optional<IrrigationCanal> canal = irrigationStock.getOneUnused();
         if(canal.isPresent()){
             p.addAnIrrigation(canal.get());
             return true;
@@ -166,6 +166,7 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean placeAnIrrigation(Player p){
+        irrigationStock.primordialCanal(board);
         Optional<IrrigationCanal> canal = p.returnAnIrrigation();
         if(canal.isEmpty()) return false;
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
@@ -175,7 +176,7 @@ public class Game {
         if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
             System.out.println(canal.get());
         }else{
-           throw new RuntimeException("Il y a eu un probleme lors de la pose du canal");
+           throw new RuntimeException(src+"       "+dst);
         }
         return true;
 

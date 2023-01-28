@@ -1,11 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.stream.IntStream;
-
-import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 /**
  * @class IrrigationStock
@@ -28,7 +24,7 @@ public class IrrigationStock  {
      * Create deck with  20 irrigated canal
      */
     public void init(){
-        IntStream.range(0, 20).forEach(i -> {
+        IntStream.range(0, 26).forEach(i -> {
             unUsedCanal.add(new IrrigationCanal());
         });
     }
@@ -62,21 +58,43 @@ public class IrrigationStock  {
     }
 
     public boolean add(IrrigationCanal irrigationCanal,HexPlot src,HexPlot dst,Board board) {
-        if(this.getAllHexplotFrom().contains(src) && board.contains(dst)){
+        primordialCanal(board);
+        if(this.getAllHexplotFrom().contains(src) && board.contains(dst)&& !exist(new IrrigationCanal(src,dst))
+        && CanBeAddToSomeNetwork(new IrrigationCanal(src,dst)) && src.isAneighbor(dst)){
             irrigationCanal.setAvailableToTrue();
-        }else{
-            throw new RuntimeException("La parcelle source n'est pas valable");
+            if(!dst.isIrrigated()){
+                dst.setIrrigatedToTrue();
+                dst.addBamboo();
+            }
+            irrigationCanal.setSourcePlot(Optional.of(src));
+            irrigationCanal.setDestPlot(Optional.of(dst));
+            usedCanal.add(irrigationCanal);
+            return true;
         }
-        irrigationCanal.setSourcePlot(Optional.of(src));
-        irrigationCanal.setDestPlot(Optional.of(dst));
-        usedCanal.add(irrigationCanal);
-        unUsedCanal.remove(irrigationCanal);
-        return true;
+        unUsedCanal.add(irrigationCanal);
+        System.out.println("PAS VALABLE");
+        return false;
+
+
+    }
+    public Optional<IrrigationCanal> initAdd(IrrigationCanal irrigationCanal,HexPlot src,HexPlot dst) {
+        if(!exist(new IrrigationCanal(src,dst))) {
+            irrigationCanal.setAvailableToTrue();
+            irrigationCanal.setSourcePlot(Optional.of(src));
+            irrigationCanal.setDestPlot(Optional.of(dst));
+            usedCanal.add(irrigationCanal);
+            return Optional.of(irrigationCanal);
+        }
+        System.out.println("veuillez choisir un autre emplacement");
+        unUsedCanal.add(irrigationCanal);
+        return Optional.empty();
     }
 
-    public Optional<IrrigationCanal> getUnUsed(){
+    public Optional<IrrigationCanal> getOneUnused(){
         if(unUsedCanal.size()!=0){
-            return Optional.of(unUsedCanal.get(0));
+            IrrigationCanal temp=unUsedCanal.get(0);
+            unUsedCanal.remove(temp);
+            return Optional.of(temp);
         }
         return Optional.empty();
     }
@@ -95,5 +113,48 @@ public class IrrigationStock  {
 
     public void setUnUsedCanal(List<IrrigationCanal> unUsedCanal) {
         this.unUsedCanal = unUsedCanal;
+    }
+
+    public void primordialCanal(Board bd){
+        List<HexPlot> v2= new ArrayList<>();
+        v2.add(new HexPlot(0,1,-1));
+        v2.add(new HexPlot(0,-1,1));
+        v2.add(new HexPlot(1,0,-1));
+        v2.add(new HexPlot(1,-1,0));
+        v2.add(new HexPlot(-1,0,1));
+        v2.add(new HexPlot(-1,1,0));
+
+        bd.forEach(hexPlot -> {
+            if(v2.contains(hexPlot)){
+                if (!exist(new IrrigationCanal(new HexPlot(),hexPlot))){
+                    Optional<IrrigationCanal> res=initAdd(getOneUnused().get(),new HexPlot(),hexPlot);
+                }
+            }
+        });
+        System.out.println("\n---------888-------"+usedCanal+"\n------777-------");
+        return;
+    }
+    public Boolean exist(IrrigationCanal canal){
+        Boolean res=false;
+        for (IrrigationCanal can : usedCanal) {
+            if (can.getSourcePlot().equals(canal.getSourcePlot()) &&
+                    can.getDestPlot().equals(canal.getDestPlot())) {
+                System.out.println(canal+" ce canal existe deja");
+                res=true;
+                continue;
+            }
+        }
+        return res;
+    }
+    private Boolean CanBeAddToSomeNetwork(IrrigationCanal canal){
+        Boolean res=false;
+        for (IrrigationCanal can : usedCanal) {
+            if (can.canbeIntheSameNetwork(canal)) {
+                res=true;
+                continue;
+            }
+        }
+        System.out.println("ils n'existe pas de canal valable pouvant auquel on pourrait le relier");
+        return res;
     }
 }

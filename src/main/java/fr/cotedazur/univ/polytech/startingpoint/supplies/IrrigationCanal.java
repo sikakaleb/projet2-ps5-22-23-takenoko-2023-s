@@ -10,9 +10,19 @@ public class IrrigationCanal {
 
     private Boolean isAvailable;
 
+    private static int numberOfIrrigation=0;
+
     public IrrigationCanal() {
+        canalId=++numberOfIrrigation;
         this.DestPlot=Optional.empty();
         this.SourcePlot=Optional.empty();
+        this.isAvailable=false;
+    }
+
+    public IrrigationCanal(HexPlot src, HexPlot dst) {
+        canalId=8888888;
+        this.DestPlot=Optional.of(dst);
+        this.SourcePlot=Optional.of(src);
         this.isAvailable=false;
     }
 
@@ -48,9 +58,9 @@ public class IrrigationCanal {
     @Override
     public String toString() {
         return "IrrigationCanal{" +
-                "SourcePlot=" + SourcePlot +
+                "canalId=" + canalId +
+                ", SourcePlot=" + SourcePlot +
                 ", DestPlot=" + DestPlot +
-                ", isAvailable=" + isAvailable +
                 '}';
     }
 
@@ -72,5 +82,19 @@ public class IrrigationCanal {
     @Override
     public int hashCode() {
         return Objects.hash(canalId);
+    }
+
+    public Boolean canbeIntheSameNetwork(IrrigationCanal dest){
+            HexPlot thisdst= getDestPlot().get();
+            HexPlot thissrc= getSourcePlot().get();
+            HexPlot thatdst= dest.getDestPlot().get();
+            HexPlot thatsrc= dest.getSourcePlot().get();
+        System.out.println(  thisdst.equals(thatsrc) +" "+ thissrc.isAneighbor(thatdst));
+        System.out.println(thisdst);
+        System.out.println(thatdst);
+
+            return thissrc.equals(thatsrc) && thisdst.isAneighbor(thatdst)
+                    ||
+                    thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst);
     }
 }

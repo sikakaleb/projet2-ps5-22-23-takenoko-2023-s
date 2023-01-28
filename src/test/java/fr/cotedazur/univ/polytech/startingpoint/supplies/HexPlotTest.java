@@ -195,4 +195,18 @@ class HexPlotTest {
         hex.setIrrigatedToFalse();
         assertFalse(hex.isIrrigated());
     }
+    @Test
+    void test8(){
+        HexPlot hex= new HexPlot(1,-1,1,YELLOW);
+        hex.setIrrigatedToTrue();
+        hex.getBamboos().add(new Bamboo(YELLOW));
+        assertEquals(hex,new HexPlot(1,-1,1));
+    }
+    @Test
+    void haveSamePosition(){
+        HexPlot hex= new HexPlot(1,-5,4,GREEN);
+        hex.setIrrigatedToTrue();
+        hex.getBamboos().add(new Bamboo(GREEN));
+        assertEquals(hex,new HexPlot(1,-5,4));
+    }
 }

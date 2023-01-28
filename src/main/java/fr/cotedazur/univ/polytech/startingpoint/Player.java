@@ -287,7 +287,14 @@ public class Player {
         return Optional.of(canal);
     }
     public Optional<HexPlot> findAnAvailableIrrigationSource(IrrigationStock irrigationStock){
-        Set<HexPlot> validsSource = irrigationStock.getAllHexplotFrom();
+        Set<HexPlot> validsSource = new HashSet<>();
+        Set<HexPlot> Sources = irrigationStock.getAllHexplotFrom();
+        Sources.forEach(i->{
+            if(!i.equals(new HexPlot())){
+                validsSource.add(i);
+            }
+        });/*
+        throw new RuntimeException(""+Sources);*/
         if(validsSource.size()==0) {
             System.out.println("Pas de source d'irrigarion valable dans le jeu");
             return Optional.empty();
