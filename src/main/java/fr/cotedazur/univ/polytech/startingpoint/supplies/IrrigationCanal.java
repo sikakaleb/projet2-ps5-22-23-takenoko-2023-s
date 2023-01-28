@@ -20,7 +20,7 @@ public class IrrigationCanal {
     }
 
     public IrrigationCanal(HexPlot src, HexPlot dst) {
-        canalId=8888888;
+        canalId=-8888888;
         this.DestPlot=Optional.of(dst);
         this.SourcePlot=Optional.of(src);
         this.isAvailable=false;
@@ -89,12 +89,14 @@ public class IrrigationCanal {
             HexPlot thissrc= getSourcePlot().get();
             HexPlot thatdst= dest.getDestPlot().get();
             HexPlot thatsrc= dest.getSourcePlot().get();
-        System.out.println(  thisdst.equals(thatsrc) +" "+ thissrc.isAneighbor(thatdst));
-        System.out.println(thisdst);
-        System.out.println(thatdst);
 
-            return thissrc.equals(thatsrc) && thisdst.isAneighbor(thatdst)
+            Boolean result = thissrc.equals(thatsrc) && thisdst.isAneighbor(thatdst)
                     ||
                     thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst);
+            if(result){
+                System.out.println(" on peut relier le canal"+getSourcePlot().get()+" <-------> "+getDestPlot() +" a : "
+                        +dest.getSourcePlot().get()+" <-------> "+dest.getDestPlot());
+            }
+            return result;
     }
 }

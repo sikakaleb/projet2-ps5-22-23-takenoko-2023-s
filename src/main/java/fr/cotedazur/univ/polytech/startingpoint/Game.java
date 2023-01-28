@@ -176,7 +176,7 @@ public class Game {
         if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
             System.out.println(canal.get());
         }else{
-           throw new RuntimeException(src+"       "+dst);
+            System.out.println("Pas valide");;
         }
         return true;
 

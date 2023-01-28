@@ -131,7 +131,6 @@ public class IrrigationStock  {
                 }
             }
         });
-        System.out.println("\n---------888-------"+usedCanal+"\n------777-------");
         return;
     }
     public Boolean exist(IrrigationCanal canal){
