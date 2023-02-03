@@ -106,8 +106,8 @@ public class BoardTest {
     }
 
     @Test
-    void pandaNewPositionPossibilitiesTest() {
-        assertEquals(game.board.pandaNewPositionPossibilities().size(),6);
+    void getNewPositionPossibilitiesTest() {
+        assertEquals(game.board.getNewPositionPossibilities().size(),6);
     }
 
     @Test

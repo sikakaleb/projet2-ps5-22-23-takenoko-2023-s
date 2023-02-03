@@ -20,6 +20,7 @@ public class Game {
     public static DeckOfObjectifs listOfObjectives;
     public static DeckOfImprovements deckOfImprovements;
     public static Panda panda;
+    public static Gardener gardener;
     public List<Player> playerList;
     public static Map<Action.GameAction, Consumer<Player>> actions;
     public Action.GameAction[] playerActions;
@@ -33,6 +34,7 @@ public class Game {
         irrigationStock = new IrrigationStock();
         board = new Board();
         panda = new Panda(new HexPlot());
+        gardener = new Gardener(new HexPlot());
         playerList = new ArrayList<>();
         initPlayer(p1,p2);
         playerActions = new Action.GameAction[2];
@@ -41,6 +43,7 @@ public class Game {
                 PICK_OBJECTIVE, this::choiceObjective,
                 COMPLETE_OBJECTIVE, this::completeObjective,
                 MOVE_PANDA, this::movePanda,
+                MOVE_GARDENER, this::moveGardener,
                 PLACE_IMPROVEMENT, this::placeImprovement,
                 PICK_IRRIGATION, this::choiceAnIrrigation,
                 PLACE_IRRIGATION, this::placeAnIrrigation
@@ -200,7 +203,7 @@ public class Game {
         System.out.println("la position du panda avant deplacement "+panda.getPosition());
         System.out.println("la liste des parcelles dans le jeu :"+board);
         Random rand = new Random();
-        List<HexPlot> movePossibilities= board.pandaNewPositionPossibilities();
+        List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
         if(movePossibilities.size()!=0){
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
@@ -210,6 +213,26 @@ public class Game {
             return true;
         }
         System.out.println("Impossible de faire deplacer le panda");
+        return false;
+    }
+ 
+    public boolean moveGardener(Player player){
+        System.out.println("La position du jardinier avant deplacement "+gardener.getPosition());
+        Random rand = new Random();
+        List<HexPlot> movePossibilities = board.getNewPositionPossibilities();
+        if(movePossibilities.size()!=0){
+            int randNumber = rand.nextInt(movePossibilities.size());
+            HexPlot next = movePossibilities.get(randNumber);
+            gardener.move(next);
+            System.out.println("La position du jardinier aprés deplacement "+gardener.getPosition());
+            next.addBamboo();
+            next.plotNeighbor()
+                    .stream()
+                    .filter(neighbor -> board.contains(neighbor) && !neighbor.isPond() && neighbor.getColor()!=null)
+                    .forEach( neighbor -> neighbor.addBamboo());
+            return true;
+        }
+        System.out.println("Impossible de déplacer le jardinier");
         return false;
     }
 

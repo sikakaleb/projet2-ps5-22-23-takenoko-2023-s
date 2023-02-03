@@ -21,7 +21,7 @@ public class ActionTest {
 
     @Test
     public void ActionTest(){
-        assertEquals(new Action().getActions().length, 7);
+        assertEquals(new Action().getActions().length, 8);
     }
 
     @Test

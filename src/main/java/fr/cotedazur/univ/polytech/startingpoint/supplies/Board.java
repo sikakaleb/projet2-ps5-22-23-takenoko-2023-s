@@ -113,7 +113,7 @@ public class Board extends ArrayList<HexPlot> {
         this.add(hex);
     }
 
-    public List<HexPlot> pandaNewPositionPossibilities(){
+    public List<HexPlot> getNewPositionPossibilities(){
         List<HexPlot> linearHex = new ArrayList<>();
         HexPlot currentPosition= panda.getPosition();
         this.forEach(hexPlot -> {
