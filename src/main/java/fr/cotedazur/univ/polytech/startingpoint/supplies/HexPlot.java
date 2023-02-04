@@ -105,6 +105,8 @@ public class HexPlot {
 
     public ArrayList<Bamboo> getBamboos() { return bamboos; }
 
+    public void setBamboos(ArrayList<Bamboo> newbamboos) { bamboos = newbamboos ;}
+
     public boolean isIrrigated(){ return irrigated; }
 
     public void irrigate() {
@@ -233,6 +235,7 @@ public class HexPlot {
                 ", r=" + r +
                 ", color=" + color +
                 ", irrigated=" + irrigated +
+                ", improvement=" + improvement +
                 ", bamboos=" + bamboos +
                 '}';
     }

@@ -8,9 +8,10 @@ import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 
 public class Player {
@@ -262,8 +263,52 @@ public class Player {
         return false;
     }
 
+    public Boolean dectectGardenerObjective(){
+        GardenerObjectiveDetector detector = new GardenerObjectiveDetector(this);
+
+        for (Objective obj:unMetObjectives) {
+
+            if(obj instanceof GardenerObjective){
+
+                if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
+                    System.out.println(name+" a detecté un FOUR_AND_FERTILIZER \uD83D\uDC4F\uD83D\uDC4F ");
+                    HexPlot found = detector.findFourAndFertilizer();
+                    eatenBamboos.addMultiple(4, found.getColor());
+                    found.setBamboos(null);
+                    return validateUnMetObjectives(obj);
+                }
+
+                else if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
+                    System.out.println(name+" a detecté un FOUR_NO_IMPOROVEMENT \uD83D\uDC4F\uD83D\uDC4F ");
+                    HexPlot found = detector.findFourNoImprovement();
+                    eatenBamboos.addMultiple(4, found.getColor());
+                    found.setBamboos(null);
+                    return validateUnMetObjectives(obj);
+                }
+
+                else if( ( ((GardenerObjective) obj).getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
+                    System.out.println(name+" a detecté un THREE_GREEN_X4 \uD83D\uDC4F\uD83D\uDC4F ");
+                    List<HexPlot> found = detector.findThreeGreenX4();
+                    eatenBamboos.addMultiple(12, GREEN);
+                    found.forEach( hexPlot -> hexPlot.setBamboos(null));
+                    return validateUnMetObjectives(obj);
+                }
+            }
+
+        }
+        System.out.println("Aucun objectif jardinier detecté");
+        System.out.println("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
+        System.out.println("la liste d'objectif validé :"+this.getObjectiveAchieved());
+        return false;
+    }
+
     public Boolean detectObjective(){
-        return this.getStrategy()==PANDASTRATEGY ? dectectPandaObjective() : detectPlotObjective();
+        switch (this.getStrategy()) {
+            case PANDASTRATEGY : return dectectPandaObjective();
+            case PLOTSTRATEGY: return detectPlotObjective();
+            case GARDENERSTRATEGY: return dectectGardenerObjective();
+        }
+        return false;
     }
 
     /**Rdefinition des methodes**/
