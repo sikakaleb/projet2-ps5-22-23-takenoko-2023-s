@@ -1,14 +1,15 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-public class Referee {
+public class Emperor {
 
     private Game game;
 
-    public Referee(Game game) {
+    public Emperor(Game game) {
         this.game = game;
     }
 
     public Player judgement() {
+        System.out.println("The Emperor will choose a winner...");
         Player winner = null;
         int max=0;
         for(Player p: game.getPlayerList()){

@@ -1,12 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.List;
+import java.util.Map;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Main {
-
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -22,6 +22,11 @@ public class Main {
         }
     }
 
+    private static void pickEmperor(Player player){
+        System.out.println(player.getName() + " picked the Emperor and wins 2 points");
+        player.setScore(player.getScore() + 2);
+    }
+
     /*
      * Main dans lequel se trouve une similation du jeu
      * entre 2 joueur
@@ -31,46 +36,50 @@ public class Main {
      */
 
     public static void main(String... args) {
-        Boolean loop =true;
+        Boolean loop = true, lastRound = false;
         Player p1= new Player("Ted", PLOTSTRATEGY);
         Player p2 = new Player("Willfried",WITHOUTSTRATEGY);
         Game game = new Game(p1,p2);
-        Referee referee = new Referee(game);
-        //game.setObjective(new PlotObjective(2,INDIRECTSAMEPLOTS));
+        Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
+        Map<Integer, Integer> objectivesForNbPlayers = Map.of(
+                2, 9,
+                3, 8,
+                4, 7
+        );
+        int nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
+        // Dans notre version, avec des bots peu intelligents, pour éviter que la partie ne soit interminable :
+        // 1 : on réduit de 5 le nombre d'objectifs à atteindre pour gagner :
+        nbObjectivesToWin -= 5;
+        // 2 : on fixe nombre de tours prédéterminé à 20
+        int nbRound = 0;
+
         System.out.println(board);
 
         System.out.println("---------------BEGIN----------------");
-        while (loop){
+        while (loop && nbRound < 20){
+
+            loop = !lastRound;
+
             for(Player p : playerList ){
                 System.out.println();
-                if (game.getDeckOfPlots().size()==0){
-                    System.out.println("Plus de plots, fin");
-                    System.out.println(p1);
-                    System.out.println(p2);
-                    referee.judgement();
-                    System.exit(0);
-                }
-                else if(p.getObjectiveAchieved().size()==3) {
-                    referee.judgement();
-                    System.exit(0);
-                }
-                else {
-                    System.out.println("C'est le tour de :" + p.getName());
-                    jeReflechis();
-                    if (game.play(p)) {
-                      //  System.out.println(p.getUnMetObjectives());
-                      //  System.out.println(p.getObjectiveAchieved());
-                        game.display();
 
-                    }
+                if (p.getObjectiveAchieved().size() == nbObjectivesToWin) {
+                    System.out.println("Last round ! "+p.getName()+" has validated x objectives.");
+                    pickEmperor(p);
+                    lastRound = true;
+                }
+
+                System.out.println("C'est le tour de :" + p.getName());
+                jeReflechis();
+                if (game.play(p)) {
+                    game.display();
                 }
             }
-
+        nbRound++;
         }
-
-
-
+        emperor.judgement();
+        System.exit(0);
     }
 
 }

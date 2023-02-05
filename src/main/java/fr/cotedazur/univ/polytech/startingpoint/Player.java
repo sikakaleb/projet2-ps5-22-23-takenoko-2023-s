@@ -79,6 +79,10 @@ public class Player {
         return strategy;
     }
 
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
     /**Getteur CACA**/
     public int getHeight() {
         return height;

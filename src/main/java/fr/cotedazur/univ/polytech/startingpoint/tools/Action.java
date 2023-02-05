@@ -1,6 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.tools;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class Action {
 
@@ -14,7 +18,7 @@ public class Action {
             * Le joueur pioche 1 carte objectif de la catégorie de son choix et l’ajoute à sa main.
             */
            PICK_OBJECTIVE,
-           COMPLETE_OBJECTIVE,
+           //COMPLETE_OBJECTIVE,
 
            /**
             * Le joueur prend 1 irrigation dans la réserve.
@@ -40,15 +44,21 @@ public class Action {
             * son déplacement ainsi que sur toutes les parcelles irriguées adjacentes de la même couleur.
             */
            MOVE_GARDENER
-        }
+        };
+
+       public List<GameAction> actions;
+
+       public Action(){
+           actions = new ArrayList(Arrays.asList(GameAction.values()));
+       }
 
         public GameAction[] getActions(){
            return GameAction.values();
         }
 
         public GameAction pick(){
-                int pick = new Random().nextInt(GameAction.values().length);
-                return GameAction.values()[pick];
+           int pick = new Random().nextInt(GameAction.values().length);
+           return actions.get(pick);
         }
 
         public GameAction[] pickTwoDistinct(){
@@ -59,5 +69,19 @@ public class Action {
                 } while (actions[0] == actions[1]);
                 return actions;
         }
+
+        public void noMorePlots(){
+           actions.removeIf(GameAction.PICK_PLOT::equals);
+        }
+
+        public void noMoreObjectives(){
+           actions.removeIf(GameAction.PICK_OBJECTIVE::equals);
+        }
+
+        public GameAction[] pickTwoNoMorePlots(){
+           Stream<GameAction> actions = Arrays.stream(GameAction.values()).filter(gameAction -> gameAction!=GameAction.PICK_PLOT);
+           return pickTwoDistinct();
+        }
+
 }
 

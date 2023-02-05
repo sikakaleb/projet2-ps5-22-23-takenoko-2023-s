@@ -13,7 +13,8 @@ public enum Strategy {
     GARDENERSTRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, MOVE_GARDENER}),
     /** sans Strategi **/
 
-    WITHOUTSTRATEGY(new Action().pickTwoDistinct());
+    WITHOUTSTRATEGY(null);
+
 
     private Action.GameAction[] actions;
 
