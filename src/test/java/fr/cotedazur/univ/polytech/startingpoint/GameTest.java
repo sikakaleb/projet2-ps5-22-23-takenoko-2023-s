@@ -74,9 +74,20 @@ class GameTest {
 
     @Test
     void placeAnIrrigation() {
+        HexPlot hex3 = new HexPlot(0, -2, 2, PINK);
+        board.remove(hex3);
         assertTrue(game.choiceAnIrrigation(player1));
         assertEquals(player1.getCanalList().size(), 1);
         assertTrue(game.placeAnIrrigation(player1));
+    }
+    @Test
+    void placeAnIrrigation2() {
+        HexPlot hex3 = new HexPlot(0, -2, 2, PINK);
+        board.remove(hex3);
+        assertTrue(game.choiceAnIrrigation(player1));
+        assertEquals(player1.getCanalList().size(), 1);
+        assertTrue(game.placeAnIrrigation(player1));
+        assertEquals(player1.getCanalList().size(), 0);
     }
 
     @Test

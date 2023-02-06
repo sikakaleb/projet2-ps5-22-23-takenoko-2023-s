@@ -185,20 +185,27 @@ public class Game {
      */
     public Boolean placeAnIrrigation(Player p){
         irrigationStock.primordialCanal(board);
+        int exist = 2;
         Optional<IrrigationCanal> canal = p.returnAnIrrigation();
         if(canal.isEmpty()) return false;
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
-        if(src.isEmpty()) return false;
+        if(src.isEmpty()){
+            exist--;
+        }
         Optional<HexPlot> dst = p.findAnAvailableIrrigationDest(board,src.get());
-        if ((dst.isEmpty())) return false;
-        if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
+        if ((dst.isEmpty())){
+            exist--;
+        }
+        if(exist==2 && irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
             System.out.println(canal.get());
         }else{
-            System.out.println("Pas valide");;
+            p.addAnIrrigation(canal.get());
+            System.out.println("Impossible de poser ce canal , votre canal retourne dans votre liste");
+            return false;
+
         }
         return true;
-
-    }
+}
 
     public  Board getBoard() {
         return board;

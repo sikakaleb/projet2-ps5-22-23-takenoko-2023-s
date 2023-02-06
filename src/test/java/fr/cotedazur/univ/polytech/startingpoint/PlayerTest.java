@@ -3,8 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Game.irrigationStock;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
@@ -216,6 +217,50 @@ class PlayerTest {
     @Test
     void getStrategy() {
         assertEquals(player1.getStrategy(), WITHOUTSTRATEGY);
+    }
+    @Test
+    void addAnIrrigation() {
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getOneUnused();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(), 1);
+    }
+
+    @Test
+    void returnAnIrrigation() {
+        assertEquals(player1.returnAnIrrigation(), Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getOneUnused();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(player1.returnAnIrrigation(), canal);
+    }
+
+    @Test
+    void findAnAvailableIrrigationSource() {
+        assertEquals(player1.returnAnIrrigation(), Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getOneUnused();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(player1.returnAnIrrigation(), canal);
+        irrigationStock.primordialCanal(game.getBoard());
+        assertTrue(player1.findAnAvailableIrrigationSource(canStock).isPresent());
+
+    }
+
+    @Test
+    void findAnAvailableIrrigationDest() {
+        assertEquals(player1.returnAnIrrigation(), Optional.empty());
+        IrrigationStock canStock = game.getIrrigationStock();
+        Optional<IrrigationCanal> canal = canStock.getOneUnused();
+        player1.addAnIrrigation(canal.get());
+        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(player1.returnAnIrrigation(), canal);
+        Board bd = game.getBoard();
+        Optional<HexPlot> hex = player1.findAnAvailableIrrigationDest(bd, new HexPlot());
+        assertTrue(!canStock.getAllHexplotFrom().contains(hex.get()));
+        assertTrue(bd.contains(hex.get()));
     }
 
 }

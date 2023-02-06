@@ -137,14 +137,20 @@ public class IrrigationStock  {
         Boolean res=false;
         for (IrrigationCanal can : usedCanal) {
             if (can.getSourcePlot().equals(canal.getSourcePlot()) &&
-                    can.getDestPlot().equals(canal.getDestPlot())) {
-                System.out.println(canal+" ce canal existe deja");
-                res=true;
+                    can.getDestPlot().equals(canal.getDestPlot()) ||
+                            can.getSourcePlot().equals(canal.getDestPlot()) &&
+                                    can.getDestPlot().equals(canal.getSourcePlot())) {
+                /*if(canal.getCanalId()<0)
+                    //System.out.println("canal de entre"+canal.getSourcePlot()+" et "+canal.getDestPlot()+" est un canal primordial, il existe deja");
+                else
+                   // System.out.println("canal de entre"+canal.getSourcePlot()+" et "+canal.getDestPlot()+"ce canal existe deja");
+                */res=true;
                 continue;
+
             }
         }
         return res;
-    }
+}
     private Boolean CanBeAddToSomeNetwork(IrrigationCanal canal){
         Boolean res=false;
         for (IrrigationCanal can : usedCanal) {
