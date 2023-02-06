@@ -15,7 +15,7 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 public class Main {
 
     @Parameter(names = { "--2thousands" }, description = "2 x 1000 parties")
-    private static boolean twothousand = true;
+    private static boolean twothousand;
 
     @Parameter(names = "--demo", description = "Mode démo d’un seule partie avec log complet")
     private static boolean demo;
