@@ -1,10 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
+
 import java.util.Objects;
 import java.util.Optional;
-import java.util.logging.Level;
-
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 
 public class IrrigationCanal {
     private int canalId;
@@ -97,7 +96,7 @@ public class IrrigationCanal {
                     ||
                     thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst);
             if(result){
-                LOGGER.log(Level.FINEST," on peut relier le canal"+getSourcePlot().get()+" <-------> "+getDestPlot() +" a : "
+                Display.printMessage(" on peut relier le canal"+getSourcePlot().get()+" <-------> "+getDestPlot() +" a : "
                         +dest.getSourcePlot().get()+" <-------> "+dest.getDestPlot());
             }
             return result;

@@ -2,30 +2,34 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import data.PlayerData;
+import fr.cotedazur.univ.polytech.startingpoint.data.PlayerData;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.stream.IntStream;
 
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PLOTSTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Main {
 
     @Parameter(names = { "--2thousands" }, description = "2 x 1000 parties")
-    private static boolean twothousand;
+    private static boolean twothousand = true;
 
     @Parameter(names = "--demo", description = "Mode démo d’un seule partie avec log complet")
-    private static boolean demo = true;
+    private static boolean demo;
 
     @Parameter(names = "--csv", description = "Simulation à plusieurs parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques")
     private static boolean csv;
 
-    private Player p1 = new Player("Ted", PLOTSTRATEGY);
-    private Player p2 = new Player("Willfried", PANDASTRATEGY);
-    private Map<Player, PlayerData> gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
+    private static Game game;
+    private static Player p1 = new Player("BotIntelligent", PANDASTRATEGY);
+    private static Player p2 = new Player("BotRandom", WITHOUTSTRATEGY);
+    private static Map<Player, PlayerData> gameStats;
+    public static int ITERATIONS = 1000;
+    public static int ties = 0;
+
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -52,18 +56,35 @@ public class Main {
                 .addObject(main)
                 .build()
                 .parse(argv);
-        //main.test();
 
         if (demo) {
             Display.setUp(Level.INFO);
             main.runGame();
         }
 
+        else if (twothousand) {
+            Display.setUp(Level.SEVERE);
+
+            Display.printMessage("Simulation de "+ITERATIONS+" parties de votre meilleur bot contre le second", Level.SEVERE);
+            ties = 0;
+            gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
+            IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
+            Display.printGameStats(game.playerList, gameStats);
+
+            Display.printMessage("\nSimulation de "+ITERATIONS+" parties de votre meilleur bot contre lui-même", Level.SEVERE);
+            p2.setStrategy(PANDASTRATEGY);
+            ties = 0;
+            gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
+            IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
+            Display.printGameStats(game.playerList, gameStats);
+
+        }
+
     }
 
     private void runGame(){
+        game = new Game(p1,p2);
         Boolean loop = true, lastRound = false;
-        Game game = new Game(p1,p2);
         Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
         Map<Integer, Integer> objectivesForNbPlayers = Map.of(
@@ -93,8 +114,8 @@ public class Main {
                     lastRound = true;
                 }
 
-                Display.printMessage("C'est le tour de :" + p.getName());
-                jeReflechis();
+                Display.printMessage("C'est le tour de : " + p.getName());
+                if (demo) jeReflechis();
                 if (game.play(p)) {
                     game.display();
                 }
@@ -106,11 +127,13 @@ public class Main {
 
         Player winner = emperor.judgement();
         if (twothousand) {
-            gameStats.get(winner).win();
+            if (winner != null) {
+                gameStats.get(winner).win();
+            } else {
+                ties++;
+            }
             gameStats.get(p1).score(p1.getScore());
             gameStats.get(p2).score(p2.getScore());
         }
-        System.exit(0);
     }
-
 }

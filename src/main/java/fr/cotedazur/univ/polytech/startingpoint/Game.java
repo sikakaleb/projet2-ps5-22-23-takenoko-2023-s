@@ -8,9 +8,7 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.logging.Level;
 
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
 
@@ -193,7 +191,7 @@ public class Game {
         if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
             Display.printMessage( String.valueOf(canal.get()));
         }else{
-            LOGGER.log(Level.FINEST,"Pas valide");;
+            Display.printMessage("Impossible de placer une irrigation ici");
         }
         return true;
 

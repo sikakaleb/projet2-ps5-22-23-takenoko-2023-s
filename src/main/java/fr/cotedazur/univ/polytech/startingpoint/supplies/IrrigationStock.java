@@ -3,10 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.util.*;
-import java.util.logging.Level;
 import java.util.stream.IntStream;
-
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 
 /**
  * @class IrrigationStock
@@ -77,7 +74,6 @@ public class IrrigationStock  {
             return true;
         }
         unUsedCanal.add(irrigationCanal);
-        LOGGER.log(Level.FINEST,"PAS VALABLE");
         return false;
 
 
