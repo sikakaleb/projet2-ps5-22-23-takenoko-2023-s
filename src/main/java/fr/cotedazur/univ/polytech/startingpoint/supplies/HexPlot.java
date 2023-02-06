@@ -1,16 +1,16 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 
 import java.util.*;
-import java.util.logging.Level;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
 import static java.lang.Math.abs;
 
@@ -125,11 +125,11 @@ public class HexPlot {
 
     public void setImprovement(PlotImprovement plotImprovement){
         if (this.improvement != null) {
-            LOGGER.log(Level.FINE,"Il y a déjà un aménagement sur cette parcelle");
+            Display.printMessage("Il y a déjà un aménagement sur cette parcelle");
         }
 
         else if (! this.bamboos.isEmpty())
-            LOGGER.log(Level.FINE,"Impossible de placer l'emplacement, il y a un bambou sur cette parcelle");
+            Display.printMessage("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle");
 
         else {
             this.improvement = plotImprovement;
@@ -248,24 +248,24 @@ public class HexPlot {
 
     public void addBamboo(){
         if (this.isPond())
-            LOGGER.log(Level.FINE,"On ne pose pas un bamboo sur la parcelle Etang");
+            Display.printMessage("On ne pose pas un bamboo sur la parcelle Etang");
 
         else if (!irrigated)
-            LOGGER.log(Level.FINE,"On ne pose pas un bambou sur une parcelle non irriguée");
+            Display.printMessage("On ne pose pas un bambou sur une parcelle non irriguée");
 
         else if (bamboos.size() == 4)
-            LOGGER.log(Level.FINE,"Il y a trop de bambous sur cette parcelle");
+            Display.printMessage("Il y a trop de bambous sur cette parcelle");
 
         else {
             bamboos.add(new Bamboo(getColor()));
             bambooStock.remove(bambooStock.getByColor(getColor()));
-            LOGGER.log(Level.FINE,"Un bambou "+getColor()+" pousse sur la parcelle "+this);
+            Display.printMessage("Un bambou "+getColor()+" pousse sur la parcelle "+this);
 
 
             if (this.getImprovement() == FERTILIZER && this.getBamboos().size() < 4){
                 bamboos.add(new Bamboo(getColor()));
                 bambooStock.remove(bambooStock.getByColor(getColor()));
-                LOGGER.log(Level.FINE,this+" possède un aménagement ENGRAIS, un deuxième bambou "+getColor()+" pousse sur la parcelle");
+                Display.printMessage(this+" possède un aménagement ENGRAIS, un deuxième bambou "+getColor()+" pousse sur la parcelle");
 
             }
 

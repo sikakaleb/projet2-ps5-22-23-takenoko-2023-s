@@ -1,12 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
+
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.stream.IntStream;
 
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 
 /**
@@ -28,7 +28,7 @@ public class DeckOfImprovements extends ArrayList<PlotImprovement> {
 
     public PlotImprovement pick(){
         if(this.isEmpty()){
-            LOGGER.log(Level.FINE,"Il y a plus d'aménagements dans la liste");
+            Display.printMessage("Il y a plus d'aménagements dans la liste");
             return null;
         }
         int rnd = new Random().nextInt(this.size());

@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.display;
 
-import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
+import fr.cotedazur.univ.polytech.startingpoint.Player;
 
 import java.util.logging.*;
 
@@ -36,12 +36,12 @@ public class Display {
         LOGGER.log(Level.INFO, msg);
     }
 
-    private static void printPercentageWinPlayer(int idPlayer, Strategy strategy, double[] infos) {
-        LOGGER.log(Level.INFO, "Le joueur {0} | {1}", new Object[]{idPlayer, strategy});
-        LOGGER.log(Level.INFO, "\ta gagne {0} parties", infos[0]);
-        LOGGER.log(Level.INFO, "\ta perdu {0} parties", infos[1]);
-        LOGGER.log(Level.INFO, "\ta gagne {0}% des parties", infos[2]);
-        LOGGER.log(Level.INFO, "\ta perdu {0}% des parties", infos[3]);
-        LOGGER.log(Level.INFO, "\ta obtenu {0} de points en moyenne", infos[4]);
+    private static void printPercentageWinPlayer(Player player, double[] infos) {
+        LOGGER.log(Level.SEVERE, "Le joueur "+player.getName()+" avec la stratégie "+player.getStrategy().getName());
+        LOGGER.log(Level.SEVERE, "\ta gagne {0} parties", infos[0]);
+        LOGGER.log(Level.SEVERE, "\ta perdu {0} parties", infos[1]);
+        LOGGER.log(Level.SEVERE, "\ta gagne {0}% des parties", infos[2]);
+        LOGGER.log(Level.SEVERE, "\ta perdu {0}% des parties", infos[3]);
+        LOGGER.log(Level.SEVERE, "\ta obtenu {0} de points en moyenne", infos[4]);
     }
 }

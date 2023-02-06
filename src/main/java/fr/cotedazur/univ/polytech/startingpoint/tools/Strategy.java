@@ -29,6 +29,10 @@ public enum Strategy {
         return actions;
     }
 
+    public String getName() {
+        return this.name();
+    }
+
     public Action.GameAction pick(){
         int pick = new Random().nextInt(this.actions.size());
         return this.actions.get(pick);

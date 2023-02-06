@@ -2,25 +2,30 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import data.PlayerData;
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PLOTSTRATEGY;
 
 public class Main {
 
     @Parameter(names = { "--2thousands" }, description = "2 x 1000 parties")
-    private boolean twothousand;
+    private static boolean twothousand;
 
     @Parameter(names = "--demo", description = "Mode démo d’un seule partie avec log complet")
-    private boolean demo;
+    private static boolean demo = true;
 
     @Parameter(names = "--csv", description = "Simulation à plusieurs parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques")
-    private boolean csv;
+    private static boolean csv;
+
+    private Player p1 = new Player("Ted", PLOTSTRATEGY);
+    private Player p2 = new Player("Willfried", PANDASTRATEGY);
+    private Map<Player, PlayerData> gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -32,13 +37,8 @@ public class Main {
                 Thread.sleep(100);
             }
         }catch(Exception e) {
-            LOGGER.log(Level.FINE, String.valueOf(e));
+            Display.printMessage( String.valueOf(e));
         }
-    }
-
-    private static void pickEmperor(Player player){
-        LOGGER.log(Level.FINE,player.getName() + " pioche la carte Empereur et gagne 2 points");
-        player.setScore(player.getScore() + 2);
     }
 
     /*
@@ -53,17 +53,16 @@ public class Main {
                 .build()
                 .parse(argv);
         //main.test();
-        main.runGame();
-    }
 
-    public void test() {
-        System.out.println("twothousand="+twothousand+", demo="+demo+", csv="+csv);
+        if (demo) {
+            Display.setUp(Level.INFO);
+            main.runGame();
+        }
+
     }
 
     private void runGame(){
         Boolean loop = true, lastRound = false;
-        Player p1= new Player("Ted", PLOTSTRATEGY);
-        Player p2 = new Player("Willfried",PANDASTRATEGY);
         Game game = new Game(p1,p2);
         Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
@@ -80,21 +79,21 @@ public class Main {
         int nbRound = 0, maxRounds = 30;
 
 
-        LOGGER.log(Level.FINE,"---------------BEGIN----------------");
+        Display.printMessage("---------------BEGIN----------------");
         while (loop && nbRound < maxRounds){
 
             loop = !lastRound;
 
             for(Player p : playerList ){
-                LOGGER.log(Level.FINE,"");
+                Display.printMessage("");
 
                 if (p.getObjectiveAchieved().size() == nbObjectivesToWin) {
-                    LOGGER.log(Level.FINE, "Dernier tour ! "+p.getName()+" a validé "+nbObjectivesToWin+" objectifs.");
-                    pickEmperor(p);
+                    Display.printMessage( "Dernier tour ! "+p.getName()+" a validé "+nbObjectivesToWin+" objectifs.");
+                    p.pickEmperor();
                     lastRound = true;
                 }
 
-                LOGGER.log(Level.FINE,"C'est le tour de :" + p.getName());
+                Display.printMessage("C'est le tour de :" + p.getName());
                 jeReflechis();
                 if (game.play(p)) {
                     game.display();
@@ -103,9 +102,14 @@ public class Main {
             nbRound++;
         }
         if (nbRound == maxRounds)
-            LOGGER.log(Level.FINE,"Le jeu se termine au bout de "+nbRound+" tours.");
+            Display.printMessage("Le jeu se termine au bout de "+nbRound+" tours.");
 
-        emperor.judgement();
+        Player winner = emperor.judgement();
+        if (twothousand) {
+            gameStats.get(winner).win();
+            gameStats.get(p1).score(p1.getScore());
+            gameStats.get(p2).score(p2.getScore());
+        }
         System.exit(0);
     }
 

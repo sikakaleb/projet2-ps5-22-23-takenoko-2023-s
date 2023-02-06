@@ -1,8 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import java.util.logging.Level;
-
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 public class Emperor {
 
@@ -13,7 +11,7 @@ public class Emperor {
     }
 
     public Player judgement() {
-        LOGGER.log(Level.FINE,"The Emperor will choose a winner...");
+        Display.printMessage("The Emperor will choose a winner...");
         Player winner = null;
         int max=0;
         for(Player p: game.getPlayerList()){
@@ -22,7 +20,7 @@ public class Emperor {
                 winner=p;
             }
         }
-        LOGGER.log(Level.FINE,"The winner is, "
+        Display.printMessage("The winner is, "
                 +winner.getName()+",\nhe won with "
                 +winner.getScore()+" Points.\nhis achievedObjectifsList is  :\n"
                 +winner.getObjectiveAchieved()+"\nhis unMetObjectifsList is :\n"

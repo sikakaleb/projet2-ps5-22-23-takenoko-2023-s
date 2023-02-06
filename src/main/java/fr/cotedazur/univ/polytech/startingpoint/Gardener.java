@@ -1,9 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
+
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
-
-import java.util.logging.Level;
-
-import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 
 public class Gardener {
     private HexPlot position;
@@ -29,7 +27,7 @@ public class Gardener {
         }
 
         else {
-            LOGGER.log(Level.FINE,"Le jardinier ne se déplace qu'en ligne droite");
+            Display.printMessage("Le jardinier ne se d\u00E9place qu'en ligne droite");
         }
     }
 
