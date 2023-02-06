@@ -1,12 +1,25 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+
 import java.util.List;
 import java.util.Map;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PLOTSTRATEGY;
 
 public class Main {
+
+    @Parameter(names = { "--2thousands" }, description = "2 x 1000 parties")
+    private boolean twothousand;
+
+    @Parameter(names = "--demo", description = "Mode démo d’un seule partie avec log complet")
+    private boolean demo;
+
+    @Parameter(names = "--csv", description = "Simulation à plusieurs parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques")
+    private boolean csv;
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -28,14 +41,25 @@ public class Main {
     }
 
     /*
-     * Main dans lequel se trouve une similation du jeu
-     * entre 2 joueur
-     * Pour cette milestone
-     * on s'interesse juste a afficher le premier joueur
-     * qui validera un objectif et le jeu prend fin
+     * Main dans lequel se trouve une similation du jeu entre 2 joueurs
      */
 
-    public static void main(String... args) {
+    public static void main(String... argv) {
+
+        Main main = new Main();
+        JCommander.newBuilder()
+                .addObject(main)
+                .build()
+                .parse(argv);
+        //main.test();
+        main.runGame();
+    }
+
+    public void test() {
+        System.out.println("twothousand="+twothousand+", demo="+demo+", csv="+csv);
+    }
+
+    private void runGame(){
         Boolean loop = true, lastRound = false;
         Player p1= new Player("Ted", PLOTSTRATEGY);
         Player p2 = new Player("Willfried",PANDASTRATEGY);
@@ -76,7 +100,7 @@ public class Main {
                     game.display();
                 }
             }
-        nbRound++;
+            nbRound++;
         }
         if (nbRound == maxRounds)
             System.out.println("Le jeu se termine au bout de "+nbRound+" tours.");
