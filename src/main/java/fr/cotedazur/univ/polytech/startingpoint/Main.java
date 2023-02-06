@@ -38,7 +38,7 @@ public class Main {
     public static void main(String... args) {
         Boolean loop = true, lastRound = false;
         Player p1= new Player("Ted", PLOTSTRATEGY);
-        Player p2 = new Player("Willfried",WITHOUTSTRATEGY);
+        Player p2 = new Player("Willfried",PANDASTRATEGY);
         Game game = new Game(p1,p2);
         Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
@@ -51,13 +51,13 @@ public class Main {
         // Dans notre version, avec des bots peu intelligents, pour éviter que la partie ne soit interminable :
         // 1 : on réduit de 5 le nombre d'objectifs à atteindre pour gagner :
         nbObjectivesToWin -= 5;
-        // 2 : on fixe nombre de tours prédéterminé à 20
-        int nbRound = 0;
+        // 2 : on fixe nombre de tours prédéterminé
+        int nbRound = 0, maxRounds = 30;
 
         System.out.println(board);
 
         System.out.println("---------------BEGIN----------------");
-        while (loop && nbRound < 20){
+        while (loop && nbRound < maxRounds){
 
             loop = !lastRound;
 
@@ -78,6 +78,9 @@ public class Main {
             }
         nbRound++;
         }
+        if (nbRound == maxRounds)
+            System.out.println("Le jeu se termine au bout de "+nbRound+" tours.");
+
         emperor.judgement();
         System.exit(0);
     }

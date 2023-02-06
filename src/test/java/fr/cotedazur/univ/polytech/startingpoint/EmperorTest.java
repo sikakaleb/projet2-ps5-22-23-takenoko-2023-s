@@ -22,6 +22,6 @@ public class EmperorTest {
     void judgementTest() {
         player1.setScore(10);
         player2.setScore(20);
-        assertEquals(emperor.judgement(player2), player2);
+        assertEquals(emperor.judgement(), player2);
     }
 }
