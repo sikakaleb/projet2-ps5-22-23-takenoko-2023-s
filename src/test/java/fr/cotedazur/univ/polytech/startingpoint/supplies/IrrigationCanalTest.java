@@ -95,9 +95,7 @@ class IrrigationCanalTest {
         IrrigationCanal can2=new IrrigationCanal(pond,hex3);
         IrrigationCanal can3=new IrrigationCanal(hex2,hex3);
         IrrigationCanal can4=new IrrigationCanal(hex3,hex4);
-        System.out.println(can3);
         assertTrue(can1.canbeIntheSameNetwork(can3));
-        System.out.println(can3);
         assertTrue(can3.canbeIntheSameNetwork(can4));
 
     }

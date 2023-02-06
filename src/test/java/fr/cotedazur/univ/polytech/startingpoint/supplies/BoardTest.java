@@ -78,10 +78,7 @@ public class BoardTest {
         HexPlot hexPlot = board.iterator().next();
 
         assertEquals(board.findAvailableNeighbors(hexPlot).size(), 6);
-        System.out.println(hexPlot);
         board.ChoicePlot(deckOfPlots.pickPlot());
-        System.out.println(board.findAvailableNeighbors(hexPlot));
-        System.out.println(board);
         assertEquals(board.findAvailableNeighbors(hexPlot).size(), 5);
 
         board.addAll(hexPlot.plotNeighbor());
@@ -94,14 +91,12 @@ public class BoardTest {
         board.ChoicePlot(deckOfPlots.pickPlot());
         board.ChoicePlot(deckOfPlots.pickPlot());
         board.ChoicePlot(deckOfPlots.pickPlot());
-        System.out.println(board);
         assertEquals(board.size(),4);
     }
 
     @Test
     void choicePlotTest() {
         board.ChoicePlot(board.iterator().next());
-        System.out.println(board);
         assertEquals(board.size(),2);
     }
 

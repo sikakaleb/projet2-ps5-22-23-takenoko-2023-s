@@ -1,7 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
+
+import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 
 /**
  * @class IrrigationStock
@@ -72,7 +75,7 @@ public class IrrigationStock  {
             return true;
         }
         unUsedCanal.add(irrigationCanal);
-        System.out.println("PAS VALABLE");
+        LOGGER.log(Level.FINEST,"PAS VALABLE");
         return false;
 
 
@@ -85,7 +88,7 @@ public class IrrigationStock  {
             usedCanal.add(irrigationCanal);
             return Optional.of(irrigationCanal);
         }
-        System.out.println("veuillez choisir un autre emplacement");
+        LOGGER.log(Level.FINE,"Veuillez choisir un autre emplacement");
         unUsedCanal.add(irrigationCanal);
         return Optional.empty();
     }
@@ -138,7 +141,7 @@ public class IrrigationStock  {
         for (IrrigationCanal can : usedCanal) {
             if (can.getSourcePlot().equals(canal.getSourcePlot()) &&
                     can.getDestPlot().equals(canal.getDestPlot())) {
-                System.out.println(canal+" ce canal existe deja");
+                LOGGER.log(Level.FINE,canal+" ce canal existe deja");
                 res=true;
                 continue;
             }
@@ -153,7 +156,7 @@ public class IrrigationStock  {
                 continue;
             }
         }
-        System.out.println("ils n'existe pas de canal valable pouvant auquel on pourrait le relier");
+        LOGGER.log(Level.FINE,"il n'existe pas de canal valable auquel on pourrait le relier");
         return res;
     }
 }

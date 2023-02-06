@@ -1,5 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint;
+
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+
+import java.util.logging.Level;
+
+import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
+
 public class Panda {
     private HexPlot position;
 
@@ -30,7 +36,7 @@ public class Panda {
         }
         //à gerer avec une execption
         else {
-            System.out.println("Le panda ne se déplace qu'en ligne droite");
+            LOGGER.log(Level.FINE,"Le panda ne se déplace qu'en ligne droite");
         }
     }
 

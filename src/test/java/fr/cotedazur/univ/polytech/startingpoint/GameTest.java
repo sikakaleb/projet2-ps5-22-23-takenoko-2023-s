@@ -83,7 +83,6 @@ class GameTest {
     @Test
     void movePanda() {
         assertTrue(game.movePanda(player2));
-        /*System.out.println(game.panda.getPosition());*/
     }
 
     @Test

@@ -2,8 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
+import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
 /**
@@ -34,7 +36,7 @@ public class DeckOfPlots extends ArrayList<HexPlot> {
         int randNumber = new Random().nextInt(this.size());
         HexPlot hex = this.get(randNumber);
         this.remove(randNumber);
-        System.out.println("nombre de parcelle dans la pile :"+this.size());
+        LOGGER.log(Level.FINE,"Nombre de parcelle dans la pile :"+this.size());
         return hex;
     }
 }

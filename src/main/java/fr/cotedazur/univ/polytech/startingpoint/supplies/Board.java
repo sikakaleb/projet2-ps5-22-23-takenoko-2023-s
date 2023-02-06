@@ -2,8 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 
 import java.util.*;
+import java.util.logging.Level;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.panda;
+import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 
 /**
  * @clas Board
@@ -107,9 +109,9 @@ public class Board extends ArrayList<HexPlot> {
         hex.setQ(arrayPlots[randNumber].getQ());
         hex.setR(arrayPlots[randNumber].getR());
         hex.setS(arrayPlots[randNumber].getS());
-        System.out.println("nombre de place valide est :"+validPlotsSet.size());
-        System.out.println("les places valides sont :"+validPlotsSet);
-        System.out.println("la liste des parcelles dans le jeu avant le choix:"+this);
+        LOGGER.log(Level.FINE,"nombre de place valide est :"+validPlotsSet.size());
+        LOGGER.log(Level.FINE,"les places valides sont :"+validPlotsSet);
+        LOGGER.log(Level.FINE,"la liste des parcelles dans le jeu avant le choix:"+this);
         this.add(hex);
     }
 
@@ -151,7 +153,7 @@ public class Board extends ArrayList<HexPlot> {
                         hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
         );
         if(forImprovement.isEmpty()){
-            System.out.println("Aucune parcelle aménageable");
+            LOGGER.log(Level.FINE,"Aucune parcelle aménageable");
             return null;
         }
 
@@ -172,7 +174,7 @@ public class Board extends ArrayList<HexPlot> {
                         !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
         );
         if(forBamboo.isEmpty()){
-            System.out.println("Aucune parcelle sur laquelle placer un bambou");
+            LOGGER.log(Level.FINE,"Aucune parcelle sur laquelle placer un bambou");
             return null;
         }
 

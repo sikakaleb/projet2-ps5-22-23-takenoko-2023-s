@@ -63,7 +63,6 @@ class IrrigationStockTest {
         irrigationStock.add(canal.get(),new HexPlot(),hex,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        System.out.println(uSed);
         assertEquals(uSed.size(),1);
         Set<HexPlot> set =irrigationStock.getAllHexplotFrom();
         assertEquals(set.size(),2);
@@ -81,9 +80,7 @@ class IrrigationStockTest {
         hex.getBamboos().add(new Bamboo(YELLOW));
         board.add(hex);
         Optional<IrrigationCanal> canal= irrigationStock.getOneUnused();
-        System.out.println(canal);
         irrigationStock.add(canal.get(),new HexPlot(),hex,board);
-        System.out.println(canal);
 
         Set<HexPlot> set =irrigationStock.getAllHexplotFrom();
         assertTrue(hex.isIrrigated());
@@ -117,9 +114,7 @@ class IrrigationStockTest {
         board.add(hex2);
         board.add(hex3);
         board.add(hex4);
-        System.out.println("RIIIIIIIIIIIIIIIIIIIIIIEEEEEEEEEENG");
         Optional<IrrigationCanal> canal= irrigationStock.getOneUnused();
-        System.out.println("-----------------------------------------------");
         irrigationStock.add(canal.get(),new HexPlot(),hex4,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
@@ -218,9 +213,7 @@ class IrrigationStockTest {
         board.add(hex2);
         board.add(hex3);
         board.add(hex4);
-        System.out.println("RIIIIIIIIIIIIIIIIIIIIIIEEEEEEEEEENG");
         Optional<IrrigationCanal> canal= irrigationStock.getOneUnused();
-        System.out.println("-----------------------------------------------");
         irrigationStock.add(canal.get(),hex2,hex4,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
@@ -245,9 +238,7 @@ class IrrigationStockTest {
         board.add(hex2);
         board.add(hex3);
         board.add(hex4);
-        System.out.println("RIIIIIIIIIIIIIIIIIIIIIIEEEEEEEEEENG");
         Optional<IrrigationCanal> canal= irrigationStock.getOneUnused();
-        System.out.println("-----------------------------------------------");
         irrigationStock.add(canal.get(),hex3,hex4,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
@@ -272,14 +263,10 @@ class IrrigationStockTest {
         board.add(hex2);
         board.add(hex3);
         board.add(hex4);
-        System.out.println("RIIIIIIIIIIIIIIIIIIIIIIEEEEEEEEEENG");
         Optional<IrrigationCanal> canal= irrigationStock.getOneUnused();
-        System.out.println("-----------------------------------------------");
         irrigationStock.add(canal.get(),hex2,hex3,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        System.out.println("-----------------------------------------------");
-        System.out.println("---------------cheeeeeeeeeeem-----------------"+uSed+"\n**********");
         assertEquals(uSed.size(),4);
         assertTrue(hex3.isIrrigated());
         assertEquals(hex3.getBamboos().size(),2);
@@ -289,7 +276,6 @@ class IrrigationStockTest {
         unSed= irrigationStock.getUnUsedCanal();
         uSed= irrigationStock.getUsedCanal();
         assertEquals(uSed.size(),5);
-        System.out.println(uSed);
         assertTrue(hex4.isIrrigated());
         assertEquals(hex4.getBamboos().size(),4);
     }

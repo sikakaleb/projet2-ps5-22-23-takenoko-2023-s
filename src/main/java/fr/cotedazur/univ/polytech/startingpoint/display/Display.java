@@ -9,7 +9,7 @@ import java.util.logging.*;
  */
 public class Display {
 
-    private static final Logger LOGGER;
+    public static final Logger LOGGER;
     
     static {
         LOGGER = Logger.getLogger(Display.class.getName());

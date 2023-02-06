@@ -5,8 +5,9 @@ import com.beust.jcommander.Parameter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.display.Display.LOGGER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PLOTSTRATEGY;
 
@@ -31,12 +32,12 @@ public class Main {
                 Thread.sleep(100);
             }
         }catch(Exception e) {
-            System.out.println(e);
+            LOGGER.log(Level.FINE, String.valueOf(e));
         }
     }
 
     private static void pickEmperor(Player player){
-        System.out.println(player.getName() + " picked the Emperor and wins 2 points");
+        LOGGER.log(Level.FINE,player.getName() + " pioche la carte Empereur et gagne 2 points");
         player.setScore(player.getScore() + 2);
     }
 
@@ -78,23 +79,22 @@ public class Main {
         // 2 : on fixe nombre de tours prédéterminé
         int nbRound = 0, maxRounds = 30;
 
-        System.out.println(board);
 
-        System.out.println("---------------BEGIN----------------");
+        LOGGER.log(Level.FINE,"---------------BEGIN----------------");
         while (loop && nbRound < maxRounds){
 
             loop = !lastRound;
 
             for(Player p : playerList ){
-                System.out.println();
+                LOGGER.log(Level.FINE,"");
 
                 if (p.getObjectiveAchieved().size() == nbObjectivesToWin) {
-                    System.out.println("Last round ! "+p.getName()+" has validated x objectives.");
+                    LOGGER.log(Level.FINE, "Dernier tour ! "+p.getName()+" a validé "+nbObjectivesToWin+" objectifs.");
                     pickEmperor(p);
                     lastRound = true;
                 }
 
-                System.out.println("C'est le tour de :" + p.getName());
+                LOGGER.log(Level.FINE,"C'est le tour de :" + p.getName());
                 jeReflechis();
                 if (game.play(p)) {
                     game.display();
@@ -103,7 +103,7 @@ public class Main {
             nbRound++;
         }
         if (nbRound == maxRounds)
-            System.out.println("Le jeu se termine au bout de "+nbRound+" tours.");
+            LOGGER.log(Level.FINE,"Le jeu se termine au bout de "+nbRound+" tours.");
 
         emperor.judgement();
         System.exit(0);
