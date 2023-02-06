@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Action;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -185,8 +186,18 @@ class GameTest {
 
     @Test
     public void actOnWeatherSUN() {
+        Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
+        game.playerActions[0] = twoActions[0];
+        game.playerActions[1] = twoActions[1];
         game.actOnWeather(Dice.Condition.SUN, player1);
         assertTrue(outputStreamCaptor.toString().contains("choisit une action supplémentaire :"));
+        Action.GameAction actionSupp = null;
+        for (Action.GameAction action : player1.getStrategy().getActions()){
+            if (outputStreamCaptor.toString().contains(action.toString()))
+                actionSupp = action;
+        }
+        assertNotEquals(actionSupp, game.playerActions[0]);
+        assertNotEquals(actionSupp, game.playerActions[1]);
     }
 
     @Test

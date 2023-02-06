@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -25,7 +24,6 @@ public class Game {
     public List<Player> playerList;
     public static Map<Action.GameAction, Consumer<Player>> actions;
     public Action.GameAction[] playerActions;
-    public static Action actionsAvailable;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
@@ -39,7 +37,6 @@ public class Game {
         gardener = new Gardener(new HexPlot());
         playerList = new ArrayList<>();
         initPlayer(p1,p2);
-        actionsAvailable = new Action();
         playerActions = new Action.GameAction[2];
         actions = Map.of(
                 PICK_PLOT, this::choicePlot,
@@ -48,7 +45,7 @@ public class Game {
                 MOVE_PANDA, this::movePanda,
                 MOVE_GARDENER, this::moveGardener,
                 PLACE_IMPROVEMENT, this::placeImprovement,
-                PICK_IRRIGATION, this::choiceAnIrrigation,
+                //PICK_IRRIGATION, this::choiceAnIrrigation,
                 PLACE_IRRIGATION, this::placeAnIrrigation
         );
     }
@@ -90,26 +87,22 @@ public class Game {
      */
 
     public Boolean play(Player player){
-        Dice.Condition weather = new Dice().roll();
-        System.out.println("Le dé météo tombe sur "+weather);
 
         if (deckOfPlots.size()==0){
-            actionsAvailable.noMorePlots();
+            player.getStrategy().noMorePlots();
             //System.out.println("Plus de plots, fIN !\n"+p1+"\n"+p2);
         }
         if (listOfObjectives.size()==0){
-            actionsAvailable.noMoreObjectives();
+            player.getStrategy().noMoreObjectives();
         }
 
-        if (player.getStrategy()==WITHOUTSTRATEGY) {
-            Action.GameAction[] actions = new Action().pickTwoDistinct();
-            playerActions[0] = actions[0];
-            playerActions[1] = actions[1];
-        }
-        else {
-            playerActions[0] = player.getStrategy().getActions()[0];
-            playerActions[1] = player.getStrategy().getActions()[1];
-        }
+        Action.GameAction[] twoActions = player.getStrategy().pickTwoDistinct();
+        playerActions[0] = twoActions[0];
+        playerActions[1] = twoActions[1];
+        System.out.println(playerActions[0]+" "+playerActions[1]);
+
+        Dice.Condition weather = new Dice().roll();
+        System.out.println("Le dé météo tombe sur "+weather);
         actOnWeather(weather, player);
 
         System.out.println(player.getName()+" choisit les actions : "+playerActions[0]+" & "+playerActions[1]);
@@ -184,6 +177,11 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean placeAnIrrigation(Player p){
+
+        if (p.getCanalList().isEmpty()){
+            choiceAnIrrigation(p);
+        }
+
         irrigationStock.primordialCanal(board);
         int exist = 2;
         Optional<IrrigationCanal> canal = p.returnAnIrrigation();
@@ -294,11 +292,12 @@ public class Game {
         switch (weatherCondition) {
 
             case SUN:
-                List<Action.GameAction> actionsToPickFrom = Arrays.asList(new Action().getActions());
+                List<Action.GameAction> actionsToPickFrom = player.getStrategy().getActions();
                 actionsToPickFrom.remove(actions.get(playerActions[0]));
                 actionsToPickFrom.remove(actions.get(playerActions[1]));
                 int pick = new Random().nextInt(actionsToPickFrom.size());
                 System.out.println(player.getName()+" choisit une action supplémentaire : "+actionsToPickFrom.get(pick));
+
                 Consumer<Player> additionnalAction = actions.get(actionsToPickFrom.get(pick));
                 additionnalAction.accept(player);
                 break;

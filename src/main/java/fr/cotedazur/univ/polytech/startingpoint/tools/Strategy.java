@@ -1,5 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.tools;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 
 public enum Strategy {
@@ -7,22 +12,43 @@ public enum Strategy {
     PLOTSTRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, PICK_PLOT}),
 
     /** valid que les objectifs panda */
-    PANDASTRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, MOVE_PANDA}),
+    PANDASTRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, MOVE_PANDA, MOVE_GARDENER, PLACE_IMPROVEMENT, PLACE_IRRIGATION}),
 
-    /** valid que les objectifs jardinier */
-    GARDENERSTRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, MOVE_GARDENER}),
     /** sans Strategi **/
+    WITHOUTSTRATEGY(new Action().getActions());
 
-    WITHOUTSTRATEGY(null);
 
-
-    private Action.GameAction[] actions;
+    private List<Action.GameAction> actions;
 
     Strategy(Action.GameAction[] actions){
-        this.actions = actions;
+        this.actions = new ArrayList(Arrays.asList(actions));
+        ;
     }
 
-    public Action.GameAction[] getActions() {
+    public List<Action.GameAction> getActions() {
         return actions;
     }
+
+    public Action.GameAction pick(){
+        int pick = new Random().nextInt(this.actions.size());
+        return this.actions.get(pick);
+    }
+
+    public Action.GameAction[] pickTwoDistinct(){
+        Action.GameAction[] actions = new Action.GameAction[2];
+        actions[0] = pick();
+        do {
+            actions[1] = pick();
+        } while (actions[0] == actions[1]);
+        return actions;
+    }
+
+    public void noMorePlots(){
+        actions.removeIf(Action.GameAction.PICK_PLOT::equals);
+    }
+
+    public void noMoreObjectives(){
+        actions.removeIf(Action.GameAction.PICK_OBJECTIVE::equals);
+    }
+
 }

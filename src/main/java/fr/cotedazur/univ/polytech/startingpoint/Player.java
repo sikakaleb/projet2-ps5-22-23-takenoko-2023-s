@@ -310,7 +310,6 @@ public class Player {
         switch (this.getStrategy()) {
             case PANDASTRATEGY : return dectectPandaObjective();
             case PLOTSTRATEGY: return detectPlotObjective();
-            case GARDENERSTRATEGY: return dectectGardenerObjective();
         }
         return false;
     }
