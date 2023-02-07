@@ -5,6 +5,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 
 import java.io.*;
@@ -14,25 +15,26 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 public class BotStatistics {
     private static final String CSV_FILE_PATH = "stats/gamestats.csv";
     private static final String FILE_NAME = "gamestats.csv";
     private static final Path FILE_PATH = Paths.get("stats", FILE_NAME);
 
-    public static void main(String[] args) {
-        // retrieve the latest statistics of the bots
-       Player player1 = new Player("Bot 3");
-       Player player2 = new Player("Bot 4");
-        List<BotStat> botStats = Arrays.asList(
-                new BotStat(player1, 15000, 1050,10),
-                new BotStat(player2, 20000, 16000,500)
-        );
-        List<BotStat> existingStats = readFromFile();
-        System.out.println(existingStats.size());
-        existingStats.addAll(botStats);
-        writeToFile(existingStats);
-    }
+//    public static void main(String[] args) {
+//        // retrieve the latest statistics of the bots
+//       Player player1 = new Player("Bot 3");
+//       Player player2 = new Player("Bot 4");
+//        List<BotStat> botStats = Arrays.asList(
+//                new BotStat(player1, 15000, 1050,10),
+//                new BotStat(player2, 20000, 16000,500)
+//        );
+//        List<BotStat> existingStats = readFromFile();
+//        Display.printMessage(String.valueOf(existingStats.size()), Level.SEVERE);
+//        existingStats.addAll(botStats);
+//        writeToFile(existingStats);
+//    }
 
     public /**/static/**/ List<BotStat> readFromFile() {
         Path filePath = Paths.get(CSV_FILE_PATH);
@@ -53,7 +55,7 @@ public class BotStatistics {
 
                 existingData = csvToBean.parse();
             } catch (Exception ex) {
-                System.out.println("Error reading the CSV file: " + ex.getMessage());
+                Display.printMessage("Error reading the CSV file: " + ex.getMessage(),Level.SEVERE);
             }
         }
 
@@ -88,10 +90,10 @@ public class BotStatistics {
 
                 csvWriter.close();
             } catch (Exception ex) {
-                System.out.println("Error writing to the CSV file: " + ex.getMessage());
+                Display.printMessage("Error writing to the CSV file: " + ex.getMessage(), Level.SEVERE);
             }
         } catch (IOException ex) {
-            System.out.println("Error creating the directory or file: " + ex.getMessage());
+            Display.printMessage("Error creating the directory or file: " + ex.getMessage(), Level.SEVERE);
         }
     }
 

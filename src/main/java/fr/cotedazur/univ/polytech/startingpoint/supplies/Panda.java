@@ -32,7 +32,7 @@ public class Panda {
         }
         //à gerer avec une execption
         else {
-            Display.printMessage("Le panda ne se déplace qu'en ligne droite");
+            Display.printMessage("Le panda ne se deplace qu'en ligne droite");
         }
     }
 
