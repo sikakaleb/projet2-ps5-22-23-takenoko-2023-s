@@ -30,6 +30,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Run a single run in demo mode (sholud be fast)
-
+      run: mvn exec:java -Dexec.args="--demo"
       
 
