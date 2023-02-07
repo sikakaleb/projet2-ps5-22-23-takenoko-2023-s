@@ -13,7 +13,10 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PLACE_IRRIGATION;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -263,4 +266,26 @@ class GameTest {
         assertTrue(!canStock.getAllHexplotFrom().contains(hex.get()));
         assertTrue(bd.contains(hex.get()));
     }
+
+    @Test
+    // Les deux premiers mouvements du bot Fa3STRATEGY sont PICK_OBJECTIVE et PLACE_IRRIGATION
+    void playWithFa3STRATEGY(){
+        player1.setStrategy(Fa3STRATEGY);
+        game.play(player1);
+        assertTrue(game.playerActions[0]==PICK_OBJECTIVE || game.playerActions[1]==PICK_OBJECTIVE);
+        assertTrue(game.playerActions[0]==PLACE_IRRIGATION || game.playerActions[1]==PLACE_IRRIGATION);
+    }
+
+    @Test
+    // Le bot Fa3STRATEGY essaie d’avoir 5 cartes objectif en main tout le temps
+    void always5objectivesFa3STRATEGY(){
+        player1.setStrategy(Fa3STRATEGY);
+        for (int i = 0; i < 10; i++) { // test sur 10 tours
+            game.play(player1);
+            assertTrue(game.playerActions[0]==PICK_OBJECTIVE
+                    || player1.getUnMetObjectives().size()==5);
+        }
+    }
+
+
 }

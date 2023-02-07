@@ -18,10 +18,10 @@ public class Emperor {
 
         if (game.playerList.get(0).getScore() > game.playerList.get(1).getScore()) {
 
-            Display.printMessage("The winner is, " + game.playerList.get(0).getName() +
-                    ", with " + game.playerList.get(0).getScore() + " points and " +
-                    + game.playerList.get(0).getObjectiveAchieved().size() + " achieved objectives");
-
+            Display.printMessage("Le gagnant est " + game.playerList.get(0).getName() + " \uD83D\uDC4F\uD83D\uDC4F ");
+            for (Player p : game.playerList) {
+                Display.printMessage(p.toString());
+            }
             return game.playerList.get(0);
         }
 

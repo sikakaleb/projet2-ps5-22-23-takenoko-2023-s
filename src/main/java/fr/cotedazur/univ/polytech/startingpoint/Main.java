@@ -23,13 +23,23 @@ public class Main {
     @Parameter(names = "--csv", description = "Simulation à plusieurs parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques")
     private static boolean csv;
 
-    private static Game game;
     private static Player p1 = new Player("BotIntelligent", PANDASTRATEGY);
     private static Player p2 = new Player("BotRandom", WITHOUTSTRATEGY);
+    private static Game game = new Game(p1,p2);
     private static Map<Player, PlayerData> gameStats;
     public static int ITERATIONS = 1000;
     public static int ties = 0;
+    Map<Integer, Integer> objectivesForNbPlayers = Map.of(
+            2, 9,
+            3, 8,
+            4, 7
+    );
+    private int nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
 
+    // Dans notre version, avec des bots peu intelligents,pour éviter que la partie
+    // ne soit interminable, on fixe nombre de tours prédéterminé :
+    private int maxRounds = 50;
+    private int nbRound = 0;
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -57,6 +67,7 @@ public class Main {
                 .build()
                 .parse(argv);
 
+        demo = true; //for test
         if (demo) {
             Display.setUp(Level.INFO);
             main.runGame();
@@ -77,28 +88,14 @@ public class Main {
             gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
             IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
             Display.printGameStats(game.playerList, gameStats);
-
         }
 
     }
 
     private void runGame(){
-        game = new Game(p1,p2);
         Boolean loop = true, lastRound = false;
         Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
-        Map<Integer, Integer> objectivesForNbPlayers = Map.of(
-                2, 9,
-                3, 8,
-                4, 7
-        );
-        int nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
-        // Dans notre version, avec des bots peu intelligents, pour éviter que la partie ne soit interminable :
-        // 1 : on réduit de 5 le nombre d'objectifs à atteindre pour gagner :
-        nbObjectivesToWin -= 5;
-        // 2 : on fixe nombre de tours prédéterminé
-        int nbRound = 0, maxRounds = 30;
-
 
         Display.printMessage("---------------BEGIN----------------");
         while (loop && nbRound < maxRounds){

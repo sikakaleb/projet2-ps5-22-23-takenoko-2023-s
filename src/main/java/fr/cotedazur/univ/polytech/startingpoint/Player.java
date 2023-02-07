@@ -9,6 +9,7 @@ import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
@@ -152,6 +153,8 @@ public class Player {
     public Boolean validateUnMetObjectives(Objective objective){
         withdrawUnMetObjective(objective);
         addObjectiveAchieved(objective);
+        this.getStrategy().add(PICK_OBJECTIVE);
+
         return true;
     }
 
@@ -318,10 +321,7 @@ public class Player {
     /**Rdefinition des methodes**/
     @Override
     public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", cumulOfpoint=" + score +
-                '}';
+        return name+" : "+score+" points et "+objectiveAchieved.size()+" objectifs atteints.";
     }
     public Boolean addAnIrrigation(IrrigationCanal canal){
         if(canal.getAvailable()==false){

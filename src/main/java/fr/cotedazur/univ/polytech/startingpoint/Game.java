@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -96,7 +97,12 @@ public class Game {
             player.getStrategy().noMoreObjectives();
         }
 
-        Action.GameAction[] twoActions = player.getStrategy().pickTwoDistinct();
+        Action.GameAction[] twoActions;
+        if (player.getStrategy()==Fa3STRATEGY && player.getUnMetObjectives().size() < 5){
+            twoActions = player.getStrategy().pickDifferent(PICK_OBJECTIVE);
+        } else {
+            twoActions = player.getStrategy().pickTwoDistinct();
+        }
         playerActions[0] = twoActions[0];
         playerActions[1] = twoActions[1];
 
@@ -188,6 +194,7 @@ public class Game {
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
         if(src.isEmpty()){
             exist--;
+            return false;
         }
         Optional<HexPlot> dst = p.findAnAvailableIrrigationDest(board,src.get());
         if ((dst.isEmpty())){

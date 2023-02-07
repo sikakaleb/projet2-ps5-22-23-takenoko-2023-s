@@ -15,18 +15,30 @@ public enum Strategy {
     PANDASTRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, MOVE_PANDA, MOVE_GARDENER, PLACE_IMPROVEMENT, PLACE_IRRIGATION}),
 
     /** sans Strategi **/
-    WITHOUTSTRATEGY(new Action().getActions());
+    WITHOUTSTRATEGY(new Action().getActions()),
+
+    /**
+     * Strategie de la fonction additionelle 3 :
+     *
+     * - Il essaie d’avoir 5 cartes objectif en main tout le temps. Les deux premiers mouvements du bot
+     * devraient donc être de prendre une carte objectif et de prendre un canal d’irrigation.
+     */
+    Fa3STRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, PLACE_IRRIGATION});
 
 
     private List<Action.GameAction> actions;
 
     Strategy(Action.GameAction[] actions){
         this.actions = new ArrayList(Arrays.asList(actions));
-        ;
     }
 
     public List<Action.GameAction> getActions() {
         return actions;
+    }
+
+    public void add(Action.GameAction action){
+        if (! this.actions.contains(action))
+            this.actions.add(action);
     }
 
     public String getName() {
@@ -38,13 +50,18 @@ public enum Strategy {
         return this.actions.get(pick);
     }
 
-    public Action.GameAction[] pickTwoDistinct(){
+    public Action.GameAction[] pickDifferent(Action.GameAction action){
         Action.GameAction[] actions = new Action.GameAction[2];
-        actions[0] = pick();
+        actions[0] = action;
         do {
             actions[1] = pick();
         } while (actions[0] == actions[1]);
         return actions;
+    }
+
+    public Action.GameAction[] pickTwoDistinct(){
+        Action.GameAction action = pick();
+        return pickDifferent(action);
     }
 
     public void noMorePlots(){
