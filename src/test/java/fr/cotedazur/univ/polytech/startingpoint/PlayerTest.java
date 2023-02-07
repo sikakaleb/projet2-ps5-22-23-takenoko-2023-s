@@ -84,7 +84,6 @@ class PlayerTest {
 
     @Test
     void getHeightTest() {
-        System.out.println(player1.getPlayerId() + "*************");
         assertEquals(player1.getHeight(), 1);
     }
 
@@ -108,8 +107,6 @@ class PlayerTest {
 
     @Test
     void getUnMetObjectivesTest() {
-        System.out.println(player1.getUnMetObjectives());
-        System.out.println(singlelist);
         assertTrue(player1.getUnMetObjectives().equals(singlelist));
     }
 
@@ -166,7 +163,6 @@ class PlayerTest {
         player1.eatenBamboos.add(new Bamboo(GREEN));
         assertEquals(player1.eatenBamboos.size(), 3);
         assertTrue(player1.dectectPandaObjective());
-        System.out.println(player1.getScore());
         assertEquals(player1.eatenBamboos.size(), 1);
     }
 
@@ -181,7 +177,6 @@ class PlayerTest {
         player1.eatenBamboos.add(new Bamboo(PINK));
         assertEquals(player1.eatenBamboos.size(), 3);
         assertTrue(player1.dectectPandaObjective());
-        System.out.println(player1.getScore());
         assertEquals(player1.eatenBamboos.size(), 1);
     }
 

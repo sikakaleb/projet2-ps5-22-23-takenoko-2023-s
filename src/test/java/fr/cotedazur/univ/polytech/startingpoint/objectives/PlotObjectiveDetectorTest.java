@@ -201,7 +201,6 @@ public class PlotObjectiveDetectorTest {
         list.add(new HexPlot(-2,2,0,PINK));
         list.add(new HexPlot(-2,1,1,PINK));
         list.add(new HexPlot(-3,1,2,GREEN));
-        System.out.println(list);
         assertTrue(detector.checkPairAdjacentColor(list));
     }
 

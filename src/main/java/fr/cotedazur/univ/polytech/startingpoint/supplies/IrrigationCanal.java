@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -94,7 +96,7 @@ public class IrrigationCanal {
                     ||
                     thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst);
             if(result){
-                System.out.println(" on peut relier le canal"+getSourcePlot().get()+" <-------> "+getDestPlot() +" a : "
+                Display.printMessage(" on peut relier le canal"+getSourcePlot().get()+" <-------> "+getDestPlot() +" a : "
                         +dest.getSourcePlot().get()+" <-------> "+dest.getDestPlot());
             }
             return result;

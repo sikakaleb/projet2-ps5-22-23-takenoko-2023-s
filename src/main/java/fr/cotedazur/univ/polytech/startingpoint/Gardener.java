@@ -1,4 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
+
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 public class Gardener {
@@ -25,7 +27,7 @@ public class Gardener {
         }
 
         else {
-            System.out.println("Le jardinier ne se déplace qu'en ligne droite");
+            Display.printMessage("Le jardinier ne se d\u00E9place qu'en ligne droite");
         }
     }
 

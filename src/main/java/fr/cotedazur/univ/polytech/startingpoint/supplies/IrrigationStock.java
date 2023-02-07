@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
+
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -72,7 +74,6 @@ public class IrrigationStock  {
             return true;
         }
         unUsedCanal.add(irrigationCanal);
-        System.out.println("PAS VALABLE");
         return false;
 
 
@@ -85,7 +86,7 @@ public class IrrigationStock  {
             usedCanal.add(irrigationCanal);
             return Optional.of(irrigationCanal);
         }
-        System.out.println("veuillez choisir un autre emplacement");
+        Display.printMessage("Veuillez choisir un autre emplacement");
         unUsedCanal.add(irrigationCanal);
         return Optional.empty();
     }
@@ -140,11 +141,7 @@ public class IrrigationStock  {
                     can.getDestPlot().equals(canal.getDestPlot()) ||
                             can.getSourcePlot().equals(canal.getDestPlot()) &&
                                     can.getDestPlot().equals(canal.getSourcePlot())) {
-                /*if(canal.getCanalId()<0)
-                    //System.out.println("canal de entre"+canal.getSourcePlot()+" et "+canal.getDestPlot()+" est un canal primordial, il existe deja");
-                else
-                   // System.out.println("canal de entre"+canal.getSourcePlot()+" et "+canal.getDestPlot()+"ce canal existe deja");
-                */res=true;
+                res=true;
                 continue;
 
             }
@@ -159,7 +156,7 @@ public class IrrigationStock  {
                 continue;
             }
         }
-        System.out.println("ils n'existe pas de canal valable pouvant auquel on pourrait le relier");
+        Display.printMessage("il n'existe pas de canal valable auquel on pourrait le relier");
         return res;
     }
 }

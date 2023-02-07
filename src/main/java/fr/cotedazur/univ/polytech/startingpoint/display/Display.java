@@ -1,15 +1,20 @@
 package fr.cotedazur.univ.polytech.startingpoint.display;
 
-import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
+import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.data.PlayerData;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.*;
+
+import static fr.cotedazur.univ.polytech.startingpoint.Main.ties;
 
 /**
  * Class use to print every step of the game
  */
 public class Display {
 
-    private static final Logger LOGGER;
+    public static final Logger LOGGER;
     
     static {
         LOGGER = Logger.getLogger(Display.class.getName());
@@ -36,12 +41,17 @@ public class Display {
         LOGGER.log(Level.INFO, msg);
     }
 
-    private static void printPercentageWinPlayer(int idPlayer, Strategy strategy, double[] infos) {
-        LOGGER.log(Level.INFO, "Le joueur {0} | {1}", new Object[]{idPlayer, strategy});
-        LOGGER.log(Level.INFO, "\ta gagne {0} parties", infos[0]);
-        LOGGER.log(Level.INFO, "\ta perdu {0} parties", infos[1]);
-        LOGGER.log(Level.INFO, "\ta gagne {0}% des parties", infos[2]);
-        LOGGER.log(Level.INFO, "\ta perdu {0}% des parties", infos[3]);
-        LOGGER.log(Level.INFO, "\ta obtenu {0} de points en moyenne", infos[4]);
+    public static void printMessage(String msg, Level level) {
+        LOGGER.log(level, msg);
+    }
+
+    public static void printGameStats(List<Player> playerList, Map<Player, PlayerData> gameStats) {
+        for (Player player : playerList) {
+            LOGGER.log(Level.SEVERE,player.getName()+" (jouant avec "+player.getStrategy().getName()+") : ");
+            LOGGER.log(Level.SEVERE,"parties gagnées : "+gameStats.get(player).getWins());
+            LOGGER.log(Level.SEVERE, "parties perdues : "+gameStats.get(player).getLosses());
+            LOGGER.log(Level.SEVERE, "parties nulles : "+ties);
+            LOGGER.log(Level.SEVERE, "score moyen : "+gameStats.get(player).getAvgPoints());
+        }
     }
 }

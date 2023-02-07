@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
@@ -109,7 +110,7 @@ public class Player {
     public void addObjectiveAchieved(Objective objectiveAchieved) {
         this.objectiveAchieved.add(objectiveAchieved);
         this.score +=objectiveAchieved.getNumberOfPoints();
-        System.out.println(name+" a gagné "+objectiveAchieved.getNumberOfPoints()+" points ✅");
+        Display.printMessage( name+" a gagné "+objectiveAchieved.getNumberOfPoints()+" points ✅");
     }
 
     public List<Objective> getUnMetObjectives() {
@@ -124,8 +125,8 @@ public class Player {
     public void addNewObjective(Objective newObjective) {
         if(unMetObjectives.size()<maxUnmetObj){
             this.unMetObjectives.add(newObjective);
-            System.out.println(this.name+" ajoute l'objectif "+newObjective);
-            System.out.println("liste d'objectifs non validé de "+this.name+" :"+this.unMetObjectives);
+            Display.printMessage(this.name+" ajoute l'objectif "+newObjective);
+            Display.printMessage("liste d'objectifs non validé de "+this.name+" :"+this.unMetObjectives);
         }
     }
 
@@ -178,40 +179,40 @@ public class Player {
             if(obj instanceof PlotObjective){
                 if( ( ((PlotObjective) obj).getConfiguration()==
                         DIRECTSAMEPLOTS && detector.findDirectSamePlots(((PlotObjective) obj).getColor()))) {
-                    System.out.println(name+" a detecté un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== INDIRECTSAMEPLOTS
                         && detector.findInDirectSamePlots(((PlotObjective) obj).getColor()))) {
-                    System.out.println(name+" a detecté un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS
                         && detector.findQuadrilateralSamePlots(((PlotObjective) obj).getColor()))) {
-                    System.out.println(name+" a detecté un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_P
                         && detector.findQuadrilateralPlots_G_P())) {
-                    System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_Y
                         && detector.findQuadrilateralPlots_G_Y())) {
-                    System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_P_Y
                         && detector.findQuadrilateralPlots_P_Y())) {
-                    System.out.println(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
 
             }
         }
-        System.out.println("Aucun objectif parcelles detecté");
-        System.out.println("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
-        System.out.println("la liste d'objectif validé :"+this.getObjectiveAchieved());
+        Display.printMessage("Aucun objectif parcelles detecté");
+        Display.printMessage("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
+        Display.printMessage("la liste d'objectif validé :"+this.getObjectiveAchieved());
         return false;
     }
 
@@ -229,30 +230,30 @@ public class Player {
             if(obj instanceof PandaObjective){
 
                 if( ( ((PandaObjective) obj).getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
-                    System.out.println(name+" a detecté un TWO_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un TWO_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeTwoYellow();
                     bambooStock.addTwoYellow();
                     return validateUnMetObjectives(obj);
                 }else if( ( ((PandaObjective) obj).getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
-                    System.out.println(name+" a detecté un TWO_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un TWO_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeTwoGreen();
                     bambooStock.addTwoGreen();
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PandaObjective) obj).getConfiguration()==TWO_PINK && detector.findTwoPink())) {
-                    System.out.println(name+" a detecté un TWO_PINK \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un TWO_PINK \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeTwoPink();
                     bambooStock.addTwoPink();
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PandaObjective) obj).getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
-                    System.out.println(name+" a detecté un THREE_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un THREE_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeThreeGreen();
                     bambooStock.addThreeGreen();
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PandaObjective) obj).getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
-                    System.out.println(name+" a detecté un ONE_OF_EACH \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un ONE_OF_EACH \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeOneOfEach();
                     bambooStock.addOneOfEach();
                     return validateUnMetObjectives(obj);
@@ -261,9 +262,9 @@ public class Player {
             }
 
         }
-        System.out.println("Aucun objectif panda detecté");
-        System.out.println("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
-        System.out.println("la liste d'objectif validé :"+this.getObjectiveAchieved());
+        Display.printMessage("Aucun objectif panda detecté");
+        Display.printMessage("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
+        Display.printMessage("la liste d'objectif validé :"+this.getObjectiveAchieved());
         return false;
     }
 
@@ -275,7 +276,7 @@ public class Player {
             if(obj instanceof GardenerObjective){
 
                 if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
-                    System.out.println(name+" a detecté un FOUR_AND_FERTILIZER \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un FOUR_AND_FERTILIZER \uD83D\uDC4F\uD83D\uDC4F ");
                     HexPlot found = detector.findFourAndFertilizer();
                     eatenBamboos.addMultiple(4, found.getColor());
                     found.setBamboos(null);
@@ -283,7 +284,7 @@ public class Player {
                 }
 
                 else if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
-                    System.out.println(name+" a detecté un FOUR_NO_IMPOROVEMENT \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un FOUR_NO_IMPOROVEMENT \uD83D\uDC4F\uD83D\uDC4F ");
                     HexPlot found = detector.findFourNoImprovement();
                     eatenBamboos.addMultiple(4, found.getColor());
                     found.setBamboos(null);
@@ -291,7 +292,7 @@ public class Player {
                 }
 
                 else if( ( ((GardenerObjective) obj).getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
-                    System.out.println(name+" a detecté un THREE_GREEN_X4 \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecté un THREE_GREEN_X4 \uD83D\uDC4F\uD83D\uDC4F ");
                     List<HexPlot> found = detector.findThreeGreenX4();
                     eatenBamboos.addMultiple(12, GREEN);
                     found.forEach( hexPlot -> hexPlot.setBamboos(null));
@@ -300,9 +301,9 @@ public class Player {
             }
 
         }
-        System.out.println("Aucun objectif jardinier detecté");
-        System.out.println("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
-        System.out.println("la liste d'objectif validé :"+this.getObjectiveAchieved());
+        Display.printMessage("Aucun objectif jardinier detecté");
+        Display.printMessage("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
+        Display.printMessage("la liste d'objectif validé :"+this.getObjectiveAchieved());
         return false;
     }
 
@@ -345,7 +346,7 @@ public class Player {
         });/*
         throw new RuntimeException(""+Sources);*/
         if(validsSource.size()==0) {
-            System.out.println("Pas de source d'irrigarion valable dans le jeu");
+            Display.printMessage("Pas de source d'irrigarion valable dans le jeu");
             return Optional.empty();
         }
         Random rand = new Random();
@@ -366,7 +367,7 @@ public class Player {
         }
 
         if(validsDest.size()==0) {
-            System.out.println("Pas de destination de canal de : "+hex+" valables dans le jeu");
+            Display.printMessage("Pas de destination de canal de : "+hex+" valables dans le jeu");
             return Optional.empty();
         }
         Random rand = new Random();
@@ -383,5 +384,9 @@ public class Player {
         return result;
     }
 
+    public void pickEmperor(){
+        Display.printMessage( name + " pioche la carte Empereur et gagne 2 points");
+        this.score += 2;
+    }
 
 }
