@@ -26,9 +26,11 @@ public class Game {
     public List<Player> playerList;
     public static Map<Action.GameAction, Consumer<Player>> actions;
     public Action.GameAction[] playerActions;
+    public Dice dice;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
+        dice = new Dice();
         bambooStock = new BambooStock();
         deckOfPlots = new DeckOfPlots();
         listOfObjectives = new DeckOfObjectifs();
@@ -106,7 +108,7 @@ public class Game {
         playerActions[0] = twoActions[0];
         playerActions[1] = twoActions[1];
 
-        Dice.Condition weather = new Dice().roll();
+        Dice.Condition weather = dice.roll();
         Display.printMessage("Le dé météo tombe sur "+weather);
         actOnWeather(weather, player);
 
@@ -230,8 +232,18 @@ public class Game {
         Random rand = new Random();
         List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
         if(movePossibilities.size()!=0){
+
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
+
+            if (player.getStrategy()==Fa3STRATEGY){
+                next = movePossibilities
+                        .stream()
+                        .filter( hexPlot -> !hexPlot.getBamboos().isEmpty())
+                        .findFirst()
+                        .orElse(movePossibilities.get(randNumber));
+            }
+
             panda.pandaMove(next);
             Display.printMessage("la position du panda aprés deplacement"+panda.getPosition());
             eatIfBamboo(next, player);
@@ -344,7 +356,7 @@ public class Game {
                     choiceAnIrrigation(player);
                 }
                 else {
-                    Dice.Condition weather = new Dice().roll();
+                    Dice.Condition weather = dice.roll();
                     actOnWeather(weather, player);
                 }
                 break;

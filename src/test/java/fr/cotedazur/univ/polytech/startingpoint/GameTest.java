@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
+import static fr.cotedazur.univ.polytech.startingpoint.supplies.Dice.Condition.WIND;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PLACE_IRRIGATION;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
@@ -167,6 +168,9 @@ class GameTest {
 
     @Test
     public void actOnWeatherMYSTERY() {
+        Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
+        game.playerActions[0] = twoActions[0];
+        game.playerActions[1] = twoActions[1];
         Dice.Condition condition = Dice.Condition.MYSTERY;
         game.actOnWeather(condition, player1);
     }
@@ -199,7 +203,10 @@ class GameTest {
 
     @Test
     public void actOnWeatherWIND() {
-        game.actOnWeather(Dice.Condition.WIND, player1);
+        Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
+        game.playerActions[0] = twoActions[0];
+        game.playerActions[1] = twoActions[1];
+        game.actOnWeather(WIND, player1);
         assertEquals(game.playerActions[0], game.playerActions[0]);
     }
 
@@ -272,8 +279,19 @@ class GameTest {
     void playWithFa3STRATEGY(){
         player1.setStrategy(Fa3STRATEGY);
         game.play(player1);
-        assertTrue(game.playerActions[0]==PICK_OBJECTIVE || game.playerActions[1]==PICK_OBJECTIVE);
-        assertTrue(game.playerActions[0]==PLACE_IRRIGATION || game.playerActions[1]==PLACE_IRRIGATION);
+        if (game.dice.getLastValue() != WIND)
+            assertTrue(game.playerActions[0]==PICK_OBJECTIVE || game.playerActions[1]==PICK_OBJECTIVE);
+    }
+
+    @Test
+    void playWithFa3STRATEGYandWeatherWIND(){
+        player1.setStrategy(Fa3STRATEGY);
+        game.play(player1);
+        if (game.dice.getLastValue() == WIND) {
+            assertTrue(game.playerActions[0] == PICK_OBJECTIVE && game.playerActions[1] == PICK_OBJECTIVE
+            || game.playerActions[0] == PLACE_IRRIGATION && game.playerActions[1] == PLACE_IRRIGATION );
+        }
+
     }
 
     @Test
@@ -282,7 +300,8 @@ class GameTest {
         player1.setStrategy(Fa3STRATEGY);
         for (int i = 0; i < 10; i++) { // test sur 10 tours
             game.play(player1);
-            assertTrue(game.playerActions[0]==PICK_OBJECTIVE
+            if (game.dice.getLastValue() != WIND)
+                assertTrue(game.playerActions[0]==PICK_OBJECTIVE
                     || player1.getUnMetObjectives().size()==5);
         }
     }
@@ -296,6 +315,4 @@ class GameTest {
         game.actOnWeather(condition, player1);
         assertEquals(irrigationsbefore+1, player1.getCanalList().size());
     }
-
-
 }

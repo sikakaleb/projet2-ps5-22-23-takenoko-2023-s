@@ -25,7 +25,7 @@ public class Emperor {
 
         else {
             Display.printMessage(game.playerList.get(0).getName() +" et "
-                    + game.playerList.get(0).getName() +
+                    + game.playerList.get(1).getName() +
                     " sont ex aequo avec " + game.playerList.get(0).getScore() + " points.");
 
             return null;

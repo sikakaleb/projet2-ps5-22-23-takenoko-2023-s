@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
 
     private static Player p1 = new Player("BotIntelligent", PANDASTRATEGY);
     private static Player p2 = new Player("BotRandom", WITHOUTSTRATEGY);
-    private static Game game = new Game(p1,p2);
+    public static Game game = new Game(p1,p2);
     private static Map<Player, PlayerData> gameStats;
     public static int ITERATIONS = 1000;
     public static int ties = 0;
@@ -38,8 +39,8 @@ public class Main {
 
     // Dans notre version, avec des bots peu intelligents,pour éviter que la partie
     // ne soit interminable, on fixe nombre de tours prédéterminé :
-    private int maxRounds = 50;
-    private int nbRound = 0;
+    public int maxRounds = 50;
+    public int nbRound = 0;
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -92,7 +93,7 @@ public class Main {
 
     }
 
-    private void runGame(){
+    public void runGame(){
         Boolean loop = true, lastRound = false;
         Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
@@ -114,6 +115,12 @@ public class Main {
                 Display.printMessage("C'est le tour de : " + p.getName());
                 if (demo) jeReflechis();
                 if (game.play(p)) game.display();
+
+                if (nbRound==0  && p.getStrategy()==Fa3STRATEGY){
+                    System.out.println(p.getStrategy().getActions());
+                    p.getStrategy().add(MOVE_GARDENER);
+                    p.getStrategy().add(MOVE_PANDA);
+                }
 
             }
             nbRound++;
