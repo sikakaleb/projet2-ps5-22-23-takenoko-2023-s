@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
@@ -6,7 +6,7 @@ import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 public class Panda {
     private HexPlot position;
 
-    Panda(HexPlot position){
+    public Panda(HexPlot position){
         this.position=position;
     }
 

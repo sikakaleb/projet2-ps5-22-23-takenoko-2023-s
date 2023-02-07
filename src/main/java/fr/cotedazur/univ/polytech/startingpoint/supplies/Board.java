@@ -5,7 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.panda;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.panda;
 
 /**
  * @clas Board

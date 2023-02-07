@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -25,9 +26,11 @@ public class Game {
     public List<Player> playerList;
     public static Map<Action.GameAction, Consumer<Player>> actions;
     public Action.GameAction[] playerActions;
+    public Dice dice;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
+        dice = new Dice();
         bambooStock = new BambooStock();
         deckOfPlots = new DeckOfPlots();
         listOfObjectives = new DeckOfObjectifs();
@@ -89,18 +92,23 @@ public class Game {
 
     public Boolean play(Player player){
 
-        if (deckOfPlots.isEmpty()){
+        if (deckOfPlots.size()==0){
             player.getStrategy().noMorePlots();
         }
-        if (listOfObjectives.isEmpty()){
+        if (listOfObjectives.size()==0){
             player.getStrategy().noMoreObjectives();
         }
 
-        Action.GameAction[] twoActions = player.getStrategy().pickTwoDistinct();
+        Action.GameAction[] twoActions;
+        if (player.getStrategy()==Fa3STRATEGY && player.getUnMetObjectives().size() < 5){
+            twoActions = player.getStrategy().pickDifferent(PICK_OBJECTIVE);
+        } else {
+            twoActions = player.getStrategy().pickTwoDistinct();
+        }
         playerActions[0] = twoActions[0];
         playerActions[1] = twoActions[1];
 
-        Dice.Condition weather = new Dice().roll();
+        Dice.Condition weather = dice.roll();
         Display.printMessage("Le dé météo tombe sur "+weather);
         actOnWeather(weather, player);
 
@@ -125,7 +133,7 @@ public class Game {
             listOfObjectives.remove(randNumber);
             return true;
         }
-        else if(listOfObjectives.isEmpty() && player.unMetObjectives.isEmpty()){
+        else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
         Display.printMessage(player.getName()+" ne peut plus choisir d'objectif");
@@ -140,7 +148,7 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean choicePlot(Player player){
-        if (!deckOfPlots.isEmpty() ) {
+        if (deckOfPlots.size()!=0 ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
             /* le board ajoute deja dans son add modifié
             un bambou a l'ajout de la parcelle au jeu
@@ -149,7 +157,7 @@ public class Game {
             Display.printMessage(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
             Display.printMessage("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
-        }else if(deckOfPlots.isEmpty()  && player.getUnMetObjectives().isEmpty()){
+        }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
         }
         return false;
@@ -188,6 +196,7 @@ public class Game {
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
         if(src.isEmpty()){
             exist--;
+            return false;
         }
         Optional<HexPlot> dst = p.findAnAvailableIrrigationDest(board,src.get());
         if ((dst.isEmpty())){
@@ -222,9 +231,19 @@ public class Game {
         Display.printMessage("la liste des parcelles dans le jeu :"+board);
         Random rand = new Random();
         List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
-        if(!movePossibilities.isEmpty()){
+        if(movePossibilities.size()!=0){
+
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
+
+            if (player.getStrategy()==Fa3STRATEGY){
+                next = movePossibilities
+                        .stream()
+                        .filter( hexPlot -> !hexPlot.getBamboos().isEmpty())
+                        .findFirst()
+                        .orElse(movePossibilities.get(randNumber));
+            }
+
             panda.pandaMove(next);
             Display.printMessage("la position du panda aprés deplacement"+panda.getPosition());
             eatIfBamboo(next, player);
@@ -238,7 +257,7 @@ public class Game {
         Display.printMessage("La position du jardinier avant deplacement "+gardener.getPosition());
         Random rand = new Random();
         List<HexPlot> movePossibilities = board.getNewPositionPossibilities();
-        if(!movePossibilities.isEmpty()){
+        if(movePossibilities.size()!=0){
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
             gardener.move(next);
@@ -255,7 +274,7 @@ public class Game {
     }
 
     public boolean eatIfBamboo(HexPlot plot, Player player){
-        if(!plot.getBamboos().isEmpty()){
+        if(plot.getBamboos().size()!=0){
             Display.printMessage("il y a de bambou sur cette parcelle");
 
             if (plot.getImprovement()==FENCE)
@@ -332,8 +351,14 @@ public class Game {
                 break;
 
             case MYSTERY:
-                Dice.Condition weather = new Dice().roll();
-                actOnWeather(weather, player);
+                // dans les premiers tours Fa3STRATEGY n'a que 2 actions
+                if (player.getStrategy() == Fa3STRATEGY && player.getStrategy().getActions().size()==2){
+                    choiceAnIrrigation(player);
+                }
+                else {
+                    Dice.Condition weather = dice.roll();
+                    actOnWeather(weather, player);
+                }
                 break;
 
             default : break;

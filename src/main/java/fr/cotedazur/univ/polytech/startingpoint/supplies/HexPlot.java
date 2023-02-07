@@ -7,8 +7,8 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
-import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.bambooStock;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.deckOfImprovements;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;

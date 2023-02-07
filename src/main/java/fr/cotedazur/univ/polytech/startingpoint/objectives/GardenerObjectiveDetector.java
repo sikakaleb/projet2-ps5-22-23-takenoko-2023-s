@@ -1,12 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.board;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
 
