@@ -89,10 +89,10 @@ public class Game {
 
     public Boolean play(Player player){
 
-        if (deckOfPlots.size()==0){
+        if (deckOfPlots.isEmpty()){
             player.getStrategy().noMorePlots();
         }
-        if (listOfObjectives.size()==0){
+        if (listOfObjectives.isEmpty()){
             player.getStrategy().noMoreObjectives();
         }
 
@@ -125,7 +125,7 @@ public class Game {
             listOfObjectives.remove(randNumber);
             return true;
         }
-        else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
+        else if(listOfObjectives.isEmpty() && player.unMetObjectives.isEmpty()){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
         Display.printMessage(player.getName()+" ne peut plus choisir d'objectif");
@@ -140,7 +140,7 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean choicePlot(Player player){
-        if (deckOfPlots.size()!=0 ) {
+        if (!deckOfPlots.isEmpty() ) {
             board.ChoicePlot(deckOfPlots.pickPlot());
             /* le board ajoute deja dans son add modifié
             un bambou a l'ajout de la parcelle au jeu
@@ -149,7 +149,7 @@ public class Game {
             Display.printMessage(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
             Display.printMessage("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
-        }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
+        }else if(deckOfPlots.isEmpty()  && player.getUnMetObjectives().isEmpty()){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
         }
         return false;
@@ -222,7 +222,7 @@ public class Game {
         Display.printMessage("la liste des parcelles dans le jeu :"+board);
         Random rand = new Random();
         List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
-        if(movePossibilities.size()!=0){
+        if(!movePossibilities.isEmpty()){
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
             panda.pandaMove(next);
@@ -238,7 +238,7 @@ public class Game {
         Display.printMessage("La position du jardinier avant deplacement "+gardener.getPosition());
         Random rand = new Random();
         List<HexPlot> movePossibilities = board.getNewPositionPossibilities();
-        if(movePossibilities.size()!=0){
+        if(!movePossibilities.isEmpty()){
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
             gardener.move(next);
@@ -255,7 +255,7 @@ public class Game {
     }
 
     public boolean eatIfBamboo(HexPlot plot, Player player){
-        if(plot.getBamboos().size()!=0){
+        if(!plot.getBamboos().isEmpty()){
             Display.printMessage("il y a de bambou sur cette parcelle");
 
             if (plot.getImprovement()==FENCE)
