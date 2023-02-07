@@ -1,9 +1,10 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import fr.cotedazur.univ.polytech.startingpoint.data.PlayerData;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Emperor;
 
 import java.util.List;
 import java.util.Map;
