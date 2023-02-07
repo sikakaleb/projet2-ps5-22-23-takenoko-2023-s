@@ -1,15 +1,17 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import fr.cotedazur.univ.polytech.startingpoint.data.PlayerData;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Emperor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Main {
@@ -23,13 +25,23 @@ public class Main {
     @Parameter(names = "--csv", description = "Simulation à plusieurs parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques")
     private static boolean csv;
 
-    private static Game game;
     private static Player p1 = new Player("BotIntelligent", PANDASTRATEGY);
     private static Player p2 = new Player("BotRandom", WITHOUTSTRATEGY);
+    public static Game game = new Game(p1,p2);
     private static Map<Player, PlayerData> gameStats;
     public static int ITERATIONS = 1000;
     public static int ties = 0;
+    Map<Integer, Integer> objectivesForNbPlayers = Map.of(
+            2, 9,
+            3, 8,
+            4, 7
+    );
+    private int nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
 
+    // Dans notre version, avec des bots peu intelligents,pour éviter que la partie
+    // ne soit interminable, on fixe nombre de tours prédéterminé :
+    public int maxRounds = 50;
+    public int nbRound = 0;
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -57,6 +69,7 @@ public class Main {
                 .build()
                 .parse(argv);
 
+        demo = true; //for test
         if (demo) {
             Display.setUp(Level.INFO);
             main.runGame();
@@ -77,28 +90,14 @@ public class Main {
             gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
             IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
             Display.printGameStats(game.playerList, gameStats);
-
         }
 
     }
 
-    private void runGame(){
-        game = new Game(p1,p2);
+    public void runGame(){
         Boolean loop = true, lastRound = false;
         Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
-        Map<Integer, Integer> objectivesForNbPlayers = Map.of(
-                2, 9,
-                3, 8,
-                4, 7
-        );
-        int nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
-        // Dans notre version, avec des bots peu intelligents, pour éviter que la partie ne soit interminable :
-        // 1 : on réduit de 5 le nombre d'objectifs à atteindre pour gagner :
-        nbObjectivesToWin -= 5;
-        // 2 : on fixe nombre de tours prédéterminé
-        int nbRound = 0, maxRounds = 30;
-
 
         Display.printMessage("---------------BEGIN----------------");
         while (loop && nbRound < maxRounds){
@@ -116,9 +115,14 @@ public class Main {
 
                 Display.printMessage("C'est le tour de : " + p.getName());
                 if (demo) jeReflechis();
-                if (game.play(p)) {
-                    game.display();
+                if (game.play(p)) game.display();
+
+                if (nbRound==0  && p.getStrategy()==Fa3STRATEGY){
+                    System.out.println(p.getStrategy().getActions());
+                    p.getStrategy().add(MOVE_GARDENER);
+                    p.getStrategy().add(MOVE_PANDA);
                 }
+
             }
             nbRound++;
         }

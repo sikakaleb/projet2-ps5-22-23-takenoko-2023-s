@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.data;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Main.ITERATIONS;
-import static fr.cotedazur.univ.polytech.startingpoint.Main.ties;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Main.ITERATIONS;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Main.ties;
 
 public class PlayerData {
 

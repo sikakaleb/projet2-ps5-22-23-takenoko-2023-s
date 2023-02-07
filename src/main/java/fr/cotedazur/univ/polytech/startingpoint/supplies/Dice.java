@@ -1,4 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
+
 import java.util.Random;
 
 /**
@@ -15,10 +16,19 @@ public class Dice {
         MYSTERY;
     }
 
-    public Dice(){}
+    private Condition value;
+
+    public Dice(){
+        this.value = null;
+    }
+
+    public Condition getLastValue(){
+        return this.value;
+    }
 
     public Condition roll(){
         int pick = new Random().nextInt(Condition.values().length);
+        this.value = Condition.values()[pick];
         return Condition.values()[pick];
     }
 }

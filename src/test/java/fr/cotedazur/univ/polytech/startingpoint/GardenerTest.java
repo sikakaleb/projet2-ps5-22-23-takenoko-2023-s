@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.supplies.Gardener;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
