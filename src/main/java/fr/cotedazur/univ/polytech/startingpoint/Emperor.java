@@ -32,11 +32,5 @@ public class Emperor {
 
             return null;
         }
-        System.out.println("The winner is, "
-                +winner.getName()+",\nhe won with "
-                +winner.getScore()+" Points.\nhis achievedObjectifsList is  :\n"
-                +winner.getObjectiveAchieved()+"\nhis unMetObjectifsList is :\n"
-                +winner.getUnMetObjectives());
-        return winner;
     }
 }
