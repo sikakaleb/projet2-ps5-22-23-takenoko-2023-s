@@ -1,6 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
+
 import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.panda;
@@ -103,16 +105,17 @@ public class Board extends ArrayList<HexPlot> {
         });
         HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
         Random rand = new Random();
-        System.out.println("nombre de place valid est :"+validPlotsSet.size());
         int randNumber = rand.nextInt(validPlotsSet.size());
         hex.setQ(arrayPlots[randNumber].getQ());
         hex.setR(arrayPlots[randNumber].getR());
         hex.setS(arrayPlots[randNumber].getS());
+        Display.printMessage("nombre de place valide est :"+validPlotsSet.size());
+        Display.printMessage("les places valides sont :"+validPlotsSet);
+        Display.printMessage("la liste des parcelles dans le jeu avant le choix:"+this);
         this.add(hex);
-        System.out.println("voila list of plots:"+this);
     }
 
-    public List<HexPlot> pandaNewPositionPossibilities(){
+    public List<HexPlot> getNewPositionPossibilities(){
         List<HexPlot> linearHex = new ArrayList<>();
         HexPlot currentPosition= panda.getPosition();
         this.forEach(hexPlot -> {
@@ -139,4 +142,45 @@ public class Board extends ArrayList<HexPlot> {
         return super.add(hexPlot);
     }
 
+    /**
+     * Pick a random plot from the board
+     * @return {Hexplot} the random HexPlot
+     */
+    public HexPlot choosePlotForImprovement(){
+
+        ArrayList<HexPlot> forImprovement = (ArrayList<HexPlot>) this.clone();
+        forImprovement.removeIf( hexPlot ->
+                        hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
+        );
+        if(forImprovement.isEmpty()){
+            Display.printMessage("Aucune parcelle aménageable");
+            return null;
+        }
+
+        int rnd = new Random().nextInt(forImprovement.size());
+        HexPlot randomPlot = forImprovement.get(rnd);
+
+        return randomPlot;
+    }
+
+    /**
+     * Pick a random plot from the board, where there are less than 4 bamboos
+     * @return {Hexplot} the random HexPlot
+     */
+    public HexPlot choosePlotForBamboo(){
+
+        ArrayList<HexPlot> forBamboo = (ArrayList<HexPlot>) this.clone();
+        forBamboo.removeIf( hexPlot ->
+                        !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
+        );
+        if(forBamboo.isEmpty()){
+            Display.printMessage("Aucune parcelle sur laquelle placer un bambou");
+            return null;
+        }
+
+        int rnd = new Random().nextInt(forBamboo.size());
+        HexPlot randomPlot = forBamboo.get(rnd);
+
+        return randomPlot;
+    }
 }

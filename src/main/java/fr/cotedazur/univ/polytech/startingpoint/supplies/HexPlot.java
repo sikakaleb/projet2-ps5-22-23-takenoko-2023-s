@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
@@ -8,8 +9,10 @@ import java.util.*;
 
 import static fr.cotedazur.univ.polytech.startingpoint.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
+import static java.lang.Math.abs;
 
 /** Creation d'une classe HexPlot represant un parcelle
  avec des coordonnées cartesienne 3D et avec Couleur**/
@@ -95,7 +98,16 @@ public class HexPlot {
         return color;
     }
 
+    public void setIrrigatedToTrue() {
+        this.irrigated = true;
+    }
+    public void setIrrigatedToFalse() {
+        this.irrigated = false;
+    }
+
     public ArrayList<Bamboo> getBamboos() { return bamboos; }
+
+    public void setBamboos(ArrayList<Bamboo> newbamboos) { bamboos = newbamboos ;}
 
     public boolean isIrrigated(){ return irrigated; }
 
@@ -112,11 +124,12 @@ public class HexPlot {
     }
 
     public void setImprovement(PlotImprovement plotImprovement){
-        if (this.improvement != null)
-            throw new IndexOutOfBoundsException("Il y a déjà un aménagement sur cette parcelle");
+        if (this.improvement != null) {
+            Display.printMessage("Il y a déjà un aménagement sur cette parcelle");
+        }
 
         else if (! this.bamboos.isEmpty())
-            throw new IndexOutOfBoundsException("Il y a un bambou sur cette parcelle");
+            Display.printMessage("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle");
 
         else {
             this.improvement = plotImprovement;
@@ -194,12 +207,21 @@ public class HexPlot {
         return (this.q==0 || this.s==0 || this.r==0);
     }
 
+    public boolean isAneighbor(HexPlot dst){
+        return abs(getQ()-dst.getQ())==1&& abs(getR()-dst.getR())==1 &&abs(getS()-dst.getS())==0
+                ||
+                abs(getQ()-dst.getQ())==1&& abs(getR()-dst.getR())==0 &&abs(getS()-dst.getS())==1
+                ||
+                abs(getQ()-dst.getQ())==0&& abs(getR()-dst.getR())==1 &&abs(getS()-dst.getS())==1;
+    }
+
     /** Les methodes redefinies de la classe **/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof HexPlot hexPlot)) return false;
-        return getQ() == hexPlot.getQ() && getR() == hexPlot.getR() && getS() == hexPlot.getS() && getColor() == hexPlot.getColor();
+        return (getQ() == hexPlot.getQ() && getR() == hexPlot.getR() && getS() == hexPlot.getS() && getColor() == hexPlot.getColor())
+                ||(getQ() == hexPlot.getQ() && getR() == hexPlot.getR() && getS() == hexPlot.getS());
     }
 
     @Override
@@ -215,6 +237,7 @@ public class HexPlot {
                 ", r=" + r +
                 ", color=" + color +
                 ", irrigated=" + irrigated +
+                ", improvement=" + improvement +
                 ", bamboos=" + bamboos +
                 '}';
     }
@@ -225,18 +248,31 @@ public class HexPlot {
 
     public void addBamboo(){
         if (this.isPond())
-            throw new IndexOutOfBoundsException("On ne pose pas un bamboo sur la parcelle Etang");
+            Display.printMessage("On ne pose pas un bamboo sur la parcelle Etang");
 
         else if (!irrigated)
-            throw new IndexOutOfBoundsException("Cette parcelle n'est pas irriguée");
+            Display.printMessage("On ne pose pas un bambou sur une parcelle non irriguée");
 
-        else if (bamboos.size() >= 4)
-            throw new IndexOutOfBoundsException("Il y a trop de bambous sur cette parcelle");
+        else if (bamboos.size() == 4)
+            Display.printMessage("Il y a trop de bambous sur cette parcelle");
 
         else {
             bamboos.add(new Bamboo(getColor()));
             bambooStock.remove(bambooStock.getByColor(getColor()));
+            Display.printMessage("Un bambou "+getColor()+" pousse sur la parcelle "+this);
+
+
+            if (this.getImprovement() == FERTILIZER && this.getBamboos().size() < 4){
+                bamboos.add(new Bamboo(getColor()));
+                bambooStock.remove(bambooStock.getByColor(getColor()));
+                Display.printMessage(this+" possède un aménagement ENGRAIS, un deuxième bambou "+getColor()+" pousse sur la parcelle");
+
+            }
+
         }
+    }
+    public boolean haveSamePosition(HexPlot clone){
+        return getS()==clone.getS()&&getR()== clone.getQ()&&getQ()== clone.getQ();
     }
 
 }

@@ -1,12 +1,16 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectives.GardenerObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+
 import java.util.ArrayList;
+
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 
 public class DeckOfObjectifs extends ArrayList {
     
@@ -52,5 +56,13 @@ public class DeckOfObjectifs extends ArrayList {
         this.add(new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
         this.add(new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
         this.add(new PandaObjective(6,ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
+
+        /**
+         * Gardener objectives
+         */
+        this.add(new GardenerObjective(5,FOUR_AND_FERTILIZER, new Color[]{YELLOW}));
+        this.add(new GardenerObjective(6, FOUR_NO_IMPOROVEMENT, new Color[]{YELLOW}));
+        this.add(new GardenerObjective(6, THREE_GREEN_X4, new Color[]{YELLOW}));
+
     }
 }

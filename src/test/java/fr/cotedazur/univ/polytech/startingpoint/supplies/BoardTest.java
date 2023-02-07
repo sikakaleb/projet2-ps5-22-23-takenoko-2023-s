@@ -2,10 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.Game;
 import fr.cotedazur.univ.polytech.startingpoint.Player;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Board;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.DeckOfPlots;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,16 +10,15 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
-    
+
+    private Game game;
     private Board board;
     private DeckOfPlots deckOfPlots;
 
-
-    private Game game;
     @BeforeEach
     public void setUp(){
-        game=new Game(new Player("fred"),new Player("akossiwa"));
-        board = new Board();
+        game=new Game(new Player("Ted"),new Player("Wilfried"));
+        board=new Board();
         deckOfPlots = new DeckOfPlots();
         HexPlot hex1= new HexPlot(1,0,-1,GREEN);
         hex1.getBamboos().add(new Bamboo(GREEN));
@@ -43,6 +38,13 @@ public class BoardTest {
         game.board.add(hex4);
         game.board.add(hex5);
         game.board.add(hex6);
+    }
+
+    @Test
+    void getLastHexPlotTest(){
+        HexPlot hex = new HexPlot(0,1,1,GREEN);
+        game.board.add(hex);
+        assertEquals(hex,game.board.getLastHexPlot());
     }
 
     @Test
@@ -76,10 +78,7 @@ public class BoardTest {
         HexPlot hexPlot = board.iterator().next();
 
         assertEquals(board.findAvailableNeighbors(hexPlot).size(), 6);
-        System.out.println(hexPlot);
         board.ChoicePlot(deckOfPlots.pickPlot());
-        System.out.println(board.findAvailableNeighbors(hexPlot));
-        System.out.println(board);
         assertEquals(board.findAvailableNeighbors(hexPlot).size(), 5);
 
         board.addAll(hexPlot.plotNeighbor());
@@ -92,23 +91,37 @@ public class BoardTest {
         board.ChoicePlot(deckOfPlots.pickPlot());
         board.ChoicePlot(deckOfPlots.pickPlot());
         board.ChoicePlot(deckOfPlots.pickPlot());
-        System.out.println(board);
         assertEquals(board.size(),4);
     }
 
     @Test
     void choicePlotTest() {
         board.ChoicePlot(board.iterator().next());
-        System.out.println(board);
         assertEquals(board.size(),2);
     }
 
     @Test
-    void pandaNewPositionPossibilities() {
-        assertEquals(game.board.pandaNewPositionPossibilities().size(),6);
+    void getNewPositionPossibilitiesTest() {
+        assertEquals(game.board.getNewPositionPossibilities().size(),6);
     }
 
     @Test
-    void testPandaNewPositionPossibilities() {
+    public void choosePlotForImprovementTest(){
+        assertEquals(game.board.size(),7);
+        game.board.getLastHexPlot().getBamboos().clear();
+
+        HexPlot plot = game.board.choosePlotForImprovement();
+        assertEquals(game.board.size(),7);
+        assertTrue(game.board.contains(plot));
+        assertFalse(plot.isPond());
+        assertNull(plot.getImprovement());
+        assertTrue(plot.getBamboos().isEmpty());
+
+        game.board.removeIf(hexPlot -> !hexPlot.isPond());
+        assertEquals(game.board.size(), 1);
+
+        Board emptyBoard = new Board();
+        assertEquals(emptyBoard.choosePlotForImprovement(), null);
     }
+
 }

@@ -1,5 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint;
+
+import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
+
 public class Panda {
     private HexPlot position;
 
@@ -30,8 +33,9 @@ public class Panda {
         }
         //à gerer avec une execption
         else {
-            System.out.println("Le panda ne se déplace qu'en ligne droite");
+            Display.printMessage("Le panda ne se déplace qu'en ligne droite");
         }
     }
+
 
 }

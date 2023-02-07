@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
-public class Objective {
+public abstract class Objective {
     /**Attributs de la classe**/
     public static  int NumberOfObjective=0;
     private int objectId;
