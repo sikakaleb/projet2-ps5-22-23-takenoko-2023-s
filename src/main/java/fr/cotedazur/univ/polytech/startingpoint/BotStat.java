@@ -1,3 +1,5 @@
+package fr.cotedazur.univ.polytech.startingpoint;
+
 class BotStat {
     private String botName;
     private int gamesPlayed;
