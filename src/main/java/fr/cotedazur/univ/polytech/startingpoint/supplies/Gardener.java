@@ -1,12 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
-import fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot;
 
 public class Gardener {
     private HexPlot position;
 
-    Gardener(HexPlot position){
+    public Gardener(HexPlot position){
         this.position=position;
     }
 
