@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import fr.cotedazur.univ.polytech.startingpoint.Game;
-import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Game;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

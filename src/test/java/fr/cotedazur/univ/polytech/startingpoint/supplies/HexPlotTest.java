@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import fr.cotedazur.univ.polytech.startingpoint.Game;
-import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Game;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.deckOfImprovements;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.deckOfImprovements;
 import static fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot.DIRECTION;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;

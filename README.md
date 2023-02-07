@@ -40,6 +40,6 @@ On vérifie s'il n'y a pas d'Objectif à valider.
 Le jeu continue jusqu'à ce qu'il n'y ait plus de parcelles à poser ou quand un joueur realise 3 objectifs. 
 ## Exécution
 ### Jeu
-Pour avoir un demo, veuillez executer le Main.
+Pour avoir un demo, veuillez executer le Main (fr/cotedazur/univ/polytech/startingpoint/gameplay)
 ### Test
-Notre rendu contient 139 tests contenus dans le package fr/cotedazur/univ/polytech/startingpoint
+Notre rendu contient 139 tests contenus dans le package fr/cotedazur/univ/polytech/startingpoint/

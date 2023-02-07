@@ -1,13 +1,13 @@
 package fr.cotedazur.univ.polytech.startingpoint.display;
 
-import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.data.PlayerData;
 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Main.ties;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Main.ties;
 
 /**
  * Class use to print every step of the game

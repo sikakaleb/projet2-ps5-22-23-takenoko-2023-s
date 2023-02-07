@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -25,9 +26,11 @@ public class Game {
     public List<Player> playerList;
     public static Map<Action.GameAction, Consumer<Player>> actions;
     public Action.GameAction[] playerActions;
+    public Dice dice;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
+        dice = new Dice();
         bambooStock = new BambooStock();
         deckOfPlots = new DeckOfPlots();
         listOfObjectives = new DeckOfObjectifs();
@@ -96,11 +99,16 @@ public class Game {
             player.getStrategy().noMoreObjectives();
         }
 
-        Action.GameAction[] twoActions = player.getStrategy().pickTwoDistinct();
+        Action.GameAction[] twoActions;
+        if (player.getStrategy()==Fa3STRATEGY && player.getUnMetObjectives().size() < 5){
+            twoActions = player.getStrategy().pickDifferent(PICK_OBJECTIVE);
+        } else {
+            twoActions = player.getStrategy().pickTwoDistinct();
+        }
         playerActions[0] = twoActions[0];
         playerActions[1] = twoActions[1];
 
-        Dice.Condition weather = new Dice().roll();
+        Dice.Condition weather = dice.roll();
         Display.printMessage("Le dé météo tombe sur "+weather);
         actOnWeather(weather, player);
 
@@ -188,6 +196,7 @@ public class Game {
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
         if(src.isEmpty()){
             exist--;
+            return false;
         }
         Optional<HexPlot> dst = p.findAnAvailableIrrigationDest(board,src.get());
         if ((dst.isEmpty())){
@@ -223,8 +232,18 @@ public class Game {
         Random rand = new Random();
         List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
         if(movePossibilities.size()!=0){
+
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
+
+            if (player.getStrategy()==Fa3STRATEGY){
+                next = movePossibilities
+                        .stream()
+                        .filter( hexPlot -> !hexPlot.getBamboos().isEmpty())
+                        .findFirst()
+                        .orElse(movePossibilities.get(randNumber));
+            }
+
             panda.pandaMove(next);
             Display.printMessage("la position du panda aprés deplacement"+panda.getPosition());
             eatIfBamboo(next, player);
@@ -332,8 +351,14 @@ public class Game {
                 break;
 
             case MYSTERY:
-                Dice.Condition weather = new Dice().roll();
-                actOnWeather(weather, player);
+                // dans les premiers tours Fa3STRATEGY n'a que 2 actions
+                if (player.getStrategy() == Fa3STRATEGY && player.getStrategy().getActions().size()==2){
+                    choiceAnIrrigation(player);
+                }
+                else {
+                    Dice.Condition weather = dice.roll();
+                    actOnWeather(weather, player);
+                }
                 break;
 
             default : break;

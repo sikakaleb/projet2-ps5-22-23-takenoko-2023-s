@@ -1,5 +1,7 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Game;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.util.Comparator;
@@ -18,16 +20,14 @@ public class Emperor {
 
         if (game.playerList.get(0).getScore() > game.playerList.get(1).getScore()) {
 
-            Display.printMessage("The winner is, " + game.playerList.get(0).getName() +
-                    ", with " + game.playerList.get(0).getScore() + " points and " +
-                    + game.playerList.get(0).getObjectiveAchieved().size() + " achieved objectives");
-
+            Display.printMessage("Le gagnant est " + game.playerList.get(0).getName() + " \uD83D\uDC4F\uD83D\uDC4F ");
+            game.display();
             return game.playerList.get(0);
         }
 
         else {
             Display.printMessage(game.playerList.get(0).getName() +" et "
-                    + game.playerList.get(0).getName() +
+                    + game.playerList.get(1).getName() +
                     " sont ex aequo avec " + game.playerList.get(0).getScore() + " points.");
 
             return null;

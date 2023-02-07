@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Game;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Action;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
@@ -12,8 +14,12 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Game.*;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.*;
+import static fr.cotedazur.univ.polytech.startingpoint.supplies.Dice.Condition.WIND;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PLACE_IRRIGATION;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -164,6 +170,9 @@ class GameTest {
 
     @Test
     public void actOnWeatherMYSTERY() {
+        Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
+        game.playerActions[0] = twoActions[0];
+        game.playerActions[1] = twoActions[1];
         Dice.Condition condition = Dice.Condition.MYSTERY;
         game.actOnWeather(condition, player1);
     }
@@ -196,7 +205,10 @@ class GameTest {
 
     @Test
     public void actOnWeatherWIND() {
-        game.actOnWeather(Dice.Condition.WIND, player1);
+        Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
+        game.playerActions[0] = twoActions[0];
+        game.playerActions[1] = twoActions[1];
+        game.actOnWeather(WIND, player1);
         assertEquals(game.playerActions[0], game.playerActions[0]);
     }
 
@@ -262,5 +274,47 @@ class GameTest {
         Optional<HexPlot> hex = player1.findAnAvailableIrrigationDest(bd, new HexPlot());
         assertTrue(!canStock.getAllHexplotFrom().contains(hex.get()));
         assertTrue(bd.contains(hex.get()));
+    }
+
+    @Test
+    // Les deux premiers mouvements du bot Fa3STRATEGY sont PICK_OBJECTIVE et PLACE_IRRIGATION
+    void playWithFa3STRATEGY(){
+        player1.setStrategy(Fa3STRATEGY);
+        game.play(player1);
+        if (game.dice.getLastValue() != WIND)
+            assertTrue(game.playerActions[0]==PICK_OBJECTIVE || game.playerActions[1]==PICK_OBJECTIVE);
+    }
+
+    @Test
+    void playWithFa3STRATEGYandWeatherWIND(){
+        player1.setStrategy(Fa3STRATEGY);
+        game.play(player1);
+        if (game.dice.getLastValue() == WIND) {
+            assertTrue(game.playerActions[0] == PICK_OBJECTIVE && game.playerActions[1] == PICK_OBJECTIVE
+            || game.playerActions[0] == PLACE_IRRIGATION && game.playerActions[1] == PLACE_IRRIGATION );
+        }
+
+    }
+
+    @Test
+    // Le bot Fa3STRATEGY essaie d’avoir 5 cartes objectif en main tout le temps
+    void always5objectivesFa3STRATEGY(){
+        player1.setStrategy(Fa3STRATEGY);
+        for (int i = 0; i < 10; i++) { // test sur 10 tours
+            game.play(player1);
+            if (game.dice.getLastValue() != WIND)
+                assertTrue(game.playerActions[0]==PICK_OBJECTIVE
+                    || player1.getUnMetObjectives().size()==5);
+        }
+    }
+
+    @Test
+    // Quand il tire une la météo « ? » dans les premiers tours, le bot Fa3STRATEGY prend une irrigation.
+    void Fa3STRATEGYactOnWeatherMYSTERY(){
+        player1.setStrategy(Fa3STRATEGY);
+        int irrigationsbefore = player1.getCanalList().size();
+        Dice.Condition condition = Dice.Condition.MYSTERY;
+        game.actOnWeather(condition, player1);
+        assertEquals(irrigationsbefore+1, player1.getCanalList().size());
     }
 }
