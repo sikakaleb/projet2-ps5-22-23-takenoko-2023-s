@@ -37,7 +37,9 @@ public class Player {
     private List<IrrigationCanal> canalList;
     public EatenBamboos eatenBamboos;
 
-   /**Le ou Les constructeurs de la classe **/
+    private Random rand;
+
+    /**Le ou Les constructeurs de la classe **/
     public Player(int age, int height, String name) {
         playerId=++numberOfPlayer;
         this.age = age;
@@ -345,15 +347,17 @@ public class Player {
             }
         });/*
         throw new RuntimeException(""+Sources);*/
-        if(validsSource.size()==0) {
+        if(validsSource.isEmpty()) {
             Display.printMessage("Pas de source d'irrigarion valable dans le jeu");
-            return Optional.empty();
+        }else{
+            rand = new Random();
+            int randNumber = rand.nextInt(validsSource.size());
+            List<HexPlot> listValidSource= validsSource.stream().toList();
+            HexPlot hex =listValidSource.get(randNumber);
+            return Optional.of(hex);
         }
-        Random rand = new Random();
-        int randNumber = rand.nextInt(validsSource.size());
-        List<HexPlot> listValidSource= validsSource.stream().toList();
-        HexPlot hex =listValidSource.get(randNumber);
-        return Optional.of(hex);
+        return Optional.empty();
+
     }
     public Optional<HexPlot> findAnAvailableIrrigationDest(Board bd, HexPlot hex){
         Set<HexPlot> valids = hex.plotNeighbor();
@@ -361,20 +365,21 @@ public class Player {
         Set<HexPlot> validsDest = new HashSet<>();
         for (HexPlot h1:bd) {
             for (HexPlot h2:valids) {
-               if(h1.getQ() == h2.getQ() && h1.getR() == h2.getR() && h1.getS() == h2.getS())
-                   validsDest.add(h1);
+                if(h1.getQ() == h2.getQ() && h1.getR() == h2.getR() && h1.getS() == h2.getS())
+                    validsDest.add(h1);
             }
         }
 
-        if(validsDest.size()==0) {
+        if(validsDest.isEmpty()) {
             Display.printMessage("Pas de destination de canal de : "+hex+" valables dans le jeu");
-            return Optional.empty();
+        }else {
+            rand = new Random();
+            int randNumber = rand.nextInt(validsDest.size());
+            List<HexPlot> listValidDest= validsDest.stream().toList();
+            HexPlot destPlot =listValidDest.get(randNumber);
+            return Optional.of(destPlot);
         }
-        Random rand = new Random();
-        int randNumber = rand.nextInt(validsDest.size());
-        List<HexPlot> listValidDest= validsDest.stream().toList();
-        HexPlot destPlot =listValidDest.get(randNumber);
-        return Optional.of(destPlot);
+        return Optional.empty();
     }
     public int countObjectifPanda(){
         int result =0;
