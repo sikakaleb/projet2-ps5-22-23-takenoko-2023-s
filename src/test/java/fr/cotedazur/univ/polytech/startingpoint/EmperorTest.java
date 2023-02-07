@@ -3,6 +3,8 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmperorTest {
@@ -22,6 +24,12 @@ public class EmperorTest {
     void judgementTest() {
         player1.setScore(10);
         player2.setScore(20);
-        assertEquals(emperor.judgement(), player2);
+        assertEquals(emperor.judgement(), Optional.of(player2));
+    }
+    @Test
+    void Equality() {
+        player1.setScore(20);
+        player2.setScore(20);
+        assertEquals(emperor.judgement(), Optional.empty());
     }
 }

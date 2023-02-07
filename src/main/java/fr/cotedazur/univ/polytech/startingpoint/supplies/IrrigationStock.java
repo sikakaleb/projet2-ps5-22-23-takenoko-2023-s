@@ -138,14 +138,16 @@ public class IrrigationStock  {
         Boolean res=false;
         for (IrrigationCanal can : usedCanal) {
             if (can.getSourcePlot().equals(canal.getSourcePlot()) &&
-                    can.getDestPlot().equals(canal.getDestPlot())) {
-                Display.printMessage(canal+" ce canal existe deja");
+                    can.getDestPlot().equals(canal.getDestPlot()) ||
+                            can.getSourcePlot().equals(canal.getDestPlot()) &&
+                                    can.getDestPlot().equals(canal.getSourcePlot())) {
                 res=true;
                 continue;
+
             }
         }
         return res;
-    }
+}
     private Boolean CanBeAddToSomeNetwork(IrrigationCanal canal){
         Boolean res=false;
         for (IrrigationCanal can : usedCanal) {

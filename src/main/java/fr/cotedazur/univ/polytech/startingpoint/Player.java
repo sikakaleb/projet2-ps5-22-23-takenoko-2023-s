@@ -333,6 +333,7 @@ public class Player {
     public Optional<IrrigationCanal> returnAnIrrigation(){
         if(canalList.size()==0) return Optional.empty();
         IrrigationCanal canal = canalList.get(0);
+        canalList.remove(canal);
         return Optional.of(canal);
     }
     public Optional<HexPlot> findAnAvailableIrrigationSource(IrrigationStock irrigationStock){
@@ -356,14 +357,15 @@ public class Player {
     }
     public Optional<HexPlot> findAnAvailableIrrigationDest(Board bd, HexPlot hex){
         Set<HexPlot> valids = hex.plotNeighbor();
+        valids.remove(new HexPlot());
         Set<HexPlot> validsDest = new HashSet<>();
         for (HexPlot h1:bd) {
             for (HexPlot h2:valids) {
                if(h1.getQ() == h2.getQ() && h1.getR() == h2.getR() && h1.getS() == h2.getS())
                    validsDest.add(h1);
             }
-
         }
+
         if(validsDest.size()==0) {
             Display.printMessage("Pas de destination de canal de : "+hex+" valables dans le jeu");
             return Optional.empty();
@@ -373,6 +375,13 @@ public class Player {
         List<HexPlot> listValidDest= validsDest.stream().toList();
         HexPlot destPlot =listValidDest.get(randNumber);
         return Optional.of(destPlot);
+    }
+    public int countObjectifPanda(){
+        int result =0;
+        for (Objective obj:objectiveAchieved) {
+            if(obj instanceof PandaObjective) result++;
+        }
+        return result;
     }
 
     public void pickEmperor(){

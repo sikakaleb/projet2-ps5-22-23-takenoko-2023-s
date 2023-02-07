@@ -38,7 +38,7 @@ public class Main {
     public static void  jeReflechis() {
         try {
             for (int i = 0; i < 6; i++) {
-                Thread.sleep(100);
+                Thread.sleep(6);
             }
         }catch(Exception e) {
             Display.printMessage( String.valueOf(e));
