@@ -5,12 +5,14 @@ import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import static fr.cotedazur.univ.polytech.startingpoint.Game.irrigationStock;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.PANDASTRATEGY;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -257,5 +260,32 @@ class PlayerTest {
         assertTrue(!canStock.getAllHexplotFrom().contains(hex.get()));
         assertTrue(bd.contains(hex.get()));
     }
+    @Test
+    public void testPlayerConstructor() {
+        Strategy strategy = PANDASTRATEGY;
+        Player player = new Player(25, 170, "John Doe", strategy);
+        assertEquals(170, player.getHeight());
+        assertEquals("John Doe", player.getName());
+        assertEquals(strategy, player.getStrategy());
+        assertEquals(0, player.getScore());
+        assertTrue(player.getObjectiveAchieved().isEmpty());
+        assertTrue(player.getUnMetObjectives().isEmpty());
+        assertTrue(player.getCanalList().isEmpty());
+    }
+    @Test
+    public void testCountObjectifPanda() {
+        Player player = new Player(22, 170, "John Doe", PANDASTRATEGY);
+        player.objectiveAchieved = new ArrayList<>(Arrays.asList(
+                directPlotObj,
+                indirectPlotObj,
+                threeGreen,
+                threeGreen,
+                threeGreen
+        ));
+        int expected = 3;
+        int actual = player.countObjectifPanda();
+        assertEquals(expected, actual);
+    }
+
 
 }

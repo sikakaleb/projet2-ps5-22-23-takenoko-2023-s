@@ -82,4 +82,23 @@ class BotStatisticsTest {
         assertEquals(expected,actual);
         assertTrue(actual.containsAll(expected));
     }
+    @Test
+    public void testReadFromFile_fileDoesNotExist() {
+        File file = new File(CSV_FILE_PATH);
+        if (file.exists()) {
+            file.delete();
+        }
+        List<BotStat> data = gameStats.readFromFile();
+        assertTrue(data.isEmpty());
+    }
+
+    @Test
+    public void testAggregateData_emptyData() {
+        List<BotStat> additionalData = Arrays.asList();
+        gameStats.aggregateData(additionalData);
+
+        List<BotStat> data = gameStats.readFromFile();
+        assertTrue(data.isEmpty());
+    }
+
 }
