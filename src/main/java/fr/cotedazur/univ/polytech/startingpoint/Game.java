@@ -339,8 +339,14 @@ public class Game {
                 break;
 
             case MYSTERY:
-                Dice.Condition weather = new Dice().roll();
-                actOnWeather(weather, player);
+                // dans les premiers tours Fa3STRATEGY n'a que 2 actions
+                if (player.getStrategy() == Fa3STRATEGY && player.getStrategy().getActions().size()==2){
+                    choiceAnIrrigation(player);
+                }
+                else {
+                    Dice.Condition weather = new Dice().roll();
+                    actOnWeather(weather, player);
+                }
                 break;
 
             default : break;

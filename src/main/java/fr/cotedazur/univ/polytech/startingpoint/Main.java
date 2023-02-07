@@ -113,9 +113,8 @@ public class Main {
 
                 Display.printMessage("C'est le tour de : " + p.getName());
                 if (demo) jeReflechis();
-                if (game.play(p)) {
-                    game.display();
-                }
+                if (game.play(p)) game.display();
+
             }
             nbRound++;
         }
