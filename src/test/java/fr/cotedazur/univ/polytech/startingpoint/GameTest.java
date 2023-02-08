@@ -61,11 +61,11 @@ class GameTest {
     @Test
     void choiceObjectiveTest() {
         game.choiceObjective(player1);
-        assertEquals(game.getObjective().size(), 32);
+        assertEquals(game.getObjective().size(), 44);
         assertTrue(game.choiceObjective(player1));
         assertTrue(game.choiceObjective(player2));
         game.choiceObjective(player2);
-        assertEquals(game.getObjective().size(), 29);
+        assertEquals(game.getObjective().size(), 41);
         assertTrue(game.choiceObjective(player2));
     }
 
