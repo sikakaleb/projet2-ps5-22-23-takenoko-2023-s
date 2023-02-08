@@ -87,10 +87,6 @@ class PlayerTest {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @Test
-    void getHeightTest() {
-        assertEquals(player1.getHeight(), 1);
-    }
 
     @Test
     void getNameTest() {
@@ -265,8 +261,7 @@ class PlayerTest {
     @Test
     public void testPlayerConstructor() {
         Strategy strategy = PANDASTRATEGY;
-        Player player = new Player(25, 170, "John Doe", strategy);
-        assertEquals(170, player.getHeight());
+        Player player = new Player("John Doe", strategy);
         assertEquals("John Doe", player.getName());
         assertEquals(strategy, player.getStrategy());
         assertEquals(0, player.getScore());
@@ -276,7 +271,7 @@ class PlayerTest {
     }
     @Test
     public void testCountObjectifPanda() {
-        Player player = new Player(22, 170, "John Doe", PANDASTRATEGY);
+        Player player = new Player("John Doe", PANDASTRATEGY);
         player.objectiveAchieved = new ArrayList<>(Arrays.asList(
                 directPlotObj,
                 indirectPlotObj,

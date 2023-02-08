@@ -50,7 +50,7 @@ public class Main {
     * JeReflechis() utilisé pour marquer un temps de pause
     * la transition entre les tours de jeu de chaque joueurs
     */
-    public static void  jeReflechis() {
+    public static void jeReflechis() {
         try {
             for (int i = 0; i < 6; i++) {
                 Thread.sleep(6);

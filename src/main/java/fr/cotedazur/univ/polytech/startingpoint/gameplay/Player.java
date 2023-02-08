@@ -21,11 +21,7 @@ public class Player {
     private static int numberOfPlayer=0;
     private int playerId;
 
-    /**Begin Attributs CACA  --> **/
-    private int age;
-    private int height;
 
-    /**End Attributs CACA  --> **/
     private String name;
     private int score;
     private int maxUnmetObj;
@@ -40,10 +36,8 @@ public class Player {
     private Random rand;
 
     /**Le ou Les constructeurs de la classe **/
-    public Player(int age, int height, String name) {
+    public Player(String name) {
         playerId=++numberOfPlayer;
-        this.age = age;
-        this.height = height;
         this.name = name;
         this.strategy = WITHOUTSTRATEGY;
         this.score =0;
@@ -53,10 +47,8 @@ public class Player {
         eatenBamboos = new EatenBamboos();
         canalList = new ArrayList<>();
     }
-    public Player(int age, int height, String name, Strategy strategy) {
+    public Player(String name, Strategy strategy) {
         playerId=++numberOfPlayer;
-        this.age = age;
-        this.height = height;
         this.name = name;
         this.strategy=strategy;
         this.score =0;
@@ -67,13 +59,7 @@ public class Player {
         canalList = new ArrayList<>();
     }
 
-    public Player(String name){
-        this(1,1,name);
-    }
 
-    public Player(String name, Strategy strategy){
-        this(1,1,name,strategy);
-    }
     /**Acesseur et mutateur de la classe**/
     public int getPlayerId() {
         return playerId;
@@ -85,11 +71,6 @@ public class Player {
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
-    }
-
-    /**Getteur CACA**/
-    public int getHeight() {
-        return height;
     }
 
     public String getName() {
@@ -174,7 +155,7 @@ public class Player {
     /*****
      * Le joueur appelle
      * la methode pour detecter
-     * les objectifs qu'il pourrait
+     * les objectifs PARCELLE qu'il pourrait
      * remplir a son tour
      */
     public Boolean detectPlotObjective(){
@@ -199,17 +180,17 @@ public class Player {
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_P
                         && detector.findQuadrilateralPlots_G_P())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_Y
                         && detector.findQuadrilateralPlots_G_Y())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_YELLOW_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_P_Y
                         && detector.findQuadrilateralPlots_P_Y())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
 
@@ -224,7 +205,7 @@ public class Player {
     /*****
      * Le joueur appelle
      * la methode pour detecter
-     * les objectifs qu'il pourrait
+     * les objectifs PANDA qu'il pourrait
      * remplir a son tour
      */
     public Boolean dectectPandaObjective(){
@@ -273,6 +254,12 @@ public class Player {
         return false;
     }
 
+    /*****
+     * Le joueur appelle
+     * la methode pour detecter
+     * les objectifs JARDINIER qu'il pourrait
+     * remplir a son tour
+     */
     public Boolean dectectGardenerObjective(){
         GardenerObjectiveDetector detector = new GardenerObjectiveDetector(this);
 
@@ -359,14 +346,14 @@ public class Player {
         return name+" : "+score+" points et "+objectiveAchieved.size()+" objectifs atteints.";
     }
     public Boolean addAnIrrigation(IrrigationCanal canal){
-        if(canal.getAvailable()==false){
+        if(!canal.getAvailable()){
             canalList.add(canal);
             return true;
         }
         return false;
     }
     public Optional<IrrigationCanal> returnAnIrrigation(){
-        if(canalList.size()==0) return Optional.empty();
+        if(canalList.isEmpty()) return Optional.empty();
         IrrigationCanal canal = canalList.get(0);
         canalList.remove(canal);
         return Optional.of(canal);
