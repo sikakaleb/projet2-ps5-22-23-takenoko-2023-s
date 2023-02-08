@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint.supplies;
+package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Main;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,18 +11,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MainTest {
 
     Main main;
+    Engine engine;
 
     @BeforeEach
     public void setUp() {
         main = new Main();
+        engine = new Engine();
     }
 
     @Test
     // Le bot Fa3STRATEGY récupère un maximum de bambous, même s’il n’a pas de cartes avec la couleur correspondante
     void Fa3STRATEGYcollectBamboos(){
         main.game.playerList.get(0).setStrategy(Fa3STRATEGY);
-        main.runGame();
-        main.maxRounds = 10;
+        engine.runGame(false);
+        engine.maxRounds = 10;
 
         assertTrue(main.game.playerActions[0]==PICK_OBJECTIVE
                 || main.game.playerList.get(0).getUnMetObjectives().size()==5);

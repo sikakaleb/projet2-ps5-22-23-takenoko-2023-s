@@ -22,20 +22,6 @@ public class BotStatistics {
     private static final String FILE_NAME = "gamestats.csv";
     private static final Path FILE_PATH = Paths.get("stats", FILE_NAME);
 
-//    public static void main(String[] args) {
-//        // retrieve the latest statistics of the bots
-//       Player player1 = new Player("Bot 3");
-//       Player player2 = new Player("Bot 4");
-//        List<BotStat> botStats = Arrays.asList(
-//                new BotStat(player1, 15000, 1050,10),
-//                new BotStat(player2, 20000, 16000,500)
-//        );
-//        List<BotStat> existingStats = readFromFile();
-//        Display.printMessage(String.valueOf(existingStats.size()), Level.SEVERE);
-//        existingStats.addAll(botStats);
-//        writeToFile(existingStats);
-//    }
-
     public /**/static/**/ List<BotStat> readFromFile() {
         Path filePath = Paths.get(CSV_FILE_PATH);
         List<BotStat> existingData = new ArrayList<>();
@@ -46,7 +32,7 @@ public class BotStatistics {
             try (Reader reader = new FileReader(file)) {
                 ColumnPositionMappingStrategy<BotStat> strategy = new ColumnPositionMappingStrategy<>();
                 strategy.setType(BotStat.class);
-                strategy.setColumnMapping(new String[] { "name", "gamesPlayed","wins","losses" });
+                strategy.setColumnMapping(new String[] { "name","strategy", "gamesPlayed","wins","ties","losses", "points" });
 
                 CsvToBean<BotStat> csvToBean = new CsvToBeanBuilder(reader)
                         .withType(BotStat.class)
@@ -80,12 +66,12 @@ public class BotStatistics {
 
                 // Write header only if the file is empty
                 if (Files.size(filePath) == 0) {
-                    csvWriter.writeNext(new String[] { "name", "gamesPlayed","wins","losses" });
+                    csvWriter.writeNext(new String[] { "name","strategy", "gamesPlayed","wins","ties","losses", "points" });
                 }
 
                 for (BotStat stat : stats) {
-                    csvWriter.writeNext(new String[] { stat.getBotName(), String
-                            .valueOf(stat.getGamesPlayed()), String.valueOf(stat.getWins()),String.valueOf(stat.getLosses()) });
+                    csvWriter.writeNext(new String[] { stat.getBotName(), String.valueOf(stat.getStrategy()), String
+                            .valueOf(stat.getGamesPlayed()), String.valueOf(stat.getWins()), String.valueOf(stat.getTies()) ,String.valueOf(stat.getLosses()), String.valueOf(stat.getPoints())});
                 }
 
                 csvWriter.close();
