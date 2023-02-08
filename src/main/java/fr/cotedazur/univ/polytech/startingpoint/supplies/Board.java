@@ -151,7 +151,7 @@ public class Board extends ArrayList<HexPlot> {
 
         ArrayList<HexPlot> forImprovement = (ArrayList<HexPlot>) this.clone();
         forImprovement.removeIf( hexPlot ->
-                        hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
+                        hexPlot.isPond() || hexPlot.getImprovement()!=null || (hexPlot.getBamboos()!=null && !hexPlot.getBamboos().isEmpty())
         );
         if(forImprovement.isEmpty()){
             Display.printMessage("Aucune parcelle aménageable");
@@ -172,7 +172,7 @@ public class Board extends ArrayList<HexPlot> {
 
         ArrayList<HexPlot> forBamboo = (ArrayList<HexPlot>) this.clone();
         forBamboo.removeIf( hexPlot ->
-                        hexPlot.isPond() || !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
+                        hexPlot.isPond() || !hexPlot.isIrrigated() || (hexPlot.getBamboos()!=null &&hexPlot.getBamboos().size()==4)
         );
         if(forBamboo.isEmpty()){
             Display.printMessage("Aucune parcelle sur laquelle placer un bambou");

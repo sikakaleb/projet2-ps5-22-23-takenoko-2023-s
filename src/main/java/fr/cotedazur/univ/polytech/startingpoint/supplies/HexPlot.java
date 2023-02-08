@@ -34,7 +34,6 @@ public class HexPlot {
         this.s = s;
         this.r = r;
         irrigated = isPondNeighbor();
-        bamboos = new ArrayList<>(4);
     }
     /**
      * Ajout d'un constructeur avec couleur
@@ -44,9 +43,7 @@ public class HexPlot {
         this.s = s;
         this.r = r;
         this.color= color;
-        this.bamboos = new ArrayList<>();
         irrigated = isPondNeighbor();
-        bamboos = new ArrayList<>(4);
     }
 
     /**
