@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.board;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 
 /**
  * @class GardenerObjectiveDetector
@@ -58,6 +58,56 @@ public class GardenerObjectiveDetector {
                 fourPlots.add(hexPlot);
         }
         return fourPlots.size()==4 ? fourPlots : null ;
+    }
+
+    /**
+     * Trouver un Objectif FOUR_AND_POOL dans tout le jeu
+     * @return {boolean}
+     */
+    public HexPlot findFourAndPool(){
+        for (HexPlot hexPlot : board){
+            if (hexPlot.getImprovement()==POOL && hexPlot.getBamboos().size()==4)
+                return hexPlot;
+        }
+        return null;
+    }
+
+    /**
+     * Trouver un Objectif FOUR_AND_FENCE dans tout le jeu
+     * @return {boolean}
+     */
+    public HexPlot findFourAndFence(){
+        for (HexPlot hexPlot : board){
+            if (hexPlot.getImprovement()==FENCE && hexPlot.getBamboos().size()==4)
+                return hexPlot;
+        }
+        return null;
+    }
+
+    /**
+     * Trouver un Objectif THREE_YELLOW_X3 dans tout le jeu
+     * @return {boolean}
+     */
+    public List<HexPlot> findThreeYellowX3(){
+        List<HexPlot> threePlots = new ArrayList<>();
+        for (HexPlot hexPlot : board){
+            if (hexPlot.getColor()==YELLOW && hexPlot.getBamboos().size()==3)
+                threePlots.add(hexPlot);
+        }
+        return threePlots.size()==3 ? threePlots : null ;
+    }
+
+    /**
+     * Trouver un Objectif THREE_PINK_X2 dans tout le jeu
+     * @return {boolean}
+     */
+    public List<HexPlot> findThreePinkX2(){
+        List<HexPlot> twoPlots = new ArrayList<>();
+        for (HexPlot hexPlot : board){
+            if (hexPlot.getColor()==PINK && hexPlot.getBamboos().size()==3)
+                twoPlots.add(hexPlot);
+        }
+        return twoPlots.size()==2 ? twoPlots : null ;
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.bambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.board;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
@@ -303,6 +303,39 @@ public class Player {
                     found.forEach( hexPlot -> hexPlot.setBamboos(null));
                     return validateUnMetObjectives(obj);
                 }
+
+                else if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_AND_POOL && detector.findFourAndPool()!=null)) {
+                    Display.printMessage(name+" a detecté un FOUR_AND_POOL \uD83D\uDC4F\uD83D\uDC4F ");
+                    HexPlot found = detector.findFourAndPool();
+                    eatenBamboos.addMultiple(4, found.getColor());
+                    found.setBamboos(null);
+                    return validateUnMetObjectives(obj);
+                }
+
+                else if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_AND_FENCE && detector.findFourAndFence()!=null)) {
+                    Display.printMessage(name+" a detecté un FOUR_AND_FENCE \uD83D\uDC4F\uD83D\uDC4F ");
+                    HexPlot found = detector.findFourAndFence();
+                    eatenBamboos.addMultiple(4, found.getColor());
+                    found.setBamboos(null);
+                    return validateUnMetObjectives(obj);
+                }
+
+                else if( ( ((GardenerObjective) obj).getConfiguration()==THREE_YELLOW_X3 && detector.findThreeYellowX3()!=null)) {
+                    Display.printMessage(name+" a detecté un THREE_YELLOW_X3 \uD83D\uDC4F\uD83D\uDC4F ");
+                    List<HexPlot> found = detector.findThreeYellowX3();
+                    eatenBamboos.addMultiple(9, YELLOW);
+                    found.forEach( hexPlot -> hexPlot.setBamboos(null));
+                    return validateUnMetObjectives(obj);
+                }
+
+                else if( ( ((GardenerObjective) obj).getConfiguration()==THREE_PINK_X2 && detector.findThreePinkX2()!=null)) {
+                    Display.printMessage(name+" a detecté un THREE_PINK_X2 \uD83D\uDC4F\uD83D\uDC4F ");
+                    List<HexPlot> found = detector.findThreePinkX2();
+                    eatenBamboos.addMultiple(6, PINK);
+                    found.forEach( hexPlot -> hexPlot.setBamboos(null));
+                    return validateUnMetObjectives(obj);
+                }
+
             }
 
         }
