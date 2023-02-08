@@ -3,7 +3,7 @@
 
 Dans notre version actuelle de Takenoko, nous avons implémenté toutes les règles du Takenoko, comprenant la pose des parcelles, les aménagements, l'irrigation, le deplacement du panda, la pousse des bambous. Nous avons également pris en compte le dé de méteo pour gérer les conditions climatiques.
 
-Le jeu est arreté lorsqu'un des joueurs a complété suffisemment d'objectifs (9 objectifs pour une partie à 2 joueurs, 8 pour 3 joueurs, 7 pour 4 joueurs).
+Le jeu est arreté lorsqu'un des joueurs a complété suffisamment d'objectifs (9 objectifs pour une partie à 2 joueurs, 8 pour 3 joueurs, 7 pour 4 joueurs).
 
 1.2. Fonctionnalités non réalisées
 
