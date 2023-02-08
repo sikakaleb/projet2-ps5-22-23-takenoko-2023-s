@@ -15,7 +15,7 @@ public class Emperor {
     }
 
     public Player judgement() {
-        Display.printMessage("L'empereur va déterminer le gagnant...");
+        Display.printMessage("L'empereur va determiner le gagnant...");
         game.playerList.sort(Comparator.comparing(Player::getScore).reversed());
 
         if (game.playerList.get(0).getScore() > game.playerList.get(1).getScore()) {

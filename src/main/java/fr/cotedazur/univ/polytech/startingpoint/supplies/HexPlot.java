@@ -125,7 +125,7 @@ public class HexPlot {
 
     public void setImprovement(PlotImprovement plotImprovement){
         if (this.improvement != null) {
-            Display.printMessage("Il y a déjà un aménagement sur cette parcelle");
+            Display.printMessage("Il y a dejà un amenagement sur cette parcelle");
         }
 
         else if (! this.bamboos.isEmpty())
@@ -265,7 +265,7 @@ public class HexPlot {
             if (this.getImprovement() == FERTILIZER && this.getBamboos().size() < 4){
                 bamboos.add(new Bamboo(getColor()));
                 bambooStock.remove(bambooStock.getByColor(getColor()));
-                Display.printMessage(this+" possède un aménagement ENGRAIS, un deuxième bambou "+getColor()+" pousse sur la parcelle");
+                Display.printMessage(this+" possede un amenagement ENGRAIS, un deuxième bambou "+getColor()+" pousse sur la parcelle");
 
             }
 
