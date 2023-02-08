@@ -130,6 +130,7 @@ public class Main {
                 }
 
                 Display.printMessage("C'est le tour de : " + p.getName());
+                Display.printMessage("Objectifs de "+p.getName()+p.getUnMetObjectives());
                 if (demo) jeReflechis();
                 if (game.play(p)) game.display();
 

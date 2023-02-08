@@ -103,16 +103,24 @@ public class Board extends ArrayList<HexPlot> {
         this.forEach(hexPlot -> {
             validPlotsSet.addAll(findAvailableNeighbors(hexPlot));
         });
-        HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
-        Random rand = new Random();
-        int randNumber = rand.nextInt(validPlotsSet.size());
-        hex.setQ(arrayPlots[randNumber].getQ());
-        hex.setR(arrayPlots[randNumber].getR());
-        hex.setS(arrayPlots[randNumber].getS());
+        HexPlot fromPlotSet = randomPlotChoice(validPlotsSet);
+        hex.setQ(fromPlotSet.getQ());
+        hex.setR(fromPlotSet.getR());
+        hex.setS(fromPlotSet.getS());
         Display.printMessage("nombre de place valide est :"+validPlotsSet.size());
         Display.printMessage("les places valides sont :"+validPlotsSet);
         Display.printMessage("la liste des parcelles dans le jeu avant le choix:"+this);
         this.add(hex);
+    }
+
+    public HexPlot smartPlotChoice(Set<HexPlot> validPlotsSet){
+        return null;
+    }
+
+    public HexPlot randomPlotChoice(Set<HexPlot> validPlotsSet){
+        HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
+        int randNumber = new Random().nextInt(validPlotsSet.size());
+        return arrayPlots[randNumber];
     }
 
     public List<HexPlot> getNewPositionPossibilities(){
