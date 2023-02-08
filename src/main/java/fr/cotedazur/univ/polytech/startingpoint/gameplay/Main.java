@@ -37,11 +37,8 @@ public class Main {
             4, 7
     );
     private int nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
-
-    // Dans notre version, avec des bots peu intelligents,pour éviter que la partie
-    // ne soit interminable, on fixe nombre de tours prédéterminé :
-    public int maxRounds = 50;
     public int nbRound = 0;
+    //public int maxRounds = 50;
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -100,7 +97,7 @@ public class Main {
         List<Player> playerList = game.getPlayerList();
 
         Display.printMessage("---------------BEGIN----------------");
-        while (loop && nbRound < maxRounds){
+        while (loop){
 
             loop = !lastRound;
 
@@ -126,8 +123,8 @@ public class Main {
             }
             nbRound++;
         }
-        if (nbRound == maxRounds)
-            Display.printMessage("Le jeu se termine au bout de "+nbRound+" tours.");
+        //if (nbRound == maxRounds)
+            //Display.printMessage("Le jeu se termine au bout de "+nbRound+" tours.");
 
         Player winner = emperor.judgement();
         if (twothousand) {

@@ -171,7 +171,7 @@ public class Board extends ArrayList<HexPlot> {
 
         ArrayList<HexPlot> forBamboo = (ArrayList<HexPlot>) this.clone();
         forBamboo.removeIf( hexPlot ->
-                        !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
+                        hexPlot.isPond() || !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
         );
         if(forBamboo.isEmpty()){
             Display.printMessage("Aucune parcelle sur laquelle placer un bambou");
