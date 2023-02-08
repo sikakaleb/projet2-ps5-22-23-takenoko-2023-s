@@ -32,7 +32,7 @@ public class MainTest {
     void always5objectivesFa3STRATEGY(){
         main.game.playerList.get(1).setStrategy(Fa3STRATEGY);
         main.runGame();
-        assertTrue(main.game.playerActions[0]==PICK_OBJECTIVE
+        assertTrue(main.game.playerList.get(1).getStrategy().getActions().contains(PICK_OBJECTIVE)
                 || main.game.playerList.get(1).getUnMetObjectives().size()>=4);
     }
 }

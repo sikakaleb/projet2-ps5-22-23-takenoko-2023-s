@@ -261,19 +261,19 @@ public class Player {
                 if(config==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null) {
                     HexPlot found = detector.findFourAndFertilizer();
                     eatenBamboos.addMultiple(4, found.getColor());
-                    found.setBamboos(null);
+                    found.setBamboos(new ArrayList<>(4));
                 }
 
                 else if(config==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null) {
                     HexPlot found = detector.findFourNoImprovement();
                     eatenBamboos.addMultiple(4, found.getColor());
-                    found.setBamboos(null);
+                    found.setBamboos(new ArrayList<>(4));
                 }
 
                 else if(config==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null) {
                     List<HexPlot> found = detector.findThreeGreenX4();
                     eatenBamboos.addMultiple(12, GREEN);
-                    found.forEach( hexPlot -> hexPlot.setBamboos(null));
+                    found.forEach( hexPlot -> hexPlot.setBamboos(new ArrayList<>(4)));
                 }
                 Display.printMessage(name+" a detecté un "+config+" \uD83D\uDC4F\uD83D\uDC4F ");
                 return (GardenerObjective) obj;
