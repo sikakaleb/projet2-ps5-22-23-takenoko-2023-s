@@ -69,6 +69,7 @@ public class Main {
                 .build()
                 .parse(argv);
 
+        demo=true;
         if (demo) {
             Display.setUp(Level.INFO);
             main.runGame();

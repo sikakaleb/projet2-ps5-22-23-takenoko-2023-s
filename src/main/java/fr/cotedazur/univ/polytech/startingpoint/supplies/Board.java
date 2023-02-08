@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.util.*;
 
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.board;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.panda;
 
 /**
@@ -100,21 +101,14 @@ public class Board extends ArrayList<HexPlot> {
 
     public void ChoicePlot(HexPlot hex){
         Set<HexPlot> validPlotsSet = new HashSet<>();
-        this.forEach(hexPlot -> {
-            validPlotsSet.addAll(findAvailableNeighbors(hexPlot));
+        board.forEach(hexPlot -> {
+            validPlotsSet.addAll(this.findAvailableNeighbors(hexPlot));
         });
-        HexPlot fromPlotSet = randomPlotChoice(validPlotsSet);
-        hex.setQ(fromPlotSet.getQ());
-        hex.setR(fromPlotSet.getR());
-        hex.setS(fromPlotSet.getS());
-        Display.printMessage("nombre de place valide est :"+validPlotsSet.size());
-        Display.printMessage("les places valides sont :"+validPlotsSet);
-        Display.printMessage("la liste des parcelles dans le jeu avant le choix:"+this);
+        HexPlot newNeigbhor = randomPlotChoice(validPlotsSet);
+        hex.setQ(newNeigbhor.getQ());
+        hex.setR(newNeigbhor.getR());
+        hex.setS(newNeigbhor.getS());
         this.add(hex);
-    }
-
-    public HexPlot smartPlotChoice(Set<HexPlot> validPlotsSet){
-        return null;
     }
 
     public HexPlot randomPlotChoice(Set<HexPlot> validPlotsSet){
@@ -122,7 +116,6 @@ public class Board extends ArrayList<HexPlot> {
         int randNumber = new Random().nextInt(validPlotsSet.size());
         return arrayPlots[randNumber];
     }
-
     public List<HexPlot> getNewPositionPossibilities(){
         List<HexPlot> linearHex = new ArrayList<>();
         HexPlot currentPosition= panda.getPosition();

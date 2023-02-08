@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -149,11 +149,14 @@ public class Game {
      */
     public Boolean choicePlot(Player player){
         if (deckOfPlots.size()!=0 ) {
-            board.ChoicePlot(deckOfPlots.pickPlot());
-            /* le board ajoute deja dans son add modifié
-            un bambou a l'ajout de la parcelle au jeu
-             */
-            //addBambooToPlot(board.getLastHexPlot());
+
+            if (player.getStrategy() != WITHOUTSTRATEGY){
+                HexPlot found = findPlotForObjective(player);
+                if (found != null)
+                    board.add(findPlotForObjective(player));
+            }
+            else board.ChoicePlot(deckOfPlots.pickPlot());
+
             Display.printMessage(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
             Display.printMessage("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
@@ -162,6 +165,23 @@ public class Game {
         }
         return false;
     }
+
+    public HexPlot findPlotForObjective(Player player){
+        Set<HexPlot> validPlotsSet = new HashSet<>();
+        board.forEach(hexPlot -> {
+            validPlotsSet.addAll(board.findAvailableNeighbors(hexPlot));
+        });
+        for (HexPlot plot : validPlotsSet) {
+            Board clone = (Board) board.clone();
+            clone.add(plot);
+            if (player.detectPlotObjective() != null){
+                return plot;
+            }
+        }
+        return null;
+    }
+
+
     /**
      * ChoiceAnIrrigation fonction qui permet a un joueur de choisir une irrigation
      * et de le mettre dans sa liste d'irrigation

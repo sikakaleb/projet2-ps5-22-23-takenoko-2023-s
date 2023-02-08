@@ -170,15 +170,13 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+
     public List<IrrigationCanal> getCanalList() {
         return canalList;
     }
 
-    /*****
-     * Le joueur appelle
-     * la methode pour detecter
-     * les objectifs qu'il pourrait
-     * remplir a son tour
+    /**
+     * Détection des objectifs :
      */
     public PlotObjective detectPlotObjective(){
 
@@ -204,12 +202,6 @@ public class Player {
         return null;
     }
 
-    /*****
-     * Le joueur appelle
-     * la methode pour detecter
-     * les objectifs qu'il pourrait
-     * remplir a son tour
-     */
     public PandaObjective detectPandaObjective(){
 
         PandaObjectiveDetector detector = new PandaObjectiveDetector(this);
@@ -315,6 +307,7 @@ public class Player {
     public String toString() {
         return name+" : "+score+" points et "+objectiveAchieved.size()+" objectifs atteints.";
     }
+
     public Boolean addAnIrrigation(IrrigationCanal canal){
         if(canal.getAvailable()==false){
             canalList.add(canal);
@@ -322,12 +315,14 @@ public class Player {
         }
         return false;
     }
+
     public Optional<IrrigationCanal> returnAnIrrigation(){
         if(canalList.size()==0) return Optional.empty();
         IrrigationCanal canal = canalList.get(0);
         canalList.remove(canal);
         return Optional.of(canal);
     }
+
     public Optional<HexPlot> findAnAvailableIrrigationSource(IrrigationStock irrigationStock){
         Set<HexPlot> validsSource = new HashSet<>();
         Set<HexPlot> Sources = irrigationStock.getAllHexplotFrom();
@@ -349,6 +344,7 @@ public class Player {
         return Optional.empty();
 
     }
+
     public Optional<HexPlot> findAnAvailableIrrigationDest(Board bd, HexPlot hex){
         Set<HexPlot> valids = hex.plotNeighbor();
         valids.remove(new HexPlot());
@@ -371,6 +367,7 @@ public class Player {
         }
         return Optional.empty();
     }
+
     public int countObjectifPanda(){
         int result =0;
         for (Objective obj:objectiveAchieved) {
