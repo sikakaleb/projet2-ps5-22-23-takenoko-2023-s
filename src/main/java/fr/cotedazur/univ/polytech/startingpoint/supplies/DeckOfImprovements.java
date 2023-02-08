@@ -28,7 +28,7 @@ public class DeckOfImprovements extends ArrayList<PlotImprovement> {
 
     public PlotImprovement pick(){
         if(this.isEmpty()){
-            Display.printMessage("Il y a plus d'aménagements dans la liste");
+            Display.printMessage("Il y a plus d'amenagements dans la liste");
             return null;
         }
         int rnd = new Random().nextInt(this.size());

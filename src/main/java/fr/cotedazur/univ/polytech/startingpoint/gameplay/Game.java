@@ -109,7 +109,7 @@ public class Game {
         playerActions[1] = twoActions[1];
 
         Dice.Condition weather = dice.roll();
-        Display.printMessage("Le dé météo tombe sur "+weather);
+        Display.printMessage("Le de meteo tombe sur "+weather);
         actOnWeather(weather, player);
 
         Display.printMessage(player.getName()+" choisit les actions : "+playerActions[0]+" & "+playerActions[1]);
@@ -137,7 +137,7 @@ public class Game {
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
         Display.printMessage(player.getName()+" ne peut plus choisir d'objectif");
-        Display.printMessage(player.getName()+" a 5 objectif non validé et est prié de les validé");
+        Display.printMessage(player.getName()+" a 5 objectif non valide et est prie de les valider");
         Display.printMessage( player.getUnMetObjectives().toString());
         return false;
     }

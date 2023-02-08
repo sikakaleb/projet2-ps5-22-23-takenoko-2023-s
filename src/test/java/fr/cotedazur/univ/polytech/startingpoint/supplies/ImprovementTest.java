@@ -51,7 +51,7 @@ public class ImprovementTest {
             deck.pick();
         }
         catch (IndexOutOfBoundsException e) {
-            assertEquals(e.getMessage(), "Il y a plus d'aménagements dans la liste");
+            assertEquals(e.getMessage(), "Il y a plus d'amenagements dans la liste");
         }
     }
 }

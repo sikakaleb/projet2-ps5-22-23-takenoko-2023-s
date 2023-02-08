@@ -2,10 +2,13 @@ package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import fr.cotedazur.univ.polytech.startingpoint.data.BotStat;
+import fr.cotedazur.univ.polytech.startingpoint.data.BotStatistics;
 import fr.cotedazur.univ.polytech.startingpoint.data.PlayerData;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.Emperor;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -19,7 +22,7 @@ public class Main {
     @Parameter(names = { "--2thousands" }, description = "2 x 1000 parties")
     private static boolean twothousand;
 
-    @Parameter(names = "--demo", description = "Mode démo d’un seule partie avec log complet")
+    @Parameter(names = "--demo", description = "Mode demo d’un seule partie avec log complet")
     private static boolean demo;
 
     @Parameter(names = "--csv", description = "Simulation à plusieurs parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques")
@@ -66,7 +69,6 @@ public class Main {
                 .build()
                 .parse(argv);
 
-        demo = true; //for test
         if (demo) {
             Display.setUp(Level.INFO);
             main.runGame();
@@ -89,6 +91,23 @@ public class Main {
             Display.printGameStats(game.playerList, gameStats);
         }
 
+        else if(csv){
+            Display.setUp(Level.SEVERE);
+            Display.printMessage("Simulation de " + ITERATIONS +" parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques", Level.SEVERE);
+            ties = 0;
+            gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
+            IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
+            Display.printGameStats(game.playerList, gameStats);
+            List<BotStat> botStats = Arrays.asList(
+                    new BotStat(p1, ITERATIONS, gameStats.get(p1).getWins(), gameStats.get(p1).getLosses()),
+                    new BotStat(p2, ITERATIONS, gameStats.get(p2).getWins(), gameStats.get(p2).getLosses())
+            );
+            List<BotStat> existingStats = BotStatistics.readFromFile();
+            Display.printMessage(String.valueOf(existingStats.size()), Level.SEVERE);
+            existingStats.addAll(botStats);
+            BotStatistics.writeToFile(existingStats);
+        }
+
     }
 
     public void runGame(){
@@ -105,7 +124,7 @@ public class Main {
                 Display.printMessage("");
 
                 if (p.getObjectiveAchieved().size() == nbObjectivesToWin) {
-                    Display.printMessage( "Dernier tour ! "+p.getName()+" a validé "+nbObjectivesToWin+" objectifs.");
+                    Display.printMessage( "Dernier tour ! "+p.getName()+" a valide "+nbObjectivesToWin+" objectifs.");
                     p.pickEmperor();
                     lastRound = true;
                 }
@@ -127,7 +146,7 @@ public class Main {
             //Display.printMessage("Le jeu se termine au bout de "+nbRound+" tours.");
 
         Player winner = emperor.judgement();
-        if (twothousand) {
+        if (twothousand || csv) {
             if (winner != null) {
                 gameStats.get(winner).win();
             } else {

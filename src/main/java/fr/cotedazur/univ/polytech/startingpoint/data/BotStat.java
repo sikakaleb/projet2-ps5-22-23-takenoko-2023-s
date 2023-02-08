@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.data;
 
 
-import fr.cotedazur.univ.polytech.startingpoint.Player;
+import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 
 import java.util.Objects;
 
