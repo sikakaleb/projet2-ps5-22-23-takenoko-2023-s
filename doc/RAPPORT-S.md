@@ -33,8 +33,9 @@ Au debut du jeu, des bots (2, 3 ou 4) sont créés pour jouer selon une stratég
 ## 2. Architecture et qualité
 
 ### 2.1. Architecture
-
 Concernant l'architecture de notre projet, nous avons opté pour un système des Milestones et des issues. Chaque petite fonctionnalité répond à un besoin particulier et est utilisé pour créer des nouvelles fonctionnalités plus grande, pour permettre de réaliser l'application.
+
+![[startingpoint.png]]
 
 Les classes sont rangées dans des packages dont le titre résume leur fonctionnalité.
 
