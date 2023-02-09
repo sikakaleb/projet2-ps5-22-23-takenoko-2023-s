@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.PINK;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.DIRECTSAMEPLOTS;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.INDIRECTSAMEPLOTS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EvalObjectiveBotTest {
 

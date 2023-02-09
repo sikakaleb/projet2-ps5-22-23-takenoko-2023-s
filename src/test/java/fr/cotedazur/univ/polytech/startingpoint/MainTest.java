@@ -1,11 +1,10 @@
-package fr.cotedazur.univ.polytech.startingpoint.supplies;
+package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Main;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_PLOT;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -14,7 +14,7 @@ import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBoard;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
@@ -185,7 +185,7 @@ public class Player {
     /**
      * Détection des objectifs :
      */
-    public Boolean detectPlotObjective(){
+    public PlotObjective detectPlotObjective(){
         PlotObjectiveDetector detector = new PlotObjectiveDetector(getBoard());
 
 
@@ -375,7 +375,7 @@ public class Player {
     public int countObjectifPanda(){
         int result =0;
         for (Objective obj:objectiveAchieved) {
-            if(obj instanceof PandaObjective) result++;
+            if(obj instanceof PandaObjective pandaObjective) result++;
         }
         return result;
     }
@@ -400,4 +400,6 @@ public class Player {
     public void setEatenBamboos(EatenBamboos eatenBamboos) {
         this.eatenBamboos = eatenBamboos;
     }
+
+
 }
