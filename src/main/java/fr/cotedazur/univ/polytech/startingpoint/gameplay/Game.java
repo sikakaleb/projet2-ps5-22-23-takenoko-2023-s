@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
-import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Action;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
@@ -12,7 +11,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -162,7 +161,7 @@ public class Game {
     public Boolean choiceObjective(Player player){
         if(!listOfObjectives.isEmpty() && player.getUnMetObjectives().size()<5){
             int randNumber = rand.nextInt(listOfObjectives.size());
-            player.addNewObjective((Objective) listOfObjectives.get(randNumber));
+            player.addNewObjective(listOfObjectives.get(randNumber));
             listOfObjectives.remove(randNumber);
             return true;
         }
@@ -197,9 +196,8 @@ public class Game {
 
     public HexPlot findPlotForObjective(Player player){
         Set<HexPlot> validPlotsSet = new HashSet<>();
-        board.forEach(hexPlot -> {
-            validPlotsSet.addAll(board.findAvailableNeighbors(hexPlot));
-        });
+        board.forEach(hexPlot ->
+            validPlotsSet.addAll(board.findAvailableNeighbors(hexPlot)));
         for (HexPlot plot : validPlotsSet) {
             Board clone = (Board) board.clone();
             clone.add(plot);

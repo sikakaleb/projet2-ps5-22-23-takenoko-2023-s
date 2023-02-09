@@ -10,6 +10,7 @@
     <name>Takenoko-2023-S</name> <!-- CHANGE ME -->
 
     <properties>
+        <sonar.login>sqa_f0fd3171279c86a9d912bcc7e13ccb67677fd0ce</sonar.login>
         <project.build.sourceEncoding>UTF-8
         </project.build.sourceEncoding> <!-- CHANGE ME IF NEEDED, other : ISO-8859-1 -->
         <java.version>17</java.version>

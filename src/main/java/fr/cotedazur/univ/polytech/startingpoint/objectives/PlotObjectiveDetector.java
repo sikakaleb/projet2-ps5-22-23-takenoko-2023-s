@@ -174,9 +174,9 @@ public class PlotObjectiveDetector {
     public Set<Integer> checkSetSuitConf(Map<String ,Map<Integer,Integer>> listPlotsData ){
         Set<Integer> answerset=new HashSet<>();
         for (String stringKey: listPlotsData.keySet()) {
-            if(sSuite(listPlotsData.get(stringKey).keySet(),1)
+            if(Boolean.TRUE.equals(sSuite(listPlotsData.get(stringKey).keySet(),1)
                     ||sSuite(listPlotsData.get(stringKey).keySet(),2)
-                    ||sSuite(listPlotsData.get(stringKey).keySet(),3)){
+                    ||sSuite(listPlotsData.get(stringKey).keySet(),3))){
                 answerset.add(listPlotsData.get(stringKey).size());
             }else
                 answerset.add(-1);
@@ -276,7 +276,7 @@ public class PlotObjectiveDetector {
     public Boolean findDirectSamePlots(Color color){
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isDirectSamePlots(hexPlotList)&& allColorInHexPlotList(hexPlotList).contains(color)) {
+            if(Boolean.TRUE.equals(isDirectSamePlots(hexPlotList)&& allColorInHexPlotList(hexPlotList).contains(color))) {
                 return true;
             }
         }
@@ -287,7 +287,7 @@ public class PlotObjectiveDetector {
     public boolean findInDirectSamePlots(Color color) {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(3);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isIndirectSamePlots(hexPlotList) && allColorInHexPlotList(hexPlotList).contains(color)) {
+            if(Boolean.TRUE.equals(isIndirectSamePlots(hexPlotList) && allColorInHexPlotList(hexPlotList).contains(color)) ){
                 return true;
             }
         }
@@ -298,7 +298,7 @@ public class PlotObjectiveDetector {
     public boolean findQuadrilateralSamePlots(Color color) {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isQuadrilateralSamePlots(hexPlotList)&& allColorInHexPlotList(hexPlotList).contains(color)) {
+            if(Boolean.TRUE.equals(isQuadrilateralSamePlots(hexPlotList)&& allColorInHexPlotList(hexPlotList).contains(color)) ){
                 return true;
             }
         }

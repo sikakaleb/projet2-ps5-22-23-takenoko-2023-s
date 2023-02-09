@@ -141,7 +141,7 @@ class PlayerTest {
     }
 
     @Test
-    public void detectPandaObjectiveTWO_YELLOW() {
+    void detectPandaObjectiveTWO_YELLOW() {
         assertEquals(player1.getEatenBamboos().size(), 0);
         player1.addNewObjective(new PandaObjective(4, TWO_YELLOW, new Color[]{YELLOW}));
         player1.getEatenBamboos().add(new Bamboo(GREEN));
@@ -155,7 +155,7 @@ class PlayerTest {
     }
 
     @Test
-    public void detectPandaObjectiveTWO_GREEN() {
+    void detectPandaObjectiveTWO_GREEN() {
         assertEquals(player1.getEatenBamboos().size(), 0);
         player1.addNewObjective(twoGreen);
         player1.getEatenBamboos().add(new Bamboo(GREEN));
@@ -169,7 +169,7 @@ class PlayerTest {
     }
 
     @Test
-    public void detectPandaObjectiveTWO_PINK() {
+    void detectPandaObjectiveTWO_PINK() {
         assertEquals(player1.getEatenBamboos().size(), 0);
         player1.addNewObjective(twoPink);
         player1.getEatenBamboos().add(new Bamboo(GREEN));
@@ -183,7 +183,7 @@ class PlayerTest {
     }
 
     @Test
-    public void detectPandaObjectiveTHREE_GREEN() {
+    void detectPandaObjectiveTHREE_GREEN() {
         player1.addNewObjective(new PandaObjective(4, THREE_GREEN, new Color[]{GREEN}));
         assertEquals(player1.getEatenBamboos().size(), 0);
         player1.getEatenBamboos().add(new Bamboo(GREEN));
@@ -197,7 +197,7 @@ class PlayerTest {
     }
 
     @Test
-    public void detectPandaObjectiveONE_OF_EACH() {
+    void detectPandaObjectiveONE_OF_EACH() {
         player1.addNewObjective(new PandaObjective(6, ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
         assertEquals(player1.getEatenBamboos().size(), 0);
         player1.getEatenBamboos().add(new Bamboo(GREEN));

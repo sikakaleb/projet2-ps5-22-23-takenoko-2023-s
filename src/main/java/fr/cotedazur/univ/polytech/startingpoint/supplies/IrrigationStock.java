@@ -50,8 +50,9 @@ public class IrrigationStock  {
                 if(irrigationCanal.getAvailable()==true){
                     Optional<HexPlot> source = irrigationCanal.getSourcePlot();
                     Optional<HexPlot> dest = irrigationCanal.getDestPlot();
+                    if(source.isPresent()&&dest.isPresent()){
                     result.add(source.get());
-                    result.add(dest.get());
+                    result.add(dest.get());}
                 }
             });
         }

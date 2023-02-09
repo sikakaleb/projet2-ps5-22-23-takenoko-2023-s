@@ -250,7 +250,7 @@ public class Player {
                             getBambooStock().addOneOfEach();
                             break;
                     }
-                    Display.printMessage(name + " a detecté un " + config + " \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name + " a detecté un " + config + " .");
                     return pandaobjective;
                 }
             }
@@ -283,7 +283,7 @@ public class Player {
                     eatenBamboos.addMultiple(12, GREEN);
                     found.forEach( hexPlot -> hexPlot.setBamboos(new ArrayList<>(4)));
                 }
-                Display.printMessage(name+" a detecté un "+config+" \uD83D\uDC4F\uD83D\uDC4F ");
+                Display.printMessage(name+" a  detecté un "+config+" .");
                 return gardenerObjective;
             }
 
@@ -293,13 +293,13 @@ public class Player {
 
     public Boolean detectObjective(){
 
-        List<Objective> detectedObjectives = Arrays.asList(new Objective[]{detectPlotObjective(), detectPandaObjective(), detectGardenerObjective()});
+        List<Objective> detectedObjectives = Arrays.asList(detectPlotObjective(), detectPandaObjective(), detectGardenerObjective());
         for (Objective obj : detectedObjectives){
             if (obj != null) {
                 validateUnMetObjectives(obj);
             }
         }
-        if (detectedObjectives.stream().anyMatch(objective -> objective != null)){
+        if (detectedObjectives.stream().anyMatch(Objects::nonNull)){
             return true;
         }
         else {
@@ -375,7 +375,7 @@ public class Player {
     public int countObjectifPanda(){
         int result =0;
         for (Objective obj:objectiveAchieved) {
-            if(obj instanceof PandaObjective pandaObjective) result++;
+            if(obj instanceof PandaObjective) result++;
         }
         return result;
     }

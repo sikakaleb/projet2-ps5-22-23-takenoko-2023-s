@@ -144,7 +144,7 @@ public class HexPlot {
 
     public PlotImprovement getImprovement() { return improvement; }
 
-    public Boolean haveImprovement(){ return (improvement==null)?false:true;}
+    public Boolean haveImprovement(){ return improvement != null; }
 
     /** Les methodes particulieres de la classe **/
 
@@ -184,7 +184,6 @@ public class HexPlot {
      */
     public Boolean isAdjacentWithAnotherOnSameColor(List<HexPlot> list){
         for (HexPlot hex:list) {
-            HexPlot tempHex= hex;
            if(getColor()==hex.getColor()) {
                for (HexPlot hexPlot:plotNeighbor()) {
                    if(hexPlot.getQ()==hex.getQ()

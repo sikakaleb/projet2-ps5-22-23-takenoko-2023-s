@@ -261,6 +261,9 @@ class GameTest {
         assertEquals(player1.getCanalList().size(), 1);
         assertEquals(player1.returnAnIrrigation(), canal);
         getIrrigationStock().primordialCanal(game.getBoard());
+        HexPlot hex7 = new HexPlot(1, -1, 0, YELLOW);
+        hex7.getBamboos().add(new Bamboo(YELLOW));
+        game.getBoard().add(hex7);
         assertTrue(player1.findAnAvailableIrrigationSource(canStock).isPresent());
 
     }
