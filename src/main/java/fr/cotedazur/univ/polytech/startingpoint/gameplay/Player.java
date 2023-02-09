@@ -264,6 +264,12 @@ public class Player {
                     found.setBamboos(new ArrayList<>(4));
                 }
 
+                if(config==FOUR_AND_POOL && detector.findFourAndPool()!=null) {
+                    HexPlot found = detector.findFourAndPool();
+                    eatenBamboos.addMultiple(4, found.getColor());
+                    found.setBamboos(new ArrayList<>(4));
+                }
+
                 else if(config==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null) {
                     HexPlot found = detector.findFourNoImprovement();
                     eatenBamboos.addMultiple(4, found.getColor());

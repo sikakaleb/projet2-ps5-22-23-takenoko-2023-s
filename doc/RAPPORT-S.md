@@ -33,7 +33,7 @@ Le fichier gamestats.csv enregistre pour chaque jouer, son nom, le nombre de par
 ### 2.1. Architecture
 Concernant l'architecture de notre projet, nous avons opté pour un système des Milestones et des issues. Chaque petite fonctionnalité répond à un besoin particulier et est utilisé pour créer des nouvelles fonctionnalités plus grande, pour permettre de réaliser l'application.
 
-![[startingpoint.png]]
+![diagrammes_de_classe](startingpoint.png)
 
 Les classes sont rangées dans des packages dont le titre résume leur fonctionnalité.
 

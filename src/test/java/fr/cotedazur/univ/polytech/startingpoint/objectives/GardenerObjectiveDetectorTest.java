@@ -12,6 +12,7 @@ import java.util.stream.IntStream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -44,6 +45,18 @@ public class GardenerObjectiveDetectorTest {
         hex4.setBamboos(bamboos);
         game.board.add(hex4);
         assertNotNull(detector.findFourAndFertilizer());
+    }
+
+    @Test
+    public void findFourAndPool(){
+        assertNull(detector.findFourAndPool());
+        HexPlot hex4= new HexPlot(-1,0,1,GREEN);
+        hex4.setImprovement(POOL);
+        ArrayList<Bamboo> bamboos = new ArrayList<>();
+        IntStream.range(0, 4).forEach(i -> bamboos.add(new Bamboo(GREEN)));
+        hex4.setBamboos(bamboos);
+        game.board.add(hex4);
+        assertNotNull(detector.findFourAndPool());
     }
 
     @Test
