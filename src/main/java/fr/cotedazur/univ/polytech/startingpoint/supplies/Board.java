@@ -3,9 +3,10 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
+import java.security.SecureRandom;
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.panda;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getPanda;
 
 /**
  * @clas Board
@@ -18,8 +19,12 @@ public class Board extends ArrayList<HexPlot> {
      * @constructor
      * Created a board with a single HexPlot, the pond
      */
+    private SecureRandom rand;
     public Board(){
         this.add(new HexPlot());
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
 
     public HexPlot getPond(){
@@ -104,7 +109,6 @@ public class Board extends ArrayList<HexPlot> {
             validPlotsSet.addAll(findAvailableNeighbors(hexPlot));
         });
         HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
-        Random rand = new Random();
         int randNumber = rand.nextInt(validPlotsSet.size());
         hex.setQ(arrayPlots[randNumber].getQ());
         hex.setR(arrayPlots[randNumber].getR());
@@ -117,7 +121,7 @@ public class Board extends ArrayList<HexPlot> {
 
     public List<HexPlot> getNewPositionPossibilities(){
         List<HexPlot> linearHex = new ArrayList<>();
-        HexPlot currentPosition= panda.getPosition();
+        HexPlot currentPosition= getPanda().getPosition();
         this.forEach(hexPlot -> {
             if((hexPlot.getQ()==currentPosition.getQ()||hexPlot.getR()== currentPosition.getR()
                     ||hexPlot.getS()==currentPosition.getS())&&
@@ -149,15 +153,15 @@ public class Board extends ArrayList<HexPlot> {
     public HexPlot choosePlotForImprovement(){
 
         ArrayList<HexPlot> forImprovement = (ArrayList<HexPlot>) this.clone();
-        forImprovement.removeIf( hexPlot ->
-                        hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
+        forImprovement.removeIf( hexPlot ->Objects.isNull(hexPlot.getBamboos())||
+                (hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty())
         );
         if(forImprovement.isEmpty()){
             Display.printMessage("Aucune parcelle aménageable");
             return null;
         }
 
-        int rnd = new Random().nextInt(forImprovement.size());
+        int rnd = rand.nextInt(forImprovement.size());
         HexPlot randomPlot = forImprovement.get(rnd);
 
         return randomPlot;
@@ -170,15 +174,15 @@ public class Board extends ArrayList<HexPlot> {
     public HexPlot choosePlotForBamboo(){
 
         ArrayList<HexPlot> forBamboo = (ArrayList<HexPlot>) this.clone();
-        forBamboo.removeIf( hexPlot ->
-                        !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
+        forBamboo.removeIf( hexPlot ->Objects.isNull(hexPlot.getBamboos())||
+                        !hexPlot.isIrrigated() || (hexPlot.getBamboos().size()==4)
         );
         if(forBamboo.isEmpty()){
             Display.printMessage("Aucune parcelle sur laquelle placer un bambou");
             return null;
         }
 
-        int rnd = new Random().nextInt(forBamboo.size());
+        int rnd = rand.nextInt(forBamboo.size());
         HexPlot randomPlot = forBamboo.get(rnd);
 
         return randomPlot;

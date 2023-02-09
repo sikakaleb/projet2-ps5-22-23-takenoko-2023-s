@@ -7,8 +7,9 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection;
 
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.bambooStock;
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.deckOfImprovements;
+
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBambooStock;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getDeckOfImprovements;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.POOL;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.VectorDirection.*;
@@ -133,7 +134,7 @@ public class HexPlot {
 
         else {
             this.improvement = plotImprovement;
-            deckOfImprovements.remove(plotImprovement);
+            getDeckOfImprovements().remove(plotImprovement);
 
             if (this.improvement == POOL) {
                 irrigated = true;
@@ -143,6 +144,8 @@ public class HexPlot {
     }
 
     public PlotImprovement getImprovement() { return improvement; }
+
+    public Boolean haveImprovement(){ return (improvement==null)?false:true;}
 
     /** Les methodes particulieres de la classe **/
 
@@ -156,6 +159,11 @@ public class HexPlot {
 
     public HexPlot plotAdd(VectorDirection vec){
         return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR());
+    }
+    public boolean checkGetBamboo(){
+        if(getBamboos()==null) return false;
+        if(getBamboos().isEmpty()) return false;
+        return true;
     }
 
     /**
@@ -247,24 +255,25 @@ public class HexPlot {
      */
 
     public void addBamboo(){
-        if (this.isPond())
+        if (Objects.isNull(bamboos))
+            Display.printMessage("On ne pose pas un bamboo sur la parcelle Etang");
+         else if (this.isPond())
             Display.printMessage("On ne pose pas un bamboo sur la parcelle Etang");
 
-        else if (!irrigated)
+        else if (!this.isPond()&&!irrigated)
             Display.printMessage("On ne pose pas un bambou sur une parcelle non irriguée");
 
-        else if (bamboos.size() == 4)
+        else if ( bamboos.size() == 4)
             Display.printMessage("Il y a trop de bambous sur cette parcelle");
-
         else {
             bamboos.add(new Bamboo(getColor()));
-            bambooStock.remove(bambooStock.getByColor(getColor()));
+            getBambooStock().remove(getBambooStock().getByColor(getColor()));
             Display.printMessage("Un bambou "+getColor()+" pousse sur la parcelle "+this);
 
 
             if (this.getImprovement() == FERTILIZER && this.getBamboos().size() < 4){
                 bamboos.add(new Bamboo(getColor()));
-                bambooStock.remove(bambooStock.getByColor(getColor()));
+                getBambooStock().remove(getBambooStock().getByColor(getColor()));
                 Display.printMessage(this+" possede un amenagement ENGRAIS, un deuxième bambou "+getColor()+" pousse sur la parcelle");
 
             }

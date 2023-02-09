@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import fr.cotedazur.univ.polytech.startingpoint.supplies.Bamboo;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 
 import java.util.ArrayList;
@@ -82,7 +81,7 @@ public class EatenBamboos extends ArrayList<Bamboo> {
      * Remove 3 bamboos from player's plate, one of each color
      */
     public void removeOneOfEach() {
-        if(this.count(YELLOW)>=1 && this.count(GREEN)>=1 && this.count(YELLOW)>=1) {
+        if(this.count(YELLOW)>=1 && this.count(GREEN)>=1 && this.count(PINK)>=1) {
             this.remove(YELLOW);
             this.remove(GREEN);
             this.remove(PINK);

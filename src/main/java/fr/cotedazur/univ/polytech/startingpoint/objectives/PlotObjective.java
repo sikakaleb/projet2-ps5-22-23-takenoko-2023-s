@@ -12,7 +12,7 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.BLANK;
  * */
 public class PlotObjective extends Objective{
     /**Attribut de la classe**/
-    public static int  NumberOfPlotObjective = 0;
+    private static int  numberOfPlotObjective = 0;
     private int plotObjectiveId;
     private PlotObjectiveConfiguration configuration;
 
@@ -22,14 +22,14 @@ public class PlotObjective extends Objective{
     public PlotObjective(int numberOfPoints,PlotObjectiveConfiguration configuration) {
         super(numberOfPoints);
         this.configuration=configuration;
-        plotObjectiveId=++NumberOfPlotObjective;
+        plotObjectiveId=++numberOfPlotObjective;
         this.color= BLANK;
     }
 
     public PlotObjective(int numberOfPoints, PlotObjectiveConfiguration configuration, Color color) {
         super(numberOfPoints);
         this.configuration=configuration;
-        plotObjectiveId=++NumberOfPlotObjective;
+        plotObjectiveId=++numberOfPlotObjective;
         this.color=color;
     }
 

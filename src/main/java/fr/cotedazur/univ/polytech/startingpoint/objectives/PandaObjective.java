@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Traite les Objectifs de Panda
  * */
 public class PandaObjective extends Objective{
-    public static int  NumberOfPandaObjective = 0;
+    private static int numberOfPandaObjective = 0;
     private int pandaObjectiveId;
     private PandaObjectiveConfiguration configuration;
     private Color[] colors;
@@ -25,7 +25,7 @@ public class PandaObjective extends Objective{
     public PandaObjective(int numberOfPoints, PandaObjectiveConfiguration configuration, Color[] colors) {
         super(numberOfPoints);
         this.configuration=configuration;
-        pandaObjectiveId=++NumberOfPandaObjective;
+        pandaObjectiveId=++numberOfPandaObjective;
         this.colors=colors;
     }
 

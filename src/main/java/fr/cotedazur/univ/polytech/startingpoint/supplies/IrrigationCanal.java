@@ -41,9 +41,12 @@ public class IrrigationCanal {
     }
 
     public void setDestPlot(Optional<HexPlot> destPlot) {
-        HexPlot dest = destPlot.get();
-        dest.setIrrigatedToTrue();
-        DestPlot = destPlot;
+        if(destPlot.isPresent()){
+            HexPlot dest = destPlot.get();
+            dest.setIrrigatedToTrue();
+            DestPlot = destPlot;
+        }
+        return;
     }
 
     public Boolean getAvailable() {
@@ -87,18 +90,25 @@ public class IrrigationCanal {
     }
 
     public Boolean canbeIntheSameNetwork(IrrigationCanal dest){
-            HexPlot thisdst= getDestPlot().get();
-            HexPlot thissrc= getSourcePlot().get();
-            HexPlot thatdst= dest.getDestPlot().get();
-            HexPlot thatsrc= dest.getSourcePlot().get();
+        HexPlot    thisdst= getDestPlot().orElse(null);
+        HexPlot    thissrc= getSourcePlot().orElse(null);
+        HexPlot   thatdst= dest.getDestPlot().orElse(null);
+        HexPlot   thatsrc= dest.getSourcePlot().orElse(null);
 
-            Boolean result = thissrc.equals(thatsrc) && thisdst.isAneighbor(thatdst)
-                    ||
-                    thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst);
-            if(result){
-                Display.printMessage(" on peut relier le canal"+getSourcePlot().get()+" <-------> "+getDestPlot() +" a : "
-                        +dest.getSourcePlot().get()+" <-------> "+dest.getDestPlot());
+        Boolean result = false;;
+        if (thatdst != null && thisdst != null && thatsrc != null && thissrc != null) {
+            if (thissrc.equals(thatsrc) && thisdst.isAneighbor(thatdst)) {
+                result = true;
+            } else if (thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst)) {
+                result = true;
+            } else {
+                result = false;
             }
+        }
+         if(result){
+                Display.printMessage(" on peut relier le canal"+thissrc+" <-------> "+thisdst +" a : "
+                        +thatsrc+" <-------> "+thatdst);
+         }
             return result;
     }
 }

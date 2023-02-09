@@ -50,15 +50,18 @@ public class Main {
     * JeReflechis() utilisé pour marquer un temps de pause
     * la transition entre les tours de jeu de chaque joueurs
     */
-    public static void  jeReflechis() {
+    public static void jeReflechis() {
         try {
             for (int i = 0; i < 6; i++) {
                 Thread.sleep(6);
             }
-        }catch(Exception e) {
-            Display.printMessage( String.valueOf(e));
+        } catch (InterruptedException e) {
+            Display.printMessage("Erreur d'interruption : " + e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
+
+
 
     /*
      * Main dans lequel se trouve une similation du jeu entre 2 joueurs
@@ -84,14 +87,14 @@ public class Main {
             ties = 0;
             gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
             IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
-            Display.printGameStats(game.playerList, gameStats);
+            Display.printGameStats(game.getPlayerList(), gameStats);
 
             Display.printMessage("\nSimulation de "+ITERATIONS+" parties de votre meilleur bot contre lui-même", Level.SEVERE);
             p2.setStrategy(PANDASTRATEGY);
             ties = 0;
             gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
             IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
-            Display.printGameStats(game.playerList, gameStats);
+            Display.printGameStats(game.getPlayerList(), gameStats);
         }
 
         else if(csv){
@@ -99,8 +102,11 @@ public class Main {
             Display.printMessage("Simulation de " + ITERATIONS +" parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques", Level.SEVERE);
             ties = 0;
             gameStats = Map.of(p1, new PlayerData(), p2, new PlayerData());
-            IntStream.range(0, ITERATIONS).forEach(i -> main.runGame());
-            Display.printGameStats(game.playerList, gameStats);
+            IntStream.range(0, ITERATIONS).forEach(i -> {
+                Main newMain = new Main();
+                newMain.runGame();
+            });
+            Display.printGameStats(game.getPlayerList(), gameStats);
             List<BotStat> botStats = Arrays.asList(
                     new BotStat(p1, ITERATIONS, gameStats.get(p1).getWins(), gameStats.get(p1).getLosses()),
                     new BotStat(p2, ITERATIONS, gameStats.get(p2).getWins(), gameStats.get(p2).getLosses())
@@ -140,7 +146,9 @@ public class Main {
                     System.out.println(p.getStrategy().getActions());
                     p.getStrategy().add(MOVE_GARDENER);
                     p.getStrategy().add(MOVE_PANDA);
+                    System.out.println(p.getStrategy().getActions());
                 }
+                System.out.println(p.getStrategy().getActions());
 
             }
             nbRound++;

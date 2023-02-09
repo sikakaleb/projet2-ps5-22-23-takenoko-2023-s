@@ -31,7 +31,7 @@ public class GardenerObjectiveDetectorTest {
         ArrayList<Bamboo> bamboos = new ArrayList<>();
         IntStream.range(0, 4).forEach(i -> bamboos.add(new Bamboo(GREEN)));
         hex1.setBamboos(bamboos);
-        game.board.add(hex1);
+        game.getBoard().add(hex1);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class GardenerObjectiveDetectorTest {
         ArrayList<Bamboo> bamboos = new ArrayList<>();
         IntStream.range(0, 4).forEach(i -> bamboos.add(new Bamboo(GREEN)));
         hex4.setBamboos(bamboos);
-        game.board.add(hex4);
+        game.getBoard().add(hex4);
         assertNotNull(detector.findFourAndFertilizer());
     }
 
@@ -61,9 +61,9 @@ public class GardenerObjectiveDetectorTest {
                 hex3 = new HexPlot(0,-2,2,GREEN),
                 hex4 = new HexPlot(-1,0,1,GREEN);
 
-        game.board.add(hex2);
-        game.board.add(hex3);
-        game.board.add(hex4);
+        game.getBoard().add(hex2);
+        game.getBoard().add(hex3);
+        game.getBoard().add(hex4);
 
         hex1.setBamboos(bamboos);
         hex2.setBamboos(bamboos);

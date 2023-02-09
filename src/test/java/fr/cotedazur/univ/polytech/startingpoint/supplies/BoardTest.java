@@ -32,19 +32,19 @@ public class BoardTest {
         hex5.getBamboos().add(new Bamboo(YELLOW));
         HexPlot hex6= new HexPlot(0,+3,-3,PINK);
         hex6.getBamboos().add(new Bamboo(PINK));
-        game.board.add(hex1);
-        game.board.add(hex2);
-        game.board.add(hex3);
-        game.board.add(hex4);
-        game.board.add(hex5);
-        game.board.add(hex6);
+        game.getBoard().add(hex1);
+        game.getBoard().add(hex2);
+        game.getBoard().add(hex3);
+        game.getBoard().add(hex4);
+        game.getBoard().add(hex5);
+        game.getBoard().add(hex6);;
     }
 
     @Test
     void getLastHexPlotTest(){
         HexPlot hex = new HexPlot(0,1,1,GREEN);
-        game.board.add(hex);
-        assertEquals(hex,game.board.getLastHexPlot());
+        game.getBoard().add(hex);
+        assertEquals(hex,game.getBoard().getLastHexPlot());
     }
 
     @Test
@@ -102,23 +102,23 @@ public class BoardTest {
 
     @Test
     void getNewPositionPossibilitiesTest() {
-        assertEquals(game.board.getNewPositionPossibilities().size(),6);
+        assertEquals(game.getBoard().getNewPositionPossibilities().size(),6);
     }
 
     @Test
     public void choosePlotForImprovementTest(){
-        assertEquals(game.board.size(),7);
-        game.board.getLastHexPlot().getBamboos().clear();
+        assertEquals(game.getBoard().size(),7);
+        game.getBoard().getLastHexPlot().getBamboos().clear();
 
-        HexPlot plot = game.board.choosePlotForImprovement();
-        assertEquals(game.board.size(),7);
-        assertTrue(game.board.contains(plot));
+        HexPlot plot = game.getBoard().choosePlotForImprovement();
+        assertEquals(game.getBoard().size(),7);
+        assertTrue(game.getBoard().contains(plot));
         assertFalse(plot.isPond());
         assertNull(plot.getImprovement());
         assertTrue(plot.getBamboos().isEmpty());
 
-        game.board.removeIf(hexPlot -> !hexPlot.isPond());
-        assertEquals(game.board.size(), 1);
+        game.getBoard().removeIf(hexPlot -> !hexPlot.isPond());
+        assertEquals(game.getBoard().size(), 1);
 
         Board emptyBoard = new Board();
         assertEquals(emptyBoard.choosePlotForImprovement(), null);

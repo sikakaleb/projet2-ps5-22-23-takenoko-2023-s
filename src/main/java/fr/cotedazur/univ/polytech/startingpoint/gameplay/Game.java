@@ -6,6 +6,7 @@ import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Action;
 import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -15,18 +16,21 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEG
 
 public class Game {
     /**Attribut de la classe Game**/
-    public static Board board;
-    public static IrrigationStock irrigationStock;
-    public static DeckOfPlots deckOfPlots;
-    public static BambooStock bambooStock;
-    public static DeckOfObjectifs listOfObjectives;
-    public static DeckOfImprovements deckOfImprovements;
-    public static Panda panda;
-    public static Gardener gardener;
-    public List<Player> playerList;
-    public static Map<Action.GameAction, Consumer<Player>> actions;
-    public Action.GameAction[] playerActions;
-    public Dice dice;
+    private static Board board;
+    private static IrrigationStock irrigationStock;
+    private static DeckOfPlots deckOfPlots;
+    private static BambooStock bambooStock;
+
+    private static DeckOfObjectifs listOfObjectives;
+    private static DeckOfImprovements deckOfImprovements;
+    private static Panda panda;
+    private static Gardener gardener;
+    private List<Player> playerList;
+    private static Map<Action.GameAction, Consumer<Player>> actions;
+    private Action.GameAction[] playerActions;
+    private Dice dice;
+
+    private SecureRandom rand;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
@@ -52,6 +56,9 @@ public class Game {
                 //PICK_IRRIGATION, this::choiceAnIrrigation,
                 PLACE_IRRIGATION, this::placeAnIrrigation
         );
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
 
     /**InitPlayer ajoute les joueurs au jeu*/
@@ -61,9 +68,40 @@ public class Game {
     }
 
     /**Acesseur et mutateur de la classe Game**/
+    public static BambooStock getBambooStock() {
+        return bambooStock;
+    }
+
+    public static DeckOfObjectifs getListOfObjectives() {
+        return listOfObjectives;
+    }
+
+    public static DeckOfImprovements getDeckOfImprovements() {
+        return deckOfImprovements;
+    }
+
+    public static Panda getPanda() {
+        return panda;
+    }
+
+    public static Gardener getGardener() {
+        return gardener;
+    }
+
+    public static Map<Action.GameAction, Consumer<Player>> getActions() {
+        return actions;
+    }
+
+    public Action.GameAction[] getPlayerActions() {
+        return playerActions;
+    }
+
+    public Dice getDice() {
+        return dice;
+    }
 
 
-    public List<Objective> getObjective() {
+    public static List<Objective> getObjective() {
         return listOfObjectives;
     }
 
@@ -75,7 +113,7 @@ public class Game {
         return playerList;
     }
 
-    public List<HexPlot> getDeckOfPlots() {
+    public static List<HexPlot> getDeckOfPlots() {
         return deckOfPlots;
     }
     /*Methodes particulieres de la classe*/
@@ -92,10 +130,10 @@ public class Game {
 
     public Boolean play(Player player){
 
-        if (deckOfPlots.size()==0){
+        if (deckOfPlots.isEmpty()){
             player.getStrategy().noMorePlots();
         }
-        if (listOfObjectives.size()==0){
+        if (listOfObjectives.isEmpty()){
             player.getStrategy().noMoreObjectives();
         }
 
@@ -127,13 +165,12 @@ public class Game {
      */
     public Boolean choiceObjective(Player player){
         if(listOfObjectives.size()>0 && player.getUnMetObjectives().size()<5){
-            Random rand = new Random();
             int randNumber = rand.nextInt(listOfObjectives.size());
             player.addNewObjective((Objective) listOfObjectives.get(randNumber));
             listOfObjectives.remove(randNumber);
             return true;
         }
-        else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
+        else if(listOfObjectives.isEmpty() && player.getUnMetObjectives().isEmpty()){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
         Display.printMessage(player.getName()+" ne peut plus choisir d'objectif");
@@ -157,7 +194,7 @@ public class Game {
             Display.printMessage(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
             Display.printMessage("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
-        }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
+        }else if(deckOfPlots.isEmpty()  && player.getUnMetObjectives().isEmpty()){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
         }
         return false;
@@ -202,21 +239,24 @@ public class Game {
         if ((dst.isEmpty())){
             exist--;
         }
-        if(exist==2 && irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
-            Display.printMessage( String.valueOf(canal.get()));
-        }else{
-            p.addAnIrrigation(canal.get());
-            Display.printMessage("Impossible de placer une irrigation ici");
-            return false;
+        if(dst.isPresent()){
+            if(exist==2 && irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
+                Display.printMessage( String.valueOf(canal.get()));
+            }else{
+                p.addAnIrrigation(canal.get());
+                Display.printMessage("Impossible de placer une irrigation ici");
+                return false;
+            }
         }
+
         return true;
 }
 
-    public  Board getBoard() {
+    public static Board getBoard() {
         return board;
     }
 
-    public IrrigationStock getIrrigationStock() {
+    public static IrrigationStock getIrrigationStock() {
         return irrigationStock;
     }
 
@@ -229,7 +269,6 @@ public class Game {
     public boolean movePanda(Player player){
         Display.printMessage("la position du panda avant deplacement "+panda.getPosition());
         Display.printMessage("la liste des parcelles dans le jeu :"+board);
-        Random rand = new Random();
         List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
         if(movePossibilities.size()!=0){
 
@@ -239,7 +278,7 @@ public class Game {
             if (player.getStrategy()==Fa3STRATEGY){
                 next = movePossibilities
                         .stream()
-                        .filter( hexPlot -> !hexPlot.getBamboos().isEmpty())
+                        .filter( hexPlot ->!Objects.isNull(hexPlot.getBamboos()) && !hexPlot.getBamboos().isEmpty())
                         .findFirst()
                         .orElse(movePossibilities.get(randNumber));
             }
@@ -255,7 +294,6 @@ public class Game {
  
     public boolean moveGardener(Player player){
         Display.printMessage("La position du jardinier avant deplacement "+gardener.getPosition());
-        Random rand = new Random();
         List<HexPlot> movePossibilities = board.getNewPositionPossibilities();
         if(movePossibilities.size()!=0){
             int randNumber = rand.nextInt(movePossibilities.size());
@@ -274,14 +312,14 @@ public class Game {
     }
 
     public boolean eatIfBamboo(HexPlot plot, Player player){
-        if(plot.getBamboos().size()!=0){
+        if(!Objects.isNull(plot.getBamboos())&& plot.getBamboos().size()!=0){
             Display.printMessage("il y a de bambou sur cette parcelle");
 
             if (plot.getImprovement()==FENCE)
                 Display.printMessage("cette parcelle est protégée par un enclos");
             else {
                 Display.printMessage("panda mange un bambou de couleur " + plot.getColor());
-                player.eatenBamboos.add(plot.getBamboos().get(0));
+                player.getEatenBamboos().add(plot.getBamboos().get(0));
                 plot.getBamboos().remove(0);
             }
             return true;
@@ -309,14 +347,15 @@ public class Game {
         switch (weatherCondition) {
 
             case SUN:
-                List<Action.GameAction> actionsToPickFrom = player.getStrategy().getActions();
-                actionsToPickFrom.remove(actions.get(playerActions[0]));
-                actionsToPickFrom.remove(actions.get(playerActions[1]));
-                int pick = new Random().nextInt(actionsToPickFrom.size());
-                Display.printMessage(player.getName()+" choisit une action supplémentaire : "+actionsToPickFrom.get(pick));
-
-                Consumer<Player> additionnalAction = actions.get(actionsToPickFrom.get(pick));
-                additionnalAction.accept(player);
+                List<Action.GameAction> actionsToPickFrom = new ArrayList<>(player.getStrategy().getActions());
+                Action.GameAction playerAction0 = playerActions[0];
+                Action.GameAction playerAction1 = playerActions[1];
+                actionsToPickFrom.removeIf(action -> false);
+                int pick = rand.nextInt(actionsToPickFrom.size());
+                Action.GameAction selectedAction = actionsToPickFrom.get(pick);
+                Consumer<Player> additionalAction = actions.get(selectedAction);
+                Display.printMessage(player.getName() + " choisit une action supplémentaire : " + selectedAction);
+                additionalAction.accept(player);
                 break;
 
             case RAIN:
@@ -333,14 +372,14 @@ public class Game {
                 break;
 
             case STORM:
-                int rnd = new Random().nextInt(board.size());
+                int rnd = rand.nextInt(board.size());
                 HexPlot next = board.get(rnd);
                 panda.pandaMove(next);
                 Display.printMessage(player.getName()+" déplace le panda à : "+panda.getPosition());
                 boolean hasEaten = eatIfBamboo(next, player);
                 if (! hasEaten) {
                     Bamboo bamboo = new Bamboo(next.getColor());
-                    player.eatenBamboos.add(bamboo);
+                    player.getEatenBamboos().add(bamboo);
                     bambooStock.remove(bamboo);
                     Display.printMessage("panda mange un bambou de couleur " + next.getColor());
                 }
@@ -372,5 +411,9 @@ public class Game {
         for (Player p:playerList) {
          Display.printMessage( String.valueOf(p));
         }
+    }
+
+    public void setBoard(Board bd) {
+        board=bd;
     }
 }

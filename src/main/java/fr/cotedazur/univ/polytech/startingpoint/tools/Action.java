@@ -2,6 +2,8 @@ package fr.cotedazur.univ.polytech.startingpoint.tools;
 
 public class Action {
 
+    private GameAction actionType;
+
        public enum GameAction {
            /**
             * Le joueur pioche 3 parcelles et en choisit 1.
@@ -37,12 +39,31 @@ public class Action {
             * Celui-ci fait pousser 1 section de bambou sur la parcelle irriguée où il termine
             * son déplacement ainsi que sur toutes les parcelles irriguées adjacentes de la même couleur.
             */
-           MOVE_GARDENER
-        };
+           MOVE_GARDENER;
+
+
+       };
 
         public GameAction[] getActions(){
            return GameAction.values();
         }
+    public GameAction getActionType() {
+        return actionType;
+    }
 
+    public void setActionType(GameAction actionType) {
+        this.actionType = actionType;
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("RandomAction{actionType=").append(actionType).append(", actions=[");
+        for (GameAction type : getActions()) {
+            builder.append(type).append(", ");
+        }
+        builder.delete(builder.length() - 2, builder.length());
+        builder.append("]}");
+        return builder.toString();
+    }
 }
 

@@ -16,19 +16,19 @@ public class Emperor {
 
     public Player judgement() {
         Display.printMessage("L'empereur va determiner le gagnant...");
-        game.playerList.sort(Comparator.comparing(Player::getScore).reversed());
+        game.getPlayerList().sort(Comparator.comparing(Player::getScore).reversed());
 
-        if (game.playerList.get(0).getScore() > game.playerList.get(1).getScore()) {
+        if (game.getPlayerList().get(0).getScore() > game.getPlayerList().get(1).getScore()) {
 
-            Display.printMessage("Le gagnant est " + game.playerList.get(0).getName() + " \uD83D\uDC4F\uD83D\uDC4F ");
+            Display.printMessage("Le gagnant est " + game.getPlayerList().get(0).getName() + " \uD83D\uDC4F\uD83D\uDC4F ");
             game.display();
-            return game.playerList.get(0);
+            return game.getPlayerList().get(0);
         }
 
         else {
-            Display.printMessage(game.playerList.get(0).getName() +" et "
-                    + game.playerList.get(1).getName() +
-                    " sont ex aequo avec " + game.playerList.get(0).getScore() + " points.");
+            Display.printMessage(game.getPlayerList().get(0).getName() +" et "
+                    + game.getPlayerList().get(1).getName() +
+                    " sont ex aequo avec " + game.getPlayerList().get(0).getScore() + " points.");
 
             return null;
         }

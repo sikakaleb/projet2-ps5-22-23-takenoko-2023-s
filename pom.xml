@@ -9,7 +9,10 @@
 
     <name>Takenoko-2023-S</name> <!-- CHANGE ME -->
 
+
     <properties>
+        <sonar.login>admin</sonar.login>
+        <sonar.password>kaleb</sonar.password>
         <project.build.sourceEncoding>UTF-8
         </project.build.sourceEncoding> <!-- CHANGE ME IF NEEDED, other : ISO-8859-1 -->
         <java.version>17</java.version>
@@ -124,6 +127,30 @@
                               </systemProperties>
                     -->
                 </configuration>
+            </plugin>
+            <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.9.1.2184</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

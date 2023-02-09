@@ -2,8 +2,8 @@ package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
@@ -17,12 +17,16 @@ public class DeckOfPlots extends ArrayList<HexPlot> {
      * @constructor
      * Create deck with 9 plots of each color
      */
+    private SecureRandom rand;
     public DeckOfPlots(){
         IntStream.range(0, 9).forEach(i -> {
             this.add(new HexPlot(GREEN));
             this.add(new HexPlot(YELLOW));
             this.add(new HexPlot(PINK));
         });
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
 
     /**
@@ -30,10 +34,10 @@ public class DeckOfPlots extends ArrayList<HexPlot> {
      * @returns hex {HexPlot}
      */
     public HexPlot pickPlot(){
-        if(this.size()==0){
+        if(this.isEmpty()){
             throw  new IndexOutOfBoundsException("Il n'y a plus de parcelle a poser");
         }
-        int randNumber = new Random().nextInt(this.size());
+        int randNumber = rand.nextInt(this.size());
         HexPlot hex = this.get(randNumber);
         this.remove(randNumber);
         Display.printMessage("Nombre de parcelle dans la pile :"+this.size());

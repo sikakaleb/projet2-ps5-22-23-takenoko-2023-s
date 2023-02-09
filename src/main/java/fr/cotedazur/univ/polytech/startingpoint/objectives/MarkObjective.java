@@ -1,4 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectives;
+
+import java.util.Objects;
+
 /*
 * cette classe permet d'evaluer les objectifs
 * pour savoir lequel utiliser pour remplir un certain objectif
@@ -21,11 +24,31 @@ public class MarkObjective {
         this.objective = objective;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MarkObjective that)) return false;
+        return getObjective().equals(that.getObjective());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getObjective());
+    }
+
     public int getMark() {
         return mark;
     }
 
     public void setMark(int mark) {
         this.mark = mark;
+    }
+
+    @Override
+    public String toString() {
+        return "MarkObjective{" +
+                "objective=" + objective +
+                ", mark=" + mark +
+                '}';
     }
 }

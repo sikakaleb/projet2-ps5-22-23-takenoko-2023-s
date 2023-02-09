@@ -15,6 +15,8 @@ import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Main.ties;
 public class Display {
 
     public static final Logger LOGGER;
+
+    private Display(){}
     
     static {
         LOGGER = Logger.getLogger(Display.class.getName());

@@ -24,6 +24,8 @@ class PandaTest {
 
     @Test
     void setPosition() {
+        pad.setPosition(new HexPlot());
+        assertEquals(pad.getPosition(),new HexPlot());
     }
 
     @Test

@@ -23,47 +23,47 @@ public class PandaObjectiveDetectorTest {
     @Test
     public void findTwoYellowTest(){
         assertFalse(detector.findTwoYellow());
-        player.eatenBamboos.add(new Bamboo(YELLOW));
-        player.eatenBamboos.add(new Bamboo(YELLOW));
+        player.getEatenBamboos().add(new Bamboo(YELLOW));
+        player.getEatenBamboos().add(new Bamboo(YELLOW));
         assertTrue(detector.findTwoYellow());
     }
 
     @Test
     public void findtwoGreenTest(){
         assertFalse(detector.findTwoGreen());
-        player.eatenBamboos.add(new Bamboo(GREEN));
-        player.eatenBamboos.add(new Bamboo(GREEN));
+        player.getEatenBamboos().add(new Bamboo(GREEN));
+        player.getEatenBamboos().add(new Bamboo(GREEN));
         assertTrue(detector.findTwoGreen());
     }
 
     @Test
     public void findTwoPinkTest(){
         assertFalse(detector.findTwoPink());
-        player.eatenBamboos.add(new Bamboo(PINK));
-        player.eatenBamboos.add(new Bamboo(PINK));
+        player.getEatenBamboos().add(new Bamboo(PINK));
+        player.getEatenBamboos().add(new Bamboo(PINK));
         assertTrue(detector.findTwoPink());
     }
 
     @Test
     public void findThreeGreenTest(){
         assertFalse(detector.findThreeGreen());
-        player.eatenBamboos.add(new Bamboo(GREEN));
-        player.eatenBamboos.add(new Bamboo(GREEN));
+        player.getEatenBamboos().add(new Bamboo(GREEN));
+        player.getEatenBamboos().add(new Bamboo(GREEN));
         assertFalse(detector.findThreeGreen());
-        player.eatenBamboos.add(new Bamboo(GREEN));
+        player.getEatenBamboos().add(new Bamboo(GREEN));
         assertTrue(detector.findThreeGreen());
     }
 
     @Test
     public void findOneOfEachTest(){
         assertFalse(detector.findOneOfEach());
-        player.eatenBamboos.add(new Bamboo(GREEN));
-        player.eatenBamboos.add(new Bamboo(YELLOW));
+        player.getEatenBamboos().add(new Bamboo(GREEN));
+        player.getEatenBamboos().add(new Bamboo(YELLOW));
         assertFalse(detector.findOneOfEach());
-        player.eatenBamboos.add(new Bamboo(GREEN));
+        player.getEatenBamboos().add(new Bamboo(GREEN));
         assertFalse(detector.findOneOfEach());
         assertFalse(detector.findOneOfEach());
-        player.eatenBamboos.add(new Bamboo(PINK));
+        player.getEatenBamboos().add(new Bamboo(PINK));
         assertTrue(detector.findOneOfEach());
     }
 }

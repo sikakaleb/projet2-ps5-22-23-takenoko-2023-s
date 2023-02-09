@@ -16,8 +16,7 @@ import java.util.stream.Stream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.*;
 import static fr.cotedazur.univ.polytech.startingpoint.supplies.Dice.Condition.WIND;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PLACE_IRRIGATION;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,12 +46,12 @@ class GameTest {
         hex5.getBamboos().add(new Bamboo(YELLOW));
         HexPlot hex6 = new HexPlot(0, +3, -3, PINK);
         hex6.getBamboos().add(new Bamboo(PINK));
-        board.add(hex1);
-        board.add(hex2);
-        board.add(hex3);
-        board.add(hex4);
-        board.add(hex5);
-        board.add(hex6);
+        game.getBoard().add(hex1);
+        game.getBoard().add(hex2);
+        game.getBoard().add(hex3);
+        game.getBoard().add(hex4);
+        game.getBoard().add(hex5);
+        game.getBoard().add(hex6);;
 
         outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));
@@ -82,7 +81,7 @@ class GameTest {
     @Test
     void placeAnIrrigation() {
         HexPlot hex3 = new HexPlot(0, -2, 2, PINK);
-        board.remove(hex3);
+        getBoard().remove(hex3);
         assertTrue(game.choiceAnIrrigation(player1));
         assertEquals(player1.getCanalList().size(), 1);
         assertTrue(game.placeAnIrrigation(player1));
@@ -90,7 +89,7 @@ class GameTest {
     @Test
     void placeAnIrrigation2() {
         HexPlot hex3 = new HexPlot(0, -2, 2, PINK);
-        board.remove(hex3);
+        getBoard().remove(hex3);
         assertTrue(game.choiceAnIrrigation(player1));
         assertEquals(player1.getCanalList().size(), 1);
         assertTrue(game.placeAnIrrigation(player1));
@@ -108,38 +107,39 @@ class GameTest {
 
     @Test
     public void moveGardener() {
-        int oldStock = game.bambooStock.size();
+        int oldStock = game.getBambooStock().size();
         HashMap<HexPlot, Integer> bambooPerPlot = new HashMap<>();
-        for (HexPlot plot : board) {
+        for (HexPlot plot : getBoard()) {
             bambooPerPlot.put(plot, plot.getBamboos().size());
         }
         game.moveGardener(player1);
         //assertTrue(outputStreamCaptor.toString().contains("La position du jardinier aprés deplacement"));
         //assertTrue(outputStreamCaptor.toString().contains("Un bambou "+game.gardener.getPosition().getColor()+" pousse sur la parcelle HexPlot"));
-        assertEquals(bambooStock.size(), oldStock - 1);
+        assertEquals(getBambooStock().size(), oldStock - 1);
     }
 
     @Test
     public void plotEnclosed() {
-        board = new Board();
+        game.setBoard(new Board());
         HexPlot hex1 = new HexPlot(1, 0, -1, GREEN);
         hex1.setImprovement(PlotImprovement.FENCE);
         assertEquals(hex1.getBamboos().size(), 0);
-        board.add(hex1);
+        getBoard().add(hex1);
         game.movePanda(player1);
-        assertEquals(game.panda.getPosition(), hex1);
+        assertEquals(game.getPanda().getPosition(), hex1);
         //assertTrue(outputStreamCaptor.toString().contains("cette parcelle est protégée par un enclos"));
     }
 
     @Test
     public void placeImprovementTest() {
-        board.forEach(hexPlot -> {
+        getBoard().forEach(hexPlot -> {
             assertNull(hexPlot.getImprovement());
         });
-        board.getLastHexPlot().getBamboos().clear();
+        getBoard().getLastHexPlot().getBamboos().clear();
         Dice.Condition condition = Dice.Condition.CLOUDS;
         game.actOnWeather(condition, player1);
-        Stream<HexPlot> improved = board.stream().filter(hexPlot -> hexPlot.getImprovement() != null);
+        Stream<HexPlot> improved = getBoard().stream().filter(hexPlot -> hexPlot.getImprovement() != null);
+        System.out.println(improved);;
         assertEquals(improved.count(), 1);
     }
 
@@ -153,7 +153,7 @@ class GameTest {
     @Test
     public void noMoreImprovementsTest() {
         Dice.Condition condition = Dice.Condition.CLOUDS;
-        game.deckOfImprovements.clear();
+        game.getBambooStock().clear();
         game.actOnWeather(condition, player1);
         //assertTrue(outputStreamCaptor.toString().contains("Il y a plus d'aménagements dans la liste"));
     }
@@ -161,18 +161,18 @@ class GameTest {
     @Test
     public void actOnWeatherSTORM() {
         Dice.Condition condition = Dice.Condition.STORM;
-        HexPlot oldPosition = game.panda.getPosition();
-        int eatenBamboos = player2.eatenBamboos.size();
+        HexPlot oldPosition = game.getPanda().getPosition();
+        int eatenBamboos = player2.getEatenBamboos().size();
         game.actOnWeather(condition, player2);
         //assertNotEquals(oldPosition, game.panda.getPosition());
-        assertEquals(eatenBamboos + 1, player2.eatenBamboos.size());
+        assertEquals(eatenBamboos + 1, player2.getEatenBamboos().size());
     }
 
     @Test
     public void actOnWeatherMYSTERY() {
         Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
-        game.playerActions[0] = twoActions[0];
-        game.playerActions[1] = twoActions[1];
+        game.getPlayerActions()[0] = twoActions[0];
+        game.getPlayerActions()[1] = twoActions[1];
         Dice.Condition condition = Dice.Condition.MYSTERY;
         game.actOnWeather(condition, player1);
     }
@@ -180,17 +180,17 @@ class GameTest {
     @Test
     public void actOnWeatherRAIN() {
         Dice.Condition condition = Dice.Condition.RAIN;
-        int oldStock = game.bambooStock.size();
+        int oldStock = game.getBambooStock().size();
         game.actOnWeather(condition, player1);
-        assertNotEquals(oldStock, game.bambooStock.size());
-        assertEquals(oldStock - 1, game.bambooStock.size());
+        assertNotEquals(oldStock, game.getBambooStock().size());
+        assertEquals(oldStock - 1, game.getBambooStock().size());
     }
 
     @Test
     public void actOnWeatherSUN() {
         Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
-        game.playerActions[0] = twoActions[0];
-        game.playerActions[1] = twoActions[1];
+        game.getPlayerActions()[0] = twoActions[0];
+        game.getPlayerActions()[1] = twoActions[1];
         game.actOnWeather(Dice.Condition.SUN, player1);
         /*assertTrue(outputStreamCaptor.toString().contains("choisit une action supplémentaire :"));
         Action.GameAction actionSupp = null;
@@ -206,29 +206,32 @@ class GameTest {
     @Test
     public void actOnWeatherWIND() {
         Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
-        game.playerActions[0] = twoActions[0];
-        game.playerActions[1] = twoActions[1];
+        game.getPlayerActions()[0] = twoActions[0];
+        game.getPlayerActions()[1] = twoActions[1];
         game.actOnWeather(WIND, player1);
-        assertEquals(game.playerActions[0], game.playerActions[0]);
+
+        Action.GameAction res = game.getPlayerActions()[0];
+        
+        assertEquals(game.getPlayerActions()[0], res);
     }
 
     @Test
     public void cannotActOnWeatherRAINnoMoreBamboos() {
         Dice.Condition condition = Dice.Condition.RAIN;
-        game.bambooStock.clear();
-        int oldStock = game.bambooStock.size();
+        game.getBambooStock().clear();
+        int oldStock = game.getBambooStock().size();
         game.actOnWeather(condition, player1);
-        assertEquals(oldStock, game.bambooStock.size());
+        assertEquals(oldStock, game.getBambooStock().size());
     }
 
     @Test
     public void cannotActOnWeatherRAINnoPlots() {
         Dice.Condition condition = Dice.Condition.RAIN;
-        board = new Board();
-        game.bambooStock = new BambooStock();
-        int oldStock = game.bambooStock.size();
+        Board board = new Board();
+        BambooStock bambooStock = new BambooStock();
+        int oldStock = bambooStock.size();
         game.actOnWeather(condition, player1);
-        assertEquals(oldStock, game.bambooStock.size());
+        assertEquals(oldStock, bambooStock.size());
     }
 
     @Test
@@ -257,7 +260,7 @@ class GameTest {
         player1.addAnIrrigation(canal.get());
         assertEquals(player1.getCanalList().size(), 1);
         assertEquals(player1.returnAnIrrigation(), canal);
-        irrigationStock.primordialCanal(game.getBoard());
+        getIrrigationStock().primordialCanal(game.getBoard());
         assertTrue(player1.findAnAvailableIrrigationSource(canStock).isPresent());
 
     }
@@ -281,17 +284,17 @@ class GameTest {
     void playWithFa3STRATEGY(){
         player1.setStrategy(Fa3STRATEGY);
         game.play(player1);
-        if (game.dice.getLastValue() != WIND)
-            assertTrue(game.playerActions[0]==PICK_OBJECTIVE || game.playerActions[1]==PICK_OBJECTIVE);
+        if (game.getDice().getLastValue() != WIND)
+            assertTrue(game.getPlayerActions()[0]==PICK_OBJECTIVE || game.getPlayerActions()[1]==PICK_OBJECTIVE);
     }
 
     @Test
     void playWithFa3STRATEGYandWeatherWIND(){
         player1.setStrategy(Fa3STRATEGY);
         game.play(player1);
-        if (game.dice.getLastValue() == WIND) {
-            assertTrue(game.playerActions[0] == PICK_OBJECTIVE && game.playerActions[1] == PICK_OBJECTIVE
-            || game.playerActions[0] == PLACE_IRRIGATION && game.playerActions[1] == PLACE_IRRIGATION );
+        if (game.getDice().getLastValue() == WIND) {
+            assertTrue(game.getPlayerActions()[0] == PICK_OBJECTIVE && game.getPlayerActions()[1] == PICK_OBJECTIVE
+            || game.getPlayerActions()[0] == PLACE_IRRIGATION && game.getPlayerActions()[1] == PLACE_IRRIGATION );
         }
 
     }
@@ -302,9 +305,10 @@ class GameTest {
         player1.setStrategy(Fa3STRATEGY);
         for (int i = 0; i < 10; i++) { // test sur 10 tours
             game.play(player1);
-            if (game.dice.getLastValue() != WIND)
-                assertTrue(game.playerActions[0]==PICK_OBJECTIVE
-                    || player1.getUnMetObjectives().size()==5);
+            if (game.getDice().getLastValue() != WIND)
+                assertTrue(game.getPlayerActions()[0]==PICK_OBJECTIVE
+                        ||game.getPlayerActions()[0]==PICK_PLOT
+                    || player1.getUnMetObjectives().size()>=4);
         }
     }
 

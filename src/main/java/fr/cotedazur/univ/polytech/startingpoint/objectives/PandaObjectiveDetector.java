@@ -23,21 +23,21 @@ public class PandaObjectiveDetector {
      * @return {boolean}
      */
     public boolean findTwoYellow(){
-        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.YELLOW).count() >= 2;
+        return player.getEatenBamboos().stream().filter(bamboo -> bamboo.getColor() == Color.YELLOW).count() >= 2;
     }
     /**
      * Trouver un Objectif TWO_GREEN dans tout le jeu
      * @return {boolean}
      */
     public boolean findTwoGreen(){
-        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 2;
+        return player.getEatenBamboos().stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 2;
     }
     /**
      * Trouver un Objectif TWO_Pink dans tout le jeu
      * @return {boolean}
      */
     public boolean findTwoPink(){
-        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.PINK).count() >= 2;
+        return player.getEatenBamboos().stream().filter(bamboo -> bamboo.getColor() == Color.PINK).count() >= 2;
     }
 
     /**
@@ -45,7 +45,7 @@ public class PandaObjectiveDetector {
      * @return {boolean}
      */
     public boolean findThreeGreen(){
-        return player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 3;
+        return player.getEatenBamboos().stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 3;
     }
 
     /**
@@ -54,9 +54,9 @@ public class PandaObjectiveDetector {
      */
     public boolean findOneOfEach(){
         return
-                player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.YELLOW).count() >= 1
-                && player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 1
-                && player.eatenBamboos.stream().filter(bamboo -> bamboo.getColor() == Color.PINK).count() >= 1
+                player.getEatenBamboos().stream().filter(bamboo -> bamboo.getColor() == Color.YELLOW).count() >= 1
+                && player.getEatenBamboos().stream().filter(bamboo -> bamboo.getColor() == Color.GREEN).count() >= 1
+                && player.getEatenBamboos().stream().filter(bamboo -> bamboo.getColor() == Color.PINK).count() >= 1
                 ;
     }
 }

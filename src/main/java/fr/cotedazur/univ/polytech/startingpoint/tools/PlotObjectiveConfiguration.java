@@ -35,28 +35,29 @@ public enum PlotObjectiveConfiguration {
     /*
      * P -->Parcelle de couleur rose (pink)
      * Y -->Parcelle de couleur jaune (Yellow)
-     * QUADRILATERALSAMEPLOTS_P_Y PINK ET YELLOW
+     * QUADRILATERALSAMEPLOTSPY PINK ET YELLOW
      * 3 Parcelle Alignée
      *    P-P
      *   Y-Y
      */
-    QUADRILATERALSAMEPLOTS_P_Y,
+    QUADRILATERALSAMEPLOTSPY,
     /*
      * P -->Parcelle de couleur rose (pink)
      * G -->Parcelle de couleur verte (Green)
-     * QUADRILATERALSAMEPLOTS_G_P PINK ET YELLOW
+     * QUADRILATERALSAMEPLOTSGP PINK ET YELLOW
      * 3 Parcelle Alignée
      *    P-P
      *   G-G
      */
-    QUADRILATERALSAMEPLOTS_G_P,
+    QUADRILATERALSAMEPLOTSGP,
+
     /*
      * P -->Parcelle de couleur rose (pink)
      * Y -->Parcelle de couleur jaune (Yellow)
-     * QUADRILATERALSAMEPLOTS_P_Y PINK ET YELLOW
+     * QUADRILATERALSAMEPLOTSPY PINK ET YELLOW
      * 3 Parcelle Alignée
      *    G-G
      *   Y-Y
      */
-    QUADRILATERALSAMEPLOTS_G_Y;
+    QUADRILATERALSAMEPLOTSGY;
 }

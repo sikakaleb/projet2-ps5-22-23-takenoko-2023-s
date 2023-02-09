@@ -3,18 +3,23 @@ package fr.cotedazur.univ.polytech.startingpoint.smarterobots;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
+import fr.cotedazur.univ.polytech.startingpoint.tools.MarkObjectiveComparator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.SecureRandom;
+import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBoard;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 
 public class EvalObjectiveBot extends Player {
+    private SecureRandom rand;
     public EvalObjectiveBot(String name) {
         super(name);
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
     public List<MarkObjective> getMarkedUnMetObjectives(){
         List<MarkObjective> list = new ArrayList<>();
@@ -24,55 +29,75 @@ public class EvalObjectiveBot extends Player {
         }
         return list;
     }
-    /*public Objective evaluatObjectif(){
-        for (:
-             ) {
+    public static void sortMarkObjectiveList(List<MarkObjective> list) {
+        Collections.sort(list, new MarkObjectiveComparator());
+    }
 
+    public static List<MarkObjective> getTopMarkObjectives(List<MarkObjective> list) {
+        sortMarkObjectiveList(list);
+        int maxMark = list.get(list.size() - 1).getMark();
+        List<MarkObjective> result = new ArrayList<>();
+        for (MarkObjective mo : list) {
+            if (mo.getMark() == maxMark) {
+                result.add(mo);
+            }
         }
-    }*/
+        return result;
+    }
+    public MarkObjective evaluatObjectif(){
+        List<MarkObjective> list= new ArrayList<>();
+        list.addAll(EvaluateGardenerObjective());
+        list.addAll(EvaluatePlotObjective());
+        list.addAll(EvaluatePandaObjective());
+        List<MarkObjective> result = new ArrayList<>();
+        result.addAll(getTopMarkObjectives(list));
+        int randNumber = rand.nextInt(result.size());
+        return  result.get(randNumber);
+
+    }
     public List<MarkObjective> EvaluatePlotObjective(){
-        PlotObjectiveDetector detector = new PlotObjectiveDetector(board);
+        PlotObjectiveDetector detector = new PlotObjectiveDetector(getBoard());
         List<MarkObjective> list = getMarkedUnMetObjectives();
         List<MarkObjective> result = new ArrayList<>();
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            if(obj instanceof PlotObjective){
-                if( ( ((PlotObjective) obj).getConfiguration()==
-                        DIRECTSAMEPLOTS && detector.findDirectSamePlots(((PlotObjective) obj).getColor()))) {
-                    //Display.printMessage(name+" a detecté un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+            if(obj instanceof PlotObjective plotObjective){
+                if( ( plotObjective.getConfiguration()==
+                        DIRECTSAMEPLOTS && detector.findDirectSamePlots(plotObjective.getColor()))) {
                     ob.setMark(mark*5);
                     result.add(ob);
+                    continue;
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== INDIRECTSAMEPLOTS
-                        && detector.findInDirectSamePlots(((PlotObjective) obj).getColor()))) {
-                    //Display.printMessage(name+" a detecté un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                else if( ( plotObjective.getConfiguration()== INDIRECTSAMEPLOTS
+                        && detector.findInDirectSamePlots(plotObjective.getColor()))) {
                     ob.setMark(mark*5);
                     result.add(ob);
+                    continue;
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS
-                        && detector.findQuadrilateralSamePlots(((PlotObjective) obj).getColor()))) {
-                    //Display.printMessage(name+" a detecté un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTS
+                        && detector.findQuadrilateralSamePlots(plotObjective.getColor()))) {
                     ob.setMark(mark*5);
                     result.add(ob);
+                    continue;
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_P
-                        && detector.findQuadrilateralPlots_G_P())) {
-                    //Display.printMessage(name+" a detecté un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGP
+                        && detector.findQuadrilateralPlotsGP())) {
                     ob.setMark(mark*5);
                     result.add(ob);
+                    continue;
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_Y
-                        && detector.findQuadrilateralPlots_G_Y())) {
-                   // Display.printMessage(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGY
+                        && detector.findQuadrilateralPlotsGY())) {
                     ob.setMark(mark*5);
                     result.add(ob);
+                    continue;
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_P_Y
-                        && detector.findQuadrilateralPlots_P_Y())) {
-                    //Display.printMessage(name+" a detecté un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY
+                        && detector.findQuadrilateralPlotsPY())) {
                     ob.setMark(mark*5);
                     result.add(ob);
+                    continue;
                 }
 
             }
@@ -80,7 +105,7 @@ public class EvalObjectiveBot extends Player {
         Display.printMessage("Aucun objectif parcelles detecté");
         Display.printMessage("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
         Display.printMessage("la liste d'objectif validé :"+this.getObjectiveAchieved());
-        return result;
+        return removeDuplicates(result);
     }
     public List<MarkObjective> EvaluatePandaObjective(){
         PandaObjectiveDetector detector = new PandaObjectiveDetector(this);
@@ -90,39 +115,24 @@ public class EvalObjectiveBot extends Player {
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            if(obj instanceof PandaObjective){
+            if(obj instanceof PandaObjective pandaObjective){
 
-                if( ( ((PandaObjective) obj).getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
-                    //Display.printMessage(name+" a detecté un TWO_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
-                    //eatenBamboos.removeTwoYellow();
-                    //bambooStock.addTwoYellow();
+                if( ( pandaObjective.getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
                     ob.setMark(mark*5+3);
                     result.add(ob);
-                }else if( ( ((PandaObjective) obj).getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
-                    //Display.printMessage(name+" a detecté un TWO_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
-                    //eatenBamboos.removeTwoGreen();
-                    //bambooStock.addTwoGreen();
+                }else if( ( pandaObjective.getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
                     ob.setMark(mark*5+3);
                     result.add(ob);
                 }
-                else if( ( ((PandaObjective) obj).getConfiguration()==TWO_PINK && detector.findTwoPink())) {
-                    //Display.printMessage(name+" a detecté un TWO_PINK \uD83D\uDC4F\uD83D\uDC4F ");
-                    //eatenBamboos.removeTwoPink();
-                    //bambooStock.addTwoPink();
+                else if( ( pandaObjective.getConfiguration()==TWO_PINK && detector.findTwoPink())) {
                     ob.setMark(mark*5+3);
                     result.add(ob);
                 }
-                else if( ( ((PandaObjective) obj).getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
-                  //  Display.printMessage(name+" a detecté un THREE_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
-                  //  eatenBamboos.removeThreeGreen();
-                   // bambooStock.addThreeGreen();
+                else if( ( pandaObjective.getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
                     ob.setMark(mark*5+3);
                     result.add(ob);
                 }
-                else if( ( ((PandaObjective) obj).getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
-                   // Display.printMessage(name+" a detecté un ONE_OF_EACH \uD83D\uDC4F\uD83D\uDC4F ");
-                    //eatenBamboos.removeOneOfEach();
-                    //bambooStock.addOneOfEach();
+                else if( ( pandaObjective.getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
                     ob.setMark(mark*5+3);
                     result.add(ob);
                 }
@@ -133,7 +143,7 @@ public class EvalObjectiveBot extends Player {
         Display.printMessage("Aucun objectif panda detecté");
         Display.printMessage("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
         Display.printMessage("la liste d'objectif validé :"+this.getObjectiveAchieved());
-        return result;
+        return removeDuplicates(result);
     }
     public List<MarkObjective> EvaluateGardenerObjective(){
         GardenerObjectiveDetector detector = new GardenerObjectiveDetector(this);
@@ -142,31 +152,19 @@ public class EvalObjectiveBot extends Player {
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            if(obj instanceof GardenerObjective){
+            if(obj instanceof GardenerObjective gardenerObjective){
 
-                if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
-                    //Display.printMessage(name+" a detecté un FOUR_AND_FERTILIZER \uD83D\uDC4F\uD83D\uDC4F ");
-                    //HexPlot found = detector.findFourAndFertilizer();
-                    //eatenBamboos.addMultiple(4, found.getColor());
-                    //found.setBamboos(null);
+                if( ( gardenerObjective.getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
                     ob.setMark(mark*5);
                     result.add(ob);
                 }
 
-                else if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
-                    //Display.printMessage(name+" a detecté un FOUR_NO_IMPOROVEMENT \uD83D\uDC4F\uD83D\uDC4F ");
-                    //HexPlot found = detector.findFourNoImprovement();
-                    //eatenBamboos.addMultiple(4, found.getColor());
-                    //found.setBamboos(null);
+                else if( ( gardenerObjective.getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
                     ob.setMark(mark*5);
                     result.add(ob);
                 }
 
-                else if( ( ((GardenerObjective) obj).getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
-                    //Display.printMessage(name+" a detecté un THREE_GREEN_X4 \uD83D\uDC4F\uD83D\uDC4F ");
-                    //List<HexPlot> found = detector.findThreeGreenX4();
-                    //eatenBamboos.addMultiple(12, GREEN);
-                    //found.forEach( hexPlot -> hexPlot.setBamboos(null));
+                else if( ( gardenerObjective.getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
                     ob.setMark(mark*5);
                     result.add(ob);
                 }
@@ -176,7 +174,11 @@ public class EvalObjectiveBot extends Player {
         Display.printMessage("Aucun objectif jardinier detecté");
         Display.printMessage("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
         Display.printMessage("la liste d'objectif validé :"+this.getObjectiveAchieved());
-        return result;
+        return removeDuplicates(result);
+    }
+    public static List<MarkObjective> removeDuplicates(List<MarkObjective> inputList) {
+        Set<MarkObjective> set = new HashSet<>(inputList);
+        return new ArrayList<>(set);
     }
 
 }

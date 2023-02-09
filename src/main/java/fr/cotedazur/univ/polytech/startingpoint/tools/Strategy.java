@@ -1,9 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.tools;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 
@@ -27,9 +27,13 @@ public enum Strategy {
 
 
     private List<Action.GameAction> actions;
+    private SecureRandom rand;
 
     Strategy(Action.GameAction[] actions){
         this.actions = new ArrayList(Arrays.asList(actions));
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
 
     public List<Action.GameAction> getActions() {
@@ -46,7 +50,7 @@ public enum Strategy {
     }
 
     public Action.GameAction pick(){
-        int pick = new Random().nextInt(this.actions.size());
+        int pick = rand.nextInt(this.actions.size());
         return this.actions.get(pick);
     }
 

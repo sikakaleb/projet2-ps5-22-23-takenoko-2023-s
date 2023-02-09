@@ -31,9 +31,9 @@ public class DeckOfObjectifs extends ArrayList {
         this.add(new PlotObjective(3,QUADRILATERALSAMEPLOTS,GREEN));
         this.add(new PlotObjective(4,QUADRILATERALSAMEPLOTS,YELLOW));
         this.add(new PlotObjective(5,QUADRILATERALSAMEPLOTS,PINK));
-        this.add(new PlotObjective(3,QUADRILATERALSAMEPLOTS_G_Y));
-        this.add(new PlotObjective(4,QUADRILATERALSAMEPLOTS_G_P));
-        this.add(new PlotObjective(5,QUADRILATERALSAMEPLOTS_P_Y));
+        this.add(new PlotObjective(3,QUADRILATERALSAMEPLOTSGY));
+        this.add(new PlotObjective(4, QUADRILATERALSAMEPLOTSGP));
+        this.add(new PlotObjective(5, QUADRILATERALSAMEPLOTSPY));
 
         /**
          * Panda objectives

@@ -2,13 +2,13 @@ package fr.cotedazur.univ.polytech.startingpoint.objectives;
 
 public abstract class Objective {
     /**Attributs de la classe**/
-    public static  int NumberOfObjective=0;
+    private static  int numberOfObjective =0;
     private int objectId;
     private  int NumberOfPoints;
 
     /**COntructeur de la classe**/
-    public Objective(int numberOfPoints) {
-        objectId=++NumberOfObjective;
+    protected Objective(int numberOfPoints) {
+        objectId=++numberOfObjective;
         NumberOfPoints = numberOfPoints;
 
     }

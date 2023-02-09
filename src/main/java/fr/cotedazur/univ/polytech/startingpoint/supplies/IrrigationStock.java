@@ -26,9 +26,9 @@ public class IrrigationStock  {
      * Create deck with  20 irrigated canal
      */
     public void init(){
-        IntStream.range(0, 26).forEach(i -> {
-            unUsedCanal.add(new IrrigationCanal());
-        });
+        IntStream.range(0, 26).forEach(i ->
+            unUsedCanal.add(new IrrigationCanal())
+        );
     }
 
     @Override
@@ -55,7 +55,7 @@ public class IrrigationStock  {
                 }
             });
         }
-        if (result.size()==0)result.add(new HexPlot());
+        if (result.isEmpty())result.add(new HexPlot());
         return result;
     }
 
@@ -127,8 +127,9 @@ public class IrrigationStock  {
 
         bd.forEach(hexPlot -> {
             if(v2.contains(hexPlot)){
-                if (!exist(new IrrigationCanal(new HexPlot(),hexPlot))){
-                    Optional<IrrigationCanal> res=initAdd(getOneUnused().get(),new HexPlot(),hexPlot);
+                Optional<IrrigationCanal> can=getOneUnused();
+                if (!exist(new IrrigationCanal(new HexPlot(),hexPlot))&& can.isPresent()){
+                    Optional<IrrigationCanal> res=initAdd(can.get(),new HexPlot(),hexPlot);
                 }
             }
         });

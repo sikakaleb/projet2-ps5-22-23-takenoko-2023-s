@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.deckOfImprovements;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getDeckOfImprovements;
 import static fr.cotedazur.univ.polytech.startingpoint.supplies.HexPlot.DIRECTION;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
@@ -128,7 +128,7 @@ class HexPlotTest {
         assertNull(plot.getImprovement());
         plot.setImprovement(POOL);
         assertEquals(plot.getImprovement(), POOL);
-        assertEquals(deckOfImprovements.size(), 8);
+        assertEquals(getDeckOfImprovements().size(), 8);
     }
 
     @Test
@@ -153,7 +153,7 @@ class HexPlotTest {
         plot.setImprovement(POOL);
         //assertTrue(outputStreamCaptor.toString().contains("Il y a déjà un aménagement sur cette parcelle"));
         assertFalse(plot.isIrrigated());
-        assertEquals(deckOfImprovements.size(), 8);
+        assertEquals(getDeckOfImprovements().size(), 8);
     }
 
     @Test
@@ -163,7 +163,7 @@ class HexPlotTest {
         plot.setImprovement(FENCE);
         //assertTrue(outputStreamCaptor.toString().contains("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle"));
         assertNull(plot.getImprovement());
-        assertEquals(deckOfImprovements.size(), 9);
+        assertEquals(getDeckOfImprovements().size(), 9);
     }
 
     @Test

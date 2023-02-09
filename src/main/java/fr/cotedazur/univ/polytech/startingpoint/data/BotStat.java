@@ -6,7 +6,6 @@ import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import java.util.Objects;
 
 public class BotStat {
-    //private Player bot;
     private String name;
     private int gamesPlayed;
     private int wins;
@@ -17,7 +16,6 @@ public class BotStat {
 
     public BotStat(Player bot, int gamesPlayed, int wins, int losses) {
         this.name=bot.getName();
-        //this.bot = bot;
         this.gamesPlayed = gamesPlayed;
         this.wins = wins;
         this.losses = losses;
@@ -27,9 +25,6 @@ public class BotStat {
         return this.name;
     }
 
-    /*public void setBot(Player bot) {
-        this.bot = bot;
-    }*/
 
     public int getGamesPlayed() {
         return gamesPlayed;

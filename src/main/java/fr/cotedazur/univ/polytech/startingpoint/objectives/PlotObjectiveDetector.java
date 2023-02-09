@@ -116,13 +116,13 @@ public class PlotObjectiveDetector {
     /**verifier si les coordonnées des Hexplot de la liste sont une suite**/
     public Boolean sSuite(Set<Integer> setOfInteger,int size){
         List<Integer> listInteger = new ArrayList<>(setOfInteger);
-        ArrayList<Integer> ListeOrdonne = new ArrayList<>();
+        ArrayList<Integer> listeOrdonne = new ArrayList<>();
         for(int i = 0; i < listInteger.size(); i++){
-            ListeOrdonne.add(listInteger.get(i));
+            listeOrdonne.add(listInteger.get(i));
         }
-        Collections.sort(ListeOrdonne);
+        Collections.sort(listeOrdonne);
         for(int j = 1; j < listInteger.size(); j++){
-            if(ListeOrdonne.get(j) != ListeOrdonne.get(j-1) + 1){
+            if(listeOrdonne.get(j) != listeOrdonne.get(j-1) + 1){
                 return false;
             }
         }
@@ -161,9 +161,9 @@ public class PlotObjectiveDetector {
      * **/
     public Set<Color> allColorInHexPlotList(List<HexPlot> plotList){
         Set<Color> colorSet= new HashSet<>();
-        plotList.forEach( hexPlot -> {
-            colorSet.add(hexPlot.getColor());
-        });
+        plotList.forEach( hexPlot ->
+            colorSet.add(hexPlot.getColor())
+        );
         return colorSet;
     }
     /***
@@ -187,9 +187,9 @@ public class PlotObjectiveDetector {
     public Map<Integer,Integer> checkMapSuitConf(List<HexPlot> listPlots ){
         Map<Integer,Integer> counter=new HashMap<>();
         List<HexPlot> listPlotsCopy=new ArrayList<>();
-        listPlots.forEach(x -> {
-            listPlotsCopy.add(new HexPlot(x.getQ(),x.getS(),x.getR()));
-        });
+        listPlots.forEach(x ->
+            listPlotsCopy.add(new HexPlot(x.getQ(),x.getS(),x.getR()))
+        );
         for (HexPlot hex  : listPlotsCopy) {
             Set<HexPlot> process=hex.plotNeighbor();
             process.retainAll(listPlotsCopy);
@@ -216,7 +216,6 @@ public class PlotObjectiveDetector {
 
     /** Verifier si une liste de 4 hexplot a la configuration QUADRILATERALPLOTS  **/
     public Boolean isQuadrilateralPlots(List<HexPlot> listPlots){
-        Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
         Map<Integer,Integer> answerset=new HashMap<>();
         answerset.put(2,2);
         answerset.put(3,2);
@@ -240,7 +239,7 @@ public class PlotObjectiveDetector {
      * QUADRILATERAL AVEC DEUX PARCELLES PINK ADJACENT
      * ET DEUX PARCELLES YELLOW ADJACENT
      * **/
-    public Boolean isQuadrilateralPlots_P_Y(List<HexPlot> listPlots){
+    public Boolean isQuadrilateralPlotsPY(List<HexPlot> listPlots){
         Set<Color> colorSet= new HashSet<>();
         colorSet.add(PINK);
         colorSet.add(YELLOW);
@@ -252,7 +251,7 @@ public class PlotObjectiveDetector {
      * QUADRILATERAL AVEC DEUX PARCELLES GREEN ADJACENT
      * ET DEUX PARCELLES PINK ADJACENT
      * **/
-    public Boolean isQuadrilateralPlots_G_P(List<HexPlot> listPlots){
+    public Boolean isQuadrilateralPlotsGP(List<HexPlot> listPlots){
         Set<Color> colorSet= new HashSet<>();
         colorSet.add(PINK);
         colorSet.add(GREEN);
@@ -265,7 +264,7 @@ public class PlotObjectiveDetector {
      * QUADRILATERAL AVEC DEUX PARCELLES GREEN ADJACENT
      * ET DEUX PARCELLES YELLOW ADJACENT
      * **/
-    public Boolean isQuadrilateralPlots_G_Y(List<HexPlot> listPlots){
+    public Boolean isQuadrilateralPlotsGY(List<HexPlot> listPlots){
         Set<Color> colorSet= new HashSet<>();
         colorSet.add(GREEN);
         colorSet.add(YELLOW);
@@ -310,10 +309,10 @@ public class PlotObjectiveDetector {
     /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
      * Avec deux parcelles PINK adjacent
      * et deux parcelles YELLOW adjacent**/
-    public boolean findQuadrilateralPlots_P_Y() {
+    public boolean findQuadrilateralPlotsPY() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isQuadrilateralPlots_P_Y(hexPlotList)) {
+            if(isQuadrilateralPlotsPY(hexPlotList)) {
                 return true;
             }
         }
@@ -323,10 +322,10 @@ public class PlotObjectiveDetector {
     /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
      * Avec deux parcelles GREEN adjacent
      * et deux parcelles PINK adjacent**/
-    public boolean findQuadrilateralPlots_G_P() {
+    public boolean findQuadrilateralPlotsGP() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isQuadrilateralPlots_G_P(hexPlotList)) {
+            if(isQuadrilateralPlotsGP(hexPlotList)) {
                 return true;
             }
         }
@@ -336,10 +335,10 @@ public class PlotObjectiveDetector {
     /** Trouver un Objectif QUADRILATERALSAMEPLOTS dans tout le jeu
      * Avec deux parcelles GREEN adjacent
      * et deux parcelles YELLOW adjacent**/
-    public boolean findQuadrilateralPlots_G_Y() {
+    public boolean findQuadrilateralPlotsGY() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isQuadrilateralPlots_G_Y(hexPlotList)) {
+            if(isQuadrilateralPlotsGY(hexPlotList)) {
                 return true;
             }
         }

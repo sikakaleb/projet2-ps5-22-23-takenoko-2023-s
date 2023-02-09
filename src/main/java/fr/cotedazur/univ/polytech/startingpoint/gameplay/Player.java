@@ -5,10 +5,11 @@ import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 
+import java.security.SecureRandom;
 import java.util.*;
 
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.bambooStock;
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.board;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBambooStock;
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBoard;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
@@ -31,13 +32,13 @@ public class Player {
     private int maxUnmetObj;
 
     private Strategy strategy;
-    public List<Objective> objectiveAchieved ;
-    public List<Objective> unMetObjectives;
+    private List<Objective> objectiveAchieved ;
+    private List<Objective> unMetObjectives;
 
     private List<IrrigationCanal> canalList;
-    public EatenBamboos eatenBamboos;
+    private EatenBamboos eatenBamboos;
 
-    private Random rand;
+    protected SecureRandom rand;
 
     /**Le ou Les constructeurs de la classe **/
     public Player(int age, int height, String name) {
@@ -52,6 +53,9 @@ public class Player {
         maxUnmetObj=5;
         eatenBamboos = new EatenBamboos();
         canalList = new ArrayList<>();
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
     public Player(int age, int height, String name, Strategy strategy) {
         playerId=++numberOfPlayer;
@@ -65,6 +69,9 @@ public class Player {
         maxUnmetObj=5;
         eatenBamboos = new EatenBamboos();
         canalList = new ArrayList<>();
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
 
     public Player(String name){
@@ -178,37 +185,37 @@ public class Player {
      * remplir a son tour
      */
     public Boolean detectPlotObjective(){
-        PlotObjectiveDetector detector = new PlotObjectiveDetector(board);
+        PlotObjectiveDetector detector = new PlotObjectiveDetector(getBoard());
 
         for (Objective obj:unMetObjectives) {
-            if(obj instanceof PlotObjective){
-                if( ( ((PlotObjective) obj).getConfiguration()==
-                        DIRECTSAMEPLOTS && detector.findDirectSamePlots(((PlotObjective) obj).getColor()))) {
+            if(obj instanceof PlotObjective plotObjective){
+                if( ( plotObjective.getConfiguration()==
+                        DIRECTSAMEPLOTS && detector.findDirectSamePlots(plotObjective.getColor()))) {
                     Display.printMessage(name+" a detecte un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== INDIRECTSAMEPLOTS
-                        && detector.findInDirectSamePlots(((PlotObjective) obj).getColor()))) {
+                else if( ( plotObjective.getConfiguration()== INDIRECTSAMEPLOTS
+                        && detector.findInDirectSamePlots(plotObjective.getColor()))) {
                     Display.printMessage(name+" a detecte un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS
-                        && detector.findQuadrilateralSamePlots(((PlotObjective) obj).getColor()))) {
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTS
+                        && detector.findQuadrilateralSamePlots(plotObjective.getColor()))) {
                     Display.printMessage(name+" a detecte un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_P
-                        && detector.findQuadrilateralPlots_G_P())) {
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGP
+                        && detector.findQuadrilateralPlotsGP())) {
                     Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_G_Y
-                        && detector.findQuadrilateralPlots_G_Y())) {
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGY
+                        && detector.findQuadrilateralPlotsGY())) {
                     Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PlotObjective) obj).getConfiguration()== QUADRILATERALSAMEPLOTS_P_Y
-                        && detector.findQuadrilateralPlots_P_Y())) {
+                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY
+                        && detector.findQuadrilateralPlotsPY())) {
                     Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
@@ -232,35 +239,35 @@ public class Player {
 
         for (Objective obj:unMetObjectives) {
 
-            if(obj instanceof PandaObjective){
+            if(obj instanceof PandaObjective pandaobjective){
 
-                if( ( ((PandaObjective) obj).getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
+                if( ( pandaobjective.getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
                     Display.printMessage(name+" a detecte un TWO_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeTwoYellow();
-                    bambooStock.addTwoYellow();
+                    getBambooStock().addTwoYellow();
                     return validateUnMetObjectives(obj);
-                }else if( ( ((PandaObjective) obj).getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
+                }else if( ( pandaobjective.getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
                     Display.printMessage(name+" a detecte un TWO_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeTwoGreen();
-                    bambooStock.addTwoGreen();
+                    getBambooStock().addTwoGreen();
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PandaObjective) obj).getConfiguration()==TWO_PINK && detector.findTwoPink())) {
+                else if( ( pandaobjective.getConfiguration()==TWO_PINK && detector.findTwoPink())) {
                     Display.printMessage(name+" a detecte un TWO_PINK \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeTwoPink();
-                    bambooStock.addTwoPink();
+                    getBambooStock().addTwoPink();
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PandaObjective) obj).getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
+                else if( ( pandaobjective.getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
                     Display.printMessage(name+" a detecte un THREE_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeThreeGreen();
-                    bambooStock.addThreeGreen();
+                    getBambooStock().addThreeGreen();
                     return validateUnMetObjectives(obj);
                 }
-                else if( ( ((PandaObjective) obj).getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
+                else if( ( pandaobjective.getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
                     Display.printMessage(name+" a detecte un ONE_OF_EACH \uD83D\uDC4F\uD83D\uDC4F ");
                     eatenBamboos.removeOneOfEach();
-                    bambooStock.addOneOfEach();
+                    getBambooStock().addOneOfEach();
                     return validateUnMetObjectives(obj);
                 }
 
@@ -278,9 +285,9 @@ public class Player {
 
         for (Objective obj:unMetObjectives) {
 
-            if(obj instanceof GardenerObjective){
+            if(obj instanceof GardenerObjective gardenerObjective){
 
-                if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
+                if( ( gardenerObjective.getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
                     Display.printMessage(name+" a detecte un FOUR_AND_FERTILIZER \uD83D\uDC4F\uD83D\uDC4F ");
                     HexPlot found = detector.findFourAndFertilizer();
                     eatenBamboos.addMultiple(4, found.getColor());
@@ -288,7 +295,7 @@ public class Player {
                     return validateUnMetObjectives(obj);
                 }
 
-                else if( ( ((GardenerObjective) obj).getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
+                else if( ( gardenerObjective.getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
                     Display.printMessage(name+" a detecte un FOUR_NO_IMPOROVEMENT \uD83D\uDC4F\uD83D\uDC4F ");
                     HexPlot found = detector.findFourNoImprovement();
                     eatenBamboos.addMultiple(4, found.getColor());
@@ -296,7 +303,7 @@ public class Player {
                     return validateUnMetObjectives(obj);
                 }
 
-                else if( ( ((GardenerObjective) obj).getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
+                else if( ( gardenerObjective.getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
                     Display.printMessage(name+" a detecte un THREE_GREEN_X4 \uD83D\uDC4F\uD83D\uDC4F ");
                     List<HexPlot> found = detector.findThreeGreenX4();
                     eatenBamboos.addMultiple(12, GREEN);
@@ -316,8 +323,8 @@ public class Player {
         switch (this.getStrategy()) {
             case PANDASTRATEGY : return dectectPandaObjective();
             case PLOTSTRATEGY: return detectPlotObjective();
+            default: return dectectPandaObjective()||detectPlotObjective()||dectectGardenerObjective();
         }
-        return false;
     }
 
     /**Rdefinition des methodes**/
@@ -326,31 +333,29 @@ public class Player {
         return name+" : "+score+" points et "+objectiveAchieved.size()+" objectifs atteints.";
     }
     public Boolean addAnIrrigation(IrrigationCanal canal){
-        if(canal.getAvailable()==false){
+        if(!canal.getAvailable()){
             canalList.add(canal);
             return true;
         }
         return false;
     }
     public Optional<IrrigationCanal> returnAnIrrigation(){
-        if(canalList.size()==0) return Optional.empty();
+        if(canalList.isEmpty()) return Optional.empty();
         IrrigationCanal canal = canalList.get(0);
         canalList.remove(canal);
         return Optional.of(canal);
     }
     public Optional<HexPlot> findAnAvailableIrrigationSource(IrrigationStock irrigationStock){
         Set<HexPlot> validsSource = new HashSet<>();
-        Set<HexPlot> Sources = irrigationStock.getAllHexplotFrom();
-        Sources.forEach(i->{
+        Set<HexPlot> sources = irrigationStock.getAllHexplotFrom();
+        sources.forEach(i->{
             if(!i.equals(new HexPlot())){
                 validsSource.add(i);
             }
-        });/*
-        throw new RuntimeException(""+Sources);*/
+        });
         if(validsSource.isEmpty()) {
             Display.printMessage("Pas de source d'irrigarion valable dans le jeu");
         }else{
-            rand = new Random();
             int randNumber = rand.nextInt(validsSource.size());
             List<HexPlot> listValidSource= validsSource.stream().toList();
             HexPlot hex =listValidSource.get(randNumber);
@@ -373,7 +378,6 @@ public class Player {
         if(validsDest.isEmpty()) {
             Display.printMessage("Pas de destination de canal de : "+hex+" valables dans le jeu");
         }else {
-            rand = new Random();
             int randNumber = rand.nextInt(validsDest.size());
             List<HexPlot> listValidDest= validsDest.stream().toList();
             HexPlot destPlot =listValidDest.get(randNumber);
@@ -394,4 +398,19 @@ public class Player {
         this.score += 2;
     }
 
+    public void setObjectiveAchieved(ArrayList<Objective> objectives) {
+        objectiveAchieved=objectives;
+    }
+
+    public void setCanalList(List<IrrigationCanal> canalList) {
+        this.canalList = canalList;
+    }
+
+    public EatenBamboos getEatenBamboos() {
+        return eatenBamboos;
+    }
+
+    public void setEatenBamboos(EatenBamboos eatenBamboos) {
+        this.eatenBamboos = eatenBamboos;
+    }
 }

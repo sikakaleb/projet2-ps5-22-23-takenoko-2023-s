@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @class Dice for weather
@@ -18,16 +18,22 @@ public class Dice {
 
     private Condition value;
 
+    private SecureRandom rand;
     public Dice(){
         this.value = null;
+        rand = new SecureRandom();
+        byte bytes[] = new byte[20];
+        rand.nextBytes(bytes);
     }
 
     public Condition getLastValue(){
         return this.value;
     }
 
+
+
     public Condition roll(){
-        int pick = new Random().nextInt(Condition.values().length);
+        int pick = rand.nextInt(Condition.values().length);
         this.value = Condition.values()[pick];
         return Condition.values()[pick];
     }

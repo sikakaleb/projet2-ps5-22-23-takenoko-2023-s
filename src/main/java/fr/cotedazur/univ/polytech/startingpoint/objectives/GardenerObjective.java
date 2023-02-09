@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Traite les Objectifs de Jardinier
  * */
 public class GardenerObjective extends Objective{
-    public static int  NumberOfGardenerObjective = 0;
+    private static int numberOfGardenerObjective = 0;
     private int gardenerObjectiveId;
     private GardenerObjectiveConfiguration configuration;
     private Color[] colors;
@@ -25,7 +25,7 @@ public class GardenerObjective extends Objective{
     public GardenerObjective(int numberOfPoints, GardenerObjectiveConfiguration configuration, Color[] colors) {
         super(numberOfPoints);
         this.configuration=configuration;
-        gardenerObjectiveId=++NumberOfGardenerObjective;
+        gardenerObjectiveId=++numberOfGardenerObjective;
         this.colors=colors;
     }
 
