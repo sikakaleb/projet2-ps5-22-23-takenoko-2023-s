@@ -6,14 +6,12 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
-import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -70,7 +68,7 @@ public class BotStatistics {
                 }
 
                 for (BotStat stat : stats) {
-                    csvWriter.writeNext(new String[] { stat.getBotName(), String.valueOf(stat.getStrategy()), String
+                    csvWriter.writeNext(new String[] { stat.getName(), String.valueOf(stat.getStrategy()), String
                             .valueOf(stat.getGamesPlayed()), String.valueOf(stat.getWins()), String.valueOf(stat.getTies()) ,String.valueOf(stat.getLosses()), String.valueOf(stat.getPoints())});
                 }
 

@@ -1,12 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.data;
 
 
-import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 
 import java.util.Objects;
-
-import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Main.ITERATIONS;
 
 public class BotStat {
     private String name;
@@ -38,7 +35,17 @@ public class BotStat {
         this.points = 0;
     }
 
-    public String getBotName(){
+    public BotStat(String name, Strategy strategy) {
+        this.name = name;
+        this.strategy = strategy;
+        this.gamesPlayed = 0;
+        this.wins = 0;
+        this.ties = 0;
+        this.losses = 0;
+        this.points = 0;
+    }
+
+    public String getName(){
         return this.name;
     }
 
@@ -85,7 +92,7 @@ public class BotStat {
     @Override
     public String toString() {
         return "BotStat [" +
-                "name=" + getBotName() +
+                "name=" + name +
                 ", strategy=" + strategy +
                 ", gamesPlayed=" + gamesPlayed +
                 ", wins=" + wins +
@@ -99,13 +106,20 @@ public class BotStat {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BotStat botStat)) return false;
-        return strategy.equals(botStat.getStrategy()) && name.equals(botStat.getBotName());
+        return strategy.equals(botStat.getStrategy()) && name.equals(botStat.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBotName(), getStrategy(), getGamesPlayed(), getWins(), getTies(), getLosses(), getPoints());
+        return Objects.hash(getName(), getStrategy(), getGamesPlayed(), getWins(), getTies(), getLosses(), getPoints());
     }
 
+    public void addGameStat(BotStat botStat) {
+        this.gamesPlayed += botStat.getGamesPlayed();
+        this.wins += botStat.getWins();
+        this.ties += botStat.getTies();
+        this.losses += botStat.getLosses();
+        this.points += botStat.getPoints();
+    }
 }
 

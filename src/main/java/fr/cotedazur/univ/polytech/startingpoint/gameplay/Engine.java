@@ -1,7 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
+import fr.cotedazur.univ.polytech.startingpoint.data.BotStat;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.Emperor;
+import java.util.Collections;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,7 @@ public class Engine {
         }
     }
 
-    public void runGame(Game game, boolean stats){
+    public Map<Player, BotStat> runGame(Game game, boolean stats){
         Boolean loop = true, lastRound = false;
         Emperor emperor = new Emperor(game);
         nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
@@ -105,9 +107,10 @@ public class Engine {
             gameStats.get(p1).updateAverageScore();
             gameStats.get(p2).updateAverageScore();
 
-
+            return gameStats;
 
         }
+        return Collections.emptyMap();
     }
 
 }

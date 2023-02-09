@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.display;
 
 import fr.cotedazur.univ.polytech.startingpoint.data.BotStat;
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 
 import java.util.List;
 import java.util.Map;
@@ -43,13 +44,13 @@ public class Display {
         LOGGER.log(level, msg);
     }
 
-    public static void printGameStats(List<Player> playerList, Map<Player, BotStat> gameStats) {
-        for (Player player : playerList) {
-            LOGGER.log(Level.SEVERE,player.getName()+" (jouant avec "+player.getStrategy().getName()+") : ");
-            LOGGER.log(Level.SEVERE,"parties gagnees : "+gameStats.get(player).getWins());
-            LOGGER.log(Level.SEVERE, "parties perdues : "+gameStats.get(player).getLosses());
-            LOGGER.log(Level.SEVERE, "parties nulles : "+gameStats.get(player).getTies());
-            LOGGER.log(Level.SEVERE, "score moyen : "+gameStats.get(player).getAverageScore());
+    public static void printGameStats(List<BotStat> botStats) {
+        for (BotStat botStat : botStats) {
+            LOGGER.log(Level.SEVERE,botStat.getName()+" (jouant avec "+botStat.getStrategy().getName()+") : ");
+            LOGGER.log(Level.SEVERE,"parties gagnees : "+botStat.getWins());
+            LOGGER.log(Level.SEVERE, "parties perdues : "+botStat.getLosses());
+            LOGGER.log(Level.SEVERE, "parties nulles : "+botStat.getTies());
+            LOGGER.log(Level.SEVERE, "score moyen : "+botStat.updateAverageScore());
         }
     }
 }

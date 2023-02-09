@@ -28,9 +28,10 @@ public class Main {
     private static boolean csv;
 
     public static int ITERATIONS = 1000;
+    public static int NBGAMESCSV = 20;
     public static Map<Player, BotStat> gameStats;
-    Player p1;
-    Player p2;
+    public Player p1;
+    public Player p2;
     public static List<Player> playerList = new ArrayList<>();
 
     /*
@@ -66,13 +67,20 @@ public class Main {
 
     public void csv() {
         Display.setUp(Level.SEVERE);
-        Display.printMessage("Simulation de " + ITERATIONS +" parties avec relecture de \"stats/gamestats.csv\" s'il existe et ajout des nouvelles statistiques", Level.SEVERE);
-        gameWithStats(PANDASTRATEGY,WITHOUTSTRATEGY);
-        Display.printGameStats(playerList, gameStats);
+        Display.printMessage("Simulation de " + NBGAMESCSV +" parties avec relecture de \"stats/gamestats.csv\" s'il existe et ajout des nouvelles statistiques", Level.SEVERE);
         List<BotStat> botStats = Arrays.asList(
-                new BotStat("p1", PANDASTRATEGY,gameStats.get(p1).getGamesPlayed(), gameStats.get(p1).getWins(), gameStats.get(p1).getTies(), gameStats.get(p1).getLosses(), gameStats.get(p1).getPoints()),
-                new BotStat("p2", WITHOUTSTRATEGY, gameStats.get(p2).getGamesPlayed(), gameStats.get(p2).getWins(), gameStats.get(p2).getTies(), gameStats.get(p2).getLosses(), gameStats.get(p2).getPoints())
+                new BotStat("BotIntelligent", PANDASTRATEGY),
+                new BotStat("BotRandom", WITHOUTSTRATEGY)
         );
+        IntStream.range(0, NBGAMESCSV).forEach(i -> {
+            Display.printMessage("Partie "+(i+1), Level.SEVERE);
+            Engine engine = new Engine(new Player("BotIntelligent", PANDASTRATEGY),new Player("BotRandom", WITHOUTSTRATEGY));
+            gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
+            gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
+            botStats.get(0).addGameStat(gameStats.get(engine.p1));
+            botStats.get(1).addGameStat(gameStats.get(engine.p2));
+        });
+        Display.printGameStats(botStats);
         List<BotStat> existingStats = BotStatistics.readFromFile();
         Display.printMessage(String.valueOf(existingStats.size()), Level.SEVERE);
         existingStats.addAll(botStats);
@@ -82,24 +90,36 @@ public class Main {
 
     public void twoThousand() {
         Display.setUp(Level.SEVERE);
-
+        List<BotStat> botStats = Arrays.asList(
+                new BotStat("BotIntelligent", PANDASTRATEGY),
+                new BotStat("BotRandom", WITHOUTSTRATEGY)
+        );
         Display.printMessage("Simulation de "+ITERATIONS+" parties de votre meilleur bot contre le second", Level.SEVERE);
-        gameWithStats(PANDASTRATEGY,WITHOUTSTRATEGY);
-
-        Display.printMessage("\nSimulation de "+ITERATIONS+" parties de votre meilleur bot contre lui-même", Level.SEVERE);
-        gameWithStats(PANDASTRATEGY,PANDASTRATEGY);
-    }
-
-    private void gameWithStats(Strategy strategy1, Strategy strategy2) {
-        gameStats = Map.of(p1, new BotStat(), p2, new BotStat());
         IntStream.range(0, ITERATIONS).forEach(i -> {
             Display.printMessage("Partie "+(i+1), Level.SEVERE);
-            Engine engine = new Engine(new Player("BotIntelligent", strategy1), new Player("BotRandom", strategy2));
-            engine.runGame(new Game(engine.p1,engine.p2),true);
+            Engine engine = new Engine(new Player("BotIntelligent", PANDASTRATEGY),new Player("BotRandom", WITHOUTSTRATEGY));
+            gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
+            gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
+            botStats.get(0).addGameStat(gameStats.get(engine.p1));
+            botStats.get(1).addGameStat(gameStats.get(engine.p2));
         });
-        playerList.add(p1);
-        playerList.add(p2);
-        Display.printGameStats(playerList, gameStats);
+        Display.printGameStats(botStats);
+
+
+        List<BotStat> botStats2 = Arrays.asList(
+                new BotStat("BotIntelligent", PANDASTRATEGY),
+                new BotStat("BotRandom", PANDASTRATEGY)
+        );
+        Display.printMessage("\nSimulation de "+ITERATIONS+" parties de votre meilleur bot contre lui-même", Level.SEVERE);
+        IntStream.range(0, ITERATIONS).forEach(i -> {
+            Display.printMessage("Partie "+(i+1), Level.SEVERE);
+            Engine engine = new Engine(new Player("BotIntelligent", PANDASTRATEGY),new Player("BotRandom", PANDASTRATEGY));
+            gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
+            gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
+            botStats2.get(0).addGameStat(gameStats.get(engine.p1));
+            botStats2.get(1).addGameStat(gameStats.get(engine.p2));
+        });
+        Display.printGameStats(botStats2);
     }
 
 }

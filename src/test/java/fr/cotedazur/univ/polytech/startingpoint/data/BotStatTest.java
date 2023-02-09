@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.data;
 
 
-import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ public class BotStatTest {
     @Test
     public void testGetName() {
         BotStat botStat = new BotStat("player2", Strategy.WITHOUTSTRATEGY, 100, 10,0, 20,5.0);
-        assertEquals("player2", botStat.getBotName());
+        assertEquals("player2", botStat.getName());
     }
 
     @Test
