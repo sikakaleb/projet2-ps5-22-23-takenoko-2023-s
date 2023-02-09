@@ -121,5 +121,9 @@ public class BotStat {
         this.losses += botStat.getLosses();
         this.points += botStat.getPoints();
     }
+
+    public void lose() {
+        this.losses ++;
+    }
 }
 

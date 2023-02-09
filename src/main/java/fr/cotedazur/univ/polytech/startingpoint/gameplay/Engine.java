@@ -86,15 +86,18 @@ public class Engine {
             Display.printMessage("Le jeu se termine au bout de "+nbRound+" tours.");
 
         Player winner = emperor.judgement();
-        System.out.println("Score joueur 1 : " + p1.getScore());
-        System.out.println("Score joueur 2 : " + p2.getScore());
+//        System.out.println("Score joueur 1 : " + p1.getScore());
+//        System.out.println("Score joueur 2 : " + p2.getScore());
 
         if (stats) {
             for(Player p : playerList){
                 gameStats.get(p).played();
             }
             if (winner != null) {
-                gameStats.get(winner).win();
+                for (Player p : playerList) {
+                    if (p == winner) gameStats.get(winner).win();
+                    else gameStats.get(p).lose();
+                }
             } else {
                 for (Player p : playerList) {
                     gameStats.get(p).tie();

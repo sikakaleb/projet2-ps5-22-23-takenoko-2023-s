@@ -91,13 +91,12 @@ public class Main {
     public void twoThousand() {
         Display.setUp(Level.SEVERE);
         List<BotStat> botStats = Arrays.asList(
-                new BotStat("BotIntelligent", PANDASTRATEGY),
-                new BotStat("BotRandom", WITHOUTSTRATEGY)
+                new BotStat("FA3", Fa3STRATEGY),
+                new BotStat("Random", WITHOUTSTRATEGY)
         );
         Display.printMessage("Simulation de "+ITERATIONS+" parties de votre meilleur bot contre le second", Level.SEVERE);
         IntStream.range(0, ITERATIONS).forEach(i -> {
-            Display.printMessage("Partie "+(i+1), Level.SEVERE);
-            Engine engine = new Engine(new Player("BotIntelligent", PANDASTRATEGY),new Player("BotRandom", WITHOUTSTRATEGY));
+            Engine engine = new Engine(new Player("FA3", Fa3STRATEGY),new Player("Panda", PANDASTRATEGY));
             gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
             gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
             botStats.get(0).addGameStat(gameStats.get(engine.p1));
@@ -107,13 +106,12 @@ public class Main {
 
 
         List<BotStat> botStats2 = Arrays.asList(
-                new BotStat("BotIntelligent", PANDASTRATEGY),
-                new BotStat("BotRandom", PANDASTRATEGY)
+                new BotStat("FA3", Fa3STRATEGY),
+                new BotStat("FA3v2", Fa3STRATEGY)
         );
         Display.printMessage("\nSimulation de "+ITERATIONS+" parties de votre meilleur bot contre lui-même", Level.SEVERE);
         IntStream.range(0, ITERATIONS).forEach(i -> {
-            Display.printMessage("Partie "+(i+1), Level.SEVERE);
-            Engine engine = new Engine(new Player("BotIntelligent", PANDASTRATEGY),new Player("BotRandom", PANDASTRATEGY));
+            Engine engine = new Engine(new Player("FA3", Fa3STRATEGY),new Player("FA3v2", Fa3STRATEGY));
             gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
             gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
             botStats2.get(0).addGameStat(gameStats.get(engine.p1));

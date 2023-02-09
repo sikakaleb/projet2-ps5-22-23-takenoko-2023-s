@@ -50,6 +50,7 @@ public class Display {
             LOGGER.log(Level.SEVERE,"parties gagnees : "+botStat.getWins());
             LOGGER.log(Level.SEVERE, "parties perdues : "+botStat.getLosses());
             LOGGER.log(Level.SEVERE, "parties nulles : "+botStat.getTies());
+            LOGGER.log(Level.SEVERE, "winrate : "+(((botStat.getWins())+0.0) / (0.0+botStat.getGamesPlayed()))*100+"%");
             LOGGER.log(Level.SEVERE, "score moyen : "+botStat.updateAverageScore());
         }
     }
