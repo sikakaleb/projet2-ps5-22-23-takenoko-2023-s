@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Game;
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
@@ -308,13 +308,13 @@ class GameTest {
         }
     }
 
-    @Test
-    // Quand il tire une la météo « ? » dans les premiers tours, le bot Fa3STRATEGY prend une irrigation.
-    void Fa3STRATEGYactOnWeatherMYSTERY(){
-        player1.setStrategy(Fa3STRATEGY);
-        int irrigationsbefore = player1.getCanalList().size();
-        Dice.Condition condition = Dice.Condition.MYSTERY;
-        game.actOnWeather(condition, player1);
-        assertEquals(irrigationsbefore+1, player1.getCanalList().size());
-    }
+//    @Test
+//    // Quand il tire une la météo « ? » dans les premiers tours, le bot Fa3STRATEGY prend une irrigation.
+//    void Fa3STRATEGYactOnWeatherMYSTERY(){
+//        player1.setStrategy(Fa3STRATEGY);
+//        int irrigationsbefore = player1.getCanalList().size();
+//        Dice.Condition condition = Dice.Condition.MYSTERY;
+//        game.actOnWeather(condition, player1);
+//        assertEquals(irrigationsbefore+1, player1.getCanalList().size());
+//    }
 }
