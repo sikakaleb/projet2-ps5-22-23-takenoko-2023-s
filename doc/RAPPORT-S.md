@@ -16,7 +16,7 @@ Actuellement nos bots ne sont pas assez intelligent pour deviner les objectifs d
 
 ### 1.3. Déroulement du jeu
 
-Au debut du jeu des bots (2, 3 ou 4) sont créés pour jouer selon une stratégie bien définie. Après se déroule une boucle de tours où chaque joueur tente de réaliser le plus d'objectifs pour atteindre le nombre d'objectifs requis afin de gagner la partie. Ce nombre est déterminé en soustrayant à 11 le nombre de joueurs.
+Au debut du jeu, des bots (2, 3 ou 4) sont créés pour jouer selon une stratégie bien définie. Au fur et à mesure des tours, chaque joueur tente de réaliser un maximum d'objectifs pour gagner la partie. Ce nombre est déterminé en soustrayant à 11 le nombre de joueurs.
 
 ### 1.4. Réalisations des logs
 
@@ -34,13 +34,13 @@ Au debut du jeu des bots (2, 3 ou 4) sont créés pour jouer selon une stratégi
 
 ### 2.1. Architecture
 
-Concernant l'architecture de notre projet, nous avons opté pour ==un système des Milestones et des issues.== Chaque petite fonctionnalité répond à un besoin particulier et est utilisé pour créer des nouvelles fonctionnalités plus grande, pour mettre de réaliser l'application.
+Concernant l'architecture de notre projet, nous avons opté pour un système des Milestones et des issues. Chaque petite fonctionnalité répond à un besoin particulier et est utilisé pour créer des nouvelles fonctionnalités plus grande, pour permettre de réaliser l'application.
 
 Les classes sont rangées dans des packages dont le titre résume leur fonctionnalité.
 
 ### 2.2. Qualité
 
-Dans ce projet, nous avons utilisé les concepts de polymorphisme, de types énumérés,
+Dans ce projet, nous avons utilisé les concepts de polymorphisme, abstraction, héritage, encapsulation ainsi que des types énumérés.
 
 ## 3. Déroulement du projet (Processus)
 
@@ -58,4 +58,4 @@ Pour réaliser ce projet, avoir une planification des tâches à éffectuer grâ
 
 ## Points à changer
 
-Notre plus grande erreur pendant ce projet aura de ne pas avoir pris le temps d'analyser l'architecture de notre application et de bien planifier les issues, ce qui aura causé une perte de temps pour les refactoring. La prochaine fois, il ne faudra donc tenir compte de cela.
+Notre plus grande erreur pendant ce projet aura de ne pas avoir pris le temps d'analyser l'architecture de notre application, ce qui aura causé une perte de temps pour les refactoring. La prochaine fois, il ne faudra donc tenir compte de cela.
