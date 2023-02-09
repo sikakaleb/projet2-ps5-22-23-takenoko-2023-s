@@ -3,8 +3,6 @@ package fr.cotedazur.univ.polytech.startingpoint.objectives;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration;
 
-import java.util.Arrays;
-
 /**
  * @class GardenerObjective
  * @extends Objective
@@ -46,10 +44,7 @@ public class GardenerObjective extends Objective{
 
     @Override
     public String toString() {
-        return "GardenerObjective{" +
-                "gardenerObjectiveId=" + gardenerObjectiveId +
-                ", configuration=" + configuration +
-                ", colors=" + Arrays.toString(colors) +
-                '}';
+        return "{ Objectif jardinier: "+ configuration +'}';
+
     }
 }

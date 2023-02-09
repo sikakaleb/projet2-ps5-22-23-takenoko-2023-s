@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.util.*;
 
+import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.board;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.panda;
 
 /**
@@ -100,21 +101,21 @@ public class Board extends ArrayList<HexPlot> {
 
     public void ChoicePlot(HexPlot hex){
         Set<HexPlot> validPlotsSet = new HashSet<>();
-        this.forEach(hexPlot -> {
-            validPlotsSet.addAll(findAvailableNeighbors(hexPlot));
+        board.forEach(hexPlot -> {
+            validPlotsSet.addAll(this.findAvailableNeighbors(hexPlot));
         });
-        HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
-        Random rand = new Random();
-        int randNumber = rand.nextInt(validPlotsSet.size());
-        hex.setQ(arrayPlots[randNumber].getQ());
-        hex.setR(arrayPlots[randNumber].getR());
-        hex.setS(arrayPlots[randNumber].getS());
-        Display.printMessage("nombre de place valide est :"+validPlotsSet.size());
-        Display.printMessage("les places valides sont :"+validPlotsSet);
-        Display.printMessage("la liste des parcelles dans le jeu avant le choix:"+this);
+        HexPlot newNeigbhor = randomPlotChoice(validPlotsSet);
+        hex.setQ(newNeigbhor.getQ());
+        hex.setR(newNeigbhor.getR());
+        hex.setS(newNeigbhor.getS());
         this.add(hex);
     }
 
+    public HexPlot randomPlotChoice(Set<HexPlot> validPlotsSet){
+        HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
+        int randNumber = new Random().nextInt(validPlotsSet.size());
+        return arrayPlots[randNumber];
+    }
     public List<HexPlot> getNewPositionPossibilities(){
         List<HexPlot> linearHex = new ArrayList<>();
         HexPlot currentPosition= panda.getPosition();
@@ -150,7 +151,7 @@ public class Board extends ArrayList<HexPlot> {
 
         ArrayList<HexPlot> forImprovement = (ArrayList<HexPlot>) this.clone();
         forImprovement.removeIf( hexPlot ->
-                        hexPlot.isPond() || hexPlot.getImprovement()!=null || !hexPlot.getBamboos().isEmpty()
+                        hexPlot.isPond() || hexPlot.getImprovement()!=null || (hexPlot.getBamboos()!=null && !hexPlot.getBamboos().isEmpty())
         );
         if(forImprovement.isEmpty()){
             Display.printMessage("Aucune parcelle aménageable");
@@ -171,7 +172,7 @@ public class Board extends ArrayList<HexPlot> {
 
         ArrayList<HexPlot> forBamboo = (ArrayList<HexPlot>) this.clone();
         forBamboo.removeIf( hexPlot ->
-                        !hexPlot.isIrrigated() || hexPlot.getBamboos().size()==4
+                        hexPlot.isPond() || !hexPlot.isIrrigated() || (hexPlot.getBamboos()!=null &&hexPlot.getBamboos().size()==4)
         );
         if(forBamboo.isEmpty()){
             Display.printMessage("Aucune parcelle sur laquelle placer un bambou");

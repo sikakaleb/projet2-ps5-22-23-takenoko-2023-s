@@ -23,10 +23,6 @@ Chaque joueur a droit cinq(5) objectifs.
 À chaque tour chaque joueur realise 2 actions parmis les 5 possibles.
 Nous avons donc un joueur qui realise que les Objectifs panda et un autre qui joue sans strategie precis
 
-Dans notre version, avec des bots peu intelligents, pour éviter que la partie ne soit interminable
-on réduit de 5 le nombre d'objectifs à atteindre pour gagner, et on fixe nombre de tours prédéterminé 
-dans le cas où aucun joueur n'arrive à compléter le nombre requis d'objectifs
-
 ## Fonctionnalités du jeu
 * Implementation de parcelle avec couleur.
 * Implementation et detection de tous les objectifs parcelles et Panda dans le jeu.

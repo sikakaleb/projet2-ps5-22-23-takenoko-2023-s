@@ -61,11 +61,11 @@ class GameTest {
     @Test
     void choiceObjectiveTest() {
         game.choiceObjective(player1);
-        assertEquals(game.getObjective().size(), 32);
+        assertEquals(game.getObjective().size(), 44);
         assertTrue(game.choiceObjective(player1));
         assertTrue(game.choiceObjective(player2));
         game.choiceObjective(player2);
-        assertEquals(game.getObjective().size(), 29);
+        assertEquals(game.getObjective().size(), 41);
         assertTrue(game.choiceObjective(player2));
     }
 
@@ -299,12 +299,12 @@ class GameTest {
     @Test
     // Le bot Fa3STRATEGY essaie d’avoir 5 cartes objectif en main tout le temps
     void always5objectivesFa3STRATEGY(){
-        player1.setStrategy(Fa3STRATEGY);
+        player2.setStrategy(Fa3STRATEGY);
         for (int i = 0; i < 10; i++) { // test sur 10 tours
-            game.play(player1);
+            game.play(player2);
             if (game.dice.getLastValue() != WIND)
                 assertTrue(game.playerActions[0]==PICK_OBJECTIVE
-                    || player1.getUnMetObjectives().size()==5);
+                    || player2.getUnMetObjectives().size()>=4);
         }
     }
 

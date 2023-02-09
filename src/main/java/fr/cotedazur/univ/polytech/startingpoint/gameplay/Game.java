@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -92,10 +92,10 @@ public class Game {
 
     public Boolean play(Player player){
 
-        if (deckOfPlots.size()==0){
+        if (deckOfPlots.isEmpty()){
             player.getStrategy().noMorePlots();
         }
-        if (listOfObjectives.size()==0){
+        if (listOfObjectives.isEmpty()){
             player.getStrategy().noMoreObjectives();
         }
 
@@ -133,7 +133,7 @@ public class Game {
             listOfObjectives.remove(randNumber);
             return true;
         }
-        else if(listOfObjectives.size()==0 && player.unMetObjectives.size()==0){
+        else if(listOfObjectives.isEmpty() && player.unMetObjectives.isEmpty()){
             throw new IndexOutOfBoundsException("Il y a plus d'objectifs dans la liste");
         }
         Display.printMessage(player.getName()+" ne peut plus choisir d'objectif");
@@ -148,20 +148,39 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean choicePlot(Player player){
-        if (deckOfPlots.size()!=0 ) {
-            board.ChoicePlot(deckOfPlots.pickPlot());
-            /* le board ajoute deja dans son add modifié
-            un bambou a l'ajout de la parcelle au jeu
-             */
-            //addBambooToPlot(board.getLastHexPlot());
+        if (!deckOfPlots.isEmpty()) {
+
+            if (player.getStrategy() != WITHOUTSTRATEGY){
+                HexPlot found = findPlotForObjective(player);
+                if (found != null)
+                    board.add(findPlotForObjective(player));
+            }
+            else board.ChoicePlot(deckOfPlots.pickPlot());
             Display.printMessage(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
             Display.printMessage("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
-        }else if(deckOfPlots.size()==0  && player.getUnMetObjectives().size()==0){
+        }else if(deckOfPlots.isEmpty()  && player.getUnMetObjectives().isEmpty()){
             throw new IndexOutOfBoundsException("Il y a plus de parcelles a posé");
         }
         return false;
     }
+
+    public HexPlot findPlotForObjective(Player player){
+        Set<HexPlot> validPlotsSet = new HashSet<>();
+        board.forEach(hexPlot -> {
+            validPlotsSet.addAll(board.findAvailableNeighbors(hexPlot));
+        });
+        for (HexPlot plot : validPlotsSet) {
+            Board clone = (Board) board.clone();
+            clone.add(plot);
+            if (player.detectPlotObjective() != null){
+                return plot;
+            }
+        }
+        return null;
+    }
+
+
     /**
      * ChoiceAnIrrigation fonction qui permet a un joueur de choisir une irrigation
      * et de le mettre dans sa liste d'irrigation
@@ -231,7 +250,7 @@ public class Game {
         Display.printMessage("la liste des parcelles dans le jeu :"+board);
         Random rand = new Random();
         List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
-        if(movePossibilities.size()!=0){
+        if(!movePossibilities.isEmpty()){
 
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
@@ -257,7 +276,7 @@ public class Game {
         Display.printMessage("La position du jardinier avant deplacement "+gardener.getPosition());
         Random rand = new Random();
         List<HexPlot> movePossibilities = board.getNewPositionPossibilities();
-        if(movePossibilities.size()!=0){
+        if(!movePossibilities.isEmpty()){
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
             gardener.move(next);
@@ -274,7 +293,7 @@ public class Game {
     }
 
     public boolean eatIfBamboo(HexPlot plot, Player player){
-        if(plot.getBamboos().size()!=0){
+        if(!plot.getBamboos().isEmpty()){
             Display.printMessage("il y a de bambou sur cette parcelle");
 
             if (plot.getImprovement()==FENCE)
@@ -338,7 +357,7 @@ public class Game {
                 panda.pandaMove(next);
                 Display.printMessage(player.getName()+" déplace le panda à : "+panda.getPosition());
                 boolean hasEaten = eatIfBamboo(next, player);
-                if (! hasEaten) {
+                if (!hasEaten) {
                     Bamboo bamboo = new Bamboo(next.getColor());
                     player.eatenBamboos.add(bamboo);
                     bambooStock.remove(bamboo);
