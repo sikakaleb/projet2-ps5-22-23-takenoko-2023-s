@@ -206,17 +206,17 @@ public class Player {
                 }
                 else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGP
                         && detector.findQuadrilateralPlotsGP())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_GREEN_PINK \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGY
                         && detector.findQuadrilateralPlotsGY())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_GREEN_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
                 else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY
                         && detector.findQuadrilateralPlotsPY())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
+                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
                     return validateUnMetObjectives(obj);
                 }
 
@@ -398,7 +398,7 @@ public class Player {
         this.score += 2;
     }
 
-    public void setObjectiveAchieved(ArrayList<Objective> objectives) {
+    public void setObjectiveAchieved(List<Objective> objectives) {
         objectiveAchieved=objectives;
     }
 

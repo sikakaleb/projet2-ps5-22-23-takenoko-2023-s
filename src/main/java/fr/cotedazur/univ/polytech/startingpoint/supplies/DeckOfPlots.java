@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
@@ -42,5 +43,18 @@ public class DeckOfPlots extends ArrayList<HexPlot> {
         this.remove(randNumber);
         Display.printMessage("Nombre de parcelle dans la pile :"+this.size());
         return hex;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DeckOfPlots hexPlots)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(rand, hexPlots.rand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), rand);
     }
 }

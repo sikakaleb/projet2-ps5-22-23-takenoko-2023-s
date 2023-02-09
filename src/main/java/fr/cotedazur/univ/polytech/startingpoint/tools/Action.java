@@ -14,13 +14,13 @@ public class Action {
             * Le joueur pioche 1 carte objectif de la catégorie de son choix et l’ajoute à sa main.
             */
            PICK_OBJECTIVE,
-           //COMPLETE_OBJECTIVE,
+           /**COMPLETE_OBJECTIVE,**/
 
            /**
             * Le joueur prend 1 irrigation dans la réserve.
             * Il peut l’utiliser immédiatement ou la conserver pour les tours suivants.
             */
-           //PICK_IRRIGATION,
+           /**PICK_IRRIGATION,**/
            PLACE_IRRIGATION,
 
            /**

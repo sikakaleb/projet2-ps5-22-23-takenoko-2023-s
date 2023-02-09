@@ -25,7 +25,7 @@ public class MainTest {
     void Fa3STRATEGYcollectBamboos(){
         main.game.getPlayerList().get(0).setStrategy(Fa3STRATEGY);
         main.runGame();
-        main.maxRounds = 10;
+        main.setMaxRounds(10);
         System.out.println(main.game.getPlayerActions());
         assertTrue(main.game.getPlayerActions()[0]==PICK_OBJECTIVE
                 ||main.game.getPlayerActions()[0]==PICK_PLOT

@@ -45,7 +45,7 @@ public class IrrigationStock  {
      */
     public Set<HexPlot> getAllHexplotFrom(){
         Set<HexPlot> result=new HashSet<>();
-        if(usedCanal.size()!=0){
+        if(!usedCanal.isEmpty()){
             usedCanal.forEach(irrigationCanal->{
                 if(irrigationCanal.getAvailable()==true){
                     Optional<HexPlot> source = irrigationCanal.getSourcePlot();
@@ -92,7 +92,7 @@ public class IrrigationStock  {
     }
 
     public Optional<IrrigationCanal> getOneUnused(){
-        if(unUsedCanal.size()!=0){
+        if(!unUsedCanal.isEmpty()){
             IrrigationCanal temp=unUsedCanal.get(0);
             unUsedCanal.remove(temp);
             return Optional.of(temp);

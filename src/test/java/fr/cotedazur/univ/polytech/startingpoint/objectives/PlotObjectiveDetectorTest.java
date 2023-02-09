@@ -31,9 +31,9 @@ public class PlotObjectiveDetectorTest {
 
     @Test
     void listOfCombinationsTest() {
-        board.ChoicePlot(deckOfPlots.pickPlot());
-        board.ChoicePlot(deckOfPlots.pickPlot());
-        board.ChoicePlot(deckOfPlots.pickPlot());
+        board.choicePlot(deckOfPlots.pickPlot());
+        board.choicePlot(deckOfPlots.pickPlot());
+        board.choicePlot(deckOfPlots.pickPlot());
         List<HexPlot> temp=new ArrayList<>(board);
         temp.remove(new HexPlot());
         List<List<HexPlot>> list = detector.listOfCombinations(3);

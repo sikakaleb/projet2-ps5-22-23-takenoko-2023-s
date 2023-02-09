@@ -30,7 +30,6 @@ public class Panda {
         else if(nPosition.getS()==this.position.getS()){
             this.position=nPosition;
         }
-        //à gerer avec une execption
         else {
             Display.printMessage("Le panda ne se deplace qu'en ligne droite");
         }

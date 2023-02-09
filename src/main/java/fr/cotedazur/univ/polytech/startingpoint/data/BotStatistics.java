@@ -22,24 +22,24 @@ public class BotStatistics {
     private static final Path FILE_PATH = Paths.get("stats", FILE_NAME);
 
 /**   public static void main(String[] args) {
-//        // retrieve the latest statistics of the bots
-//       Player player1 = new Player("Bot 3");
-//       Player player2 = new Player("Bot 4");
-//        List<BotStat> botStats = Arrays.asList(
-//                new BotStat(player1, 15000, 1050,10),
-//                new BotStat(player2, 20000, 16000,500)
-//        );
-//        List<BotStat> existingStats = readFromFile();
-//        Display.printMessage(String.valueOf(existingStats.size()), Level.SEVERE);
-//        existingStats.addAll(botStats);
-//        writeToFile(existingStats);
-//    }**/
+         retrieve the latest statistics of the bots
+      Player player1 = new Player("Bot 3");
+       Player player2 = new Player("Bot 4");
+        List<BotStat> botStats = Arrays.asList(
+                new BotStat(player1, 15000, 1050,10),
+                new BotStat(player2, 20000, 16000,500)
+        );
+        List<BotStat> existingStats = readFromFile();
+        Display.printMessage(String.valueOf(existingStats.size()), Level.SEVERE);
+        existingStats.addAll(botStats);
+        writeToFile(existingStats);
+    }**/
 
     public /**/static/**/ List<BotStat> readFromFile() {
         Path filePath = Paths.get(CSV_FILE_PATH);
         List<BotStat> existingData = new ArrayList<>();
 
-        // check if the file exists and read the existing data if it does
+        /** check if the file exists and read the existing data if it does**/
         File file = filePath.toFile();
         if (file.exists() && !file.isDirectory()) {
             try (Reader reader = new FileReader(file)) {

@@ -32,7 +32,7 @@ public class Main {
     private static Player p2 = new Player("BotRandom", WITHOUTSTRATEGY);
     public static Game game = new Game(p1,p2);
     private static Map<Player, PlayerData> gameStats;
-    public static int ITERATIONS = 1000;
+    public static final int ITERATIONS = 1000;
     public static int ties = 0;
     Map<Integer, Integer> objectivesForNbPlayers = Map.of(
             2, 9,
@@ -41,10 +41,11 @@ public class Main {
     );
     private int nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
 
-    // Dans notre version, avec des bots peu intelligents,pour éviter que la partie
-    // ne soit interminable, on fixe nombre de tours prédéterminé :
-    public int maxRounds = 50;
-    public int nbRound = 0;
+    /** Dans notre version, avec des bots peu intelligents,pour éviter que la partie
+     *ne soit interminable, on fixe nombre de tours prédéterminé :
+     **/
+    private int maxRounds = 50;
+    private int nbRound = 0;
 
     /*
     * JeReflechis() utilisé pour marquer un temps de pause
@@ -120,7 +121,8 @@ public class Main {
     }
 
     public void runGame(){
-        Boolean loop = true, lastRound = false;
+        Boolean loop = true;
+        Boolean lastRound = false;
         Emperor emperor = new Emperor(game);
         List<Player> playerList = game.getPlayerList();
 
@@ -143,13 +145,9 @@ public class Main {
                 if (game.play(p)) game.display();
 
                 if (nbRound==0  && p.getStrategy()==Fa3STRATEGY){
-                    System.out.println(p.getStrategy().getActions());
                     p.getStrategy().add(MOVE_GARDENER);
                     p.getStrategy().add(MOVE_PANDA);
-                    System.out.println(p.getStrategy().getActions());
                 }
-                System.out.println(p.getStrategy().getActions());
-
             }
             nbRound++;
         }
@@ -166,5 +164,13 @@ public class Main {
             gameStats.get(p1).score(p1.getScore());
             gameStats.get(p2).score(p2.getScore());
         }
+    }
+
+    public int getMaxRounds() {
+        return maxRounds;
+    }
+
+    public void setMaxRounds(int maxRounds) {
+        this.maxRounds = maxRounds;
     }
 }

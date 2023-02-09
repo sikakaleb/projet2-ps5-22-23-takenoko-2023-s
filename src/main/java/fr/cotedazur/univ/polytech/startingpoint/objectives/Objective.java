@@ -4,12 +4,12 @@ public abstract class Objective {
     /**Attributs de la classe**/
     private static  int numberOfObjective =0;
     private int objectId;
-    private  int NumberOfPoints;
+    private  int numberOfPoints;
 
     /**COntructeur de la classe**/
-    protected Objective(int numberOfPoints) {
+    protected Objective(int nmberOfPoints) {
         objectId=++numberOfObjective;
-        NumberOfPoints = numberOfPoints;
+        numberOfPoints = nmberOfPoints;
 
     }
 
@@ -20,12 +20,12 @@ public abstract class Objective {
     }
 
     public int getNumberOfPoints() {
-        return NumberOfPoints;
+        return numberOfPoints;
     }
 
     @Override
     public String toString() {
-        return "NumberOfPoints=" + NumberOfPoints +
+        return "NumberOfPoints=" + numberOfPoints +
                 '}';
     }
 }

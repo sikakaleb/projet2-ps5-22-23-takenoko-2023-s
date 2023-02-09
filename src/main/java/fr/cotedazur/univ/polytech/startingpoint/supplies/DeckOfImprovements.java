@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
@@ -41,5 +42,16 @@ public class DeckOfImprovements extends ArrayList<PlotImprovement> {
         return plotImprovement;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DeckOfImprovements that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(rand, that.rand);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), rand);
+    }
 }

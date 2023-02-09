@@ -66,7 +66,7 @@ public class PlotObjectiveDetector {
 
         for (HexPlot hex  : listPlots) {
             if (counter.containsKey(hex.getR())) {
-                counter.put(hex.getR(), counter.get(hex.getR()) + 1);   // équivalent counter.get(card.getValeur())++
+                counter.put(hex.getR(), counter.get(hex.getR()) + 1);
             } else {
                 counter.put(hex.getR(), 1);
             }
@@ -85,7 +85,7 @@ public class PlotObjectiveDetector {
 
         for (HexPlot hex  : listPlots) {
             if (counter.containsKey(hex.getS())) {
-                counter.put(hex.getS(), counter.get(hex.getS()) + 1);   // équivalent counter.get(card.getValeur())++
+                counter.put(hex.getS(), counter.get(hex.getS()) + 1);
             } else {
                 counter.put(hex.getS(), 1);
             }
@@ -104,7 +104,7 @@ public class PlotObjectiveDetector {
 
         for (HexPlot hex  : listPlots) {
             if (counter.containsKey(hex.getQ())) {
-                counter.put(hex.getQ(), counter.get(hex.getQ()) + 1);   // équivalent counter.get(card.getValeur())++
+                counter.put(hex.getQ(), counter.get(hex.getQ()) + 1);
             } else {
                 counter.put(hex.getQ(), 1);
             }
@@ -194,7 +194,7 @@ public class PlotObjectiveDetector {
             Set<HexPlot> process=hex.plotNeighbor();
             process.retainAll(listPlotsCopy);
             if (counter.containsKey(process.size())) {
-                counter.put(process.size(), counter.get(process.size()) + 1);   // équivalent counter.get(card.getValeur())++
+                counter.put(process.size(), counter.get(process.size()) + 1);
             } else {
                 counter.put(process.size(), 1);
             }
@@ -225,7 +225,6 @@ public class PlotObjectiveDetector {
 
     /** Verifier si une liste de 4 hexplot a la configuration QUADRILATERALPLOTS  **/
     public Boolean isQuadrilateralSamePlots(List<HexPlot> listPlots){
-        Map<String ,Map<Integer,Integer>> listPlotsData = extractPlotsData(listPlots);
         Map<Integer,Integer> answerset=new HashMap<>();
         answerset.put(2,2);
         answerset.put(3,2);
@@ -344,5 +343,6 @@ public class PlotObjectiveDetector {
         }
         return false;
     }
+
 
 }

@@ -49,11 +49,11 @@ public class Game {
         actions = Map.of(
                 PICK_PLOT, this::choicePlot,
                 PICK_OBJECTIVE, this::choiceObjective,
-                //COMPLETE_OBJECTIVE, this::completeObjective,
+                /**COMPLETE_OBJECTIVE, this::completeObjective,**/
                 MOVE_PANDA, this::movePanda,
                 MOVE_GARDENER, this::moveGardener,
                 PLACE_IMPROVEMENT, this::placeImprovement,
-                //PICK_IRRIGATION, this::choiceAnIrrigation,
+                /**PICK_IRRIGATION, this::choiceAnIrrigation,**/
                 PLACE_IRRIGATION, this::placeAnIrrigation
         );
         rand = new SecureRandom();
@@ -101,12 +101,8 @@ public class Game {
     }
 
 
-    public static List<Objective> getObjective() {
-        return listOfObjectives;
-    }
-
-    public void setObjectives(DeckOfObjectifs objectives) {
-        this.listOfObjectives = objectives;
+    public static void setObjectives(DeckOfObjectifs objectives) {
+        listOfObjectives = objectives;
     }
 
     public List<Player> getPlayerList() {
@@ -164,7 +160,7 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean choiceObjective(Player player){
-        if(listOfObjectives.size()>0 && player.getUnMetObjectives().size()<5){
+        if(!listOfObjectives.isEmpty() && player.getUnMetObjectives().size()<5){
             int randNumber = rand.nextInt(listOfObjectives.size());
             player.addNewObjective((Objective) listOfObjectives.get(randNumber));
             listOfObjectives.remove(randNumber);
@@ -185,12 +181,11 @@ public class Game {
      * @return {Boolean}
      */
     public Boolean choicePlot(Player player){
-        if (deckOfPlots.size()!=0 ) {
-            board.ChoicePlot(deckOfPlots.pickPlot());
+        if (!deckOfPlots.isEmpty() ) {
+            board.choicePlot(deckOfPlots.pickPlot());
             /* le board ajoute deja dans son add modifié
             un bambou a l'ajout de la parcelle au jeu
              */
-            //addBambooToPlot(board.getLastHexPlot());
             Display.printMessage(player.getName()+" a ajouté la parcelle suivante :"+board.getLastHexPlot());
             Display.printMessage("la liste des parcelles dans le jeu aprés le choix:"+board);
             return true;
@@ -227,20 +222,13 @@ public class Game {
         }
 
         irrigationStock.primordialCanal(board);
-        int exist = 2;
         Optional<IrrigationCanal> canal = p.returnAnIrrigation();
         if(canal.isEmpty()) return false;
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
-        if(src.isEmpty()){
-            exist--;
-            return false;
-        }
-        Optional<HexPlot> dst = p.findAnAvailableIrrigationDest(board,src.get());
-        if ((dst.isEmpty())){
-            exist--;
-        }
-        if(dst.isPresent()){
-            if(exist==2 && irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
+
+        Optional<HexPlot> dst = (src.isPresent())?p.findAnAvailableIrrigationDest(board,src.get()):Optional.empty();
+        if(dst.isPresent()&& src.isPresent()&&canal.isPresent()){
+            if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
                 Display.printMessage( String.valueOf(canal.get()));
             }else{
                 p.addAnIrrigation(canal.get());
@@ -270,7 +258,7 @@ public class Game {
         Display.printMessage("la position du panda avant deplacement "+panda.getPosition());
         Display.printMessage("la liste des parcelles dans le jeu :"+board);
         List<HexPlot> movePossibilities= board.getNewPositionPossibilities();
-        if(movePossibilities.size()!=0){
+        if(!movePossibilities.isEmpty()){
 
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
@@ -295,7 +283,7 @@ public class Game {
     public boolean moveGardener(Player player){
         Display.printMessage("La position du jardinier avant deplacement "+gardener.getPosition());
         List<HexPlot> movePossibilities = board.getNewPositionPossibilities();
-        if(movePossibilities.size()!=0){
+        if(!movePossibilities.isEmpty()){
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
             gardener.move(next);
@@ -304,7 +292,7 @@ public class Game {
             next.plotNeighbor()
                     .stream()
                     .filter(neighbor -> board.contains(neighbor) && !neighbor.isPond() && neighbor.getColor()!=null)
-                    .forEach( neighbor -> neighbor.addBamboo());
+                    .forEach(HexPlot::addBamboo);
             return true;
         }
         Display.printMessage("Impossible de déplacer le jardinier");
@@ -312,7 +300,7 @@ public class Game {
     }
 
     public boolean eatIfBamboo(HexPlot plot, Player player){
-        if(!Objects.isNull(plot.getBamboos())&& plot.getBamboos().size()!=0){
+        if(!Objects.isNull(plot.getBamboos())&& !plot.getBamboos().isEmpty()){
             Display.printMessage("il y a de bambou sur cette parcelle");
 
             if (plot.getImprovement()==FENCE)
@@ -348,8 +336,6 @@ public class Game {
 
             case SUN:
                 List<Action.GameAction> actionsToPickFrom = new ArrayList<>(player.getStrategy().getActions());
-                Action.GameAction playerAction0 = playerActions[0];
-                Action.GameAction playerAction1 = playerActions[1];
                 actionsToPickFrom.removeIf(action -> false);
                 int pick = rand.nextInt(actionsToPickFrom.size());
                 Action.GameAction selectedAction = actionsToPickFrom.get(pick);
@@ -366,7 +352,7 @@ public class Game {
                 break;
 
             case WIND:
-                int index = (int) Math.round( Math.random());
+                int index = rand.nextInt(2);
                 if (index == 0) playerActions[1]=playerActions[0];
                 else playerActions[0]=playerActions[1];
                 break;
@@ -390,7 +376,7 @@ public class Game {
                 break;
 
             case MYSTERY:
-                // dans les premiers tours Fa3STRATEGY n'a que 2 actions
+                /** dans les premiers tours Fa3STRATEGY n'a que 2 actions**/
                 if (player.getStrategy() == Fa3STRATEGY && player.getStrategy().getActions().size()==2){
                     choiceAnIrrigation(player);
                 }
@@ -413,7 +399,7 @@ public class Game {
         }
     }
 
-    public void setBoard(Board bd) {
+    public static void setBoard(Board bd) {
         board=bd;
     }
 }

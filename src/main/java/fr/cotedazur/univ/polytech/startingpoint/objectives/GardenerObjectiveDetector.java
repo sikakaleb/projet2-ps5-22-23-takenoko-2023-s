@@ -61,4 +61,11 @@ public class GardenerObjectiveDetector {
         return fourPlots.size()==4 ? fourPlots : null ;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }

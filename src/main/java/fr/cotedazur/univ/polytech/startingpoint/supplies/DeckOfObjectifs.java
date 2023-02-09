@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectives.GardenerObjective;
+import fr.cotedazur.univ.polytech.startingpoint.objectives.Objective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PandaObjective;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.PlotObjective;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
@@ -12,7 +13,7 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveCo
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 
-public class DeckOfObjectifs extends ArrayList {
+public class DeckOfObjectifs extends ArrayList<Objective> {
     
     public DeckOfObjectifs(){
 

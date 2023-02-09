@@ -19,12 +19,12 @@ import static java.lang.Math.abs;
  avec des coordonnées cartesienne 3D et avec Couleur**/
 public class HexPlot {
     /** Atrribut de la classe**/
-    public static final VectorDirection[] DIRECTION = new VectorDirection[]{Q_UP, Q_DOWN, S_UP, S_DOWN, R_LEFT, R_RIGHT};
+    protected static final VectorDirection[] DIRECTION = new VectorDirection[]{Q_UP, Q_DOWN, S_UP, S_DOWN, R_LEFT, R_RIGHT};
     private int q;
     private int s;
     private int r;
     private Color color;
-    private ArrayList<Bamboo> bamboos = new ArrayList<>(4);
+    private List<Bamboo> bamboos = new ArrayList<>(4);
     private PlotImprovement improvement = null;
     private boolean irrigated = false;
     private boolean sprouted = false;
@@ -106,9 +106,9 @@ public class HexPlot {
         this.irrigated = false;
     }
 
-    public ArrayList<Bamboo> getBamboos() { return bamboos; }
+    public List<Bamboo> getBamboos() { return bamboos; }
 
-    public void setBamboos(ArrayList<Bamboo> newbamboos) { bamboos = newbamboos ;}
+    public void setBamboos(List<Bamboo> newbamboos) { bamboos = newbamboos ;}
 
     public boolean isIrrigated(){ return irrigated; }
 

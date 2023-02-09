@@ -61,9 +61,8 @@ public class Board extends ArrayList<HexPlot> {
     public boolean checkTwoPlotNeighbors(HexPlot hex) {
         Set<HexPlot> intersection = hex.plotNeighbor();
         Set<HexPlot> listOfPlotscopy = new HashSet<>();
-        this.forEach(hexPlot -> {
-            listOfPlotscopy.add(new HexPlot(hexPlot.getQ(), hexPlot.getS(), hexPlot.getR()));
-        });
+        this.forEach(hexPlot ->
+            listOfPlotscopy.add(new HexPlot(hexPlot.getQ(), hexPlot.getS(), hexPlot.getR())));
         intersection.retainAll(listOfPlotscopy);
         return intersection.size() >= 2;
     }
@@ -77,8 +76,8 @@ public class Board extends ArrayList<HexPlot> {
      */
     public Set<HexPlot> findAvailableNeighbors(HexPlot hex){
         Set<HexPlot> neighborSet = hex.plotNeighbor();
-        // Retirer les emplacements indisponibles
-        // parcelles déjà posées
+        /** Retirer les emplacements indisponibles
+         *parcelles déjà posées**/
         this.forEach(x -> {
             HexPlot equivalentHex=new HexPlot(x.getQ(),x.getS(),x.getR());
             if(neighborSet.contains(equivalentHex)){
@@ -86,7 +85,7 @@ public class Board extends ArrayList<HexPlot> {
             }
         });
         neighborSet.removeAll(this);
-        // parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles
+        /** parcelles non adjacentes à l'étang ou non adjacentes à 2 parcelles**/
         Set<HexPlot> invalidNeighbors = new HashSet<>();
         neighborSet.forEach( hexPlot -> {
             if (! (checkPondNeighbor(hexPlot) || checkTwoPlotNeighbors(hexPlot)) )
@@ -103,11 +102,10 @@ public class Board extends ArrayList<HexPlot> {
      * et agencent un une autre deja existante
      */
 
-    public void ChoicePlot(HexPlot hex){
+    public void choicePlot(HexPlot hex){
         Set<HexPlot> validPlotsSet = new HashSet<>();
-        this.forEach(hexPlot -> {
-            validPlotsSet.addAll(findAvailableNeighbors(hexPlot));
-        });
+        this.forEach(hexPlot ->
+            validPlotsSet.addAll(findAvailableNeighbors(hexPlot)));
         HexPlot[] arrayPlots = validPlotsSet.toArray(new HexPlot[validPlotsSet.size()]);
         int randNumber = rand.nextInt(validPlotsSet.size());
         hex.setQ(arrayPlots[randNumber].getQ());
@@ -186,5 +184,18 @@ public class Board extends ArrayList<HexPlot> {
         HexPlot randomPlot = forBamboo.get(rnd);
 
         return randomPlot;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Board hexPlots)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(rand, hexPlots.rand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), rand);
     }
 }
