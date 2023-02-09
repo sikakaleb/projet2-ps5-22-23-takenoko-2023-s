@@ -75,10 +75,7 @@ public class Main {
         IntStream.range(0, NBGAMESCSV).forEach(i -> {
             Display.printMessage("Partie "+(i+1), Level.SEVERE);
             Engine engine = new Engine(new Player("BotIntelligent", PANDASTRATEGY),new Player("BotRandom", WITHOUTSTRATEGY));
-            gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
-            gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
-            botStats.get(0).addGameStat(gameStats.get(engine.p1));
-            botStats.get(1).addGameStat(gameStats.get(engine.p2));
+            runWithStats(botStats, engine);
         });
         Display.printGameStats(botStats);
         List<BotStat> existingStats = BotStatistics.readFromFile();
@@ -97,10 +94,7 @@ public class Main {
         Display.printMessage("Simulation de "+ITERATIONS+" parties de votre meilleur bot contre le second", Level.SEVERE);
         IntStream.range(0, ITERATIONS).forEach(i -> {
             Engine engine = new Engine(new Player("FA3", Fa3STRATEGY),new Player("Panda", PANDASTRATEGY));
-            gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
-            gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
-            botStats.get(0).addGameStat(gameStats.get(engine.p1));
-            botStats.get(1).addGameStat(gameStats.get(engine.p2));
+            runWithStats(botStats, engine);
         });
         Display.printGameStats(botStats);
 
@@ -112,12 +106,16 @@ public class Main {
         Display.printMessage("\nSimulation de "+ITERATIONS+" parties de votre meilleur bot contre lui-même", Level.SEVERE);
         IntStream.range(0, ITERATIONS).forEach(i -> {
             Engine engine = new Engine(new Player("FA3", Fa3STRATEGY),new Player("FA3v2", Fa3STRATEGY));
-            gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
-            gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
-            botStats2.get(0).addGameStat(gameStats.get(engine.p1));
-            botStats2.get(1).addGameStat(gameStats.get(engine.p2));
+            runWithStats(botStats2, engine);
         });
         Display.printGameStats(botStats2);
+    }
+
+    private void runWithStats(List<BotStat> botStats2, Engine engine) {
+        gameStats = Map.of(engine.p1, new BotStat(), engine.p2, new BotStat());
+        gameStats = engine.runGame(new Game(engine.p1,engine.p2),true);
+        botStats2.get(0).addGameStat(gameStats.get(engine.p1));
+        botStats2.get(1).addGameStat(gameStats.get(engine.p2));
     }
 
 }
