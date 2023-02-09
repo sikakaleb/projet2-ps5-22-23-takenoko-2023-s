@@ -49,10 +49,6 @@ public class PlotObjective extends Objective{
 
     @Override
     public String toString() {
-        return "PlotObjective{" +
-                "plotObjectiveId=" + plotObjectiveId +
-                ", configuration=" + configuration +
-                ", color=" + color +
-                '}';
+        return "{ Objectif parcelle: "+ configuration +'}';
     }
 }

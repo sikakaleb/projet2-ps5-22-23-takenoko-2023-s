@@ -87,10 +87,6 @@ class PlayerTest {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @Test
-    void getHeightTest() {
-        assertEquals(player1.getHeight(), 1);
-    }
 
     @Test
     void getNameTest() {

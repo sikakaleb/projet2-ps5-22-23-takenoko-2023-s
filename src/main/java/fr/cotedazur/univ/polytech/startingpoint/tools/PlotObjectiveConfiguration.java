@@ -52,7 +52,7 @@ public enum PlotObjectiveConfiguration {
     QUADRILATERALSAMEPLOTSGP,
 
     /*
-     * P -->Parcelle de couleur rose (pink)
+     * P -->Parcelle de couleur verte (Green)
      * Y -->Parcelle de couleur jaune (Yellow)
      * QUADRILATERALSAMEPLOTSPY PINK ET YELLOW
      * 3 Parcelle Alignée

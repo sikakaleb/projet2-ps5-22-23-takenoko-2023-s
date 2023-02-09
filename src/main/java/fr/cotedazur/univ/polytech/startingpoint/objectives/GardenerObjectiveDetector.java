@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBoard;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FERTILIZER;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 
 /**
  * @class GardenerObjectiveDetector
@@ -61,6 +61,56 @@ public class GardenerObjectiveDetector {
         return fourPlots.size()==4 ? fourPlots : null ;
     }
 
+
+    /**
+     * Trouver un Objectif FOUR_AND_POOL dans tout le jeu
+     * @return {boolean}
+     */
+    public HexPlot findFourAndPool(){
+        for (HexPlot hexPlot : getBoard()){
+            if (hexPlot.getImprovement()==POOL && hexPlot.getBamboos().size()==4)
+                return hexPlot;
+        }
+        return null;
+    }
+
+    /**
+     * Trouver un Objectif FOUR_AND_FENCE dans tout le jeu
+     * @return {boolean}
+     */
+    public HexPlot findFourAndFence(){
+        for (HexPlot hexPlot : getBoard()){
+            if (hexPlot.getImprovement()==FENCE && hexPlot.getBamboos().size()==4)
+                return hexPlot;
+        }
+        return null;
+    }
+
+    /**
+     * Trouver un Objectif THREE_YELLOW_X3 dans tout le jeu
+     * @return {boolean}
+     */
+    public List<HexPlot> findThreeYellowX3(){
+        List<HexPlot> threePlots = new ArrayList<>();
+        for (HexPlot hexPlot : getBoard()){
+            if (hexPlot.getColor()==YELLOW && hexPlot.getBamboos().size()==3)
+                threePlots.add(hexPlot);
+        }
+        return threePlots.size()==3 ? threePlots : null ;
+    }
+
+    /**
+     * Trouver un Objectif THREE_PINK_X2 dans tout le jeu
+     * @return {boolean}
+     */
+    public List<HexPlot> findThreePinkX2(){
+        List<HexPlot> twoPlots = new ArrayList<>();
+        for (HexPlot hexPlot : getBoard()){
+            if (hexPlot.getColor()==PINK && hexPlot.getBamboos().size()==3)
+                twoPlots.add(hexPlot);
+        }
+        return twoPlots.size()==2 ? twoPlots : null ;
+    }
     public Player getPlayer() {
         return player;
     }
@@ -68,4 +118,5 @@ public class GardenerObjectiveDetector {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
 }

@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -194,6 +194,23 @@ public class Game {
         }
         return false;
     }
+
+    public HexPlot findPlotForObjective(Player player){
+        Set<HexPlot> validPlotsSet = new HashSet<>();
+        board.forEach(hexPlot -> {
+            validPlotsSet.addAll(board.findAvailableNeighbors(hexPlot));
+        });
+        for (HexPlot plot : validPlotsSet) {
+            Board clone = (Board) board.clone();
+            clone.add(plot);
+            if (player.detectPlotObjective() != null){
+                return plot;
+            }
+        }
+        return null;
+    }
+
+
     /**
      * ChoiceAnIrrigation fonction qui permet a un joueur de choisir une irrigation
      * et de le mettre dans sa liste d'irrigation

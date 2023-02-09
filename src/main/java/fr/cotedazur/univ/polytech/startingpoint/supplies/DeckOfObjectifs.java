@@ -61,9 +61,25 @@ public class DeckOfObjectifs extends ArrayList<Objective> {
         /**
          * Gardener objectives
          */
-        this.add(new GardenerObjective(5,FOUR_AND_FERTILIZER, new Color[]{YELLOW}));
+        this.add(new GardenerObjective(5,FOUR_AND_FERTILIZER, new Color[]{PINK}));
+        this.add(new GardenerObjective(4,FOUR_AND_FERTILIZER, new Color[]{YELLOW}));
+        this.add(new GardenerObjective(3,FOUR_AND_FERTILIZER, new Color[]{GREEN}));
+
+        this.add(new GardenerObjective(5,FOUR_AND_POOL, new Color[]{YELLOW}));
+        this.add(new GardenerObjective(4,FOUR_AND_POOL, new Color[]{GREEN}));
+        this.add(new GardenerObjective(6,FOUR_AND_POOL, new Color[]{PINK}));
+
+        this.add(new GardenerObjective(6,FOUR_AND_FENCE, new Color[]{PINK}));
+        this.add(new GardenerObjective(4,FOUR_AND_FENCE, new Color[]{GREEN}));
+        this.add(new GardenerObjective(5,FOUR_AND_FENCE, new Color[]{YELLOW}));
+
         this.add(new GardenerObjective(6, FOUR_NO_IMPOROVEMENT, new Color[]{YELLOW}));
-        this.add(new GardenerObjective(6, THREE_GREEN_X4, new Color[]{YELLOW}));
+        this.add(new GardenerObjective(7, FOUR_NO_IMPOROVEMENT, new Color[]{PINK}));
+        this.add(new GardenerObjective(5, FOUR_NO_IMPOROVEMENT, new Color[]{GREEN}));
+
+        this.add(new GardenerObjective(8, THREE_GREEN_X4, new Color[]{GREEN}));
+        this.add(new GardenerObjective(7, THREE_YELLOW_X3, new Color[]{YELLOW}));
+        this.add(new GardenerObjective(6, THREE_PINK_X2, new Color[]{PINK}));
 
     }
 }

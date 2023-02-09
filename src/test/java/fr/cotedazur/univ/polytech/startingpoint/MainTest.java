@@ -31,6 +31,18 @@ public class MainTest {
                 ||main.game.getPlayerActions()[0]==PICK_PLOT
                 || main.game.getPlayerList().get(0).getStrategy().getActions().size()>=4);
 
+        assertTrue(main.game.getPlayerList().get(0).getStrategy().getActions().contains(MOVE_GARDENER));
+        assertTrue(main.game.getPlayerList().get(0).getStrategy().getActions().contains(MOVE_PANDA));
+
+    }
+
+    @Test
+    // Le bot Fa3STRATEGY essaie d’avoir 5 cartes objectif en main tout le temps
+    void always5objectivesFa3STRATEGY(){
+        main.game.getPlayerList().get(1).setStrategy(Fa3STRATEGY);
+        main.runGame();
+        assertTrue(main.game.getPlayerList().get(1).getStrategy().getActions().contains(PICK_OBJECTIVE)
+                || main.game.getPlayerList().get(1).getUnMetObjectives().size()>=4);
     }
 
 }

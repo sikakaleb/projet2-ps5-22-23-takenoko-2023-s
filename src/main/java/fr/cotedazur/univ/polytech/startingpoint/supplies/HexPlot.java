@@ -44,7 +44,6 @@ public class HexPlot {
         this.s = s;
         this.r = r;
         this.color= color;
-        this.bamboos = new ArrayList<>();
         irrigated = isPondNeighbor();
     }
 

@@ -3,6 +3,9 @@ package fr.cotedazur.univ.polytech.startingpoint.gameplay;
 import fr.cotedazur.univ.polytech.startingpoint.display.Display;
 import fr.cotedazur.univ.polytech.startingpoint.objectives.*;
 import fr.cotedazur.univ.polytech.startingpoint.supplies.*;
+import fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration;
+import fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration;
 import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 
 import java.security.SecureRandom;
@@ -11,7 +14,7 @@ import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBambooStock;
 import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBoard;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
@@ -174,156 +177,136 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+
     public List<IrrigationCanal> getCanalList() {
         return canalList;
     }
 
-    /*****
-     * Le joueur appelle
-     * la methode pour detecter
-     * les objectifs qu'il pourrait
-     * remplir a son tour
+    /**
+     * Détection des objectifs :
      */
     public Boolean detectPlotObjective(){
         PlotObjectiveDetector detector = new PlotObjectiveDetector(getBoard());
 
-        for (Objective obj:unMetObjectives) {
-            if(obj instanceof PlotObjective plotObjective){
-                if( ( plotObjective.getConfiguration()==
-                        DIRECTSAMEPLOTS && detector.findDirectSamePlots(plotObjective.getColor()))) {
-                    Display.printMessage(name+" a detecte un DIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( plotObjective.getConfiguration()== INDIRECTSAMEPLOTS
-                        && detector.findInDirectSamePlots(plotObjective.getColor()))) {
-                    Display.printMessage(name+" a detecte un INDIRECTSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTS
-                        && detector.findQuadrilateralSamePlots(plotObjective.getColor()))) {
-                    Display.printMessage(name+" a detecte un QUADRILATERALSAMEPLOTS \uD83D\uDC4F\uD83D\uDC4F ");
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGP
-                        && detector.findQuadrilateralPlotsGP())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_GREEN_PINK \uD83D\uDC4F\uD83D\uDC4F ");
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGY
-                        && detector.findQuadrilateralPlotsGY())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_GREEN_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY
-                        && detector.findQuadrilateralPlotsPY())) {
-                    Display.printMessage(name+" a detecte un isQuadrilateralPlots_PINK_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
-                    return validateUnMetObjectives(obj);
-                }
 
+        for (Objective obj:unMetObjectives) {
+
+            if(obj instanceof PlotObjective plotObjective){
+                PlotObjective objective = (PlotObjective) obj;
+                PlotObjectiveConfiguration config = objective.getConfiguration();
+
+                if (    config==DIRECTSAMEPLOTS && detector.findDirectSamePlots(objective.getColor())
+                    ||  config==INDIRECTSAMEPLOTS && detector.findInDirectSamePlots(objective.getColor())
+                    ||  config==QUADRILATERALSAMEPLOTS && detector.findQuadrilateralSamePlots(objective.getColor())
+                    ||  config==QUADRILATERALSAMEPLOTSGP && detector.findQuadrilateralPlotsGP()
+                    ||  config==QUADRILATERALSAMEPLOTSGY && detector.findQuadrilateralPlotsGY()
+                    ||  config==QUADRILATERALSAMEPLOTSPY && detector.findQuadrilateralPlotsPY()
+                ) {
+                    Display.printMessage(name+" a detecté un "+config+" \uD83D\uDC4F\uD83D\uDC4F ");
+                    return plotObjective;
+                }
             }
         }
-        Display.printMessage("Aucun objectif parcelles detecte");
-        Display.printMessage("Nombre d'objectif valide :"+this.getObjectiveAchieved().size());
-        Display.printMessage("la liste d'objectif valide :"+this.getObjectiveAchieved());
-        return false;
+        return null;
     }
 
-    /*****
-     * Le joueur appelle
-     * la methode pour detecter
-     * les objectifs qu'il pourrait
-     * remplir a son tour
-     */
-    public Boolean dectectPandaObjective(){
-        PandaObjectiveDetector detector = new PandaObjectiveDetector(this);
+    public PandaObjective detectPandaObjective(){
 
+        PandaObjectiveDetector detector = new PandaObjectiveDetector(this);
         for (Objective obj:unMetObjectives) {
 
             if(obj instanceof PandaObjective pandaobjective){
+                PandaObjectiveConfiguration config = ((PandaObjective) obj).getConfiguration();
 
-                if( ( pandaobjective.getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
-                    Display.printMessage(name+" a detecte un TWO_YELLOW \uD83D\uDC4F\uD83D\uDC4F ");
-                    eatenBamboos.removeTwoYellow();
-                    getBambooStock().addTwoYellow();
-                    return validateUnMetObjectives(obj);
-                }else if( ( pandaobjective.getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
-                    Display.printMessage(name+" a detecte un TWO_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
-                    eatenBamboos.removeTwoGreen();
-                    getBambooStock().addTwoGreen();
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( pandaobjective.getConfiguration()==TWO_PINK && detector.findTwoPink())) {
-                    Display.printMessage(name+" a detecte un TWO_PINK \uD83D\uDC4F\uD83D\uDC4F ");
-                    eatenBamboos.removeTwoPink();
-                    getBambooStock().addTwoPink();
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( pandaobjective.getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
-                    Display.printMessage(name+" a detecte un THREE_GREEN \uD83D\uDC4F\uD83D\uDC4F ");
-                    eatenBamboos.removeThreeGreen();
-                    getBambooStock().addThreeGreen();
-                    return validateUnMetObjectives(obj);
-                }
-                else if( ( pandaobjective.getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
-                    Display.printMessage(name+" a detecte un ONE_OF_EACH \uD83D\uDC4F\uD83D\uDC4F ");
-                    eatenBamboos.removeOneOfEach();
-                    getBambooStock().addOneOfEach();
-                    return validateUnMetObjectives(obj);
-                }
+                if(    config==TWO_YELLOW && detector.findTwoYellow()
+                    || config==TWO_GREEN && detector.findTwoGreen()
+                    || config==TWO_PINK && detector.findTwoPink()
+                    || config==THREE_GREEN && detector.findThreeGreen()
+                    || config==ONE_OF_EACH && detector.findOneOfEach()) {
 
+                    switch (config) {
+                        case TWO_YELLOW:
+                            eatenBamboos.removeTwoYellow();
+                            getBambooStock().addTwoYellow();
+                            break;
+
+                        case TWO_GREEN:
+                            eatenBamboos.removeTwoGreen();
+                            getBambooStock().addTwoGreen();
+                            break;
+
+                        case TWO_PINK:
+                            eatenBamboos.removeTwoPink();
+                            getBambooStock().addTwoPink();
+                            break;
+
+                        case THREE_GREEN:
+                            eatenBamboos.removeThreeGreen();
+                            getBambooStock().addThreeGreen();
+                            break;
+
+                        case ONE_OF_EACH:
+                            eatenBamboos.removeOneOfEach();
+                            getBambooStock().addOneOfEach();
+                            break;
+                    }
+                    Display.printMessage(name + " a detecté un " + config + " \uD83D\uDC4F\uD83D\uDC4F ");
+                    return pandaobjective;
+                }
             }
-
         }
-        Display.printMessage("Aucun objectif panda detecte");
-        Display.printMessage("Nombre d'objectif valide :"+this.getObjectiveAchieved().size());
-        Display.printMessage("la liste d'objectif valide :"+this.getObjectiveAchieved());
-        return false;
+        return null;
     }
 
-    public Boolean dectectGardenerObjective(){
-        GardenerObjectiveDetector detector = new GardenerObjectiveDetector(this);
+    public GardenerObjective detectGardenerObjective(){
 
+        GardenerObjectiveDetector detector = new GardenerObjectiveDetector(this);
         for (Objective obj:unMetObjectives) {
 
             if(obj instanceof GardenerObjective gardenerObjective){
+                GardenerObjectiveConfiguration config = ((GardenerObjective) obj).getConfiguration();
 
-                if( ( gardenerObjective.getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
-                    Display.printMessage(name+" a detecte un FOUR_AND_FERTILIZER \uD83D\uDC4F\uD83D\uDC4F ");
+                if(config==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null) {
                     HexPlot found = detector.findFourAndFertilizer();
                     eatenBamboos.addMultiple(4, found.getColor());
-                    found.setBamboos(null);
-                    return validateUnMetObjectives(obj);
+                    found.setBamboos(new ArrayList<>(4));
                 }
 
-                else if( ( gardenerObjective.getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
-                    Display.printMessage(name+" a detecte un FOUR_NO_IMPOROVEMENT \uD83D\uDC4F\uD83D\uDC4F ");
+                else if(config==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null) {
                     HexPlot found = detector.findFourNoImprovement();
                     eatenBamboos.addMultiple(4, found.getColor());
-                    found.setBamboos(null);
-                    return validateUnMetObjectives(obj);
+                    found.setBamboos(new ArrayList<>(4));
                 }
 
-                else if( ( gardenerObjective.getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
-                    Display.printMessage(name+" a detecte un THREE_GREEN_X4 \uD83D\uDC4F\uD83D\uDC4F ");
+                else if(config==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null) {
                     List<HexPlot> found = detector.findThreeGreenX4();
                     eatenBamboos.addMultiple(12, GREEN);
-                    found.forEach( hexPlot -> hexPlot.setBamboos(null));
-                    return validateUnMetObjectives(obj);
+                    found.forEach( hexPlot -> hexPlot.setBamboos(new ArrayList<>(4)));
                 }
+                Display.printMessage(name+" a detecté un "+config+" \uD83D\uDC4F\uD83D\uDC4F ");
+                return gardenerObjective;
             }
 
         }
-        Display.printMessage("Aucun objectif jardinier detecte");
-        Display.printMessage("Nombre d'objectif valide :"+this.getObjectiveAchieved().size());
-        Display.printMessage("la liste d'objectif valide :"+this.getObjectiveAchieved());
-        return false;
+        return null;
     }
 
     public Boolean detectObjective(){
-        switch (this.getStrategy()) {
-            case PANDASTRATEGY : return dectectPandaObjective();
-            case PLOTSTRATEGY: return detectPlotObjective();
-            default: return dectectPandaObjective()||detectPlotObjective()||dectectGardenerObjective();
+
+        List<Objective> detectedObjectives = Arrays.asList(new Objective[]{detectPlotObjective(), detectPandaObjective(), detectGardenerObjective()});
+        for (Objective obj : detectedObjectives){
+            if (obj != null) {
+                validateUnMetObjectives(obj);
+            }
+        }
+        if (detectedObjectives.stream().anyMatch(objective -> objective != null)){
+            return true;
+        }
+        else {
+            Display.printMessage("Aucun objectif detecté");
+            Display.printMessage("Nombre d'objectif validé :"+this.getObjectiveAchieved().size());
+            Display.printMessage("la liste d'objectif validé :"+this.getObjectiveAchieved());
+            return false;
         }
     }
 
@@ -332,6 +315,7 @@ public class Player {
     public String toString() {
         return name+" : "+score+" points et "+objectiveAchieved.size()+" objectifs atteints.";
     }
+
     public Boolean addAnIrrigation(IrrigationCanal canal){
         if(!canal.getAvailable()){
             canalList.add(canal);
@@ -339,12 +323,14 @@ public class Player {
         }
         return false;
     }
+
     public Optional<IrrigationCanal> returnAnIrrigation(){
         if(canalList.isEmpty()) return Optional.empty();
         IrrigationCanal canal = canalList.get(0);
         canalList.remove(canal);
         return Optional.of(canal);
     }
+
     public Optional<HexPlot> findAnAvailableIrrigationSource(IrrigationStock irrigationStock){
         Set<HexPlot> validsSource = new HashSet<>();
         Set<HexPlot> sources = irrigationStock.getAllHexplotFrom();
@@ -385,6 +371,7 @@ public class Player {
         }
         return Optional.empty();
     }
+
     public int countObjectifPanda(){
         int result =0;
         for (Objective obj:objectiveAchieved) {
