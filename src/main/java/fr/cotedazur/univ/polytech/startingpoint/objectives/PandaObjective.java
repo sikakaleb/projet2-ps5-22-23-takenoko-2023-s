@@ -9,8 +9,6 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguratio
  * Traite les Objectifs de Panda
  * */
 public class PandaObjective extends Objective{
-    private static int numberOfPandaObjective = 0;
-    private int pandaObjectiveId;
     private PandaObjectiveConfiguration configuration;
     private Color[] colors;
 
@@ -23,7 +21,6 @@ public class PandaObjective extends Objective{
     public PandaObjective(int numberOfPoints, PandaObjectiveConfiguration configuration, Color[] colors) {
         super(numberOfPoints);
         this.configuration=configuration;
-        pandaObjectiveId=++numberOfPandaObjective;
         this.colors=colors;
     }
 

@@ -23,16 +23,16 @@ public enum Strategy {
      * - Il essaie d’avoir 5 cartes objectif en main tout le temps. Les deux premiers mouvements du bot
      * devraient donc être de prendre une carte objectif et de prendre un canal d’irrigation.
      */
-    Fa3STRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, PLACE_IRRIGATION});
-
+    FA3STRATEGY(new Action.GameAction[]{PICK_OBJECTIVE, PLACE_IRRIGATION});
 
     private List<Action.GameAction> actions;
     private SecureRandom rand;
+    private byte[] bytes;
 
     Strategy(Action.GameAction[] actions){
-        this.actions = new ArrayList(Arrays.asList(actions));
+        this.actions = new ArrayList<>(Arrays.asList(actions));
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes= new byte[20];
         rand.nextBytes(bytes);
     }
 

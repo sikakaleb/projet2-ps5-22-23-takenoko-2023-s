@@ -9,8 +9,6 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfigura
  * Traite les Objectifs de Jardinier
  * */
 public class GardenerObjective extends Objective{
-    private static int numberOfGardenerObjective = 0;
-    private int gardenerObjectiveId;
     private GardenerObjectiveConfiguration configuration;
     private Color[] colors;
 
@@ -23,7 +21,6 @@ public class GardenerObjective extends Objective{
     public GardenerObjective(int numberOfPoints, GardenerObjectiveConfiguration configuration, Color[] colors) {
         super(numberOfPoints);
         this.configuration=configuration;
-        gardenerObjectiveId=++numberOfGardenerObjective;
         this.colors=colors;
     }
 

@@ -39,7 +39,7 @@ class BambooStockTest {
         assert(yellowBamboo instanceof Bamboo);
         assertEquals(Color.YELLOW,yellowBamboo.getColor());
         assert(pinkBamboo instanceof Bamboo);
-        assertEquals(pinkBamboo.getColor(), Color.PINK);
+        assertEquals(Color.PINK,pinkBamboo.getColor());
     }
 
     @Test

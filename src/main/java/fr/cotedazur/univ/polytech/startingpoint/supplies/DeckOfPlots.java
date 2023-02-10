@@ -19,6 +19,7 @@ public class DeckOfPlots extends ArrayList<HexPlot> {
      * Create deck with 9 plots of each color
      */
     private SecureRandom rand;
+    private byte[] bytes;
     public DeckOfPlots(){
         IntStream.range(0, 9).forEach(i -> {
             this.add(new HexPlot(GREEN));
@@ -26,7 +27,7 @@ public class DeckOfPlots extends ArrayList<HexPlot> {
             this.add(new HexPlot(PINK));
         });
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes= new byte[20];
         rand.nextBytes(bytes);
     }
 

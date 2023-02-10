@@ -20,6 +20,7 @@ public class DeckOfImprovements extends ArrayList<PlotImprovement> {
      * Create deck with 9 plots of each color
      */
     private SecureRandom rand;
+    private byte[] bytes;
     public DeckOfImprovements(){
         IntStream.range(0, 3).forEach(i -> {
             this.add(FENCE);
@@ -27,7 +28,7 @@ public class DeckOfImprovements extends ArrayList<PlotImprovement> {
             this.add(POOL);
         });
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes = new byte[20];
         rand.nextBytes(bytes);
     }
 

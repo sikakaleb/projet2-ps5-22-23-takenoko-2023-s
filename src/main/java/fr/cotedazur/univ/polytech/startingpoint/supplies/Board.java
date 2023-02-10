@@ -20,10 +20,11 @@ public class Board extends ArrayList<HexPlot> {
      * Created a board with a single HexPlot, the pond
      */
     private SecureRandom rand;
+    private byte[] bytes;
     public Board(){
         this.add(new HexPlot());
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes = new byte[20];
         rand.nextBytes(bytes);
     }
 

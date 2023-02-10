@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.FENCE;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.FA3STRATEGY;
 
 public class Game {
     /**Attribut de la classe Game**/
@@ -30,6 +30,7 @@ public class Game {
     private Dice dice;
 
     private SecureRandom rand;
+    private byte[] bytes;
 
     /**le ou Les constructeurs de la classe**/
     public Game(Player p1, Player p2) {
@@ -56,7 +57,7 @@ public class Game {
                 PLACE_IRRIGATION, this::placeAnIrrigation
         );
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes = new byte[20];
         rand.nextBytes(bytes);
     }
 
@@ -133,7 +134,7 @@ public class Game {
         }
 
         Action.GameAction[] twoActions;
-        if (player.getStrategy()==Fa3STRATEGY && player.getUnMetObjectives().size() < 5){
+        if (player.getStrategy()==FA3STRATEGY && player.getUnMetObjectives().size() < 5){
             twoActions = player.getStrategy().pickDifferent(PICK_OBJECTIVE);
         } else {
             twoActions = player.getStrategy().pickTwoDistinct();
@@ -278,7 +279,7 @@ public class Game {
             int randNumber = rand.nextInt(movePossibilities.size());
             HexPlot next = movePossibilities.get(randNumber);
 
-            if (player.getStrategy()==Fa3STRATEGY){
+            if (player.getStrategy()==FA3STRATEGY){
                 next = movePossibilities
                         .stream()
                         .filter( hexPlot ->!Objects.isNull(hexPlot.getBamboos()) && !hexPlot.getBamboos().isEmpty())
@@ -392,7 +393,7 @@ public class Game {
 
             case MYSTERY:
                 /** dans les premiers tours Fa3STRATEGY n'a que 2 actions**/
-                if (player.getStrategy() == Fa3STRATEGY && player.getStrategy().getActions().size()==2){
+                if (player.getStrategy() == FA3STRATEGY && player.getStrategy().getActions().size()==2){
                     choiceAnIrrigation(player);
                 }
                 else {

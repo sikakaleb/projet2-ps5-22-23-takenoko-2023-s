@@ -97,7 +97,7 @@ class PlayerTest {
     @Test
     void getObjectiveAchievedTest() {
         List<Objective> objList = new ArrayList<>();
-        assertTrue(player1.getObjectiveAchieved().equals(objList));
+        assertEquals(player1.getObjectiveAchieved(),objList);
     }
 
     @Test
@@ -109,7 +109,7 @@ class PlayerTest {
 
     @Test
     void getUnMetObjectivesTest() {
-        assertTrue(player1.getUnMetObjectives().equals(singlelist));
+        assertEquals(player1.getUnMetObjectives(),singlelist);
     }
 
     @Test
@@ -130,7 +130,7 @@ class PlayerTest {
         List<Objective> objList = new ArrayList<>();
         player1.addNewObjective(quadriPlotObj);
         player1.validateUnMetObjectives(quadriPlotObj);
-        assertTrue(player1.getUnMetObjectives().equals(singlelist));
+        assertEquals(player1.getUnMetObjectives(),singlelist);
 
     }
 

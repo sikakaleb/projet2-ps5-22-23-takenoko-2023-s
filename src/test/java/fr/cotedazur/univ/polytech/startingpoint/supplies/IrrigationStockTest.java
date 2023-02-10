@@ -88,7 +88,7 @@ class IrrigationStockTest {
          unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
         assertEquals(1,uSed.size());
-        assertTrue(uSed.get(0).getCanalId()!=0);
+        assertNotEquals(0,uSed.get(0).getCanalId());
         assertFalse(unSed.contains(canal));
     }
 

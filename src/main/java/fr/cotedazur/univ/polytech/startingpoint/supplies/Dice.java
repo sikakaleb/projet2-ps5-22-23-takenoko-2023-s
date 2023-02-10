@@ -19,10 +19,11 @@ public class Dice {
     private Condition value;
 
     private SecureRandom rand;
+    private byte[] bytes;
     public Dice(){
         this.value = null;
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes= new byte[20];
         rand.nextBytes(bytes);
     }
 

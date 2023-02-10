@@ -16,7 +16,6 @@ import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.getBoard;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.PICK_OBJECTIVE;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.GREEN;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.GardenerObjectiveConfiguration.*;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.WITHOUTSTRATEGY;
 
@@ -41,6 +40,7 @@ public class Player {
     private EatenBamboos eatenBamboos;
 
     protected SecureRandom rand;
+    private byte[] bytes;
 
     /**Le ou Les constructeurs de la classe **/
     public Player(int height, String name) {
@@ -55,7 +55,7 @@ public class Player {
         eatenBamboos = new EatenBamboos();
         canalList = new ArrayList<>();
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes = new byte[20];
         rand.nextBytes(bytes);
     }
     public Player(int height, String name, Strategy strategy) {
@@ -70,7 +70,7 @@ public class Player {
         eatenBamboos = new EatenBamboos();
         canalList = new ArrayList<>();
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes = new byte[20];
         rand.nextBytes(bytes);
     }
 
@@ -182,78 +182,120 @@ public class Player {
     /**
      * Détection des objectifs :
      */
-    public PlotObjective detectPlotObjective(){
+    public PlotObjective detectPlotObjective() {
         PlotObjectiveDetector detector = new PlotObjectiveDetector(getBoard());
 
-
         for (Objective obj:unMetObjectives) {
+            if (!(obj instanceof PlotObjective)) {
+                continue;
+            }
 
-            if(obj instanceof PlotObjective plotObjective){
-                PlotObjective objective = (PlotObjective) obj;
-                PlotObjectiveConfiguration config = objective.getConfiguration();
+            PlotObjective objective = (PlotObjective) obj;
+            PlotObjectiveConfiguration config = objective.getConfiguration();
 
-                if (    Boolean.TRUE.equals(config==DIRECTSAMEPLOTS && detector.findDirectSamePlots(objective.getColor())
-                    ||  config==INDIRECTSAMEPLOTS && detector.findInDirectSamePlots(objective.getColor())
-                    ||  config==QUADRILATERALSAMEPLOTS && detector.findQuadrilateralSamePlots(objective.getColor())
-                    ||  config==QUADRILATERALSAMEPLOTSGP && detector.findQuadrilateralPlotsGP()
-                    ||  config==QUADRILATERALSAMEPLOTSGY && detector.findQuadrilateralPlotsGY()
-                    ||  config==QUADRILATERALSAMEPLOTSPY && detector.findQuadrilateralPlotsPY())
-                ) {
-                    Display.printMessage(name+" a detecté un "+config+" \uD83D\uDC4F\uD83D\uDC4F ");
-                    return plotObjective;
-                }
+            String msg = name + " a detecté un " + config + " \uD83D\uDC4F\uD83D\uDC4F";
+            boolean isDetected;
+            switch (config) {
+                case DIRECTSAMEPLOTS:
+                    isDetected = detector.findDirectSamePlots(objective.getColor());
+                    break;
+                case INDIRECTSAMEPLOTS:
+                    isDetected = detector.findInDirectSamePlots(objective.getColor());
+                    break;
+                case QUADRILATERALSAMEPLOTS:
+                    isDetected = detector.findQuadrilateralSamePlots(objective.getColor());
+                    break;
+                case QUADRILATERALSAMEPLOTSGP:
+                    isDetected = detector.findQuadrilateralPlotsGP();
+                    break;
+                case QUADRILATERALSAMEPLOTSGY:
+                    isDetected = detector.findQuadrilateralPlotsGY();
+                    break;
+                case QUADRILATERALSAMEPLOTSPY:
+                    isDetected = detector.findQuadrilateralPlotsPY();
+                    break;
+                default:
+                    isDetected = false;
+            }
+
+            if (Boolean.TRUE.equals(isDetected)) {
+                Display.printMessage(msg);
+                return objective;
             }
         }
+
         return null;
     }
 
-    public PandaObjective detectPandaObjective(){
 
+    public PandaObjective detectPandaObjective() {
         PandaObjectiveDetector detector = new PandaObjectiveDetector(this);
-        for (Objective obj:unMetObjectives) {
 
-            if(obj instanceof PandaObjective pandaobjective){
-                PandaObjectiveConfiguration config = ((PandaObjective) obj).getConfiguration();
+        for (Objective obj : unMetObjectives) {
+            if (obj instanceof PandaObjective pandaObjective) {
+                PandaObjectiveConfiguration config = pandaObjective.getConfiguration();
 
-                if(   Boolean.TRUE.equals (config==TWO_YELLOW && detector.findTwoYellow()
-                    || config==TWO_GREEN && detector.findTwoGreen()
-                    || config==TWO_PINK && detector.findTwoPink()
-                    || config==THREE_GREEN && detector.findThreeGreen()
-                    || config==ONE_OF_EACH && detector.findOneOfEach())) {
-
-                    switch (config) {
-                        case TWO_YELLOW:
-                            eatenBamboos.removeTwoYellow();
-                            getBambooStock().addTwoYellow();
-                            break;
-
-                        case TWO_GREEN:
-                            eatenBamboos.removeTwoGreen();
-                            getBambooStock().addTwoGreen();
-                            break;
-
-                        case TWO_PINK:
-                            eatenBamboos.removeTwoPink();
-                            getBambooStock().addTwoPink();
-                            break;
-
-                        case THREE_GREEN:
-                            eatenBamboos.removeThreeGreen();
-                            getBambooStock().addThreeGreen();
-                            break;
-
-                        case ONE_OF_EACH:
-                            eatenBamboos.removeOneOfEach();
-                            getBambooStock().addOneOfEach();
-                            break;
-                    }
+                if (detectPandaObjective(config, detector)) {
+                    updateBambooStock(config);
                     Display.printMessage(name + " a detecté un " + config + " .");
-                    return pandaobjective;
+                    return pandaObjective;
                 }
             }
         }
         return null;
     }
+
+    private boolean detectPandaObjective(PandaObjectiveConfiguration config, PandaObjectiveDetector detector) {
+        switch (config) {
+            case TWO_YELLOW:
+                return detector.findTwoYellow();
+
+            case TWO_GREEN:
+                return detector.findTwoGreen();
+
+            case TWO_PINK:
+                return detector.findTwoPink();
+
+            case THREE_GREEN:
+                return detector.findThreeGreen();
+
+            case ONE_OF_EACH:
+                return detector.findOneOfEach();
+
+            default:
+                return false;
+        }
+    }
+
+    private void updateBambooStock(PandaObjectiveConfiguration config) {
+        switch (config) {
+            case TWO_YELLOW:
+                eatenBamboos.removeTwoYellow();
+                getBambooStock().addTwoYellow();
+                break;
+
+            case TWO_GREEN:
+                eatenBamboos.removeTwoGreen();
+                getBambooStock().addTwoGreen();
+                break;
+
+            case TWO_PINK:
+                eatenBamboos.removeTwoPink();
+                getBambooStock().addTwoPink();
+                break;
+
+            case THREE_GREEN:
+                eatenBamboos.removeThreeGreen();
+                getBambooStock().addThreeGreen();
+                break;
+
+            case ONE_OF_EACH:
+                eatenBamboos.removeOneOfEach();
+                getBambooStock().addOneOfEach();
+                break;
+        }
+    }
+
 
     public GardenerObjective detectGardenerObjective(){
 

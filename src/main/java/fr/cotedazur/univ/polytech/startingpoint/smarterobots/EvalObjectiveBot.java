@@ -13,10 +13,11 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.PandaObjectiveConfi
 import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotObjectiveConfiguration.*;
 
 public class EvalObjectiveBot extends Player {
+    private byte[] bytes;
     public EvalObjectiveBot(String name) {
         super(name);
         rand = new SecureRandom();
-        byte bytes[] = new byte[20];
+        bytes = new byte[20];
         rand.nextBytes(bytes);
     }
     public List<MarkObjective> getMarkedUnMetObjectives(){
@@ -60,8 +61,8 @@ public class EvalObjectiveBot extends Player {
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            if(obj instanceof PlotObjective plotObjective){
-                if( Boolean.TRUE.equals(( plotObjective.getConfiguration()== DIRECTSAMEPLOTS && detector.findDirectSamePlots(plotObjective.getColor()))
+            if(Boolean.TRUE.equals((obj instanceof PlotObjective plotObjective)&&
+                 ( plotObjective.getConfiguration()== DIRECTSAMEPLOTS && detector.findDirectSamePlots(plotObjective.getColor())
                     ||
                     ( plotObjective.getConfiguration()== INDIRECTSAMEPLOTS && detector.findInDirectSamePlots(plotObjective.getColor()))
                    ||
@@ -71,14 +72,14 @@ public class EvalObjectiveBot extends Player {
                     ||
                     ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGY && detector.findQuadrilateralPlotsGY())
                     ||
-                    ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY && detector.findQuadrilateralPlotsPY())))
+                    ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY && detector.findQuadrilateralPlotsPY()))))
                 {
                     ob.setMark(mark*5);
                     result.add(ob);
                 }
 
             }
-        }
+
         return removeDuplicates(result);
     }
     public List<MarkObjective> evaluatePandaObjective(){
@@ -89,10 +90,9 @@ public class EvalObjectiveBot extends Player {
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            if(obj instanceof PandaObjective pandaObjective){
-
-                if(
-                 Boolean.TRUE.equals(( pandaObjective.getConfiguration()==TWO_YELLOW && detector.findTwoYellow())
+            if(Boolean.TRUE.equals(
+                    (obj instanceof PandaObjective pandaObjective) &&(
+                 ( pandaObjective.getConfiguration()==TWO_YELLOW && detector.findTwoYellow())
                   ||
                  ( pandaObjective.getConfiguration()==TWO_GREEN && detector.findTwoGreen())
                    ||
@@ -100,13 +100,12 @@ public class EvalObjectiveBot extends Player {
                     ||
                  ( pandaObjective.getConfiguration()==THREE_GREEN && detector.findThreeGreen())
                     ||
-                ( pandaObjective.getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) )
+                ( pandaObjective.getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) ))
                 {
                     ob.setMark(mark*5+3);
                     result.add(ob);
                 }
 
-            }
 
         }
          return removeDuplicates(result);
@@ -118,19 +117,15 @@ public class EvalObjectiveBot extends Player {
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            if(obj instanceof GardenerObjective gardenerObjective){
-
-                if(
-                   Boolean.TRUE.equals(( gardenerObjective.getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)
+            if(Boolean.TRUE.equals((obj instanceof GardenerObjective gardenerObjective)&&(
+                   ( gardenerObjective.getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)
                     ||( gardenerObjective.getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)
-                ||( gardenerObjective.getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)))
+                ||( gardenerObjective.getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null))))
                 {
                         ob.setMark(mark*5);
                         result.add(ob);
                 }
             }
-
-        }
         return removeDuplicates(result);
     }
     public static List<MarkObjective> removeDuplicates(List<MarkObjective> inputList) {

@@ -31,6 +31,6 @@ class EmperorTest {
     void Equality() {
         player1.setScore(20);
         player2.setScore(20);
-        assertEquals(emperor.judgement(), null);
+        assertEquals( null,emperor.judgement());
     }
 }

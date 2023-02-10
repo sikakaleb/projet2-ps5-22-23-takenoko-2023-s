@@ -90,24 +90,24 @@ public class Main {
     public Boolean twoThousand() {
         Display.setUp(Level.SEVERE);
         List<BotStat> botStats = Arrays.asList(
-                new BotStat("FA3", Fa3STRATEGY),
+                new BotStat("FA3", FA3STRATEGY),
                 new BotStat("Random", WITHOUTSTRATEGY)
         );
         Display.printMessage("Simulation de "+ITERATIONS+" parties de votre meilleur bot contre le second", Level.SEVERE);
         IntStream.range(0, ITERATIONS).forEach(i -> {
-            Engine engine = new Engine(new Player("FA3", Fa3STRATEGY),new Player("Panda", PANDASTRATEGY));
+            Engine engine = new Engine(new Player("FA3", FA3STRATEGY),new Player("Panda", PANDASTRATEGY));
             runWithStats(botStats, engine);
         });
         Display.printGameStats(botStats);
 
 
         List<BotStat> botStats2 = Arrays.asList(
-                new BotStat("FA3", Fa3STRATEGY),
-                new BotStat("FA3v2", Fa3STRATEGY)
+                new BotStat("FA3", FA3STRATEGY),
+                new BotStat("FA3v2", FA3STRATEGY)
         );
         Display.printMessage("\nSimulation de "+ITERATIONS+" parties de votre meilleur bot contre lui-même", Level.SEVERE);
         IntStream.range(0, ITERATIONS).forEach(i -> {
-            Engine engine = new Engine(new Player("FA3", Fa3STRATEGY),new Player("FA3v2", Fa3STRATEGY));
+            Engine engine = new Engine(new Player("FA3", FA3STRATEGY),new Player("FA3v2", FA3STRATEGY));
             runWithStats(botStats2, engine);
         });
         Display.printGameStats(botStats2);

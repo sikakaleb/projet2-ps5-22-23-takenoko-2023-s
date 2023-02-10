@@ -76,7 +76,7 @@ class IrrigationCanalTest {
         can1.setDestPlot(Optional.of(dst));
         assertEquals(can1.getDestPlot().get(),dst);
         can2.setCanalId(can1.getCanalId());
-        assertTrue(can1.equals(can2));
+        assertEquals(can1,can2);
     }
 
     @Test

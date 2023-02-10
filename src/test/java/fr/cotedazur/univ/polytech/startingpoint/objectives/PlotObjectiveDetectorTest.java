@@ -52,7 +52,7 @@ class PlotObjectiveDetectorTest {
         map.put("Q",detector.countQ(list));
         map.put("S",detector.countS(list));
         map.put("R",detector.countR(list));
-        assertTrue(map.equals(detector.extractPlotsData(list)));
+        assertEquals(map,detector.extractPlotsData(list));
     }
 
     @Test
@@ -66,7 +66,7 @@ class PlotObjectiveDetectorTest {
         mapR.put(1,2);
         mapR.put(0,1);
         mapR.put(2,1);
-        assertTrue(mapR.equals(detector.countR(list)));
+        assertEquals(mapR,detector.countR(list));
     }
 
     @Test
@@ -79,7 +79,7 @@ class PlotObjectiveDetectorTest {
         Map<Integer,Integer> mapS=new HashMap<>();
         mapS.put(2,2);
         mapS.put(1,2);;
-        assertTrue(mapS.equals(detector.countS(list)));
+        assertEquals(mapS,detector.countS(list));
     }
 
     @Test
@@ -92,7 +92,7 @@ class PlotObjectiveDetectorTest {
         Map<Integer,Integer> mapQ=new HashMap<>();
         mapQ.put(-2,2);
         mapQ.put(-3,2);;
-        assertTrue(mapQ.equals(detector.countQ(list)));
+        assertEquals(mapQ,detector.countQ(list));
     }
 
     @Test
@@ -140,7 +140,7 @@ class PlotObjectiveDetectorTest {
         answerSet.add(3);
         answerSet.add(1);
         Map<String , Map<Integer,Integer>> map= detector.extractPlotsData(list);
-        assertTrue(answerSet.equals(detector.checkSetSuitConf(map)));
+        assertEquals(answerSet,detector.checkSetSuitConf(map));
 
     }
     @Test
@@ -153,7 +153,7 @@ class PlotObjectiveDetectorTest {
         answerSet.add(2);
         answerSet.add(3);
         Map<String , Map<Integer,Integer>> map= detector.extractPlotsData(list);
-        assertTrue(answerSet.equals(detector.checkSetSuitConf(map)));
+        assertEquals(answerSet,detector.checkSetSuitConf(map));
 
     }
     @Test
@@ -165,7 +165,7 @@ class PlotObjectiveDetectorTest {
         list.add(new HexPlot(-2,1,1));
         answerSet.add(2);
         Map<String , Map<Integer,Integer>> map= detector.extractPlotsData(list);
-        assertTrue(answerSet.equals(detector.checkSetSuitConf(map)));
+        assertEquals(answerSet,detector.checkSetSuitConf(map));
 
     }
     @Test
@@ -179,7 +179,7 @@ class PlotObjectiveDetectorTest {
         answerSet.add(2);
         answerSet.add(3);
         Map<String , Map<Integer,Integer>> map= detector.extractPlotsData(list);
-        assertTrue(answerSet.equals(detector.checkSetSuitConf(map)));
+        assertEquals(answerSet,detector.checkSetSuitConf(map));
 
     }
 
@@ -214,7 +214,7 @@ class PlotObjectiveDetectorTest {
         list.add(new HexPlot(-2,2,0,PINK));
         list.add(new HexPlot(-2,1,1,PINK));
         list.add(new HexPlot(-3,1,2,GREEN));
-        assertTrue(colorSet.equals(detector.allColorInHexPlotList(list)));
+        assertEquals(colorSet,detector.allColorInHexPlotList(list));
 
     }
 
@@ -229,7 +229,7 @@ class PlotObjectiveDetectorTest {
         Set<Integer> answerset=new HashSet<>();
         answerset.add(2);
         answerset.add(3);
-        assertTrue(answerset.equals(detector.checkSetSuitConf(map)));
+        assertEquals(answerset,detector.checkSetSuitConf(map));
     }
 
     @Test
@@ -251,7 +251,7 @@ class PlotObjectiveDetectorTest {
         assertTrue(detector.isQuadrilateralPlots(list));
     }
     @Test
-    void isQuadrilateralPlots_P_YFalse1Test() {
+    void isQuadrilateralPlots_P_YFalseFaTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,0,PINK));
@@ -260,7 +260,7 @@ class PlotObjectiveDetectorTest {
         assertFalse(detector.isQuadrilateralPlotsPY(list));
     }
     @Test
-    void isQuadrilateralPlots_P_YFalse2Test() {
+    void isQuadrilateralPlots_P_YFalseSaTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,15,PINK));
@@ -279,7 +279,7 @@ class PlotObjectiveDetectorTest {
         assertTrue(detector.isQuadrilateralPlotsGP(list));
     }
     @Test
-    void isQuadrilateralPlots_G_PFalse1Test() {
+    void isQuadrilateralPlots_G_PFalseFnTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,PINK));
         list.add(new HexPlot(-2,2,15,GREEN));
@@ -288,7 +288,7 @@ class PlotObjectiveDetectorTest {
         assertFalse(detector.isQuadrilateralPlotsGP(list));
     }
     @Test
-    void isQuadrilateralPlots_G_PFalse2Test() {
+    void isQuadrilateralPlots_G_PFalseSnTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,15,PINK));
@@ -307,7 +307,7 @@ class PlotObjectiveDetectorTest {
         assertTrue(detector.isQuadrilateralPlotsGY(list));
     }
     @Test
-    void isQuadrilateralPlots_G_YFalse1Test() {
+    void isQuadrilateralPlots_G_YFalseFkTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,YELLOW));
         list.add(new HexPlot(-2,2,15,GREEN));
@@ -316,7 +316,7 @@ class PlotObjectiveDetectorTest {
         assertFalse(detector.isQuadrilateralPlotsGY(list));
     }
     @Test
-    void isQuadrilateralPlots_G_YFalse2Test() {
+    void isQuadrilateralPlots_G_YFalseSkTest() {
         List<HexPlot> list = new ArrayList<>();
         list.add(new HexPlot(-3,2,1,GREEN));
         list.add(new HexPlot(-2,2,15,PINK));

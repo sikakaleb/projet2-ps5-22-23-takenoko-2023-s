@@ -65,7 +65,7 @@ class HexPlotTest {
         for (VectorDirection vec:DIRECTION) {
             temporalSet.add(pond.plotAdd(vec, Color.BLANK));
         }
-        assertTrue(temporalSet.equals(HexPlotNeighborList));
+        assertEquals(temporalSet,HexPlotNeighborList);
     }
 
     @Test
@@ -89,7 +89,7 @@ class HexPlotTest {
         assertEquals(0,plot.getBamboos().size());
         plot.addBamboo();
         assertEquals(1,plot.getBamboos().size());
-        assertEquals(plot.getBamboos().get(0).getColor(), GREEN);
+        assertEquals(GREEN,plot.getBamboos().get(0).getColor());
 
         plot.addBamboo();
         plot.addBamboo();
@@ -127,7 +127,7 @@ class HexPlotTest {
         HexPlot plot = new HexPlot(1,-1,1, PINK);
         assertNull(plot.getImprovement());
         plot.setImprovement(POOL);
-        assertEquals(plot.getImprovement(), POOL);
+        assertEquals(POOL,plot.getImprovement());
         assertEquals(8,getDeckOfImprovements().size());
     }
 

@@ -173,16 +173,18 @@ public class PlotObjectiveDetector {
      * */
     public Set<Integer> checkSetSuitConf(Map<String ,Map<Integer,Integer>> listPlotsData ){
         Set<Integer> answerset=new HashSet<>();
-        for (String stringKey: listPlotsData.keySet()) {
-            if(Boolean.TRUE.equals(sSuite(listPlotsData.get(stringKey).keySet(),1)
-                    ||sSuite(listPlotsData.get(stringKey).keySet(),2)
-                    ||sSuite(listPlotsData.get(stringKey).keySet(),3))){
-                answerset.add(listPlotsData.get(stringKey).size());
+        for (Map.Entry<String, Map<Integer, Integer>> entry : listPlotsData.entrySet()) {
+            Map<Integer, Integer> value = entry.getValue();
+            if(Boolean.TRUE.equals(sSuite(value.keySet(),1)
+                    ||sSuite(value.keySet(),2)
+                    ||sSuite(value.keySet(),3))){
+                answerset.add(value.size());
             }else
                 answerset.add(-1);
         }
         return answerset;
     }
+
 
     public Map<Integer,Integer> checkMapSuitConf(List<HexPlot> listPlots ){
         Map<Integer,Integer> counter=new HashMap<>();

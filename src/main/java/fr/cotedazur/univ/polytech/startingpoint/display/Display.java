@@ -45,15 +45,18 @@ public class Display {
 
     public static void printGameStats(List<BotStat> botStats) {
         for (BotStat botStat : botStats) {
-            LOGGER.log(Level.SEVERE, String.format("%s (jouant avec %s) : ",
-                    botStat.getName(),
-                    botStat.getStrategy().getName()));
+            if (LOGGER.isLoggable(Level.SEVERE)) {
+                LOGGER.log(Level.SEVERE, String.format("%s (jouant avec %s) : ",
+                        botStat.getName(),
+                        botStat.getStrategy().getName()));
+
             LOGGER.log(Level.SEVERE, String.format("parties gagnees : %d", botStat.getWins()));
             LOGGER.log(Level.SEVERE, String.format("parties perdues : %d", botStat.getLosses()));
             LOGGER.log(Level.SEVERE, String.format("parties nulles : %d", botStat.getTies()));
             LOGGER.log(Level.SEVERE, String.format("winrate : %.2f%%",
                     (((botStat.getWins())+0.0) / (0.0+botStat.getGamesPlayed()))*100));
             LOGGER.log(Level.SEVERE, String.format("score moyen : %.2f", botStat.updateAverageScore()));
+            }
         }
     }
 }

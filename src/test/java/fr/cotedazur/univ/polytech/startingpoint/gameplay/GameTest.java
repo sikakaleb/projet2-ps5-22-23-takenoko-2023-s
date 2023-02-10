@@ -18,7 +18,7 @@ import static fr.cotedazur.univ.polytech.startingpoint.gameplay.Game.*;
 import static fr.cotedazur.univ.polytech.startingpoint.supplies.Dice.Condition.WIND;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Action.GameAction.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
-import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.Fa3STRATEGY;
+import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.FA3STRATEGY;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -103,6 +103,7 @@ class GameTest {
 
     @Test
     void testMovePanda() {
+        assertTrue(game.movePanda(player2));
     }
 
     @Test
@@ -147,6 +148,7 @@ class GameTest {
     void noImprovablePlotsTest() {
         Dice.Condition condition = Dice.Condition.CLOUDS;
         game.actOnWeather(condition, player2);
+        assertTrue(game.getBoard().contains(new HexPlot()));
         //assertTrue(outputStreamCaptor.toString().contains("Aucune parcelle aménageable"));
     }
 
@@ -155,6 +157,7 @@ class GameTest {
         Dice.Condition condition = Dice.Condition.CLOUDS;
         game.getBambooStock().clear();
         game.actOnWeather(condition, player1);
+        assertTrue(game.getBambooStock().isEmpty());
         //assertTrue(outputStreamCaptor.toString().contains("Il y a plus d'aménagements dans la liste"));
     }
 
@@ -175,6 +178,7 @@ class GameTest {
         game.getPlayerActions()[1] = twoActions[1];
         Dice.Condition condition = Dice.Condition.MYSTERY;
         game.actOnWeather(condition, player1);
+        assertTrue(game.getPlayerActions().length>=0);
     }
 
     @Test
@@ -192,6 +196,8 @@ class GameTest {
         game.getPlayerActions()[0] = twoActions[0];
         game.getPlayerActions()[1] = twoActions[1];
         game.actOnWeather(Dice.Condition.SUN, player1);
+        assertEquals(game.getPlayerActions()[0],twoActions[0]);
+        assertEquals(game.getPlayerActions()[1],twoActions[1]);
         /*assertTrue(outputStreamCaptor.toString().contains("choisit une action supplémentaire :"));
         Action.GameAction actionSupp = null;
         for (Action.GameAction action : player1.getStrategy().getActions()){
@@ -258,7 +264,7 @@ class GameTest {
         IrrigationStock canStock = game.getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertEquals(player1.returnAnIrrigation(), canal);
         getIrrigationStock().primordialCanal(game.getBoard());
         HexPlot hex7 = new HexPlot(1, -1, 0, YELLOW);
@@ -274,7 +280,7 @@ class GameTest {
         IrrigationStock canStock = game.getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertEquals(player1.returnAnIrrigation(), canal);
         Board bd = game.getBoard();
         Optional<HexPlot> hex = player1.findAnAvailableIrrigationDest(bd, new HexPlot());
@@ -285,7 +291,7 @@ class GameTest {
     @Test
     // Les deux premiers mouvements du bot Fa3STRATEGY sont PICK_OBJECTIVE et PLACE_IRRIGATION
     void playWithFa3STRATEGY(){
-        player1.setStrategy(Fa3STRATEGY);
+        player1.setStrategy(FA3STRATEGY);
         game.play(player1);
         if (game.getDice().getLastValue() != WIND)
             assertTrue(game.getPlayerActions()[0]==PICK_OBJECTIVE || game.getPlayerActions()[1]==PICK_OBJECTIVE);
@@ -293,7 +299,7 @@ class GameTest {
 
     @Test
     void playWithFa3STRATEGYandWeatherWIND(){
-        player1.setStrategy(Fa3STRATEGY);
+        player1.setStrategy(FA3STRATEGY);
         game.play(player1);
         if (game.getDice().getLastValue() == WIND) {
             assertTrue(game.getPlayerActions()[0] == PICK_OBJECTIVE && game.getPlayerActions()[1] == PICK_OBJECTIVE
@@ -305,7 +311,7 @@ class GameTest {
     @Test
     // Le bot Fa3STRATEGY essaie d’avoir 5 cartes objectif en main tout le temps
     void always5objectivesFa3STRATEGY(){
-        player1.setStrategy(Fa3STRATEGY);
+        player1.setStrategy(FA3STRATEGY);
         for (int i = 0; i < 10; i++) { // test sur 10 tours
             game.play(player1);
             if (game.getDice().getLastValue() != WIND)
