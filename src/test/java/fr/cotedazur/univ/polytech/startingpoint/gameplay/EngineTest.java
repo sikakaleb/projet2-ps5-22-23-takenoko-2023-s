@@ -22,7 +22,7 @@ public class EngineTest {
         player1 = new Player("Fa3STRATEGY", Fa3STRATEGY);
         player2 = new Player("Fa3STRATEGY", Fa3STRATEGY);
         engine = new Engine(player1, player2);
-        game = new Game(engine.p1,engine.p2);
+        game = new Game(engine.getP1(), engine.getP2());
 
     }
 

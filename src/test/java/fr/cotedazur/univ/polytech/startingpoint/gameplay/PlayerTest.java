@@ -262,7 +262,7 @@ class PlayerTest {
     @Test
     public void testPlayerConstructor() {
         Strategy strategy = PANDASTRATEGY;
-        Player player = new Player(25, 170, "John Doe", strategy);
+        Player player = new Player( 170, "John Doe", strategy);
         assertEquals(170, player.getHeight());
         assertEquals("John Doe", player.getName());
         assertEquals(strategy, player.getStrategy());
@@ -273,7 +273,7 @@ class PlayerTest {
     }
     @Test
     public void testCountObjectifPanda() {
-        Player player = new Player(22, 170, "John Doe", PANDASTRATEGY);
+        Player player = new Player( 170, "John Doe", PANDASTRATEGY);
         player.setObjectiveAchieved( new ArrayList<>(Arrays.asList(
                 directPlotObj,
                 indirectPlotObj,

@@ -1,11 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.display;
 
 import fr.cotedazur.univ.polytech.startingpoint.data.BotStat;
-import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
-import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 
 import java.util.List;
-import java.util.Map;
 import java.util.logging.*;
 
 /**
@@ -16,7 +13,7 @@ public class Display {
     public static final Logger LOGGER;
 
     private Display(){}
-    
+
     static {
         LOGGER = Logger.getLogger(Display.class.getName());
         LOGGER.setUseParentHandlers(false);
@@ -24,11 +21,11 @@ public class Display {
         handler.setLevel(Level.FINE);
         handler.setFormatter(new SimpleFormatter() {
             @Override
-            public synchronized String format(LogRecord record) {
-                String formattedMessage = formatMessage(record);
+            public synchronized String format(LogRecord logrecord) {
+                String formattedMessage = formatMessage(logrecord);
                 String throwable = "";
                 String outputFormat = "%2$s\n%3$s";
-                return String.format(outputFormat, record.getLevel().getName(), formattedMessage, throwable);
+                return String.format(outputFormat, logrecord.getLevel().getName(), formattedMessage, throwable);
             }
         });
         LOGGER.addHandler(handler);
@@ -48,12 +45,15 @@ public class Display {
 
     public static void printGameStats(List<BotStat> botStats) {
         for (BotStat botStat : botStats) {
-            LOGGER.log(Level.SEVERE,botStat.getName()+" (jouant avec "+botStat.getStrategy().getName()+") : ");
-            LOGGER.log(Level.SEVERE,"parties gagnees : "+botStat.getWins());
-            LOGGER.log(Level.SEVERE, "parties perdues : "+botStat.getLosses());
-            LOGGER.log(Level.SEVERE, "parties nulles : "+botStat.getTies());
-            LOGGER.log(Level.SEVERE, "winrate : "+(((botStat.getWins())+0.0) / (0.0+botStat.getGamesPlayed()))*100+"%");
-            LOGGER.log(Level.SEVERE, "score moyen : "+botStat.updateAverageScore());
+            LOGGER.log(Level.SEVERE, String.format("%s (jouant avec %s) : ",
+                    botStat.getName(),
+                    botStat.getStrategy().getName()));
+            LOGGER.log(Level.SEVERE, String.format("parties gagnees : %d", botStat.getWins()));
+            LOGGER.log(Level.SEVERE, String.format("parties perdues : %d", botStat.getLosses()));
+            LOGGER.log(Level.SEVERE, String.format("parties nulles : %d", botStat.getTies()));
+            LOGGER.log(Level.SEVERE, String.format("winrate : %.2f%%",
+                    (((botStat.getWins())+0.0) / (0.0+botStat.getGamesPlayed()))*100));
+            LOGGER.log(Level.SEVERE, String.format("score moyen : %.2f", botStat.updateAverageScore()));
         }
     }
 }

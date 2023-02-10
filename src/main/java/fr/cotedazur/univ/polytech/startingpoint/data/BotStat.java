@@ -6,7 +6,6 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 import java.util.Objects;
 
 public class BotStat {
-    //private Player bot;
     private String name;
     private Strategy strategy;
     private int gamesPlayed;
@@ -14,7 +13,6 @@ public class BotStat {
     private int ties;
     private int losses;
     private double points;
-    private double averageScore;
 
     public BotStat(String name, Strategy strategy, int gamesPlayed, int wins, int ties, int losses, double points) {
         this.name = name;
@@ -83,10 +81,7 @@ public class BotStat {
     }
 
     public double updateAverageScore() {
-        return this.averageScore = this.points/gamesPlayed;
-    }
-    public double getAverageScore() {
-        return averageScore;
+        return this.points/gamesPlayed;
     }
     public void tie() { this.ties ++; }
 

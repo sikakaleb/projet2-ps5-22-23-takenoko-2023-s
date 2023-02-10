@@ -242,7 +242,7 @@ public class Game {
         Optional<HexPlot> src = p.findAnAvailableIrrigationSource(irrigationStock);
 
         Optional<HexPlot> dst = (src.isPresent())?p.findAnAvailableIrrigationDest(board,src.get()):Optional.empty();
-        if(dst.isPresent()&& src.isPresent()&&canal.isPresent()){
+        if(Boolean.TRUE.equals(dst.isPresent()&& src.isPresent()&&canal.isPresent())){
             if(irrigationStock.add(canal.get(),src.get(),dst.get(),board)){
                 Display.printMessage( String.valueOf(canal.get()));
             }else{

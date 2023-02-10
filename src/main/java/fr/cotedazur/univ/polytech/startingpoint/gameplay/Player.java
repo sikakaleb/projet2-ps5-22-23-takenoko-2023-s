@@ -26,7 +26,6 @@ public class Player {
     private int playerId;
 
     /**Begin Attributs CACA  --> **/
-    private int age;
     private int height;
 
     /**End Attributs CACA  --> **/
@@ -44,9 +43,8 @@ public class Player {
     protected SecureRandom rand;
 
     /**Le ou Les constructeurs de la classe **/
-    public Player(int age, int height, String name) {
+    public Player(int height, String name) {
         playerId=++numberOfPlayer;
-        this.age = age;
         this.height = height;
         this.name = name;
         this.strategy = WITHOUTSTRATEGY;
@@ -60,9 +58,8 @@ public class Player {
         byte bytes[] = new byte[20];
         rand.nextBytes(bytes);
     }
-    public Player(int age, int height, String name, Strategy strategy) {
+    public Player(int height, String name, Strategy strategy) {
         playerId=++numberOfPlayer;
-        this.age = age;
         this.height = height;
         this.name = name;
         this.strategy=strategy;
@@ -78,11 +75,11 @@ public class Player {
     }
 
     public Player(String name){
-        this(1,1,name);
+        this(1,name);
     }
 
     public Player(String name, Strategy strategy){
-        this(1,1,name,strategy);
+        this(1,name,strategy);
     }
     /**Acesseur et mutateur de la classe**/
     public int getPlayerId() {
@@ -195,12 +192,12 @@ public class Player {
                 PlotObjective objective = (PlotObjective) obj;
                 PlotObjectiveConfiguration config = objective.getConfiguration();
 
-                if (    config==DIRECTSAMEPLOTS && detector.findDirectSamePlots(objective.getColor())
+                if (    Boolean.TRUE.equals(config==DIRECTSAMEPLOTS && detector.findDirectSamePlots(objective.getColor())
                     ||  config==INDIRECTSAMEPLOTS && detector.findInDirectSamePlots(objective.getColor())
                     ||  config==QUADRILATERALSAMEPLOTS && detector.findQuadrilateralSamePlots(objective.getColor())
                     ||  config==QUADRILATERALSAMEPLOTSGP && detector.findQuadrilateralPlotsGP()
                     ||  config==QUADRILATERALSAMEPLOTSGY && detector.findQuadrilateralPlotsGY()
-                    ||  config==QUADRILATERALSAMEPLOTSPY && detector.findQuadrilateralPlotsPY()
+                    ||  config==QUADRILATERALSAMEPLOTSPY && detector.findQuadrilateralPlotsPY())
                 ) {
                     Display.printMessage(name+" a detecté un "+config+" \uD83D\uDC4F\uD83D\uDC4F ");
                     return plotObjective;
@@ -218,11 +215,11 @@ public class Player {
             if(obj instanceof PandaObjective pandaobjective){
                 PandaObjectiveConfiguration config = ((PandaObjective) obj).getConfiguration();
 
-                if(    config==TWO_YELLOW && detector.findTwoYellow()
+                if(   Boolean.TRUE.equals (config==TWO_YELLOW && detector.findTwoYellow()
                     || config==TWO_GREEN && detector.findTwoGreen()
                     || config==TWO_PINK && detector.findTwoPink()
                     || config==THREE_GREEN && detector.findThreeGreen()
-                    || config==ONE_OF_EACH && detector.findOneOfEach()) {
+                    || config==ONE_OF_EACH && detector.findOneOfEach())) {
 
                     switch (config) {
                         case TWO_YELLOW:
@@ -278,7 +275,7 @@ public class Player {
                     found.setBamboos(new ArrayList<>(4));
                 }
 
-                else if(config==FOUR_AND_FENCE && detector.findFourAndPool()!=null) {
+                else if(config==FOUR_AND_FENCE && detector.findFourAndFence()!=null) {
                     HexPlot found = detector.findFourAndFence();
                     eatenBamboos.addMultiple(4, found.getColor());
                     found.setBamboos(new ArrayList<>(4));
@@ -329,7 +326,7 @@ public class Player {
     }
 
     public Boolean addAnIrrigation(IrrigationCanal canal){
-        if(!canal.getAvailable()){
+        if(Boolean.TRUE.equals(!canal.getAvailable())){
             canalList.add(canal);
             return true;
         }

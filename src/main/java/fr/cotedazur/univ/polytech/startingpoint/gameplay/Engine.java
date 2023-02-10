@@ -16,48 +16,52 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 public class Engine {
 
 
-    public Player p1;
-    public Player p2;
+    private Player p1;
+    private Player p2;
 
-    Map<Integer, Integer> objectivesForNbPlayers = Map.of(
+    private Map<Integer, Integer> objectivesForNbPlayers = Map.of(
             2, 9,
             3, 8,
             4, 7
     );
     private int nbObjectivesToWin;
 
-    // Dans notre version, avec des bots peu intelligents,pour éviter que la partie
-    // ne soit interminable, on fixe nombre de tours prédéterminé :
-    public int maxRounds = 50;
-    public int nbRound = 0;
+    /** Dans notre version, avec des bots peu intelligents,pour éviter que la partie
+    * ne soit interminable, on fixe nombre de tours prédéterminé :**/
+    private int maxRounds;
+    private int nbRound ;
 
     public Engine(Player p1, Player p2) {
         this.p1 = p1;
         this.p2 = p2;
+        maxRounds=50;
+        nbRound=0;
     }
 
     /*
      * JeReflechis() utilisé pour marquer un temps de pause
      * la transition entre les tours de jeu de chaque joueurs
      */
-    public static void  jeReflechis() {
+    public static void jeReflechis() {
         try {
             for (int i = 0; i < 6; i++) {
                 Thread.sleep(6);
             }
-        }catch(Exception e) {
-            Display.printMessage( String.valueOf(e));
+        } catch (InterruptedException e) {
+            Display.printMessage("Erreur d'interruption : " + e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
     public Map<Player, BotStat> runGame(Game game, boolean stats){
-        Boolean loop = true, lastRound = false;
+        Boolean loop = true;
+        Boolean lastRound = false;
         Emperor emperor = new Emperor(game);
         nbObjectivesToWin = objectivesForNbPlayers.get(game.getPlayerList().size());
         List<Player> playerList = game.getPlayerList();
 
         Display.printMessage("---------------BEGIN----------------");
-        while (loop && nbRound < maxRounds){
+        while (Boolean.TRUE.equals(nbRound < maxRounds && loop)){
 
             loop = !lastRound;
 
@@ -71,7 +75,7 @@ public class Engine {
                 }
 
                 Display.printMessage("C'est le tour de : " + p.getName());
-                if (game.play(p)) game.display();
+                if (Boolean.TRUE.equals(game.play(p))) game.display();
 
                 if (nbRound==0  && p.getStrategy()==Fa3STRATEGY){
                     Display.printMessage(p.getStrategy().getActions().toString());
@@ -86,34 +90,39 @@ public class Engine {
             Display.printMessage("Le jeu se termine au bout de "+nbRound+" tours.");
 
         Player winner = emperor.judgement();
-//        System.out.println("Score joueur 1 : " + p1.getScore());
-//        System.out.println("Score joueur 2 : " + p2.getScore());
-
         if (stats) {
             for(Player p : playerList){
-                gameStats.get(p).played();
+                getGameStats().get(p).played();
             }
             if (winner != null) {
                 for (Player p : playerList) {
-                    if (p == winner) gameStats.get(winner).win();
-                    else gameStats.get(p).lose();
+                    if (p == winner) getGameStats().get(winner).win();
+                    else getGameStats().get(p).lose();
                 }
             } else {
                 for (Player p : playerList) {
-                    gameStats.get(p).tie();
+                    getGameStats().get(p).tie();
                 }
             }
 
-            gameStats.get(p1).score(p1.getScore());
-            gameStats.get(p2).score(p2.getScore());
+            getGameStats().get(p1).score(p1.getScore());
+            getGameStats().get(p2).score(p2.getScore());
 
-            gameStats.get(p1).updateAverageScore();
-            gameStats.get(p2).updateAverageScore();
+            getGameStats().get(p1).updateAverageScore();
+            getGameStats().get(p2).updateAverageScore();
 
-            return gameStats;
+            return getGameStats();
 
         }
         return Collections.emptyMap();
     }
 
+    public Player getP1() {
+        return p1;
+    }
+
+
+    public Player getP2() {
+        return p2;
+    }
 }
