@@ -30,7 +30,7 @@ class GameTest {
     ByteArrayOutputStream outputStreamCaptor;
 
     @BeforeEach
-    public void init() {
+    void init() {
         player1 = new Player("Ted");
         player2 = new Player("Wilfried");
         game = new Game(player1, player2);
@@ -69,7 +69,7 @@ class GameTest {
     }
 
     @Test
-    public void rollDiceTest() {
+    void rollDiceTest() {
         assertTrue(new Dice().roll() instanceof Dice.Condition);
     }
 
@@ -106,7 +106,7 @@ class GameTest {
     }
 
     @Test
-    public void moveGardener() {
+    void moveGardener() {
         int oldStock = game.getBambooStock().size();
         HashMap<HexPlot, Integer> bambooPerPlot = new HashMap<>();
         for (HexPlot plot : getBoard()) {
@@ -119,7 +119,7 @@ class GameTest {
     }
 
     @Test
-    public void plotEnclosed() {
+    void plotEnclosed() {
         game.setBoard(new Board());
         HexPlot hex1 = new HexPlot(1, 0, -1, GREEN);
         hex1.setImprovement(PlotImprovement.FENCE);
@@ -131,7 +131,7 @@ class GameTest {
     }
 
     @Test
-    public void placeImprovementTest() {
+    void placeImprovementTest() {
         getBoard().forEach(hexPlot -> {
             assertNull(hexPlot.getImprovement());
         });
@@ -144,14 +144,14 @@ class GameTest {
     }
 
     @Test
-    public void noImprovablePlotsTest() {
+    void noImprovablePlotsTest() {
         Dice.Condition condition = Dice.Condition.CLOUDS;
         game.actOnWeather(condition, player2);
         //assertTrue(outputStreamCaptor.toString().contains("Aucune parcelle aménageable"));
     }
 
     @Test
-    public void noMoreImprovementsTest() {
+    void noMoreImprovementsTest() {
         Dice.Condition condition = Dice.Condition.CLOUDS;
         game.getBambooStock().clear();
         game.actOnWeather(condition, player1);
@@ -159,7 +159,7 @@ class GameTest {
     }
 
     @Test
-    public void actOnWeatherSTORM() {
+    void actOnWeatherSTORM() {
         Dice.Condition condition = Dice.Condition.STORM;
         HexPlot oldPosition = game.getPanda().getPosition();
         int eatenBamboos = player2.getEatenBamboos().size();
@@ -169,7 +169,7 @@ class GameTest {
     }
 
     @Test
-    public void actOnWeatherMYSTERY() {
+    void actOnWeatherMYSTERY() {
         Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
         game.getPlayerActions()[0] = twoActions[0];
         game.getPlayerActions()[1] = twoActions[1];
@@ -178,7 +178,7 @@ class GameTest {
     }
 
     @Test
-    public void actOnWeatherRAIN() {
+    void actOnWeatherRAIN() {
         Dice.Condition condition = Dice.Condition.RAIN;
         int oldStock = game.getBambooStock().size();
         game.actOnWeather(condition, player1);
@@ -187,7 +187,7 @@ class GameTest {
     }
 
     @Test
-    public void actOnWeatherSUN() {
+    void actOnWeatherSUN() {
         Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
         game.getPlayerActions()[0] = twoActions[0];
         game.getPlayerActions()[1] = twoActions[1];
@@ -204,7 +204,7 @@ class GameTest {
     }
 
     @Test
-    public void actOnWeatherWIND() {
+    void actOnWeatherWIND() {
         Action.GameAction[] twoActions = player1.getStrategy().pickTwoDistinct();
         game.getPlayerActions()[0] = twoActions[0];
         game.getPlayerActions()[1] = twoActions[1];
@@ -216,7 +216,7 @@ class GameTest {
     }
 
     @Test
-    public void cannotActOnWeatherRAINnoMoreBamboos() {
+    void cannotActOnWeatherRAINnoMoreBamboos() {
         Dice.Condition condition = Dice.Condition.RAIN;
         game.getBambooStock().clear();
         int oldStock = game.getBambooStock().size();
@@ -225,7 +225,7 @@ class GameTest {
     }
 
     @Test
-    public void cannotActOnWeatherRAINnoPlots() {
+    void cannotActOnWeatherRAINnoPlots() {
         Dice.Condition condition = Dice.Condition.RAIN;
         Board board = new Board();
         BambooStock bambooStock = new BambooStock();

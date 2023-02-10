@@ -8,17 +8,17 @@ import fr.cotedazur.univ.polytech.startingpoint.tools.Color;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
-public class EatenBambooTest {
+class EatenBambooTest {
 
     private EatenBamboos eatenBamboos;
 
     @BeforeEach
-    public void init(){
+    void init(){
         eatenBamboos = new EatenBamboos();
     }
 
     @Test
-    public void countTest(){
+    void countTest(){
         assertEquals(eatenBamboos.count(Color.GREEN), 0);
         assertEquals(eatenBamboos.count(Color.YELLOW), 0);
         assertEquals(eatenBamboos.count(Color.PINK), 0);
@@ -27,9 +27,9 @@ public class EatenBambooTest {
         assertEquals(eatenBamboos.count(Color.GREEN), 0);
         assertEquals(eatenBamboos.count(Color.PINK), 0);
     }
-    
+
     @Test
-    public void addMultipleTest(){
+    void addMultipleTest(){
         eatenBamboos.addMultiple(2, YELLOW);
         assertEquals(eatenBamboos.size(), 2);
         eatenBamboos.addMultiple(6, PINK);
@@ -37,7 +37,7 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void removeTest(){
+    void removeTest(){
         eatenBamboos.addMultiple(2, YELLOW);
         eatenBamboos.remove(YELLOW);
         assertEquals(eatenBamboos.size(), 1);
@@ -46,7 +46,7 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void removeTwoYellowTest() {
+    void removeTwoYellowTest() {
         eatenBamboos.removeTwoYellow();
         assertEquals(eatenBamboos.size(), 0);
         eatenBamboos.addMultiple(2, YELLOW);
@@ -55,7 +55,7 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void removeTwoGreenTest() {
+    void removeTwoGreenTest() {
         eatenBamboos.removeTwoGreen();
         assertEquals(eatenBamboos.size(), 0);
         eatenBamboos.addMultiple(2, GREEN);
@@ -64,7 +64,7 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void removeTwoPinkTest() {
+    void removeTwoPinkTest() {
         eatenBamboos.removeTwoPink();
         assertEquals(eatenBamboos.size(), 0);
         eatenBamboos.addMultiple(2, PINK);
@@ -73,14 +73,14 @@ public class EatenBambooTest {
     }
 
     @Test
-    public void removeThreeGreenTest() {
+    void removeThreeGreenTest() {
         eatenBamboos.addMultiple(3, GREEN);
         eatenBamboos.removeThreeGreen();
         assertEquals(eatenBamboos.size(), 0);
     }
 
     @Test
-    public void removeOneOfEachTest() {
+    void removeOneOfEachTest() {
         eatenBamboos.addMultiple(2, YELLOW);
         eatenBamboos.addMultiple(2, GREEN);
         eatenBamboos.addMultiple(1, PINK);

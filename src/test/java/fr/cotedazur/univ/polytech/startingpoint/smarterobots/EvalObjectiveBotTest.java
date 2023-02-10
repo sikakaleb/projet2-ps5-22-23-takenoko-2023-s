@@ -50,7 +50,7 @@ class EvalObjectiveBotTest {
     ByteArrayOutputStream outputStreamCaptor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         player1 = new EvalObjectiveBot("Ted");
         player2 = new Player("Willfried");
         /*******************************/

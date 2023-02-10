@@ -13,7 +13,7 @@ class MarkObjectiveComparatorTest {
     private MarkObjective m1;
     private MarkObjective m2;
     @BeforeEach
-    public void setup(){
+    void setup(){
         comparator= new MarkObjectiveComparator();
         m1=new MarkObjective(new PlotObjective(5,TRIANGULARSAMEPLOTS));
         m2 =new MarkObjective(new PlotObjective(8,TRIANGULARSAMEPLOTS));
@@ -22,15 +22,15 @@ class MarkObjectiveComparatorTest {
 
     }
     @Test
-    public void test1(){
+    void test1(){
         assertEquals(comparator.compare(m1,m2),1);
     }
     @Test
-    public void test2(){
+    void test2(){
         assertEquals(comparator.compare(m2,m1),-1);
     }
     @Test
-    public void test3(){
+    void test3(){
         assertEquals(comparator.compare(m2,m2),0);
     }
 

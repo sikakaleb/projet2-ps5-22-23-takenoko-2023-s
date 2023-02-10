@@ -47,13 +47,7 @@ public class Action {
         public GameAction[] getActions(){
            return GameAction.values();
         }
-    public GameAction getActionType() {
-        return actionType;
-    }
 
-    public void setActionType(GameAction actionType) {
-        this.actionType = actionType;
-    }
 
     public String toString() {
         StringBuilder builder = new StringBuilder();

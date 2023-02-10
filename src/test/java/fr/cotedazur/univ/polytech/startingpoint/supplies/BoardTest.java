@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardTest {
+class BoardTest {
 
     private Game game;
     private Board board;
     private DeckOfPlots deckOfPlots;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         game=new Game(new Player("Ted"),new Player("Wilfried"));
         board=new Board();
         deckOfPlots = new DeckOfPlots();
@@ -106,7 +106,7 @@ public class BoardTest {
     }
 
     @Test
-    public void choosePlotForImprovementTest(){
+    void choosePlotForImprovementTest(){
         assertEquals(game.getBoard().size(),7);
         game.getBoard().getLastHexPlot().getBamboos().clear();
 

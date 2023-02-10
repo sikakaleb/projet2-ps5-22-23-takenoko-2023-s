@@ -5,18 +5,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DeckOfPlotsTest {
+class DeckOfPlotsTest {
 
     private DeckOfPlots deckOfPlots;
 
 
     @BeforeEach
-    public void init(){
+    void init(){
         deckOfPlots = new DeckOfPlots();
     }
 
     @Test
-    public void pickPlotTest() {
+    void pickPlotTest() {
         assertEquals(deckOfPlots.size(), 27);
         deckOfPlots.pickPlot();
         assertEquals(deckOfPlots.size(), 26);

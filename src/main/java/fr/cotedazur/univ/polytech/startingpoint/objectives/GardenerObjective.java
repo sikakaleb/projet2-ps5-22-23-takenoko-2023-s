@@ -30,10 +30,6 @@ public class GardenerObjective extends Objective{
     /**
      * Getters
      */
-    public int getgardenerObjectiveId() {
-        return gardenerObjectiveId;
-    }
-
     public Color[] getColor() {
         return colors;
     }

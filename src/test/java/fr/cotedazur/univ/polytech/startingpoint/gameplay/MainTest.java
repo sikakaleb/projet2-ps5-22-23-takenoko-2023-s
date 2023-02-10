@@ -19,11 +19,11 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.Strategy.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MainTest {
+class MainTest {
     private static final String CSV_FILE_PATH = "stats/gamestats.csv";
     private static final int NBGAMESCSV = 10;
     @BeforeEach
-    public void setup() {
+    void setup() {
         File file = new File(CSV_FILE_PATH);
         if (file.exists()) {
             file.delete();
@@ -31,7 +31,7 @@ public class MainTest {
     }
 
     @AfterEach
-    public void cleanup() {
+    void cleanup() {
         File file = new File(CSV_FILE_PATH);
         if (file.exists()) {
             file.delete();
@@ -39,7 +39,7 @@ public class MainTest {
     }
 
     @Test
-    public void testCsv() {
+    void testCsv() {
         Main main= new Main();
         main.csv();
         BotStatistics gameStats = new BotStatistics();
@@ -47,7 +47,7 @@ public class MainTest {
         assertEquals( 2, data.size());
     }
     @Test
-    public void testNBGAMESCSVCsv() {
+    void testNBGAMESCSVCsv() {
         IntStream.range(0,NBGAMESCSV).forEach(m->{
             Main main= new Main();
             main.csv();
@@ -60,14 +60,14 @@ public class MainTest {
 
 
     @Test
-    public void testTwoThousand() {
+    void testTwoThousand() {
         Main main = new Main();
 
         assertTrue(main.twoThousand());
 
     }
    /* @Test
-    *public void testCommandCsv() throws Exception {
+    *void testCommandCsv() throws Exception {
     *    for (int i = 0; i < 10; i++) {
     *        Process process = Runtime.getRuntime().exec("cmd /c C:\\Program Files\\apache-maven-3.8.7\\bin\\mvn exec:java -Dexec.args=\"--csv\" -e");
     *       process.waitFor();
@@ -75,7 +75,7 @@ public class MainTest {
     *}
     *
     *@Test
-    *public void test2CommandThousands() throws Exception {
+    *void test2CommandThousands() throws Exception {
     *   for (int i = 0; i < 10; i++) {
     *        Process process = Runtime.getRuntime().exec("cmd /c C:\\Program Files\\apache-maven-3.8.7\\bin\\mvn exec:java -Dexec.args=\"--2thousands\" -e");
     *        process.waitFor();
@@ -84,7 +84,7 @@ public class MainTest {
 
 
     @Test
-    public void testCsvCheckContent() {
+    void testCsvCheckContent() {
         Main main= new Main();
         Display.setUp(Level.SEVERE);
         Display.printMessage("Simulation de " + NBGAMESCSV +" parties avec relecture de \"stats/gamestats.csv\" s'il existe et ajout des nouvelles statistiques", Level.SEVERE);

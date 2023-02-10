@@ -15,15 +15,15 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class GardenerObjectiveDetectorTest {
+class GardenerObjectiveDetectorTest {
 
     private Player player;
     private Game game;
     private HexPlot hex1;
     private GardenerObjectiveDetector detector;
-    
+
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         player = new Player("Ted");
         game = new Game(player, null);
         detector = new GardenerObjectiveDetector(player);
@@ -35,7 +35,7 @@ public class GardenerObjectiveDetectorTest {
     }
 
     @Test
-    public void findFourAndFertilizer(){
+    void findFourAndFertilizer(){
         assertNull(detector.findFourAndFertilizer());
         HexPlot hex4= new HexPlot(-1,0,1,GREEN);
         hex4.setImprovement(FERTILIZER);
@@ -47,7 +47,7 @@ public class GardenerObjectiveDetectorTest {
     }
 
     @Test
-    public void findFourAndPool(){
+    void findFourAndPool(){
         assertNull(detector.findFourAndPool());
         HexPlot hex4= new HexPlot(-1,0,1,GREEN);
         hex4.setImprovement(POOL);
@@ -59,7 +59,7 @@ public class GardenerObjectiveDetectorTest {
     }
 
     @Test
-    public void findFourAndFence(){
+    void findFourAndFence(){
         assertNull(detector.findFourAndFence());
         HexPlot hex4= new HexPlot(-1,0,1,GREEN);
         hex4.setImprovement(FENCE);
@@ -71,12 +71,12 @@ public class GardenerObjectiveDetectorTest {
     }
 
     @Test
-    public void findFourNoImprovement(){
+    void findFourNoImprovement(){
         assertNotNull(detector.findFourNoImprovement());
     }
 
     @Test
-    public void findThreeGreenX4(){
+    void findThreeGreenX4(){
 
         ArrayList<Bamboo> bamboos = new ArrayList<>();
         IntStream.range(0, 3).forEach(i -> bamboos.add(new Bamboo(GREEN)));

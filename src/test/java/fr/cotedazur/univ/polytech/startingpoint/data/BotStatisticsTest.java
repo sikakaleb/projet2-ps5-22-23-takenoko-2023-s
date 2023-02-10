@@ -21,7 +21,7 @@ class BotStatisticsTest {
     Player player2;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         gameStats = new BotStatistics();
         player1 = new Player("Bot 1");
         player2 = new Player("Bot 2");
@@ -32,7 +32,7 @@ class BotStatisticsTest {
     }
 
     @AfterEach
-    public void cleanup() {
+    void cleanup() {
         File file = new File(CSV_FILE_PATH);
         if (file.exists()) {
             file.delete();
@@ -40,7 +40,7 @@ class BotStatisticsTest {
     }
 
     @Test
-    public void testWriteToFile() {
+    void testWriteToFile() {
         List<BotStat> stats = Arrays.asList(
                 new BotStat("player1", Strategy.PANDASTRATEGY, 100,50, 0 ,50,5.0),
                 new BotStat("player2", Strategy.WITHOUTSTRATEGY,200, 60, 80 ,60,5.0)
@@ -53,7 +53,7 @@ class BotStatisticsTest {
     }
 
     @Test
-    public void testAddToFile() {
+    void testAddToFile() {
         gameStats.addToFile(new BotStat("player1", Strategy.PANDASTRATEGY, 100, 50, 0,50,5.0));
         gameStats.addToFile(new BotStat("player2", Strategy.WITHOUTSTRATEGY, 200, 60, 1,139,5.0));
 
@@ -67,7 +67,7 @@ class BotStatisticsTest {
     }
 
     @Test
-    public void testAggregateData() {
+    void testAggregateData() {
                List<BotStat> additionalData = Arrays.asList(
                 new BotStat("player1", Strategy.PANDASTRATEGY, 200, 70,0,130,5.0),
                 new BotStat("player2", Strategy.WITHOUTSTRATEGY, 200, 60,1,139,5.0));
@@ -83,7 +83,7 @@ class BotStatisticsTest {
         assertTrue(actual.containsAll(expected));
     }
     @Test
-    public void testReadFromFile_fileDoesNotExist() {
+     void testReadFromFile_fileDoesNotExist() {
         File file = new File(CSV_FILE_PATH);
         if (file.exists()) {
             file.delete();
@@ -93,7 +93,7 @@ class BotStatisticsTest {
     }
 
     @Test
-    public void testAggregateData_emptyData() {
+     void testAggregateData_emptyData() {
         List<BotStat> additionalData = Arrays.asList();
         gameStats.aggregateData(additionalData);
 

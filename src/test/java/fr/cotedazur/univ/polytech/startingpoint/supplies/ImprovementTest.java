@@ -10,17 +10,17 @@ import static fr.cotedazur.univ.polytech.startingpoint.tools.PlotImprovement.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ImprovementTest {
+class ImprovementTest {
 
     private DeckOfImprovements deck;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         deck = new DeckOfImprovements();
     }
 
     @Test
-    public void DeckOfImprovementsTest(){
+    void DeckOfImprovementsTest(){
 
         assertTrue(deck instanceof ArrayList<PlotImprovement>);
         assertEquals(deck.size(), 9);
@@ -39,7 +39,7 @@ public class ImprovementTest {
     }
 
     @Test
-    public void pickFromDeckTest(){
+    void pickFromDeckTest(){
         assertEquals(deck.size(),9);
 
         deck.pick();

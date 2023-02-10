@@ -9,19 +9,19 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 
-public class PandaObjectiveDetectorTest {
+class PandaObjectiveDetectorTest {
 
     private Player player;
     private PandaObjectiveDetector detector;
-    
+
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         player = new Player("Ted");
         detector = new PandaObjectiveDetector(player);
     }
 
     @Test
-    public void findTwoYellowTest(){
+    void findTwoYellowTest(){
         assertFalse(detector.findTwoYellow());
         player.getEatenBamboos().add(new Bamboo(YELLOW));
         player.getEatenBamboos().add(new Bamboo(YELLOW));
@@ -29,7 +29,7 @@ public class PandaObjectiveDetectorTest {
     }
 
     @Test
-    public void findtwoGreenTest(){
+    void findtwoGreenTest(){
         assertFalse(detector.findTwoGreen());
         player.getEatenBamboos().add(new Bamboo(GREEN));
         player.getEatenBamboos().add(new Bamboo(GREEN));
@@ -37,7 +37,7 @@ public class PandaObjectiveDetectorTest {
     }
 
     @Test
-    public void findTwoPinkTest(){
+    void findTwoPinkTest(){
         assertFalse(detector.findTwoPink());
         player.getEatenBamboos().add(new Bamboo(PINK));
         player.getEatenBamboos().add(new Bamboo(PINK));
@@ -45,7 +45,7 @@ public class PandaObjectiveDetectorTest {
     }
 
     @Test
-    public void findThreeGreenTest(){
+    void findThreeGreenTest(){
         assertFalse(detector.findThreeGreen());
         player.getEatenBamboos().add(new Bamboo(GREEN));
         player.getEatenBamboos().add(new Bamboo(GREEN));
@@ -55,7 +55,7 @@ public class PandaObjectiveDetectorTest {
     }
 
     @Test
-    public void findOneOfEachTest(){
+    void findOneOfEachTest(){
         assertFalse(detector.findOneOfEach());
         player.getEatenBamboos().add(new Bamboo(GREEN));
         player.getEatenBamboos().add(new Bamboo(YELLOW));

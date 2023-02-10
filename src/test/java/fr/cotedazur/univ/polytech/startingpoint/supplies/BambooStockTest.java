@@ -7,30 +7,30 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BambooStockTest {
+class BambooStockTest {
 
     private BambooStock stock;
 
     @BeforeEach
-    public void init(){
+    void init(){
         stock = new BambooStock();
     }
 
     @Test
-    public void BambooStockTest(){
+    void BambooStockTest(){
         assert(stock instanceof ArrayList<Bamboo>);
         assertEquals(stock.size(), 90);
     }
 
     @Test
-    public void countTest(){
+    void countTest(){
         assertEquals(stock.count(Color.GREEN), 36);
         assertEquals(stock.count(Color.YELLOW), 30);
         assertEquals(stock.count(Color.PINK), 24);
     }
 
     @Test
-    public void getByColorTest(){
+    void getByColorTest(){
         Bamboo greenBamboo = stock.getByColor(Color.GREEN);
         Bamboo yellowBamboo = stock.getByColor(Color.YELLOW);
         Bamboo pinkBamboo = stock.getByColor(Color.PINK);
@@ -43,14 +43,14 @@ public class BambooStockTest {
     }
 
     @Test
-    public void pickBambooTest(){
+    void pickBambooTest(){
         assertEquals(stock.pickBamboo(Color.GREEN).getColor(), stock.getByColor(Color.GREEN).getColor());
         assertEquals(stock.pickBamboo(Color.YELLOW).getColor(), stock.getByColor(Color.YELLOW).getColor());
         assertEquals(stock.pickBamboo(Color.PINK).getColor(), stock.getByColor(Color.PINK).getColor());
     }
 
     @Test
-    public void areLeftTest(){
+    void areLeftTest(){
         assertEquals(stock.areLeft(Color.GREEN), true);
         assertEquals(stock.areLeft(Color.YELLOW), true);
         assertEquals(stock.areLeft(Color.PINK), true);
@@ -69,7 +69,7 @@ public class BambooStockTest {
     }
 
     @Test
-    public void addBackTest(){
+    void addBackTest(){
         assertEquals(stock.count(Color.GREEN), 36);
         assertEquals(stock.count(Color.YELLOW), 30);
         assertEquals(stock.count(Color.PINK), 24);
@@ -82,7 +82,7 @@ public class BambooStockTest {
     }
 
     @Test
-    public void addTwoYellowTest(){
+    void addTwoYellowTest(){
         stock.pickBamboo(Color.YELLOW);
         stock.pickBamboo(Color.YELLOW);
         assertEquals(stock.count(Color.YELLOW), 28);
@@ -93,7 +93,7 @@ public class BambooStockTest {
     }
 
     @Test
-    public void addTwoGreenTest(){
+    void addTwoGreenTest(){
         stock.pickBamboo(Color.GREEN);
         stock.pickBamboo(Color.GREEN);
         assertEquals(stock.count(Color.GREEN), 34);
@@ -104,7 +104,7 @@ public class BambooStockTest {
     }
 
     @Test
-    public void addTwoPinkTest(){
+    void addTwoPinkTest(){
         stock.pickBamboo(Color.PINK);
         stock.pickBamboo(Color.PINK);
         assertEquals(stock.count(Color.PINK), 22);
@@ -115,7 +115,7 @@ public class BambooStockTest {
     }
 
     @Test
-    public void addThreeGreenTest(){
+    void addThreeGreenTest(){
         stock.pickBamboo(Color.GREEN);
         stock.pickBamboo(Color.GREEN);
         stock.pickBamboo(Color.GREEN);
@@ -127,7 +127,7 @@ public class BambooStockTest {
     }
 
     @Test
-    public void addOneOfEachTest(){
+    void addOneOfEachTest(){
         stock.pickBamboo(Color.GREEN);
         stock.pickBamboo(Color.YELLOW);
         stock.pickBamboo(Color.PINK);

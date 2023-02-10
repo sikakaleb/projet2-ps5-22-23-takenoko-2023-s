@@ -107,17 +107,11 @@ public class IrrigationStock  {
         return usedCanal;
     }
 
-    public void setUsedCanal(List<IrrigationCanal> usedCanal) {
-        this.usedCanal = usedCanal;
-    }
 
     public List<IrrigationCanal> getUnUsedCanal() {
         return unUsedCanal;
     }
 
-    public void setUnUsedCanal(List<IrrigationCanal> unUsedCanal) {
-        this.unUsedCanal = unUsedCanal;
-    }
 
     public void primordialCanal(Board bd){
         List<HexPlot> v2= new ArrayList<>();
@@ -146,8 +140,6 @@ public class IrrigationStock  {
                             can.getSourcePlot().equals(canal.getDestPlot()) &&
                                     can.getDestPlot().equals(canal.getSourcePlot())) {
                 res=true;
-                continue;
-
             }
         }
         return res;

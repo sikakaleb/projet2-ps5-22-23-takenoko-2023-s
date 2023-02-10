@@ -12,17 +12,17 @@ import java.util.*;
 import static fr.cotedazur.univ.polytech.startingpoint.tools.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlotObjectiveDetectorTest {
-    
+class PlotObjectiveDetectorTest {
+
     private Board board;
     private DeckOfPlots deckOfPlots;
     private PlotObjectiveDetector detector;
     private Game game;
 
 
-    
+
     @BeforeEach
-    public void init(){
+    void init(){
         game = new Game(new Player("Ted"), new Player("Wilfried"));
         board = new Board();
         deckOfPlots = new DeckOfPlots();

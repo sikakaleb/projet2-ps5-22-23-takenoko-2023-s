@@ -29,7 +29,7 @@ class HexPlotTest {
     private ByteArrayOutputStream outputStreamCaptor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));
 
@@ -83,7 +83,7 @@ class HexPlotTest {
     }
 
     @Test
-    public void addBambooTest(){
+    void addBambooTest(){
         assertEquals(pond.getBamboos(), new ArrayList<>());
         HexPlot plot = pond.plotAdd(Q_UP, Color.GREEN );
         assertEquals(plot.getBamboos().size(), 0);
@@ -110,20 +110,20 @@ class HexPlotTest {
     }
 
     @Test
-    public void irrigatedTest() {
+    void irrigatedTest() {
         for (HexPlot pondNeighbor : pond.plotNeighbor()) {
             assertTrue(pondNeighbor.isIrrigated());
         }
     }
     @Test
-    public void notIrrigatedTest() {
+    void notIrrigatedTest() {
         HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
         board.add(notIrrigated);
         assertFalse(notIrrigated.isIrrigated());
     }
 
     @Test
-    public void setImprovement(){
+    void setImprovement(){
         HexPlot plot = new HexPlot(1,-1,1, PINK);
         assertNull(plot.getImprovement());
         plot.setImprovement(POOL);
@@ -132,7 +132,7 @@ class HexPlotTest {
     }
 
     @Test
-    public void irrigateWithPOOL(){
+    void irrigateWithPOOL(){
         HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
         assertFalse(notIrrigated.isIrrigated());
         notIrrigated.setImprovement(POOL);
@@ -140,14 +140,14 @@ class HexPlotTest {
     }
 
     @Test
-    public void sproutWhenIrrigateWithPOOL(){
+    void sproutWhenIrrigateWithPOOL(){
         HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
         notIrrigated.setImprovement(POOL);
         assertEquals(notIrrigated.getBamboos().size(), 1);
     }
 
     @Test
-    public void cannotSetImprovementAlreadyOne(){
+    void cannotSetImprovementAlreadyOne(){
         HexPlot plot = new HexPlot(1,1,1, YELLOW);
         plot.setImprovement(FENCE);
         plot.setImprovement(POOL);
@@ -157,7 +157,7 @@ class HexPlotTest {
     }
 
     @Test
-    public void cannotSetImprovementBamboo(){
+    void cannotSetImprovementBamboo(){
         HexPlot plot = new HexPlot(0,1,1, YELLOW);
         plot.addBamboo();
         plot.setImprovement(FENCE);
@@ -167,7 +167,7 @@ class HexPlotTest {
     }
 
     @Test
-    public void growTwiceWithFERTILIZER(){
+    void growTwiceWithFERTILIZER(){
         HexPlot plot = new HexPlot(0,1,1, YELLOW);
         plot.setImprovement(FERTILIZER);
         plot.addBamboo();

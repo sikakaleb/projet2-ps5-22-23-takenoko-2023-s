@@ -144,8 +144,6 @@ public class HexPlot {
 
     public PlotImprovement getImprovement() { return improvement; }
 
-    public Boolean haveImprovement(){ return improvement != null; }
-
     /** Les methodes particulieres de la classe **/
 
     /*
@@ -158,11 +156,6 @@ public class HexPlot {
 
     public HexPlot plotAdd(VectorDirection vec){
         return  new HexPlot(this.q+ vec.getQ(), this.s+vec.getS(),this.r+ vec.getR());
-    }
-    public boolean checkGetBamboo(){
-        if(getBamboos()==null) return false;
-        if(getBamboos().isEmpty()) return false;
-        return true;
     }
 
     /**
@@ -277,9 +270,6 @@ public class HexPlot {
             }
 
         }
-    }
-    public boolean haveSamePosition(HexPlot clone){
-        return getS()==clone.getS()&&getR()== clone.getQ()&&getQ()== clone.getQ();
     }
 
 }

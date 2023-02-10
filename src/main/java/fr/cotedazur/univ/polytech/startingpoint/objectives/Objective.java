@@ -14,11 +14,6 @@ public abstract class Objective {
     }
 
     /**Acesseur de la classe*/
-
-    public int getObjectId() {
-        return objectId;
-    }
-
     public int getNumberOfPoints() {
         return numberOfPoints;
     }

@@ -18,7 +18,7 @@ public class EngineTest {
     Game game;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         player1 = new Player("Fa3STRATEGY", Fa3STRATEGY);
         player2 = new Player("Fa3STRATEGY", Fa3STRATEGY);
         engine = new Engine(player1, player2);

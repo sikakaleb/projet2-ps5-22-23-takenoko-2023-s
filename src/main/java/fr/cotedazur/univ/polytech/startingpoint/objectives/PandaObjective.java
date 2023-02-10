@@ -30,10 +30,6 @@ public class PandaObjective extends Objective{
     /**
      * Getters
      */
-    public int getpandaObjectiveId() {
-        return pandaObjectiveId;
-    }
-
     public Color[] getColor() {
         return colors;
     }

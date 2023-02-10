@@ -35,10 +35,6 @@ public class PlotObjective extends Objective{
 
     /**Acesseur de la classe**/
 
-    public int getPlotObjectiveId() {
-        return plotObjectiveId;
-    }
-
     public Color getColor() {
         return color;
     }

@@ -52,7 +52,7 @@ class PlayerTest {
     ByteArrayOutputStream outputStreamCaptor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         player1 = new Player("Ted");
         player2 = new Player("Willfried");
         /*******************************/
@@ -260,7 +260,7 @@ class PlayerTest {
         assertTrue(bd.contains(hex.get()));
     }
     @Test
-    public void testPlayerConstructor() {
+    void testPlayerConstructor() {
         Strategy strategy = PANDASTRATEGY;
         Player player = new Player( 170, "John Doe", strategy);
         assertEquals(170, player.getHeight());
@@ -272,7 +272,7 @@ class PlayerTest {
         assertTrue(player.getCanalList().isEmpty());
     }
     @Test
-    public void testCountObjectifPanda() {
+    void testCountObjectifPanda() {
         Player player = new Player( 170, "John Doe", PANDASTRATEGY);
         player.setObjectiveAchieved( new ArrayList<>(Arrays.asList(
                 directPlotObj,
