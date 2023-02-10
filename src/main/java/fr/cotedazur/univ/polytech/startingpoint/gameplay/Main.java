@@ -76,7 +76,6 @@ public class Main {
                 new BotStat(BOTRANDOM, WITHOUTSTRATEGY)
         );
         IntStream.range(0, NBGAMESCSV).forEach(i -> {
-            Display.printMessage("Partie "+(i+1), Level.SEVERE);
             Engine engine = new Engine(new Player(BOTINTELLIGENT, PANDASTRATEGY),new Player(BOTRANDOM, WITHOUTSTRATEGY));
             runWithStats(botStats, engine);
         });
