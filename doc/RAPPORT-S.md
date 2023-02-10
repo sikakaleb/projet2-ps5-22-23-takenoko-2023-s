@@ -13,8 +13,10 @@ Actuellement nos bots ne sont pas assez intelligent pour deviner les objectifs d
 ### 1.3. Déroulement du jeu
 Au debut du jeu, des bots (2, 3 ou 4) sont créés pour jouer selon une stratégie bien définie. Au fur et à mesure des tours, chaque joueur tente de réaliser un maximum d'objectifs pour gagner la partie. Ce nombre est déterminé en soustrayant à 11 le nombre de joueurs.
 
-### 1.4. Réalisations des logs
+### 1.4. Réalisation des logs
+Dès le lancement du jeu,il y a des logs indiquant en détails la pose des parcelles, les objectifs accomplies et également les stratégies des bots pour gagner la partie.
 
+![logs](Pasted image 20230210121147.png)
 ### 1.5. Statistiques CSV
 A la fin de chaque partie, les statiques des joueurs sont enregistré dans le fichier "gamestats.csv" du répertoire "stats". Ce fichier est mis à jour à la fin de chaque partie, et si ce fichier n'est pas encore, il est créé automatiquement par le programme.
 Le fichier gamestats.csv enregistre pour chaque jouer, son nom, le nombre de parties jouées, le nombre de victoire et le nombre de défaites
