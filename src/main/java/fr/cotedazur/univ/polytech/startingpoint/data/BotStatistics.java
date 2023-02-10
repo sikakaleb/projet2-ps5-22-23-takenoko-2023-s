@@ -83,11 +83,13 @@ public class BotStatistics {
         try (FileWriter writer = new FileWriter(filePath.toString(), true)) {
             ICSVWriter csvWriter = new CSVWriter(writer, ICSVWriter.DEFAULT_SEPARATOR, ICSVWriter.NO_QUOTE_CHARACTER, ICSVWriter.DEFAULT_ESCAPE_CHARACTER, ICSVWriter.DEFAULT_LINE_END);
             if (Files.size(filePath) == 0) {
-                csvWriter.writeNext(new String[] { "name", "gamesPlayed","wins","losses" });
+                csvWriter.writeNext(new String[] { "name","strategy", "gamesPlayed","wins","ties","losses", "points" });
             }
             for (BotStat stat : stats) {
-                csvWriter.writeNext(new String[] { stat.getBotName(), String.valueOf(stat.getGamesPlayed()), String.valueOf(stat.getWins()),String.valueOf(stat.getLosses()) });
+                csvWriter.writeNext(new String[] { stat.getName(), String.valueOf(stat.getStrategy()), String
+                        .valueOf(stat.getGamesPlayed()), String.valueOf(stat.getWins()), String.valueOf(stat.getTies()) ,String.valueOf(stat.getLosses()), String.valueOf(stat.getPoints())});
             }
+            csvWriter.close();
         } catch (Exception ex) {
             Display.printMessage("Error writing to the CSV file: " + ex.getMessage(), Level.SEVERE);
         }

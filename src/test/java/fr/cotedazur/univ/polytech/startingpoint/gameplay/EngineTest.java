@@ -30,17 +30,17 @@ public class EngineTest {
     // Le bot Fa3STRATEGY récupère un maximum de bambous, même s’il n’a pas de cartes avec la couleur correspondante
     void Fa3STRATEGYcollectBamboos(){
         engine.runGame(game, false);
-        assertTrue(game.playerList.get(0).getStrategy().getActions().contains(MOVE_GARDENER));
-        assertTrue(game.playerList.get(0).getStrategy().getActions().contains(MOVE_PANDA));
+        assertTrue(game.getPlayerList().get(0).getStrategy().getActions().contains(MOVE_GARDENER));
+        assertTrue(game.getPlayerList().get(0).getStrategy().getActions().contains(MOVE_PANDA));
 
     }
 
     @Test
     // Le bot Fa3STRATEGY essaie d’avoir 5 cartes objectif en main tout le temps
     void always5objectivesFa3STRATEGY(){
-        game.playerList.get(1).setStrategy(Fa3STRATEGY);
+        game.getPlayerList().get(1).setStrategy(Fa3STRATEGY);
         engine.runGame(game,false);
-        assertTrue(game.playerList.get(1).getStrategy().getActions().contains(PICK_OBJECTIVE)
-                || game.playerList.get(1).getUnMetObjectives().size()>=4);
+        assertTrue(game.getPlayerList().get(1).getStrategy().getActions().contains(PICK_OBJECTIVE)
+                || game.getPlayerList().get(1).getUnMetObjectives().size()>=4);
     }
 }

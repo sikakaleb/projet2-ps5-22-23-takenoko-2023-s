@@ -46,7 +46,7 @@ public class BotStat {
         this.points = 0;
     }
 
-    public String getBotName(){
+    public String getName(){
         return this.name;
     }
 
