@@ -311,7 +311,7 @@ public class PlotObjectiveDetector {
     public boolean findQuadrilateralPlotsPY() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isQuadrilateralPlotsPY(hexPlotList)) {
+            if(Boolean.TRUE.equals(isQuadrilateralPlotsPY(hexPlotList))) {
                 return true;
             }
         }
@@ -324,7 +324,7 @@ public class PlotObjectiveDetector {
     public boolean findQuadrilateralPlotsGP() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isQuadrilateralPlotsGP(hexPlotList)) {
+            if(Boolean.TRUE.equals(isQuadrilateralPlotsGP(hexPlotList))) {
                 return true;
             }
         }
@@ -337,7 +337,7 @@ public class PlotObjectiveDetector {
     public boolean findQuadrilateralPlotsGY() {
         List<List<HexPlot>> allCombinationOfthreeHexplots = listOfCombinations(4);
         for (List<HexPlot> hexPlotList:allCombinationOfthreeHexplots) {
-            if(isQuadrilateralPlotsGY(hexPlotList)) {
+            if(Boolean.TRUE.equals(isQuadrilateralPlotsGY(hexPlotList))) {
                 return true;
             }
         }

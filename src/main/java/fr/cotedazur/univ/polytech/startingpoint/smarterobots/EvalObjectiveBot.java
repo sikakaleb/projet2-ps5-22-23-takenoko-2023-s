@@ -44,9 +44,9 @@ public class EvalObjectiveBot extends Player {
     }
     public MarkObjective evaluatObjectif(){
         List<MarkObjective> list= new ArrayList<>();
-        list.addAll(EvaluateGardenerObjective());
+        list.addAll(evaluateGardenerObjective());
         list.addAll(evaluatePlotObjective());
-        list.addAll(EvaluatePandaObjective());
+        list.addAll(evaluatePandaObjective());
         List<MarkObjective> result = new ArrayList<>();
         result.addAll(getTopMarkObjectives(list));
         int randNumber = rand.nextInt(result.size());
@@ -60,33 +60,19 @@ public class EvalObjectiveBot extends Player {
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            boolean trouve= false;
             if(obj instanceof PlotObjective plotObjective){
-                if( ( plotObjective.getConfiguration()==
-                        DIRECTSAMEPLOTS && detector.findDirectSamePlots(plotObjective.getColor()))) {
-                    trouve=true;
-                }
-                else if( ( plotObjective.getConfiguration()== INDIRECTSAMEPLOTS
-                        && detector.findInDirectSamePlots(plotObjective.getColor()))) {
-                    trouve=true;
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTS
-                        && detector.findQuadrilateralSamePlots(plotObjective.getColor()))) {
-                    trouve=true;
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGP
-                        && detector.findQuadrilateralPlotsGP())) {
-                    trouve=true;
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGY
-                        && detector.findQuadrilateralPlotsGY())) {
-                    trouve=true;
-                }
-                else if( ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY
-                        && detector.findQuadrilateralPlotsPY())) {
-                    trouve=true;
-                }
-                if(trouve){
+                if( Boolean.TRUE.equals(( plotObjective.getConfiguration()== DIRECTSAMEPLOTS && detector.findDirectSamePlots(plotObjective.getColor()))
+                    ||
+                    ( plotObjective.getConfiguration()== INDIRECTSAMEPLOTS && detector.findInDirectSamePlots(plotObjective.getColor()))
+                   ||
+                    ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTS && detector.findQuadrilateralSamePlots(plotObjective.getColor()))
+                    ||
+                    ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGP && detector.findQuadrilateralPlotsGP())
+                    ||
+                    ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSGY && detector.findQuadrilateralPlotsGY())
+                    ||
+                    ( plotObjective.getConfiguration()== QUADRILATERALSAMEPLOTSPY && detector.findQuadrilateralPlotsPY())))
+                {
                     ob.setMark(mark*5);
                     result.add(ob);
                 }
@@ -95,7 +81,7 @@ public class EvalObjectiveBot extends Player {
         }
         return removeDuplicates(result);
     }
-    public List<MarkObjective> EvaluatePandaObjective(){
+    public List<MarkObjective> evaluatePandaObjective(){
         PandaObjectiveDetector detector = new PandaObjectiveDetector(this);
         List<MarkObjective> list = getMarkedUnMetObjectives();
         List<MarkObjective> result = new ArrayList<>();
@@ -103,24 +89,19 @@ public class EvalObjectiveBot extends Player {
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            boolean trouve=false;
             if(obj instanceof PandaObjective pandaObjective){
 
-                if( ( pandaObjective.getConfiguration()==TWO_YELLOW && detector.findTwoYellow())) {
-                    trouve=true;
-                }else if( ( pandaObjective.getConfiguration()==TWO_GREEN && detector.findTwoGreen())) {
-                    trouve=true;
-                }
-                else if( ( pandaObjective.getConfiguration()==TWO_PINK && detector.findTwoPink())) {
-                    trouve=true;
-                }
-                else if( ( pandaObjective.getConfiguration()==THREE_GREEN && detector.findThreeGreen())) {
-                    trouve=true;
-                }
-                else if( ( pandaObjective.getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) {
-                    trouve=true;
-                }
-                if(trouve){
+                if(
+                 Boolean.TRUE.equals(( pandaObjective.getConfiguration()==TWO_YELLOW && detector.findTwoYellow())
+                  ||
+                 ( pandaObjective.getConfiguration()==TWO_GREEN && detector.findTwoGreen())
+                   ||
+                 ( pandaObjective.getConfiguration()==TWO_PINK && detector.findTwoPink())
+                    ||
+                 ( pandaObjective.getConfiguration()==THREE_GREEN && detector.findThreeGreen())
+                    ||
+                ( pandaObjective.getConfiguration()==ONE_OF_EACH && detector.findOneOfEach())) )
+                {
                     ob.setMark(mark*5+3);
                     result.add(ob);
                 }
@@ -130,31 +111,22 @@ public class EvalObjectiveBot extends Player {
         }
          return removeDuplicates(result);
     }
-    public List<MarkObjective> EvaluateGardenerObjective(){
+    public List<MarkObjective> evaluateGardenerObjective(){
         GardenerObjectiveDetector detector = new GardenerObjectiveDetector(this);
         List<MarkObjective> list = getMarkedUnMetObjectives();
         List<MarkObjective> result = new ArrayList<>();
         for (MarkObjective ob:list) {
             Objective obj = ob.getObjective();
             int mark=obj.getNumberOfPoints();
-            Boolean trouve=false;
             if(obj instanceof GardenerObjective gardenerObjective){
 
-                if( ( gardenerObjective.getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)) {
-                    ob.setMark(mark*5);
-                    trouve=true;
-                }
-
-                else if( ( gardenerObjective.getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)) {
-                    trouve=true;
-                }
-
-                else if( ( gardenerObjective.getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)) {
-                    trouve=true;
-                }
-                if(trouve){
-                    ob.setMark(mark*5);
-                    result.add(ob);
+                if(
+                   Boolean.TRUE.equals(( gardenerObjective.getConfiguration()==FOUR_AND_FERTILIZER && detector.findFourAndFertilizer()!=null)
+                    ||( gardenerObjective.getConfiguration()==FOUR_NO_IMPOROVEMENT && detector.findFourNoImprovement()!=null)
+                ||( gardenerObjective.getConfiguration()==THREE_GREEN_X4 && detector.findThreeGreenX4()!=null)))
+                {
+                        ob.setMark(mark*5);
+                        result.add(ob);
                 }
             }
 

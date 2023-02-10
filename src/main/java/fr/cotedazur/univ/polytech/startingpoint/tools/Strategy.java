@@ -55,12 +55,12 @@ public enum Strategy {
     }
 
     public Action.GameAction[] pickDifferent(Action.GameAction action){
-        Action.GameAction[] actions = new Action.GameAction[2];
-        actions[0] = action;
+        Action.GameAction[] acts = new Action.GameAction[2];
+        acts[0] = action;
         do {
-            actions[1] = pick();
-        } while (actions[0] == actions[1]);
-        return actions;
+            acts[1] = pick();
+        } while (acts[0] == acts[1]);
+        return acts;
     }
 
     public Action.GameAction[] pickTwoDistinct(){

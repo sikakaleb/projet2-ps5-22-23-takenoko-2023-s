@@ -160,9 +160,8 @@ public class Board extends ArrayList<HexPlot> {
         }
 
         int rnd = rand.nextInt(forImprovement.size());
-        HexPlot randomPlot = forImprovement.get(rnd);
+        return forImprovement.get(rnd);
 
-        return randomPlot;
     }
 
     /**
@@ -181,9 +180,8 @@ public class Board extends ArrayList<HexPlot> {
         }
 
         int rnd = rand.nextInt(forBamboo.size());
-        HexPlot randomPlot = forBamboo.get(rnd);
+        return forBamboo.get(rnd);
 
-        return randomPlot;
     }
 
     @Override

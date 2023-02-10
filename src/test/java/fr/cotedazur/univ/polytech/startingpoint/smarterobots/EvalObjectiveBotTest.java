@@ -133,9 +133,9 @@ class EvalObjectiveBotTest {
     @Test
     void getTopMarkObjectives() {
         List<MarkObjective> result= new ArrayList<>();
-        result.addAll(player1.EvaluateGardenerObjective());
+        result.addAll(player1.evaluateGardenerObjective());
         result.addAll(player1.evaluatePlotObjective());
-        result.addAll(player1.EvaluatePandaObjective());
+        result.addAll(player1.evaluatePandaObjective());
         EvalObjectiveBot.sortMarkObjectiveList(result);
         List<MarkObjective> res= new ArrayList<>();
         res.add(new MarkObjective(oneOfEach));
@@ -179,13 +179,13 @@ class EvalObjectiveBotTest {
         mark3.setMark(58);
         mark4.setMark(23);
         mark5.setMark(28);
-        assertTrue(player1.EvaluatePandaObjective().containsAll(result)&&result.containsAll(player1.EvaluatePandaObjective()));
+        assertTrue(player1.evaluatePandaObjective().containsAll(result)&&result.containsAll(player1.evaluatePandaObjective()));
     }
 
     @Test
     void evaluateGardenerObjective() {
         List<MarkObjective> result = new ArrayList<>();
-        assertEquals(player1.EvaluateGardenerObjective(), result);
+        assertEquals(player1.evaluateGardenerObjective(), result);
     }
 
     @Test

@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class IrrigationCanal {
     private int canalId;
-    private Optional<HexPlot> SourcePlot;
-    private Optional<HexPlot> DestPlot;
+    private Optional<HexPlot> sOurcePlot;
+    private Optional<HexPlot> dEstPlot;
 
     private Boolean isAvailable;
 
@@ -16,37 +16,36 @@ public class IrrigationCanal {
 
     public IrrigationCanal() {
         canalId=++numberOfIrrigation;
-        this.DestPlot=Optional.empty();
-        this.SourcePlot=Optional.empty();
+        this.dEstPlot=Optional.empty();
+        this.sOurcePlot=Optional.empty();
         this.isAvailable=false;
     }
 
     public IrrigationCanal(HexPlot src, HexPlot dst) {
         canalId=-8888888;
-        this.DestPlot=Optional.of(dst);
-        this.SourcePlot=Optional.of(src);
+        this.dEstPlot=Optional.of(dst);
+        this.sOurcePlot=Optional.of(src);
         this.isAvailable=false;
     }
 
     public Optional<HexPlot> getSourcePlot() {
-        return SourcePlot;
+        return sOurcePlot;
     }
 
     public void setSourcePlot(Optional<HexPlot> sourcePlot) {
-        SourcePlot = sourcePlot;
+        sOurcePlot = sourcePlot;
     }
 
     public Optional<HexPlot> getDestPlot() {
-        return DestPlot;
+        return dEstPlot;
     }
 
     public void setDestPlot(Optional<HexPlot> destPlot) {
         if(destPlot.isPresent()){
             HexPlot dest = destPlot.get();
             dest.setIrrigatedToTrue();
-            DestPlot = destPlot;
+            dEstPlot = destPlot;
         }
-        return;
     }
 
     public Boolean getAvailable() {
@@ -64,8 +63,8 @@ public class IrrigationCanal {
     public String toString() {
         return "IrrigationCanal{" +
                 "canalId=" + canalId +
-                ", SourcePlot=" + SourcePlot +
-                ", DestPlot=" + DestPlot +
+                ", SourcePlot=" + sOurcePlot +
+                ", DestPlot=" + dEstPlot +
                 '}';
     }
 
@@ -95,17 +94,18 @@ public class IrrigationCanal {
         HexPlot   thatdst= dest.getDestPlot().orElse(null);
         HexPlot   thatsrc= dest.getSourcePlot().orElse(null);
 
-        Boolean result = false;;
-        if (thatdst != null && thisdst != null && thatsrc != null && thissrc != null) {
-            if (thissrc.equals(thatsrc) && thisdst.isAneighbor(thatdst)) {
-                result = true;
-            } else if (thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst)) {
+        Boolean result = false;
+        if (Boolean.TRUE.equals(thatdst != null && thisdst != null && thatsrc != null && thissrc != null)) {
+            if (Boolean.TRUE.equals(thissrc.equals(thatsrc) && thisdst.isAneighbor(thatdst)
+                ||
+            (thisdst.equals(thatsrc) && thissrc.isAneighbor(thatdst))))
+            {
                 result = true;
             } else {
                 result = false;
             }
         }
-         if(result){
+         if(Boolean.TRUE.equals(result)){
                 Display.printMessage(" on peut relier le canal"+thissrc+" <-------> "+thisdst +" a : "
                         +thatsrc+" <-------> "+thatdst);
          }

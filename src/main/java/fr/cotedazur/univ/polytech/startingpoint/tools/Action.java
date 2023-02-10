@@ -42,7 +42,7 @@ public class Action {
            MOVE_GARDENER;
 
 
-       };
+       }
 
         public GameAction[] getActions(){
            return GameAction.values();

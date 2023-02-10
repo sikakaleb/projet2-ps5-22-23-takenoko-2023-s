@@ -26,8 +26,8 @@ public class Main {
     @Parameter(names = "--csv", description = "Simulation à plusieurs parties avec relecture de \"stats/gamestats.csv\" s’il existe et ajout des nouvelles statistiques")
     private static boolean csv;
 
-    private static int ITERATIONS = 1000;
-    private static int NBGAMESCSV = 20;
+    private static final int ITERATIONS = 1000;
+    private static final int NBGAMESCSV = 20;
     static Map<Player, BotStat> gameStats;
     private Player p1;
     private Player p2;
