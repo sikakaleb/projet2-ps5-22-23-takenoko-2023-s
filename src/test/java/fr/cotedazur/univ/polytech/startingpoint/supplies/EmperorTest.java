@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Game;
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;

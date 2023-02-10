@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.supplies;
 
 import fr.cotedazur.univ.polytech.startingpoint.supplies.Panda;
 import org.junit.jupiter.api.BeforeEach;

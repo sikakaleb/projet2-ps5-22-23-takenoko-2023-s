@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.data;
 
 
 import fr.cotedazur.univ.polytech.startingpoint.gameplay.Player;
+import fr.cotedazur.univ.polytech.startingpoint.tools.Strategy;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,26 +42,25 @@ class BotStatisticsTest {
     @Test
     public void testWriteToFile() {
         List<BotStat> stats = Arrays.asList(
-                new BotStat(player1, 100, 50,50),
-                new BotStat(player2, 200, 60,60)
+                new BotStat("player1", Strategy.PANDASTRATEGY, 100,50, 0 ,50,5.0),
+                new BotStat("player2", Strategy.WITHOUTSTRATEGY,200, 60, 80 ,60,5.0)
         );
         gameStats.writeToFile(stats);
 
         // verify that the data was written to the file correctly
         List<BotStat> data = gameStats.readFromFile();
-        System.out.println(data.size());
         assertEquals(stats,data);
     }
 
     @Test
     public void testAddToFile() {
-        gameStats.addToFile(new BotStat(player1, 100, 50,50));
-        gameStats.addToFile(new BotStat(player2, 200, 60,140));
+        gameStats.addToFile(new BotStat("player1", Strategy.PANDASTRATEGY, 100, 50, 0,50,5.0));
+        gameStats.addToFile(new BotStat("player2", Strategy.WITHOUTSTRATEGY, 200, 60, 1,139,5.0));
 
         // verify that the data was added to the file correctly
         List<BotStat> expected = Arrays.asList(
-                new BotStat(player1, 100, 50,50),
-                new BotStat(player2, 200, 60,140)
+                new BotStat("player1", Strategy.PANDASTRATEGY, 100, 50,0,50,5.0),
+                new BotStat("player2", Strategy.WITHOUTSTRATEGY, 200, 60,1,139,5.0)
         );
         List<BotStat> actual = gameStats.readFromFile();
         assertTrue(actual.containsAll(expected));
@@ -69,15 +69,14 @@ class BotStatisticsTest {
     @Test
     public void testAggregateData() {
                List<BotStat> additionalData = Arrays.asList(
-                new BotStat(player1, 200, 70,130),
-                new BotStat(player2, 300, 80,220)
-        );
+                new BotStat("player1", Strategy.PANDASTRATEGY, 200, 70,0,130,5.0),
+                new BotStat("player2", Strategy.WITHOUTSTRATEGY, 200, 60,1,139,5.0));
         gameStats.aggregateData(additionalData);
 
         // verify that the data was aggregated correctly
         List<BotStat> expected = Arrays.asList(
-                new BotStat(player1, 200, 70,130),
-                new BotStat(player2, 300, 80,220)
+                new BotStat("player1", Strategy.PANDASTRATEGY,200, 70,0,130,5.0),
+                new BotStat("player2", Strategy.WITHOUTSTRATEGY, 200, 60,1,139,5.0)
         );
         List<BotStat> actual = gameStats.readFromFile();
         assertEquals(expected,actual);

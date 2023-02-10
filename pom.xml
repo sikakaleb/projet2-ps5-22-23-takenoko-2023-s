@@ -4,7 +4,7 @@
 
     <groupId>Solide</groupId> <!-- CHANGE ME -->
     <artifactId>Takenoko-2023-S</artifactId> <!-- CHANGE ME -->
-    <version>NEWYEAR</version> <!-- CHANGE ME -->
+    <version>FINAL</version> <!-- CHANGE ME -->
     <packaging>jar</packaging>
 
     <name>Takenoko-2023-S</name> <!-- CHANGE ME -->

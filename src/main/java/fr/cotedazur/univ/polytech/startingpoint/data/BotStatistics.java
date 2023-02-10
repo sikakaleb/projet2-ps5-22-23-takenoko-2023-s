@@ -39,15 +39,15 @@ public class BotStatistics {
         Path filePath = Paths.get(CSV_FILE_PATH);
         List<BotStat> existingData = new ArrayList<>();
 
-        /** check if the file exists and read the existing data if it does**/
+        // check if the file exists and read the existing data if it does
         File file = filePath.toFile();
         if (file.exists() && !file.isDirectory()) {
             try (Reader reader = new FileReader(file)) {
                 ColumnPositionMappingStrategy<BotStat> strategy = new ColumnPositionMappingStrategy<>();
                 strategy.setType(BotStat.class);
-                strategy.setColumnMapping("name", "gamesPlayed","wins","losses" );
+                strategy.setColumnMapping(new String[] { "name","strategy", "gamesPlayed","wins","ties","losses", "points" });
 
-                CsvToBean<BotStat> csvToBean = new CsvToBeanBuilder<BotStat>(reader)
+                CsvToBean<BotStat> csvToBean = new CsvToBeanBuilder(reader)
                         .withType(BotStat.class)
                         .withIgnoreLeadingWhiteSpace(true)
                         .build();
@@ -63,6 +63,7 @@ public class BotStatistics {
     public static void writeToFile(List<BotStat> stats) {
         Path filePath = Paths.get(CSV_FILE_PATH);
         Path directoryPath = filePath.getParent();
+
         try {
             if (!Files.exists(directoryPath)) {
                 Files.createDirectories(directoryPath);
@@ -93,7 +94,7 @@ public class BotStatistics {
     }
 
 
-        public void addToFile(BotStat stat) {
+    public void addToFile(BotStat stat) {
         List<BotStat> existingData = readFromFile();
         existingData.add(stat);
         writeToFile(existingData);
