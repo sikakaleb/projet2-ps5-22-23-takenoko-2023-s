@@ -38,7 +38,7 @@ class PlotObjectiveDetectorTest {
         temp.remove(new HexPlot());
         List<List<HexPlot>> list = detector.listOfCombinations(3);
         assertTrue(list.get(0).containsAll(temp));
-        assertEquals(list.size(),1);
+        assertEquals(1,list.size());
     }
 
     @Test

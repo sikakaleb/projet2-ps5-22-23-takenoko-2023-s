@@ -17,13 +17,13 @@ class DeckOfPlotsTest {
 
     @Test
     void pickPlotTest() {
-        assertEquals(deckOfPlots.size(), 27);
+        assertEquals(27,deckOfPlots.size());
         deckOfPlots.pickPlot();
-        assertEquals(deckOfPlots.size(), 26);
+        assertEquals(26,deckOfPlots.size());
         for(int i = 0; i < 26; i++){
             deckOfPlots.pickPlot();
         }
-        assertEquals(deckOfPlots.size(), 0);
+        assertEquals(0,deckOfPlots.size());
         assertThrowsExactly(IndexOutOfBoundsException.class, deckOfPlots::pickPlot);
     }
 }

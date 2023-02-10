@@ -91,7 +91,7 @@ class PlayerTest {
 
     @Test
     void getNameTest() {
-        assertEquals(player1.getName(), "Ted");
+        assertEquals("Ted",player1.getName());
     }
 
     @Test
@@ -137,90 +137,90 @@ class PlayerTest {
     @Test
     void getCumulOfpointTest() {
         player1.validateUnMetObjectives(quadriPlotObj);
-        assertEquals(player1.getScore(), 4);
+        assertEquals(4,player1.getScore());
     }
 
     @Test
     void detectPandaObjectiveTWO_YELLOW() {
-        assertEquals(player1.getEatenBamboos().size(), 0);
+        assertEquals(0,player1.getEatenBamboos().size());
         player1.addNewObjective(new PandaObjective(4, TWO_YELLOW, new Color[]{YELLOW}));
         player1.getEatenBamboos().add(new Bamboo(GREEN));
         player1.getEatenBamboos().add(new Bamboo(YELLOW));
         assertNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 2);
+        assertEquals(2,player1.getEatenBamboos().size());
         player1.getEatenBamboos().add(new Bamboo(YELLOW));
-        assertEquals(player1.getEatenBamboos().size(), 3);
+        assertEquals(3,player1.getEatenBamboos().size());
         assertNotNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 1);
+        assertEquals(1,player1.getEatenBamboos().size());
     }
 
     @Test
     void detectPandaObjectiveTWO_GREEN() {
-        assertEquals(player1.getEatenBamboos().size(), 0);
+        assertEquals(0,player1.getEatenBamboos().size());
         player1.addNewObjective(twoGreen);
         player1.getEatenBamboos().add(new Bamboo(GREEN));
         player1.getEatenBamboos().add(new Bamboo(YELLOW));
         assertNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 2);
+        assertEquals(2,player1.getEatenBamboos().size());
         player1.getEatenBamboos().add(new Bamboo(GREEN));
-        assertEquals(player1.getEatenBamboos().size(), 3);
+        assertEquals(3,player1.getEatenBamboos().size());
         assertNotNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 1);
+        assertEquals(1,player1.getEatenBamboos().size());
     }
 
     @Test
     void detectPandaObjectiveTWO_PINK() {
-        assertEquals(player1.getEatenBamboos().size(), 0);
+        assertEquals(0,player1.getEatenBamboos().size());
         player1.addNewObjective(twoPink);
         player1.getEatenBamboos().add(new Bamboo(GREEN));
         player1.getEatenBamboos().add(new Bamboo(PINK));
         assertNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 2);
+        assertEquals(2,player1.getEatenBamboos().size());
         player1.getEatenBamboos().add(new Bamboo(PINK));
-        assertEquals(player1.getEatenBamboos().size(), 3);
+        assertEquals(3,player1.getEatenBamboos().size());
         assertNotNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 1);
+        assertEquals(1,player1.getEatenBamboos().size());
     }
 
     @Test
     void detectPandaObjectiveTHREE_GREEN() {
         player1.addNewObjective(new PandaObjective(4, THREE_GREEN, new Color[]{GREEN}));
-        assertEquals(player1.getEatenBamboos().size(), 0);
+        assertEquals(0,player1.getEatenBamboos().size());
         player1.getEatenBamboos().add(new Bamboo(GREEN));
         player1.getEatenBamboos().add(new Bamboo(GREEN));
-        assertEquals(player1.getEatenBamboos().size(), 2);
+        assertEquals(2,player1.getEatenBamboos().size());
         assertNull(player1.detectPandaObjective());
         player1.getEatenBamboos().add(new Bamboo(GREEN));
-        assertEquals(player1.getEatenBamboos().size(), 3);
+        assertEquals(3,player1.getEatenBamboos().size());
         assertNotNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 0);
+        assertEquals(0,player1.getEatenBamboos().size());
     }
 
     @Test
     void detectPandaObjectiveONE_OF_EACH() {
         player1.addNewObjective(new PandaObjective(6, ONE_OF_EACH, new Color[]{YELLOW, GREEN, PINK}));
-        assertEquals(player1.getEatenBamboos().size(), 0);
+        assertEquals(0,player1.getEatenBamboos().size());
         player1.getEatenBamboos().add(new Bamboo(GREEN));
         player1.getEatenBamboos().add(new Bamboo(YELLOW));
-        assertEquals(player1.getEatenBamboos().size(), 2);
+        assertEquals(2,player1.getEatenBamboos().size());
         assertNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 2);
+        assertEquals(2,player1.getEatenBamboos().size());
         player1.getEatenBamboos().add(new Bamboo(PINK));
-        assertEquals(player1.getEatenBamboos().size(), 3);
+        assertEquals(3,player1.getEatenBamboos().size());
         assertNotNull(player1.detectPandaObjective());
-        assertEquals(player1.getEatenBamboos().size(), 0);
+        assertEquals(0,player1.getEatenBamboos().size());
     }
 
     @Test
     void getStrategy() {
-        assertEquals(player1.getStrategy(), WITHOUTSTRATEGY);
+        assertEquals(WITHOUTSTRATEGY,player1.getStrategy());
     }
     @Test
     void addAnIrrigation() {
         IrrigationStock canStock = getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
     }
 
     @Test
@@ -229,7 +229,7 @@ class PlayerTest {
         IrrigationStock canStock = getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertEquals(player1.returnAnIrrigation(), canal);
     }
 
@@ -239,7 +239,7 @@ class PlayerTest {
         IrrigationStock canStock = getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertEquals(player1.returnAnIrrigation(), canal);
         getIrrigationStock().primordialCanal(game.getBoard());
         assertTrue(player1.findAnAvailableIrrigationSource(canStock).isPresent());
@@ -252,7 +252,7 @@ class PlayerTest {
         IrrigationStock canStock = getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertEquals(player1.returnAnIrrigation(), canal);
         Board bd = game.getBoard();
         Optional<HexPlot> hex = player1.findAnAvailableIrrigationDest(bd, new HexPlot());

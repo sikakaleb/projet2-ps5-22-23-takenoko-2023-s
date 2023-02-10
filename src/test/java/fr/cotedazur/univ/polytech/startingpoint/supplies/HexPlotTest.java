@@ -86,9 +86,9 @@ class HexPlotTest {
     void addBambooTest(){
         assertEquals(pond.getBamboos(), new ArrayList<>());
         HexPlot plot = pond.plotAdd(Q_UP, Color.GREEN );
-        assertEquals(plot.getBamboos().size(), 0);
+        assertEquals(0,plot.getBamboos().size());
         plot.addBamboo();
-        assertEquals(plot.getBamboos().size(), 1);
+        assertEquals(1,plot.getBamboos().size());
         assertEquals(plot.getBamboos().get(0).getColor(), GREEN);
 
         plot.addBamboo();
@@ -128,7 +128,7 @@ class HexPlotTest {
         assertNull(plot.getImprovement());
         plot.setImprovement(POOL);
         assertEquals(plot.getImprovement(), POOL);
-        assertEquals(getDeckOfImprovements().size(), 8);
+        assertEquals(8,getDeckOfImprovements().size());
     }
 
     @Test
@@ -143,7 +143,7 @@ class HexPlotTest {
     void sproutWhenIrrigateWithPOOL(){
         HexPlot notIrrigated = new HexPlot(1,-1,1, PINK);
         notIrrigated.setImprovement(POOL);
-        assertEquals(notIrrigated.getBamboos().size(), 1);
+        assertEquals(1,notIrrigated.getBamboos().size());
     }
 
     @Test
@@ -153,7 +153,7 @@ class HexPlotTest {
         plot.setImprovement(POOL);
         //assertTrue(outputStreamCaptor.toString().contains("Il y a déjà un aménagement sur cette parcelle"));
         assertFalse(plot.isIrrigated());
-        assertEquals(getDeckOfImprovements().size(), 8);
+        assertEquals(8,getDeckOfImprovements().size());
     }
 
     @Test
@@ -163,7 +163,7 @@ class HexPlotTest {
         plot.setImprovement(FENCE);
         //assertTrue(outputStreamCaptor.toString().contains("Impossible de placer l'emplacement, il y a un bambou sur cette parcelle"));
         assertNull(plot.getImprovement());
-        assertEquals(getDeckOfImprovements().size(), 9);
+        assertEquals(9,getDeckOfImprovements().size());
     }
 
     @Test
@@ -171,13 +171,13 @@ class HexPlotTest {
         HexPlot plot = new HexPlot(0,1,1, YELLOW);
         plot.setImprovement(FERTILIZER);
         plot.addBamboo();
-        assertEquals(plot.getBamboos().size(), 2);
+        assertEquals(2,plot.getBamboos().size());
         plot.addBamboo();
-        assertEquals(plot.getBamboos().size(), 4);
+        assertEquals(4,plot.getBamboos().size());
         plot.addBamboo();
         plot.addBamboo();
         plot.addBamboo();
-        assertEquals(plot.getBamboos().size(), 4);
+        assertEquals(4,plot.getBamboos().size());
     }
 
     @Test

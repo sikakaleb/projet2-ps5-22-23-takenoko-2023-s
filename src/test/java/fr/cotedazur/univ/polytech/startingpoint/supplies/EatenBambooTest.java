@@ -19,64 +19,64 @@ class EatenBambooTest {
 
     @Test
     void countTest(){
-        assertEquals(eatenBamboos.count(Color.GREEN), 0);
-        assertEquals(eatenBamboos.count(Color.YELLOW), 0);
-        assertEquals(eatenBamboos.count(Color.PINK), 0);
+        assertEquals(0,eatenBamboos.count(Color.GREEN));
+        assertEquals(0,eatenBamboos.count(Color.YELLOW));
+        assertEquals(0,eatenBamboos.count(Color.PINK));
         eatenBamboos.add(new Bamboo(Color.YELLOW));
-        assertEquals(eatenBamboos.count(Color.YELLOW), 1);
-        assertEquals(eatenBamboos.count(Color.GREEN), 0);
-        assertEquals(eatenBamboos.count(Color.PINK), 0);
+        assertEquals(1,eatenBamboos.count(Color.YELLOW));
+        assertEquals(0,eatenBamboos.count(Color.GREEN));
+        assertEquals(0,eatenBamboos.count(Color.PINK));
     }
 
     @Test
     void addMultipleTest(){
         eatenBamboos.addMultiple(2, YELLOW);
-        assertEquals(eatenBamboos.size(), 2);
+        assertEquals(2,eatenBamboos.size());
         eatenBamboos.addMultiple(6, PINK);
-        assertEquals(eatenBamboos.size(), 8);
+        assertEquals(8,eatenBamboos.size());
     }
 
     @Test
     void removeTest(){
         eatenBamboos.addMultiple(2, YELLOW);
         eatenBamboos.remove(YELLOW);
-        assertEquals(eatenBamboos.size(), 1);
+        assertEquals(1,eatenBamboos.size());
         eatenBamboos.remove(PINK);
-        assertEquals(eatenBamboos.size(), 1);
+        assertEquals(1,eatenBamboos.size());
     }
 
     @Test
     void removeTwoYellowTest() {
         eatenBamboos.removeTwoYellow();
-        assertEquals(eatenBamboos.size(), 0);
+        assertEquals(0,eatenBamboos.size());
         eatenBamboos.addMultiple(2, YELLOW);
         eatenBamboos.removeTwoYellow();
-        assertEquals(eatenBamboos.size(), 0);
+        assertEquals(0,eatenBamboos.size());
     }
 
     @Test
     void removeTwoGreenTest() {
         eatenBamboos.removeTwoGreen();
-        assertEquals(eatenBamboos.size(), 0);
+        assertEquals(0,eatenBamboos.size());
         eatenBamboos.addMultiple(2, GREEN);
         eatenBamboos.removeTwoGreen();
-        assertEquals(eatenBamboos.size(), 0);
+        assertEquals(0,eatenBamboos.size());
     }
 
     @Test
     void removeTwoPinkTest() {
         eatenBamboos.removeTwoPink();
-        assertEquals(eatenBamboos.size(), 0);
+        assertEquals(0,eatenBamboos.size());
         eatenBamboos.addMultiple(2, PINK);
         eatenBamboos.removeTwoPink();
-        assertEquals(eatenBamboos.size(), 0);
+        assertEquals(0,eatenBamboos.size());
     }
 
     @Test
     void removeThreeGreenTest() {
         eatenBamboos.addMultiple(3, GREEN);
         eatenBamboos.removeThreeGreen();
-        assertEquals(eatenBamboos.size(), 0);
+        assertEquals(0,eatenBamboos.size());
     }
 
     @Test
@@ -85,10 +85,10 @@ class EatenBambooTest {
         eatenBamboos.addMultiple(2, GREEN);
         eatenBamboos.addMultiple(1, PINK);
         eatenBamboos.removeOneOfEach();
-        assertEquals(eatenBamboos.size(), 2);
-        assertEquals(eatenBamboos.count(YELLOW), 1);
-        assertEquals(eatenBamboos.count(GREEN), 1);
-        assertEquals(eatenBamboos.count(PINK), 0);
+        assertEquals(2,eatenBamboos.size());
+        assertEquals(1,eatenBamboos.count(YELLOW));
+        assertEquals(1,eatenBamboos.count(GREEN));
+        assertEquals(0,eatenBamboos.count(PINK));
     }
 
 }

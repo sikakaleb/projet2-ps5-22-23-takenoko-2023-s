@@ -23,15 +23,15 @@ class MarkObjectiveComparatorTest {
     }
     @Test
     void test1(){
-        assertEquals(comparator.compare(m1,m2),1);
+        assertEquals(1,comparator.compare(m1,m2));
     }
     @Test
     void test2(){
-        assertEquals(comparator.compare(m2,m1),-1);
+        assertEquals(-1,comparator.compare(m2,m1));
     }
     @Test
     void test3(){
-        assertEquals(comparator.compare(m2,m2),0);
+        assertEquals(0,comparator.compare(m2,m2));
     }
 
 }

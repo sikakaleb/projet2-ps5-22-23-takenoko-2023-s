@@ -19,14 +19,14 @@ class StategyTest {
 
     @Test
     void ActionTest(){
-        assertEquals(new Action().getActions().length, 6);
+        assertEquals(6,new Action().getActions().length);
     }
 
     @Test
     void StategyTest(){
-        assertEquals(PLOTSTRATEGY.getActions().size(), 2);
-        assertEquals(PANDASTRATEGY.getActions().size(), 5);
-        assertEquals(WITHOUTSTRATEGY.getActions().size(), 6);
+        assertEquals(2,PLOTSTRATEGY.getActions().size());
+        assertEquals(5,PANDASTRATEGY.getActions().size());
+        assertEquals(6,WITHOUTSTRATEGY.getActions().size());
     }
 
     @Test

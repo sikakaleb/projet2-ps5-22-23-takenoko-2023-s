@@ -28,7 +28,7 @@ class IrrigationStockTest {
     @Test
     void test1() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         hex.getBamboos().add(new Bamboo(YELLOW));
         hex.getBamboos().add(new Bamboo(YELLOW));
@@ -39,20 +39,20 @@ class IrrigationStockTest {
         irrigationStock.add(canal.get(),new HexPlot(),hex,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),1);
+        assertEquals(1,uSed.size());
     }
 
     @Test
     void getAllHexplotFrom1() {
         Set<HexPlot> set =irrigationStock.getAllHexplotFrom();
-        assertEquals(set.size(),1);
+        assertEquals(1,set.size());
 
     }
 
     @Test
     void getAllHexplotFrom2() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         hex.getBamboos().add(new Bamboo(YELLOW));
         hex.getBamboos().add(new Bamboo(YELLOW));
@@ -63,16 +63,16 @@ class IrrigationStockTest {
         irrigationStock.add(canal.get(),new HexPlot(),hex,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),1);
+        assertEquals(1,uSed.size());
         Set<HexPlot> set =irrigationStock.getAllHexplotFrom();
-        assertEquals(set.size(),2);
+        assertEquals(2,set.size());
 
     }
 
     @Test
     void add() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         hex.getBamboos().add(new Bamboo(YELLOW));
         hex.getBamboos().add(new Bamboo(YELLOW));
@@ -87,7 +87,7 @@ class IrrigationStockTest {
         assertTrue(set.contains(hex));
          unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),1);
+        assertEquals(1,uSed.size());
         assertTrue(uSed.get(0).getCanalId()!=0);
         assertFalse(unSed.contains(canal));
     }
@@ -100,7 +100,7 @@ class IrrigationStockTest {
     @Test
     void test2() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         HexPlot hex2 =new HexPlot(0,-1,1,PINK);
         hex2.getBamboos().add(new Bamboo(PINK));
@@ -118,16 +118,16 @@ class IrrigationStockTest {
         irrigationStock.add(canal.get(),new HexPlot(),hex4,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),3);
+        assertEquals(3,uSed.size());
         assertFalse(hex4.isIrrigated());
-        assertEquals(hex4.getBamboos().size(),3);
+        assertEquals(3,hex4.getBamboos().size());
     }
 
 
     @Test
     void initAdd() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         HexPlot hex2 =new HexPlot(0,-1,1,PINK);
         hex2.getBamboos().add(new Bamboo(PINK));
@@ -139,18 +139,18 @@ class IrrigationStockTest {
         hex4.getBamboos().add(new Bamboo(GREEN));
         irrigationStock.primordialCanal(board);
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),0);
+        assertEquals(0,uSed.size());
         board.add(hex);
         board.add(hex2);
         irrigationStock.primordialCanal(board);
         uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),2);
+        assertEquals(2,uSed.size());
     }
 
     @Test
     void primordialCanal() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         HexPlot hex2 =new HexPlot(0,-1,1,PINK);
         hex2.getBamboos().add(new Bamboo(PINK));
@@ -162,19 +162,19 @@ class IrrigationStockTest {
         hex4.getBamboos().add(new Bamboo(GREEN));
         irrigationStock.primordialCanal(board);
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),0);
+        assertEquals(0,uSed.size());
         board.add(hex);
         board.add(hex2);
         board.add(hex3);
         board.add(hex4);
         irrigationStock.primordialCanal(board);
         uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),3);
+        assertEquals(3,uSed.size());
     }
     @Test
     void exist() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         HexPlot hex2 =new HexPlot(0,-1,1,PINK);
         hex2.getBamboos().add(new Bamboo(PINK));
@@ -186,20 +186,20 @@ class IrrigationStockTest {
         hex4.getBamboos().add(new Bamboo(GREEN));
         irrigationStock.primordialCanal(board);
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),0);
+        assertEquals(0,uSed.size());
         board.add(hex);
         board.add(hex2);
         board.add(hex3);
         board.add(hex4);
         irrigationStock.primordialCanal(board);
         uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),3);
+        assertEquals(3,uSed.size());
         assertTrue(irrigationStock.exist(new IrrigationCanal(new HexPlot(),new HexPlot(0,-1,1))));
     }
     @Test
     void test3() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         HexPlot hex2 =new HexPlot(0,-1,1,PINK);
         hex2.getBamboos().add(new Bamboo(PINK));
@@ -217,14 +217,14 @@ class IrrigationStockTest {
         irrigationStock.add(canal.get(),hex2,hex4,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),3);
+        assertEquals(3,uSed.size());
         assertFalse(hex4.isIrrigated());
-        assertEquals(hex4.getBamboos().size(),3);
+        assertEquals(3,hex4.getBamboos().size());
     }
     @Test
     void test4() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         HexPlot hex2 =new HexPlot(0,-1,1,PINK);
         hex2.getBamboos().add(new Bamboo(PINK));
@@ -242,14 +242,14 @@ class IrrigationStockTest {
         irrigationStock.add(canal.get(),hex3,hex4,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),3);
+        assertEquals(3,uSed.size());
         assertFalse(hex4.isIrrigated());
-        assertEquals(hex4.getBamboos().size(),3);
+        assertEquals(3,hex4.getBamboos().size());
     }
     @Test
     void test5() {
         List<IrrigationCanal> unSed= irrigationStock.getUnUsedCanal();
-        assertEquals(unSed.size(),26);
+        assertEquals(26,unSed.size());
         HexPlot hex =new HexPlot(0,1,-1,YELLOW);
         HexPlot hex2 =new HexPlot(0,-1,1,PINK);
         hex2.getBamboos().add(new Bamboo(PINK));
@@ -267,16 +267,16 @@ class IrrigationStockTest {
         irrigationStock.add(canal.get(),hex2,hex3,board);
         unSed= irrigationStock.getUnUsedCanal();
         List<IrrigationCanal> uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),4);
+        assertEquals(4,uSed.size());
         assertTrue(hex3.isIrrigated());
-        assertEquals(hex3.getBamboos().size(),2);
+        assertEquals(2,hex3.getBamboos().size());
         assertFalse(hex4.isIrrigated());
-        assertEquals(hex4.getBamboos().size(),3);
+        assertEquals(3,hex4.getBamboos().size());
         irrigationStock.add(canal.get(),hex3,hex4,board);
         unSed= irrigationStock.getUnUsedCanal();
         uSed= irrigationStock.getUsedCanal();
-        assertEquals(uSed.size(),5);
+        assertEquals(5,uSed.size());
         assertTrue(hex4.isIrrigated());
-        assertEquals(hex4.getBamboos().size(),4);
+        assertEquals(4,hex4.getBamboos().size());
     }
 }

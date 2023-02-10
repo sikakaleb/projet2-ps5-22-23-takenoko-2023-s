@@ -23,27 +23,24 @@ class ImprovementTest {
     void DeckOfImprovementsTest(){
 
         assertTrue(deck instanceof ArrayList<PlotImprovement>);
-        assertEquals(deck.size(), 9);
-        assertEquals(
-                deck.stream().filter(plotImprovement -> plotImprovement == FENCE).count(),
-                3
+        assertEquals(9,deck.size());
+        assertEquals(3,
+                deck.stream().filter(plotImprovement -> plotImprovement == FENCE).count()
         );
-        assertEquals(
-                deck.stream().filter(plotImprovement -> plotImprovement == FERTILIZER).count(),
-                3
+        assertEquals(3,
+                deck.stream().filter(plotImprovement -> plotImprovement == FERTILIZER).count()
         );
-        assertEquals(
-                deck.stream().filter(plotImprovement -> plotImprovement == POOL).count(),
-                3
+        assertEquals(3,
+                deck.stream().filter(plotImprovement -> plotImprovement == POOL).count()
         );
     }
 
     @Test
     void pickFromDeckTest(){
-        assertEquals(deck.size(),9);
+        assertEquals(9,deck.size());
 
         deck.pick();
-        assertEquals(deck.size(),8);
+        assertEquals(8,deck.size());
 
         deck.removeAll(deck);
         assertTrue(deck.isEmpty());
@@ -51,7 +48,7 @@ class ImprovementTest {
             deck.pick();
         }
         catch (IndexOutOfBoundsException e) {
-            assertEquals(e.getMessage(), "Il y a plus d'amenagements dans la liste");
+            assertEquals("Il y a plus d'amenagements dans la liste",e.getMessage());
         }
     }
 }

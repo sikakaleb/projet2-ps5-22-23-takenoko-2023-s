@@ -77,51 +77,51 @@ class BoardTest {
     void findAvailableNeighborsTest(){
         HexPlot hexPlot = board.iterator().next();
 
-        assertEquals(board.findAvailableNeighbors(hexPlot).size(), 6);
+        assertEquals(6,board.findAvailableNeighbors(hexPlot).size());
         board.choicePlot(deckOfPlots.pickPlot());
-        assertEquals(board.findAvailableNeighbors(hexPlot).size(), 5);
+        assertEquals(5,board.findAvailableNeighbors(hexPlot).size());
 
         board.addAll(hexPlot.plotNeighbor());
-        assertEquals(board.findAvailableNeighbors(hexPlot).size(), 0);
+        assertEquals(0,board.findAvailableNeighbors(hexPlot).size());
     }
 
     @Test
     void addPlotTest() {
-        assertEquals(board.size(),1);
+        assertEquals(1,board.size());
         board.choicePlot(deckOfPlots.pickPlot());
         board.choicePlot(deckOfPlots.pickPlot());
         board.choicePlot(deckOfPlots.pickPlot());
-        assertEquals(board.size(),4);
+        assertEquals(4,board.size());
     }
 
     @Test
     void choicePlotTest() {
         board.choicePlot(board.iterator().next());
-        assertEquals(board.size(),2);
+        assertEquals(2,board.size());
     }
 
     @Test
     void getNewPositionPossibilitiesTest() {
-        assertEquals(game.getBoard().getNewPositionPossibilities().size(),6);
+        assertEquals(6,game.getBoard().getNewPositionPossibilities().size());
     }
 
     @Test
     void choosePlotForImprovementTest(){
-        assertEquals(game.getBoard().size(),7);
+        assertEquals(7,game.getBoard().size());
         game.getBoard().getLastHexPlot().getBamboos().clear();
 
         HexPlot plot = game.getBoard().choosePlotForImprovement();
-        assertEquals(game.getBoard().size(),7);
+        assertEquals(7,game.getBoard().size());
         assertTrue(game.getBoard().contains(plot));
         assertFalse(plot.isPond());
         assertNull(plot.getImprovement());
         assertTrue(plot.getBamboos().isEmpty());
 
         game.getBoard().removeIf(hexPlot -> !hexPlot.isPond());
-        assertEquals(game.getBoard().size(), 1);
+        assertEquals(1,game.getBoard().size());
 
         Board emptyBoard = new Board();
-        assertEquals(emptyBoard.choosePlotForImprovement(), null);
+        assertEquals(null,emptyBoard.choosePlotForImprovement());
     }
 
 }

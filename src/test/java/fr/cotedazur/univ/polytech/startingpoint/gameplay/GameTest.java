@@ -60,11 +60,11 @@ class GameTest {
     @Test
     void choiceObjectiveTest() {
         game.choiceObjective(player1);
-        assertEquals(game.getListOfObjectives().size(), 44);
+        assertEquals(44,game.getListOfObjectives().size());
         assertTrue(game.choiceObjective(player1));
         assertTrue(game.choiceObjective(player2));
         game.choiceObjective(player2);
-        assertEquals(game.getListOfObjectives().size(), 41);
+        assertEquals(41,game.getListOfObjectives().size());
         assertTrue(game.choiceObjective(player2));
     }
 
@@ -83,7 +83,7 @@ class GameTest {
         HexPlot hex3 = new HexPlot(0, -2, 2, PINK);
         getBoard().remove(hex3);
         assertTrue(game.choiceAnIrrigation(player1));
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertTrue(game.placeAnIrrigation(player1));
     }
     @Test
@@ -91,9 +91,9 @@ class GameTest {
         HexPlot hex3 = new HexPlot(0, -2, 2, PINK);
         getBoard().remove(hex3);
         assertTrue(game.choiceAnIrrigation(player1));
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertTrue(game.placeAnIrrigation(player1));
-        assertEquals(player1.getCanalList().size(), 0);
+        assertEquals(0,player1.getCanalList().size());
     }
 
     @Test
@@ -115,7 +115,7 @@ class GameTest {
         game.moveGardener(player1);
         //assertTrue(outputStreamCaptor.toString().contains("La position du jardinier aprés deplacement"));
         //assertTrue(outputStreamCaptor.toString().contains("Un bambou "+game.gardener.getPosition().getColor()+" pousse sur la parcelle HexPlot"));
-        assertEquals(getBambooStock().size(), oldStock - 1);
+        assertEquals(oldStock - 1,getBambooStock().size());
     }
 
     @Test
@@ -123,7 +123,7 @@ class GameTest {
         game.setBoard(new Board());
         HexPlot hex1 = new HexPlot(1, 0, -1, GREEN);
         hex1.setImprovement(PlotImprovement.FENCE);
-        assertEquals(hex1.getBamboos().size(), 0);
+        assertEquals(0,hex1.getBamboos().size());
         getBoard().add(hex1);
         game.movePanda(player1);
         assertEquals(game.getPanda().getPosition(), hex1);
@@ -140,7 +140,7 @@ class GameTest {
         game.actOnWeather(condition, player1);
         Stream<HexPlot> improved = getBoard().stream().filter(hexPlot -> hexPlot.getImprovement() != null);
         System.out.println(improved);;
-        assertEquals(improved.count(), 1);
+        assertEquals(1,improved.count());
     }
 
     @Test
@@ -239,7 +239,7 @@ class GameTest {
         IrrigationStock canStock = game.getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
     }
 
     @Test
@@ -248,13 +248,13 @@ class GameTest {
         IrrigationStock canStock = game.getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
-        assertEquals(player1.getCanalList().size(), 1);
+        assertEquals(1,player1.getCanalList().size());
         assertEquals(player1.returnAnIrrigation(), canal);
     }
 
     @Test
     void findAnAvailableIrrigationSource() {
-        assertEquals(player1.returnAnIrrigation(), Optional.empty());
+        assertEquals( Optional.empty(),player1.returnAnIrrigation());
         IrrigationStock canStock = game.getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
@@ -270,7 +270,7 @@ class GameTest {
 
     @Test
     void findAnAvailableIrrigationDest() {
-        assertEquals(player1.returnAnIrrigation(), Optional.empty());
+        assertEquals( Optional.empty(),player1.returnAnIrrigation());
         IrrigationStock canStock = game.getIrrigationStock();
         Optional<IrrigationCanal> canal = canStock.getOneUnused();
         player1.addAnIrrigation(canal.get());
