@@ -135,6 +135,7 @@
                 <version>3.9.1.2184</version>
             </plugin>
             <!-- JaCoCo plugin for code coverage -->
+            <!-- GENERATE ERROR
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -153,7 +154,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>
